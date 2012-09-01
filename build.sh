@@ -21,7 +21,7 @@ src=`append_file "$src" src/selectize.js`
 # format and wrap...
 
 src=`echo -e "$src" | while read -r line; do echo -e "\t$line"; done`
-src="$banner\n\n(function ($,window,document) {\n\t$src\n})(jQuery,window,document);"
+src="$banner\n\n(function ($,window,document) {\n\t\"use strict\";$src\n})(jQuery,window,document);"
 
 echo -e "$src" > $out
 

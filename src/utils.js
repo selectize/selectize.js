@@ -58,7 +58,7 @@ var measureString = function(str, $parent) {
 		'fontWeight'
 	]);
 
-	width = $test.width();
+	var width = $test.width();
 	$test.remove();
 
 	return width;

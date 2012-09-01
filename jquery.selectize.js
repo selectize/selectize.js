@@ -1,7 +1,7 @@
 /*! jquery.selectize.js | https://github.com/diy/jquery-selectize | Apache License (v2) */
 
 (function ($,window,document) {
-		
+	"use strict";	
 	
 	// --- src/contrib/highlight.js ---
 	
@@ -115,7 +115,7 @@
 			'fontWeight'
 		]);
 	
-		width = $test.width();
+		var width = $test.width();
 		$test.remove();
 	
 		return width;
