@@ -65,6 +65,8 @@ var measureString = function(str, $parent) {
 };
 
 var autoGrow = function($input) {
+	var placeholder = $input.attr('placeholder') || '';
+
 	var update = function(e) {
 		e = e || window.event;
 		var value = $input.val();
@@ -84,6 +86,9 @@ var autoGrow = function($input) {
 				else character = character.toLowerCase();
 				value += character;
 			}
+		}
+		if (!value.length && placeholder.length) {
+			value = placeholder;
 		}
 		var width = measureString(value, $input) + 4;
 		if (width !== $input.width()) {
