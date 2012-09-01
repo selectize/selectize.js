@@ -1,0 +1,170 @@
+/**********************************************************
+ * THEME: "default"                                       *
+ **********************************************************/
+
+.selectize-input.default .items > * {
+	text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+	border: 1px solid #74b21e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #b8e76f;
+	background: -moz-linear-gradient(top, #b8e76f 0%, #a9e25c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b8e76f), color-stop(100%,#a9e25c));
+	background: -webkit-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -o-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -ms-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: linear-gradient(to bottom, #b8e76f 0%,#a9e25c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e76f', endColorstr='#a9e25c',GradientType=0 );
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-input.default .items > *.active {
+	border-color: #6f9839;
+	background: #92c836;
+	background: -moz-linear-gradient(top,  #92c836 0%, #006e2e 0%, #92c836 0%, #7abc2c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c836), color-stop(0%,#006e2e), color-stop(0%,#92c836), color-stop(100%,#7abc2c));
+	background: -webkit-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -o-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -ms-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: linear-gradient(to bottom,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c836', endColorstr='#7abc2c',GradientType=0 );
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES                                 *
+ **********************************************************/
+
+.selectize-input {
+	background: #fff;
+	padding: 10px;
+	cursor: text;
+	display: inline-block;
+	width: 100%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-input.focus {
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+.selectize-input.dropdown-active {
+	-webkit-border-radius: 3px 3px 0 0;
+	-moz-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+}
+.selectize-input.full {
+	background-color: #f2f2f2;
+}
+.selectize-input.dropdown-active:before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	background: #f2f2f2;
+	height: 1px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.selectize-input.has-items {
+	padding-top: 8px;
+	padding-bottom: 3px;
+}
+.selectize-input .items > * {
+	cursor: pointer;
+	color: #3d5d18;
+	margin: 0 5px 5px 0;
+	padding: 1px 5px;
+
+}
+.selectize-input .items > *:last-child {
+	margin-right: 5px;
+}
+.selectize-dropdown, .selectize-input {
+	border: 1px solid #d0d0d0;
+}
+.selectize-dropdown {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background: #fff;
+	margin-top: -1px;
+	border-top: 0 none;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-webkit-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+.selectize-dropdown > * {
+	padding: 6px 9px;
+}
+.selectize-dropdown > *.create {
+	color: #a0a0a0;
+}
+.selectize-dropdown > *.active {
+	background-color: #fffdf4;
+}
+.selectize-dropdown, .selectize-input, .selectize-input input {
+	color: #303030;
+	font-family: Helvetica, arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+}
+.selectize-dropdown .highlight {
+	font-weight: bold;
+}
+
+/**********************************************************
+ * LAYOUT STYLES (mandatory)                              *
+ **********************************************************/
+
+.selectize-input {
+	position: relative;
+	z-index: 1;
+}
+.selectize-input:after {
+	content: ' ';
+	display: block;
+	clear: left;
+}
+.selectize-input .items {
+	display: inline;
+}
+.selectize-input .items > *, .selectize-input input {
+	vertical-align: middle;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+.selectize-input input {
+	border: 0 none !important;
+	background: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	line-height: 100% !important;
+}
+.selectize-input input:focus {
+	outline: none !important;
+}
+.selectize-dropdown {
+	position: absolute;
+	z-index: 2;
+}
+.selectize-dropdown > * {
+	cursor: pointer;
+}
+.selectize-input, .selectize-dropdown {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}

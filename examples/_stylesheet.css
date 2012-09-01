@@ -1,0 +1,69 @@
+body {
+	font-family: Helvetica, arial, sans-serif;
+	font-size: 15px;
+	font-weight: 300;
+	color: #454545;
+	background: #f8f8f8;
+	-webkit-font-smoothing: antialiased;
+}
+a, a:visited {
+	color: #3fabff;
+	text-decoration: none;
+}
+a:hover {
+	color: #008af5;
+}
+h1 {
+	font-size: 20px;
+	margin-bottom: 30px;
+}
+h2 {
+	font-size: 15px;
+	color: #a0a0a0;
+	margin: 30px 0;
+}
+label {
+	display: block;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+p, .control-group {
+	margin: 0 0 20px 0;
+}
+.demo {
+	background: #fff;
+	padding: 30px;
+	margin: 0 0 20px 0;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.demo *:first-child {
+	margin-top: 0;
+}
+.demo *:last-child {
+	margin-bottom: 0;
+}
+.demo .value {
+	margin: 0 0 10px 0;
+	font-size: 12px;
+}
+.demo .value span {
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+}
+#wrapper {
+	margin: 100px;
+}
+pre {
+	background: #f8f8f8;
+	border: 1px solid #f2f2f2;
+	padding: 10px;
+	font-size: 12px;
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
