@@ -30,3 +30,67 @@ var getCaretPosition = function(input) {
 		return sel.text.length - selLen;
 	}
 };
+
+var transferStyles = function($from, $to, properties) {
+	var styles = {};
+	if (properties) {
+		for (var i = 0; i < properties.length; i++) {
+			styles[properties[i]] = $from.css(properties[i]);
+		}
+	} else {
+		styles = $from.css();
+	}
+	$to.css(styles);
+	return $to;
+};
+
+var measureString = function(str, $parent) {
+	var $test = $('<test>').css({
+		width: 'auto',
+		padding: 0,
+		whiteSpace: 'nowrap'
+	}).text(str).appendTo('body');
+
+	transferStyles($parent, $test, [
+		'letterSpacing',
+		'fontSize',
+		'fontFamily',
+		'fontWeight'
+	]);
+
+	width = $test.width();
+	$test.remove();
+
+	return width;
+};
+
+var autoGrow = function($input) {
+	var update = function(e) {
+		e = e || window.event;
+		var value = $input.val();
+		if (e.type && e.type.toLowerCase() === 'keydown') {
+			var keyCode = e.keyCode;
+			var printable = (
+				(keyCode >= 97 && keyCode <= 122) || // a-z
+				(keyCode >= 65 && keyCode <= 90)  || // A-Z
+				(keyCode >= 48 && keyCode <= 57)  || // 0-9
+				keyCode == 32 // space
+			);
+
+			if (printable) {
+				var shift = e.shiftKey;
+				var character = String.fromCharCode(e.keyCode);
+				if (shift) character = character.toUpperCase();
+				else character = character.toLowerCase();
+				value += character;
+			}
+		}
+		var width = measureString(value, $input) + 4;
+		if (width !== $input.width()) {
+			$input.width(width);
+			$input.triggerHandler('resize');
+		}
+	};
+	$input.on('keydown keyup update blur', update);
+	update({});
+};

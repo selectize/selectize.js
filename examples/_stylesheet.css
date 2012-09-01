@@ -41,6 +41,9 @@ p, .control-group {
 	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
+.demo select, .demo input, .demo .selectize-control {
+	width: 100%;
+}
 .demo *:first-child {
 	margin-top: 0;
 }

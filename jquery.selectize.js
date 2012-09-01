@@ -88,6 +88,70 @@
 		}
 	};
 	
+	var transferStyles = function($from, $to, properties) {
+		var styles = {};
+		if (properties) {
+			for (var i = 0; i < properties.length; i++) {
+				styles[properties[i]] = $from.css(properties[i]);
+			}
+		} else {
+			styles = $from.css();
+		}
+		$to.css(styles);
+		return $to;
+	};
+	
+	var measureString = function(str, $parent) {
+		var $test = $('<test>').css({
+			width: 'auto',
+			padding: 0,
+			whiteSpace: 'nowrap'
+		}).text(str).appendTo('body');
+	
+		transferStyles($parent, $test, [
+			'letterSpacing',
+			'fontSize',
+			'fontFamily',
+			'fontWeight'
+		]);
+	
+		width = $test.width();
+		$test.remove();
+	
+		return width;
+	};
+	
+	var autoGrow = function($input) {
+		var update = function(e) {
+			e = e || window.event;
+			var value = $input.val();
+			if (e.type && e.type.toLowerCase() === 'keydown') {
+				var keyCode = e.keyCode;
+				var printable = (
+					(keyCode >= 97 && keyCode <= 122) || // a-z
+					(keyCode >= 65 && keyCode <= 90)  || // A-Z
+					(keyCode >= 48 && keyCode <= 57)  || // 0-9
+					keyCode == 32 // space
+				);
+	
+				if (printable) {
+					var shift = e.shiftKey;
+					var character = String.fromCharCode(e.keyCode);
+					if (shift) character = character.toUpperCase();
+					else character = character.toLowerCase();
+					value += character;
+				}
+			}
+			var width = measureString(value, $input) + 4;
+			if (width !== $input.width()) {
+				$input.width(width);
+				$input.triggerHandler('resize');
+			}
+		};
+		$input.on('keydown keyup update blur', update);
+		update({});
+	};
+	
 	// --- src/selectize.js ---
 	
 	/**
@@ -117,7 +181,7 @@
 	// [X] data source: callback
 	// [X] data source: object
 	// [ ] auto expanding inner <input>
-	// [ ] initialize initial values
+	// [X] initialize initial values
 	
 	$.fn.selectize = function (settings) {
 		settings = settings || {};
@@ -225,6 +289,7 @@
 		searchField: ['text'],
 	
 		theme: 'default',
+		wrapperClass: 'selectize-control',
 		inputClass: 'selectize-input',
 		dropdownClass: 'selectize-dropdown',
 	
@@ -282,15 +347,23 @@
 			this.$input.attr('multiple', 'multiple');
 		}
 	
-		var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).toggleClass('has-options', !$.isEmptyObject(this.options));
+		var $wrapper = $('<div>').addClass(this.settings.wrapperClass);
+		var displayMode = this.$input.css('display');
+		$wrapper.css({
+			width: this.$input[0].style.width,
+			display: displayMode
+		});
+	
+		var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 		var $control_items = $('<div>').addClass('items').appendTo($control);
 		var $control_input = $('<input type="text">').appendTo($control);
-		var $dropdown = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo('body');
+		var $dropdown = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo($wrapper);
 	
 		if (this.settings.placeholder) {
 			$control_input.attr('placeholder', this.settings.placeholder);
 		}
 	
+		this.$wrapper = $wrapper;
 		this.$control = $control;
 		this.$control_items = $control_items;
 		this.$control_input = $control_input;
@@ -313,7 +386,10 @@
 		$control_input.on('keypress', function() { return self.onKeyPress.apply(self, arguments); });
 		$control_input.on('blur', function() { return self.onBlur.apply(self, arguments); });
 		$control_input.on('focus', function() { return self.onFocus.apply(self, arguments); });
-		
+	
+		autoGrow($control_input);
+		$control_input.on('resize', function() { self.positionDropdown.apply(self, []); });
+	
 		$(document).on('keydown', function(e) {
 			if (self.isFocused) {
 				var tagName = (e.target.tagName || '').toLowerCase();
@@ -336,7 +412,7 @@
 			}
 		});
 	
-		this.$input.hide().after(this.$control);
+		this.$input.hide().after(this.$wrapper);
 	
 		if ($.isArray(this.settings.items)) {
 			for (var i = 0; i < this.settings.items.length; i++) {
@@ -863,7 +939,7 @@
 	
 	Selectize.prototype.positionDropdown = function() {
 		var $control = this.$control;	
-		var offset = $control.offset();
+		var offset = $control.position();
 		offset.top += $control.outerHeight(true);
 	
 		this.$dropdown.css({

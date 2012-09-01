@@ -133,6 +133,7 @@ $.fn.selectize.defaults = {
 	searchField: ['text'],
 
 	theme: 'default',
+	wrapperClass: 'selectize-control',
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 
@@ -190,15 +191,23 @@ Selectize.prototype.setup = function() {
 		this.$input.attr('multiple', 'multiple');
 	}
 
-	var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).toggleClass('has-options', !$.isEmptyObject(this.options));
+	var $wrapper = $('<div>').addClass(this.settings.wrapperClass);
+	var displayMode = this.$input.css('display');
+	$wrapper.css({
+		width: this.$input[0].style.width,
+		display: displayMode
+	});
+
+	var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 	var $control_items = $('<div>').addClass('items').appendTo($control);
 	var $control_input = $('<input type="text">').appendTo($control);
-	var $dropdown = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo('body');
+	var $dropdown = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo($wrapper);
 
 	if (this.settings.placeholder) {
 		$control_input.attr('placeholder', this.settings.placeholder);
 	}
 
+	this.$wrapper = $wrapper;
 	this.$control = $control;
 	this.$control_items = $control_items;
 	this.$control_input = $control_input;
@@ -221,7 +230,10 @@ Selectize.prototype.setup = function() {
 	$control_input.on('keypress', function() { return self.onKeyPress.apply(self, arguments); });
 	$control_input.on('blur', function() { return self.onBlur.apply(self, arguments); });
 	$control_input.on('focus', function() { return self.onFocus.apply(self, arguments); });
-	
+
+	autoGrow($control_input);
+	$control_input.on('resize', function() { self.positionDropdown.apply(self, []); });
+
 	$(document).on('keydown', function(e) {
 		if (self.isFocused) {
 			var tagName = (e.target.tagName || '').toLowerCase();
@@ -244,7 +256,7 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	this.$input.hide().after(this.$control);
+	this.$input.hide().after(this.$wrapper);
 
 	if ($.isArray(this.settings.items)) {
 		for (var i = 0; i < this.settings.items.length; i++) {
@@ -771,7 +783,7 @@ Selectize.prototype.open = function() {
 
 Selectize.prototype.positionDropdown = function() {
 	var $control = this.$control;	
-	var offset = $control.offset();
+	var offset = $control.position();
 	offset.top += $control.outerHeight(true);
 
 	this.$dropdown.css({

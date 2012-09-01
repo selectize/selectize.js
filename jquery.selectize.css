@@ -127,7 +127,11 @@
  * LAYOUT STYLES (mandatory)                              *
  **********************************************************/
 
+.selectize-control {
+	position: relative;
+}
 .selectize-input {
+	overflow: hidden;
 	position: relative;
 	z-index: 1;
 }
@@ -147,6 +151,8 @@
 	*display: inline;
 }
 .selectize-input input {
+	max-width: 100% !important;
+	text-indent: 0 !important;
 	border: 0 none !important;
 	background: none !important;
 	padding: 0 !important;
