@@ -880,6 +880,7 @@
 		value = String(value);
 		if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) return;
 		if (this.items.indexOf(value) !== -1) return;
+		if (!this.options.hasOwnProperty(value)) return;
 	
 		this.items.splice(this.caretPos, 0, value);
 		this.insertAtCaret(this.render('item', this.options[value]));
