@@ -340,6 +340,7 @@
 		this.highlightedValue = null;
 		this.isOpen = false;
 		this.isFull = false;
+		this.isLocked = false;
 		this.isFocused = false;
 		this.isInputFocused = false;
 		this.isSetup = false;
@@ -427,7 +428,7 @@
 		$(document).on('keydown', function(e) {
 			self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
 			self.isShiftDown = e.shiftKey;
-			if (self.isFocused) {
+			if (self.isFocused && !self.isLocked) {
 				var tagName = (e.target.tagName || '').toLowerCase();
 				if (tagName === 'input' || tagName === 'textarea') return;
 				if ([KEY_SHIFT, KEY_BACKSPACE, KEY_DELETE, KEY_ESC, KEY_LEFT, KEY_RIGHT, KEY_TAB].indexOf(e.keyCode) !== -1) {
@@ -442,7 +443,7 @@
 		});
 	
 		$(document).on('mousedown', function(e) {
-			if (self.isFocused && !self.$control.has(e.target).length && e.target !== self.$control[0]) {
+			if (self.isFocused  && !self.isLocked && !self.$control.has(e.target).length && e.target !== self.$control[0]) {
 				self.blur();
 			}
 		});
@@ -467,6 +468,7 @@
 	};
 	
 	Selectize.prototype.onKeyPress = function(e) {
+		if (self.isLocked) return;
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && character === this.settings.delimiter) {
 			this.createItem();
@@ -476,6 +478,7 @@
 	};
 	
 	Selectize.prototype.onKeyDown = function(e) {
+		if (self.isLocked) return;
 		var isInput = e.target === this.$control_input[0];
 	
 		switch (e.keyCode || e.which) {
@@ -527,6 +530,7 @@
 	};
 	
 	Selectize.prototype.onKeyUp = function(e) {
+		if (self.isLocked) return;
 		var value = this.$control_input.val();
 		if (this.lastValue !== value) {
 			this.lastValue = value;
@@ -962,6 +966,8 @@
 		var self = this;
 		var input = $.trim(this.$control_input.val() || '');
 		if (!input.length) return;
+		this.lock();
+		this.$control_input[0].blur();
 	
 		var setup = (typeof this.settings.create === 'function') ? this.settings.create : function(input) {
 			var data = {};
@@ -971,6 +977,9 @@
 		};
 	
 		var create = once(function(data) {
+			self.unlock();
+			self.$control_input[0].focus();
+			
 			var value = data && data[self.settings.valueField];
 			if (!isset(value) || !value) return;
 			
@@ -1114,6 +1123,16 @@
 		this.$dropdown.hide();
 		this.$control.removeClass('dropdown-active');
 		this.isOpen = false;
+	};
+	
+	Selectize.prototype.lock = function() {
+		this.isLocked = true;
+		this.$control.addClass('locked');
+	};
+	
+	Selectize.prototype.unlock = function() {
+		this.isLocked = false;
+		this.$control.removeClass('locked');
 	};
 	
 	Selectize.prototype.render = function(templateName, data) {
