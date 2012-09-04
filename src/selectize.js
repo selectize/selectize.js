@@ -219,10 +219,11 @@ Selectize.prototype.setup = function() {
 
 	$control.on('mousedown', function(e) {
 		if (e.currentTarget === self.$control[0]) {
-			window.setTimeout(function() {
-				$control_input.trigger('focus');
-			}, 10);
+			$control_input.trigger('focus');
+		} else {
+			$control_input[0].focus();
 		}
+		e.preventDefault();
 	});
 
 	$control_input.on('mousedown', function(e) { e.stopPropagation(); });
