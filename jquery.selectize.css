@@ -160,6 +160,9 @@
 	padding: 0 !important;
 	margin: 0;
 	line-height: 100% !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
 }
 .selectize-input > input:focus {
 	outline: none !important;
