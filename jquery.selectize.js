@@ -972,7 +972,7 @@
 	
 		var create = once(function(data) {
 			var value = data && data[self.settings.valueField];
-			if (!isset(value)) return;
+			if (!isset(value) || !value) return;
 			
 			self.addOption(value, data);
 			self.addItem(value);
