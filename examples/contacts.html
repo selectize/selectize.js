@@ -114,10 +114,10 @@
 						}
 					},
 					create: function(input) {
-						if ((new RegExp('^' + REGEX_EMAIL + '$')).test(input)) {
+						if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
 							return {email: input};
 						}
-						var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$'));
+						var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
 						if (match) {
 							return {
 								email : match[2],
