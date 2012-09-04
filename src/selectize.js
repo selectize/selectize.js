@@ -319,16 +319,10 @@ Selectize.prototype.onKeyDown = function(e) {
 			e.preventDefault();
 			break;
 		case KEY_LEFT:
-			var selection = getSelection(this.$control_input[0]);
-			if (isInput && this.items.length && selection.start === 0 && selection.length === 0) {
-				this.setCaret(this.caretPos - 1);
-			}
+			this.advanceSelection(-1, e);
 			break;
 		case KEY_RIGHT:
-			var selection = getSelection(this.$control_input[0]);
-			if (isInput && selection.start === this.$control_input.val().length) {
-				this.setCaret(this.caretPos + 1);
-			}
+			this.advanceSelection(1, e);
 			break;
 		case KEY_TAB:
 			if (this.settings.create) {
@@ -337,25 +331,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			break;
 		case KEY_BACKSPACE:
 		case KEY_DELETE:
-			var direction = (e.keyCode === KEY_BACKSPACE) ? 'prev' : 'next';
-			var selection = getSelection(this.$control_input[0]);
-			if (this.$activeItems.length) {
-				var values = [];
-				for (var i = 0; i < this.$activeItems.length; i++) {
-					values.push($(this.$activeItems[i]).attr('data-value'));
-				}
-				while (values.length) {
-					this.removeItem(values.pop());
-				}
-				e.preventDefault();
-				e.stopPropagation();
-			} else if (isInput && this.items.length) {
-				if (direction === 'prev' && selection.start === 0 && selection.length === 0) {
-					this.removeItem(this.items[this.caretPos - 1]);
-				} else if (direction === 'next' && selection.start === this.$control_input.val().length) {
-					this.removeItem(this.items[this.caretPos]);
-				}
-			}
+			this.deleteSelection(e);
 			return;
 		default:
 			if (this.isFull) {
@@ -410,11 +386,11 @@ Selectize.prototype.onOptionSelect = function(e) {
 
 Selectize.prototype.onItemSelect = function(e) {
 	this.$control_input.trigger('blur');
-	this.setActiveItem(e.currentTarget);
+	this.setActiveItem(e.currentTarget, e);
 	e.stopPropagation();
 };
 
-Selectize.prototype.setActiveItem = function($item) {
+Selectize.prototype.setActiveItem = function($item, e) {
 	$item = $($item);
 
 	// clear the active selection
@@ -426,7 +402,26 @@ Selectize.prototype.setActiveItem = function($item) {
 	}
 
 	// modify selection
-	if (this.isCtrlDown) {
+	var eventName = e && e.type.toLowerCase();
+
+	if (eventName === 'mousedown' && this.isShiftDown && this.$activeItems.length) {
+		var $last = this.$control.children('.active:last');
+		var begin = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$last[0]]);
+		var end   = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$item[0]]);
+		if (begin > end) {
+			var swap = begin;
+			begin = end;
+			end = swap;
+		}
+		for (var i = begin; i <= end; i++) {
+			var item = this.$control[0].childNodes[i];
+			if (this.$activeItems.indexOf(item) === -1) {
+				$(item).addClass('active');
+				this.$activeItems.push(item);
+			}
+		}
+		e.preventDefault();
+	} else if ((eventName === 'mousedown' && this.isCtrlDown) || (eventName === 'keydown' && this.isShiftDown)) {
 		if ($item.hasClass('active')) {
 			var idx = this.$activeItems.indexOf($item[0]);
 			this.$activeItems.splice(idx, 1);
@@ -848,6 +843,71 @@ Selectize.prototype.insertAtCaret = function($el) {
 		$(this.$control[0].childNodes[caret]).before($el);
 	}
 	this.setCaret(caret + 1);
+};
+
+Selectize.prototype.deleteSelection = function(e) {
+	var direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+	var selection = getSelection(this.$control_input[0]);
+	if (this.$activeItems.length) {
+		var $tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
+		var caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+		if (this.$activeItems.length > 1 && direction > 0) { caret--; }
+
+		var values = [];
+		for (var i = 0; i < this.$activeItems.length; i++) {
+			values.push($(this.$activeItems[i]).attr('data-value'));
+		}
+		while (values.length) {
+			this.removeItem(values.pop());
+		}
+
+		this.setCaret(caret);
+		e.preventDefault();
+		e.stopPropagation();
+	} else if (this.isInputFocused && this.items.length) {
+		if (direction < 0 && selection.start === 0 && selection.length === 0) {
+			this.removeItem(this.items[this.caretPos - 1]);
+		} else if (direction > 0 && selection.start === this.$control_input.val().length) {
+			this.removeItem(this.items[this.caretPos]);
+		}
+	}
+};
+
+Selectize.prototype.advanceSelection = function(direction, e) {
+	if (direction === 0) return;
+	var tail = direction > 0 ? 'last' : 'first';
+	var selection = getSelection(this.$control_input[0]);
+
+	if (this.isInputFocused) {
+		var cursorAtEdge = direction < 0
+			? selection.start === 0 && selection.length === 0
+			: selection.start === this.$control_input.val().length;
+
+		if (cursorAtEdge) {
+			this.advanceCaret(direction, e);
+		}
+	} else {
+		var $tail = this.$control.children('.active:' + tail);
+		if ($tail.length) {
+			var idx = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+			this.setCaret(direction > 0 ? idx + 1 : idx);
+		}
+	}
+};
+
+Selectize.prototype.advanceCaret = function(direction, e) {
+	if (direction === 0) return;
+	var fn = direction > 0 ? 'next' : 'prev';
+	if (this.isShiftDown) {
+		var $adj = this.$control_input[fn]();
+		if ($adj.length) {
+			this.blur();
+			this.setActiveItem($adj);
+			e && e.preventDefault();
+		}
+	} else {
+		this.setCaret(this.caretPos + direction);
+	}
 };
 
 Selectize.prototype.setCaret = function(i, focus) {
