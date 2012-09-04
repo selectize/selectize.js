@@ -44,10 +44,10 @@ p, .control-group {
 .demo select, .demo input, .demo .selectize-control {
 	width: 100%;
 }
-.demo *:first-child {
+.demo > *:first-child {
 	margin-top: 0;
 }
-.demo *:last-child {
+.demo > *:last-child {
 	margin-bottom: 0;
 }
 .demo .value {

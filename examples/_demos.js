@@ -18,7 +18,7 @@ $(function() {
 				lines[i] = lines[i].replace(new RegExp('^' + indent), '');
 			}
 			
-			var code = $.trim(lines.join('\n'));
+			var code = $.trim(lines.join('\n')).replace(/	/g, '    ');
 			var $pre = $('<pre>').addClass('js').text(code);
 			$pre.insertAfter(this);
 		}

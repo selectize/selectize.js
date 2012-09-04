@@ -19,16 +19,20 @@ var once = function(fn) {
 	};
 };
 
-var getCaretPosition = function(input) {
+var getSelection = function(input) {
+	var result = {};
 	if ('selectionStart' in input) {
-		return input.selectionStart;
+		result.start = input.selectionStart;
+		result.length = input.selectionEnd - result.start;
 	} else if (document.selection) {
 		input.focus();
 		var sel = document.selection.createRange();
 		var selLen = document.selection.createRange().text.length;
 		sel.moveStart('character', -input.value.length);
-		return sel.text.length - selLen;
+		result.start = sel.text.length - selLen;
+		result.length = selLen;
 	}
+	return result;
 };
 
 var transferStyles = function($from, $to, properties) {
@@ -65,8 +69,6 @@ var measureString = function(str, $parent) {
 };
 
 var autoGrow = function($input) {
-	var placeholder = $input.attr('placeholder') || '';
-
 	var update = function(e) {
 		e = e || window.event;
 		var value = $input.val();
@@ -87,6 +89,7 @@ var autoGrow = function($input) {
 				value += character;
 			}
 		}
+		var placeholder = $input.attr('placeholder') || '';
 		if (!value.length && placeholder.length) {
 			value = placeholder;
 		}

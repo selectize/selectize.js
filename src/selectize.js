@@ -83,6 +83,8 @@ $.fn.selectize = function (settings) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+var IS_MAC = /Mac/.test(navigator.userAgent);
+
 var KEY_COMMA     = 188;
 var KEY_RETURN    = 13;
 var KEY_ESC       = 27;
@@ -93,6 +95,7 @@ var KEY_DOWN      = 40;
 var KEY_BACKSPACE = 8;
 var KEY_DELETE    = 46;
 var KEY_SHIFT     = 16;
+var KEY_CTRL      = IS_MAC ? 18 : 17;
 var KEY_TAB       = 9;
 
 var TAG_SELECT    = 1;
@@ -157,12 +160,15 @@ var Selectize = function($input, settings) {
 	this.isFocused = false;
 	this.isInputFocused = false;
 	this.isSetup = false;
+	this.isShiftDown = false;
+	this.isCtrlDown = false;
 	this.hasOptions = false;
 	this.currentResults = null;
 	this.lastValue = '';
+	this.caretPos = 0;
 
 	this.$activeOption = null;
-	this.$activeItem = null;
+	this.$activeItems = [];
 
 	this.options = {};
 	this.userOptions = {};
@@ -198,8 +204,7 @@ Selectize.prototype.setup = function() {
 		display: displayMode
 	});
 
-	var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
-	var $control_items = $('<div>').addClass('items').appendTo($control);
+	var $control = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 	var $control_input = $('<input type="text">').appendTo($control);
 	var $dropdown = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo($wrapper);
 
@@ -209,12 +214,11 @@ Selectize.prototype.setup = function() {
 
 	this.$wrapper = $wrapper;
 	this.$control = $control;
-	this.$control_items = $control_items;
 	this.$control_input = $control_input;
 	this.$dropdown = $dropdown;
 
 	$control.on('mousedown', function(e) {
-		if (!self.$control_items.has(e.target).length) {
+		if (e.currentTarget === self.$control[0]) {
 			window.setTimeout(function() {
 				$control_input.trigger('focus');
 			}, 10);
@@ -224,7 +228,7 @@ Selectize.prototype.setup = function() {
 	$control_input.on('mousedown', function(e) { e.stopPropagation(); });
 	$dropdown.on('mouseenter', '>*', function() { return self.onOptionHover.apply(self, arguments); });
 	$dropdown.on('mousedown', '>*', function() { return self.onOptionSelect.apply(self, arguments); });
-	$control_items.on('mousedown', function() { return self.onItemSelect.apply(self, arguments); });
+	$control.on('mousedown', '>*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 	$control_input.on('keydown', function() { return self.onKeyDown.apply(self, arguments); });
 	$control_input.on('keyup', function() { return self.onKeyUp.apply(self, arguments); });
 	$control_input.on('keypress', function() { return self.onKeyPress.apply(self, arguments); });
@@ -235,6 +239,8 @@ Selectize.prototype.setup = function() {
 	$control_input.on('resize', function() { self.positionDropdown.apply(self, []); });
 
 	$(document).on('keydown', function(e) {
+		self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
+		self.isShiftDown = e.shiftKey;
 		if (self.isFocused) {
 			var tagName = (e.target.tagName || '').toLowerCase();
 			if (tagName === 'input' || tagName === 'textarea') return;
@@ -242,6 +248,11 @@ Selectize.prototype.setup = function() {
 				return self.onKeyDown.apply(self, arguments);
 			}
 		}
+	});
+
+	$(document).on('keyup', function(e) {
+		if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
+		else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
 	});
 
 	$(document).on('mousedown', function(e) {
@@ -265,6 +276,7 @@ Selectize.prototype.setup = function() {
 		delete this.settings.items;
 	}
 
+	this.updateOriginalInput();
 	this.isSetup = true;
 };
 
@@ -307,47 +319,42 @@ Selectize.prototype.onKeyDown = function(e) {
 			e.preventDefault();
 			break;
 		case KEY_LEFT:
-			if (this.$activeItem) {
-				var $prevItem = this.$activeItem.prev();
-				if ($prevItem.length) {
-					this.setActiveItem($prevItem);
-				}
-			} else if (isInput && this.items.length && getCaretPosition(this.$control_input[0]) === 0) {
-				this.setActiveItem(this.$control_items.children(':last-child'));
-				this.$control_input.trigger('blur');
+			var selection = getSelection(this.$control_input[0]);
+			if (isInput && this.items.length && selection.start === 0 && selection.length === 0) {
+				this.setCaret(this.caretPos - 1);
+			}
+			break;
+		case KEY_RIGHT:
+			var selection = getSelection(this.$control_input[0]);
+			if (isInput && selection.start === this.$control_input.val().length) {
+				this.setCaret(this.caretPos + 1);
 			}
 			break;
 		case KEY_TAB:
-		case KEY_RIGHT:
-			if (this.$activeItem) {
-				var $nextItem = this.$activeItem.next();
-				if (!$nextItem.length) {
-					this.$control_input.trigger('focus');
-				} else {
-					this.setActiveItem($nextItem);
-				}
-				e.preventDefault();
-				e.stopPropagation();
-			} else if (e.keyCode === KEY_TAB && this.settings.create) {
+			if (this.settings.create) {
 				this.createItem();
 			}
 			break;
 		case KEY_BACKSPACE:
 		case KEY_DELETE:
 			var direction = (e.keyCode === KEY_BACKSPACE) ? 'prev' : 'next';
-			if (this.$activeItem) {
-				var $adjacentItem = this.$activeItem[direction]();
-				this.removeItem(this.$activeItem.attr('data-value'));
-				if ($adjacentItem.length) {
-					this.setActiveItem($adjacentItem);
-				} else {
-					this.$activeItem = null;
-					this.$control_input.trigger('focus');
+			var selection = getSelection(this.$control_input[0]);
+			if (this.$activeItems.length) {
+				var values = [];
+				for (var i = 0; i < this.$activeItems.length; i++) {
+					values.push($(this.$activeItems[i]).attr('data-value'));
+				}
+				while (values.length) {
+					this.removeItem(values.pop());
 				}
 				e.preventDefault();
 				e.stopPropagation();
-			} else if (isInput && direction === 'prev' && this.items.length && getCaretPosition(this.$control_input[0]) === 0) {
-				this.removeItem(this.items[this.items.length - 1]);
+			} else if (isInput && this.items.length) {
+				if (direction === 'prev' && selection.start === 0 && selection.length === 0) {
+					this.removeItem(this.items[this.caretPos - 1]);
+				} else if (direction === 'next' && selection.start === this.$control_input.val().length) {
+					this.removeItem(this.items[this.caretPos]);
+				}
 			}
 			return;
 		default:
@@ -356,7 +363,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			}
 	}
 };
-	
+
 Selectize.prototype.onKeyUp = function(e) {
 	var value = this.$control_input.val();
 	if (this.lastValue !== value) {
@@ -377,7 +384,8 @@ Selectize.prototype.onBlur = function(e) {
 	this.close();
 	this.$control_input.val('');
 	this.isInputFocused = false;
-	if (!this.$activeItem) {
+	this.setCaret(this.items.length, false);
+	if (!this.$activeItems.length) {
 		this.$control.removeClass('focus');
 		this.isFocused = false;
 	}
@@ -389,7 +397,6 @@ Selectize.prototype.onOptionHover = function(e) {
 
 Selectize.prototype.onOptionSelect = function(e) {
 	var $target = $(e.currentTarget);
-	
 	if ($target.hasClass('create')) {
 		this.createItem();
 	} else {
@@ -403,13 +410,36 @@ Selectize.prototype.onOptionSelect = function(e) {
 
 Selectize.prototype.onItemSelect = function(e) {
 	this.$control_input.trigger('blur');
-	this.setActiveItem($(e.target));
+	this.setActiveItem(e.currentTarget);
+	e.stopPropagation();
 };
 
 Selectize.prototype.setActiveItem = function($item) {
-	if (this.$activeItem) this.$activeItem.removeClass('active');
-	this.$activeItem = $item && $item.addClass('active');
-	this.isFocused = !!$item;
+	$item = $($item);
+
+	// clear the active selection
+	if (!$item.length) {
+		$(this.$activeItems).removeClass('active');
+		this.$activeItems = [];
+		this.isFocused = false;
+		return;
+	}
+
+	// modify selection
+	if (this.isCtrlDown) {
+		if ($item.hasClass('active')) {
+			var idx = this.$activeItems.indexOf($item[0]);
+			this.$activeItems.splice(idx, 1);
+			$item.removeClass('active');
+		} else {
+			this.$activeItems.push($item.addClass('active')[0]);
+		}
+	} else {
+		$(this.$activeItems).removeClass('active');
+		this.$activeItems = [$item.addClass('active')[0]];
+	}
+
+	this.isFocused = !!this.$activeItems.length;
 };
 
 Selectize.prototype.setActiveOption = function($option, scroll, animate) {
@@ -448,10 +478,10 @@ Selectize.prototype.blur = function() {
 Selectize.prototype.parseSearchTokens = function(query) {
 	query = $.trim(String(query || '').toLowerCase());
 	if (!query || !query.length) return [];
-	
+
 	var tokens = [];
 	var words = query.split(/ +/);
-	
+
 	for (var i = 0; i < words.length; i++) {
 		var regex = quoteRegExp(words[i]);
 		if (this.settings.diacritics) {
@@ -466,7 +496,7 @@ Selectize.prototype.parseSearchTokens = function(query) {
 			regex  : new RegExp(regex, 'i')
 		});
 	}
-	
+
 	return tokens;
 };
 
@@ -627,10 +657,9 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	if (hasCreateOption) {
 		this.$dropdown.prepend(this.render('option_create', {input: query}));
 	}
-
 	this.hasOptions = results.items.length > 0 || hasCreateOption;
 	if (this.hasOptions) {
-		this.setActiveOption(this.$dropdown[0].childNodes[0]);
+		this.setActiveOption(this.$dropdown[0].childNodes[hasCreateOption && results.items.length > 0 ? 1 : 0]);
 		if (triggerDropdown && !this.isOpen) { this.open(); }
 	} else {
 		this.setActiveOption(null);
@@ -653,14 +682,27 @@ Selectize.prototype.removeOption = function(value) {
 	this.lastQuery = null;
 };
 
+Selectize.prototype.getItem = function(value) {
+	var $item = $();
+	var i = this.items.indexOf(value);
+	if (i !== -1) {
+		if (i >= this.caretPos) i++;
+		var $el = $(this.$control[0].childNodes[i]);
+		if ($el.attr('data-value') === value) {
+			$item = $el;
+		}
+	}
+	return $item;
+};
+
 Selectize.prototype.addItem = function(value) {
 	value = String(value);
 	if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) return;
 	if (this.items.indexOf(value) !== -1) return;
 
-	var html = this.render('item', this.options[value])
-	this.$control_items.append(html);
-	this.items.push(value);
+	this.items.splice(this.caretPos, 0, value);
+	this.insertAtCaret(this.render('item', this.options[value]));
+
 	this.isFull = this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 	this.$control.toggleClass('has-items', true);
 	this.$control.toggleClass('full', this.isFull);
@@ -699,21 +741,26 @@ Selectize.prototype.addItem = function(value) {
 };
 
 Selectize.prototype.removeItem = function(value) {
-	value = String(value);
+	var $item = (typeof value === 'object') ? value : this.getItem(value);
+	var value = String($item.attr('data-value'));
 	var i = this.items.indexOf(value);
+
 	if (i !== -1) {
-		this.items.splice(i, 1);
-		var $item = $(this.$control_items[0].childNodes[i]);
-		if ($item.attr('data-value') === value) {
-			$item.remove();
+		$item.remove();
+		if ($item.hasClass('active')) {
+			var idx = this.$activeItems.indexOf($item[0]);
+			this.$activeItems.splice(idx, 1);
 		}
+
+		this.items.splice(i, 1);
 		this.$control.toggleClass('has-items', this.items.length > 0);
 		this.$control.removeClass('full');
 		this.isFull = false;
 		this.lastQuery = null;
-		if (!this.settings.persist) {
+		if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 			this.removeOption(value);
 		}
+		this.setCaret(i);
 		this.positionDropdown();
 		this.refreshOptions(false);
 
@@ -791,6 +838,29 @@ Selectize.prototype.positionDropdown = function() {
 		top   : offset.top,
 		left  : offset.left
 	});
+};
+
+Selectize.prototype.insertAtCaret = function($el) {
+	var caret = Math.min(this.caretPos, this.items.length);
+	if (caret === 0) {
+		this.$control.prepend($el);
+	} else {
+		$(this.$control[0].childNodes[caret]).before($el);
+	}
+	this.setCaret(caret + 1);
+};
+
+Selectize.prototype.setCaret = function(i, focus) {
+	i = Math.max(0, Math.min(this.items.length, i));
+	if (i === this.items.length) {
+		this.$control.append(this.$control_input);
+	} else {
+		this.$control_input.insertBefore(this.$control.children(':not(input)')[i]);
+	}
+	if (focus || !isset(focus)) {
+		this.$control_input[0].focus();
+	}
+	this.caretPos = i;
 };
 
 Selectize.prototype.close = function() {

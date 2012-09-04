@@ -2,7 +2,8 @@
  * THEME: "default"                                       *
  **********************************************************/
 
-.selectize-input.default .items > * {
+.selectize-input.default > div {
+	color: #3d5d18;
 	text-shadow: 0 1px 0 rgba(255,255,255,0.1);
 	border: 1px solid #74b21e;
 	-webkit-border-radius: 3px;
@@ -20,7 +21,7 @@
 	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
-.selectize-input.default .items > *.active {
+.selectize-input.default > div.active {
 	border-color: #6f9839;
 	background: #92c836;
 	background: -moz-linear-gradient(top,  #92c836 0%, #006e2e 0%, #92c836 0%, #7abc2c 100%);
@@ -76,15 +77,16 @@
 	padding-top: 8px;
 	padding-bottom: 3px;
 }
-.selectize-input .items > * {
+.selectize-input > div {
 	cursor: pointer;
-	color: #3d5d18;
 	margin: 0 5px 5px 0;
 	padding: 1px 5px;
-
 }
-.selectize-input .items > *:last-child {
+.selectize-input > div:last-child {
 	margin-right: 5px;
+}
+.selectize-input > input {
+	margin-right: 2px !important;
 }
 .selectize-dropdown, .selectize-input {
 	border: 1px solid #d0d0d0;
@@ -110,7 +112,7 @@
 	color: #a0a0a0;
 }
 .selectize-dropdown > *.active {
-	background-color: #fffdf4;
+	background-color: #fffceb;
 }
 .selectize-dropdown, .selectize-input, .selectize-input input {
 	color: #303030;
@@ -143,23 +145,23 @@
 .selectize-input .items {
 	display: inline;
 }
-.selectize-input .items > *, .selectize-input input {
+.selectize-input > * {
 	vertical-align: middle;
 	display: -moz-inline-stack;
 	display: inline-block;
 	zoom: 1;
 	*display: inline;
 }
-.selectize-input input {
+.selectize-input > input {
 	max-width: 100% !important;
 	text-indent: 0 !important;
 	border: 0 none !important;
 	background: none !important;
 	padding: 0 !important;
-	margin: 0 !important;
+	margin: 0;
 	line-height: 100% !important;
 }
-.selectize-input input:focus {
+.selectize-input > input:focus {
 	outline: none !important;
 }
 .selectize-dropdown {
