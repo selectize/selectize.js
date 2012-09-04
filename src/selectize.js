@@ -917,7 +917,7 @@ Selectize.prototype.setCaret = function(i, focus) {
 	} else {
 		this.$control_input.insertBefore(this.$control.children(':not(input)')[i]);
 	}
-	if (focus || !isset(focus)) {
+	if ((focus || !isset(focus)) && this.isSetup) {
 		this.$control_input[0].focus();
 	}
 	this.caretPos = i;
