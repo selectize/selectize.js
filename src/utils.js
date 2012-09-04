@@ -19,6 +19,25 @@ var once = function(fn) {
 	};
 };
 
+/**
+ * A workaround for http://bugs.jquery.com/ticket/6696
+ *
+ * @param {object} $parent - Parent element to listen on.
+ * @param {string} event - Event name.
+ * @param {string} selector - Descendant selector to filter by.
+ * @param {function} fn - Event handler.
+ */
+var watchChildEvent = function($parent, event, selector, fn) {
+	$parent.on(event, selector, function(e) {
+		var child = e.target;
+		while (child && child.parentNode !== $parent[0]) {
+			child = child.parentNode;
+		}
+		e.currentTarget = child;
+		return fn.apply(this, [e]);
+	});
+};
+
 var getSelection = function(input) {
 	var result = {};
 	if ('selectionStart' in input) {

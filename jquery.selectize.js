@@ -76,6 +76,25 @@
 		};
 	};
 	
+	/**
+	* A workaround for http://bugs.jquery.com/ticket/6696
+	*
+	* @param {object} $parent - Parent element to listen on.
+	* @param {string} event - Event name.
+	* @param {string} selector - Descendant selector to filter by.
+	* @param {function} fn - Event handler.
+	*/
+	var watchChildEvent = function($parent, event, selector, fn) {
+		$parent.on(event, selector, function(e) {
+			var child = e.target;
+			while (child && child.parentNode !== $parent[0]) {
+				child = child.parentNode;
+			}
+			e.currentTarget = child;
+			return fn.apply(this, [e]);
+		});
+	};
+	
 	var getSelection = function(input) {
 		var result = {};
 		if ('selectionStart' in input) {
@@ -390,9 +409,11 @@
 		});
 	
 		$control_input.on('mousedown', function(e) { e.stopPropagation(); });
-		$dropdown.on('mouseenter', '>*', function() { return self.onOptionHover.apply(self, arguments); });
-		$dropdown.on('mousedown', '>*', function() { return self.onOptionSelect.apply(self, arguments); });
-		$control.on('mousedown', '>*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
+	
+		watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
+		watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
+		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
+	
 		$control_input.on('keydown', function() { return self.onKeyDown.apply(self, arguments); });
 		$control_input.on('keyup', function() { return self.onKeyUp.apply(self, arguments); });
 		$control_input.on('keypress', function() { return self.onKeyPress.apply(self, arguments); });
@@ -532,7 +553,7 @@
 	};
 	
 	Selectize.prototype.onOptionHover = function(e) {
-		this.setActiveOption(e.target, false);
+		this.setActiveOption(e.currentTarget, false);
 	};
 	
 	Selectize.prototype.onOptionSelect = function(e) {

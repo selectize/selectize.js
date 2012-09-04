@@ -226,9 +226,11 @@ Selectize.prototype.setup = function() {
 	});
 
 	$control_input.on('mousedown', function(e) { e.stopPropagation(); });
-	$dropdown.on('mouseenter', '>*', function() { return self.onOptionHover.apply(self, arguments); });
-	$dropdown.on('mousedown', '>*', function() { return self.onOptionSelect.apply(self, arguments); });
-	$control.on('mousedown', '>*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
+
+	watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
+	watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
+	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
+
 	$control_input.on('keydown', function() { return self.onKeyDown.apply(self, arguments); });
 	$control_input.on('keyup', function() { return self.onKeyUp.apply(self, arguments); });
 	$control_input.on('keypress', function() { return self.onKeyPress.apply(self, arguments); });
@@ -368,7 +370,7 @@ Selectize.prototype.onBlur = function(e) {
 };
 
 Selectize.prototype.onOptionHover = function(e) {
-	this.setActiveOption(e.target, false);
+	this.setActiveOption(e.currentTarget, false);
 };
 
 Selectize.prototype.onOptionSelect = function(e) {
