@@ -381,7 +381,7 @@
 			this.$input.attr('multiple', 'multiple');
 		}
 	
-		var $wrapper = $('<div>').addClass(this.settings.wrapperClass);
+		var $wrapper = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);
 		var displayMode = this.$input.css('display');
 		$wrapper.css({
 			width: this.$input[0].style.width,
@@ -858,6 +858,24 @@
 		this.userOptions[value] = true;
 		this.options[value] = data;
 		this.lastQuery = null;
+	};
+	
+	Selectize.prototype.updateOption = function(value, data) {
+		value = String(value);
+		this.options[value] = data;
+		if (isset(this.renderCache['item'])) delete this.renderCache['item'][value];
+		if (isset(this.renderCache['option'])) delete this.renderCache['option'][value];
+	
+		if (this.items.indexOf(value) !== -1) {
+			var $item = this.getItem(value);
+			var $item_new = $(this.render('item', data));
+			if ($item.hasClass('active')) $item_new.addClass('active');
+			$item.replaceWith($item_new);
+		}
+	
+		if (this.isOpen) {
+			this.refreshOptions(false);
+		}
 	};
 	
 	Selectize.prototype.removeOption = function(value) {
