@@ -979,10 +979,10 @@
 		var create = once(function(data) {
 			self.unlock();
 			self.$control_input[0].focus();
-			
+	
 			var value = data && data[self.settings.valueField];
 			if (!isset(value) || !value) return;
-			
+	
 			self.addOption(value, data);
 			self.addItem(value);
 			self.refreshOptions();
@@ -1001,7 +1001,7 @@
 			for (var i = 0; i < this.items.length; i++) {
 				options.push('<option value=' + htmlEntities(this.items[i]) + ' selected="selected"></option>')
 			}
-			if (!options.length) {
+			if (!options.length && !this.$input.attr('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
 			}
 			this.$input.html(options.join(''));

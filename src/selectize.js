@@ -818,7 +818,7 @@ Selectize.prototype.updateOriginalInput = function() {
 		for (var i = 0; i < this.items.length; i++) {
 			options.push('<option value=' + htmlEntities(this.items[i]) + ' selected="selected"></option>')
 		}
-		if (!options.length) {
+		if (!options.length && !this.$input.attr('multiple')) {
 			options.push('<option value="" selected="selected"></option>');
 		}
 		this.$input.html(options.join(''));
