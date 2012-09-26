@@ -46,14 +46,15 @@
 					<label for="select-beast">Beast:</label>
 					<select id="select-beast" class="demo-default" placeholder="Pick something...">
 						<option value="">Select a beast...</option>
+						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
 						<option value="3">Nikola Tesla</option>
-						<option value="4">Thomas Edison</option>
 					</select>
 				</div>
 				<script>
 				$('#select-beast').selectize({
-					create: true
+					create: true,
+					sortField: 'text'
 				});
 				</script>
 			</div>

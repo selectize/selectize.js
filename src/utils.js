@@ -69,6 +69,9 @@ var transferStyles = function($from, $to, properties) {
 
 var measureString = function(str, $parent) {
 	var $test = $('<test>').css({
+		position: 'absolute',
+		top: -99999,
+		left: -99999,
 		width: 'auto',
 		padding: 0,
 		whiteSpace: 'nowrap'
@@ -78,7 +81,8 @@ var measureString = function(str, $parent) {
 		'letterSpacing',
 		'fontSize',
 		'fontFamily',
-		'fontWeight'
+		'fontWeight',
+		'textTransform'
 	]);
 
 	var width = $test.width();

@@ -129,7 +129,7 @@ $.fn.selectize.defaults = {
 	scrollDuration: 60,
 
 	dataAttr: 'data-data',
-	sortField: 'value',
+	sortField: null,
 	sortDirection: 'asc',
 	valueField: 'value',
 	labelField: 'text',
@@ -514,14 +514,14 @@ Selectize.prototype.search = function(query, settings) {
 	settings = settings || {};
 	query = $.trim(String(query || '').toLowerCase());
 	
+	var self = this;
 	var results;
 	
 	if (query !== this.lastQuery) {
 		this.lastQuery = query;
-	
-		var self    = this;
-		var tokens  = this.parseSearchTokens(query);
-		
+
+		var tokens = this.parseSearchTokens(query);
+
 		results = {
 			query  : query,
 			tokens : tokens,
@@ -607,6 +607,19 @@ Selectize.prototype.search = function(query, settings) {
 						value: value
 					});
 				}
+			}
+			if (this.settings.sortField) {
+				results.items.sort((function() {
+					var field = self.settings.sortField;
+					var multiplier = self.settings.sortDirection === 'desc' ? -1 : 1;
+					return function(a, b) {
+						a = a && String(self.options[a.value][field] || '').toLowerCase();
+						b = b && String(self.options[b.value][field] || '').toLowerCase();
+						if (a > b) return 1 * multiplier;
+						if (b > a) return -1 * multiplier;
+						return 0;
+					};
+				})());
 			}
 		}
 		this.currentResults = results;
