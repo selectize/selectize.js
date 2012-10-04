@@ -337,6 +337,8 @@
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	var Selectize = function($input, settings) {
+		$input[0].selectize = this;
+	
 		this.$input = $input;
 		this.tagType = $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT;
 		this.settings = settings;
@@ -461,9 +463,7 @@
 		this.$input.hide().after(this.$wrapper);
 	
 		if ($.isArray(this.settings.items)) {
-			for (var i = 0; i < this.settings.items.length; i++) {
-				this.addItem(this.settings.items[i]);
-			}
+			this.setValue(this.settings.items);
 			delete this.settings.items;
 		}
 	
@@ -525,11 +525,15 @@
 			case KEY_BACKSPACE:
 			case KEY_DELETE:
 				this.deleteSelection(e);
-				return;
+				break;
 			default:
 				if (this.isFull) {
 					e.preventDefault();
+					return;
 				}
+		}
+		if (!this.isFull) {
+			this.$control_input[0].focus();
 		}
 	};
 	
@@ -582,6 +586,22 @@
 		this.$control_input.trigger('blur');
 		this.setActiveItem(e.currentTarget, e);
 		e.stopPropagation();
+	};
+	
+	Selectize.prototype.getValue = function() {
+		if (this.tagType === TAG_SELECT && this.$input.attr('multiple')) {
+			return this.items;
+		} else {
+			return this.items.join(this.settings.delimiter);
+		}
+	};
+	
+	Selectize.prototype.setValue = function(value) {
+		this.clear();
+		var items = $.isArray(value) ? value : [value];
+		for (var i = 0; i < items.length; i++) {
+			this.addItem(items[i]);
+		}
 	};
 	
 	Selectize.prototype.setActiveItem = function($item, e) {
@@ -946,11 +966,7 @@
 			}
 	
 			this.positionDropdown();
-	
-			// hide placeholder
-			if (this.settings.placeholder) {
-				this.$control_input.removeAttr('placeholder');
-			}
+			this.updatePlaceholder();
 	
 			// hide the menu if the maximum number of items have been selected
 			if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) {
@@ -988,11 +1004,7 @@
 			if (!this.hasOptions) { this.close(); }
 			else if (this.isInputFocused) { this.open(); }
 	
-			// restore placeholder
-			if (this.settings.placeholder && !this.items.length) {
-				this.$control_input.attr('placeholder', this.settings.placeholder);
-			}
-	
+			this.updatePlaceholder();
 			this.updateOriginalInput();
 		}
 	};
@@ -1030,6 +1042,21 @@
 		}
 	};
 	
+	Selectize.prototype.refreshItems = function() {
+		this.lastQuery = null;
+		this.isFull = this.items.length >= this.settings.maxItems;
+		this.$control.toggleClass('full', this.isFull);
+		this.$control.toggleClass('has-items', this.items.length > 0);
+		
+		if (this.isSetup) {
+			for (var i = 0; i < this.items.length; i++) {
+				this.addItem(this.items);
+			}
+		}
+		
+		this.updateOriginalInput();
+	};
+	
 	Selectize.prototype.updateOriginalInput = function() {
 		if (this.$input[0].tagName.toLowerCase() === 'select') {
 			var options = [];
@@ -1041,9 +1068,20 @@
 			}
 			this.$input.html(options.join(''));
 		} else {
-			this.$input.val(this.serialize());
+			this.$input.val(this.getValue());
 		}
 		this.$input.trigger('change');
+	};
+	
+	Selectize.prototype.updatePlaceholder = function() {
+		if (this.settings.placeholder) {
+			if (this.items.length) {
+				this.$control_input.removeAttr('placeholder');
+			} else {
+				this.$control_input.attr('placeholder', this.settings.placeholder);
+			}
+			this.$control_input.triggerHandler('update');
+		}
 	};
 	
 	Selectize.prototype.open = function() {
@@ -1064,6 +1102,15 @@
 			top   : offset.top,
 			left  : offset.left
 		});
+	};
+	
+	Selectize.prototype.clear = function() {
+		this.$control.removeClass('has-items');
+		this.$control.children(':not(input)').remove();
+		this.items = [];
+		this.setCaret(0);
+		this.updatePlaceholder();
+		this.updateOriginalInput();
 	};
 	
 	Selectize.prototype.insertAtCaret = function($el) {
@@ -1148,7 +1195,7 @@
 		} else {
 			this.$control_input.insertBefore(this.$control.children(':not(input)')[i]);
 		}
-		if ((focus || !isset(focus)) && this.isSetup) {
+		if (focus && this.isSetup) {
 			this.$control_input[0].focus();
 		}
 		this.caretPos = i;
@@ -1214,13 +1261,5 @@
 			this.renderCache[templateName][value] = html;
 		}
 		return html;
-	};
-	
-	Selectize.prototype.serialize = function() {
-		if (this.tagType === TAG_SELECT && this.$input.attr('multiple')) {
-			return this.items;
-		} else {
-			return this.items.join(this.settings.delimiter);
-		}
 	};
 })(jQuery,window,document);
