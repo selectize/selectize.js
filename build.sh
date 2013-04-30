@@ -2,7 +2,7 @@
 IFS='%'
 out=jquery.selectize.js
 out_min=jquery.selectize.min.js
-banner="/*! jquery.selectize.js | https://github.com/diy/jquery-selectize | Apache License (v2) */"
+banner="/*! jquery.selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */"
 
 append_file () {
 	src=$(cat $2 | sed 's/^ *//g' | sed 's/ *$//g' | sed 's.\\.\\\\\\\\\\.g')

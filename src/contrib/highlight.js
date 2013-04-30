@@ -1,9 +1,9 @@
 /**
  * highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
  * Highlights arbitrary terms in a node.
- * 
+ *
  * - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
- * - Modified by Brian Reavis <brian@diy.org> 2012-8-27 (cleanup)
+ * - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
  */
 
 var highlight = function($element, pattern) {
@@ -31,8 +31,8 @@ var highlight = function($element, pattern) {
 			}
 		}
 		return skip;
-	}
-	
+	};
+
 	return $element.each(function() {
 		highlight(this);
 	});

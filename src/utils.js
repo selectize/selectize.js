@@ -1,3 +1,19 @@
+/**
+ * selectize - A highly customizable select control with autocomplete.
+ * Copyright (c) 2012 Brian Reavis
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
+
 var isset = function(object) {
 	return typeof object !== 'undefined';
 };
@@ -93,11 +109,14 @@ var measureString = function(str, $parent) {
 
 var autoGrow = function($input) {
 	var update = function(e) {
+		var value, keyCode, printable, placeholder, width;
+		var shift, character;
+
 		e = e || window.event;
-		var value = $input.val();
+		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keydown') {
-			var keyCode = e.keyCode;
-			var printable = (
+			keyCode = e.keyCode;
+			printable = (
 				(keyCode >= 97 && keyCode <= 122) || // a-z
 				(keyCode >= 65 && keyCode <= 90)  || // A-Z
 				(keyCode >= 48 && keyCode <= 57)  || // 0-9
@@ -105,18 +124,20 @@ var autoGrow = function($input) {
 			);
 
 			if (printable) {
-				var shift = e.shiftKey;
-				var character = String.fromCharCode(e.keyCode);
+				shift = e.shiftKey;
+				character = String.fromCharCode(e.keyCode);
 				if (shift) character = character.toUpperCase();
 				else character = character.toLowerCase();
 				value += character;
 			}
 		}
-		var placeholder = $input.attr('placeholder') || '';
+
+		placeholder = $input.attr('placeholder') || '';
 		if (!value.length && placeholder.length) {
 			value = placeholder;
 		}
-		var width = measureString(value, $input) + 4;
+
+		width = measureString(value, $input) + 4;
 		if (width !== $input.width()) {
 			$input.width(width);
 			$input.triggerHandler('resize');
