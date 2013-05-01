@@ -23,7 +23,6 @@ var Selectize = function($input, settings) {
 
 	this.highlightedValue = null;
 	this.isOpen           = false;
-	this.isFull           = false;
 	this.isLocked         = false;
 	this.isFocused        = false;
 	this.isInputFocused   = false;
@@ -160,6 +159,7 @@ Selectize.prototype.setup = function() {
 	}
 
 	this.updateOriginalInput();
+	this.refreshItems();
 	this.isSetup = true;
 };
 
@@ -231,12 +231,12 @@ Selectize.prototype.onKeyDown = function(e) {
 			this.deleteSelection(e);
 			break;
 		default:
-			if (this.isFull) {
+			if (this.isFull()) {
 				e.preventDefault();
 				return;
 			}
 	}
-	if (!this.isFull) {
+	if (!this.isFull()) {
 		this.$control_input[0].focus();
 	}
 };
@@ -799,17 +799,18 @@ Selectize.prototype.getItem = function(value) {
  * @param {string} value
  */
 Selectize.prototype.addItem = function(value) {
+	var isFull = this.isFull();
 	value = String(value);
-	if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) return;
+
+	if (isFull) return;
 	if (this.items.indexOf(value) !== -1) return;
 	if (!this.options.hasOwnProperty(value)) return;
 
 	this.items.splice(this.caretPos, 0, value);
 	this.insertAtCaret(this.render('item', this.options[value]));
 
-	this.isFull = this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 	this.$control.toggleClass('has-items', true);
-	this.$control.toggleClass('full', this.isFull);
+	this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 
 	if (this.isSetup) {
 		// remove the option from the menu
@@ -863,8 +864,7 @@ Selectize.prototype.removeItem = function(value) {
 
 		this.items.splice(i, 1);
 		this.$control.toggleClass('has-items', this.items.length > 0);
-		this.$control.removeClass('full');
-		this.isFull = false;
+		this.$control.removeClass('full').addClass('not-full');
 		this.lastQuery = null;
 		if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 			this.removeOption(value);
@@ -928,9 +928,9 @@ Selectize.prototype.createItem = function() {
  * Re-renders the selected item lists.
  */
 Selectize.prototype.refreshItems = function() {
+	var isFull = this.isFull();
 	this.lastQuery = null;
-	this.isFull = this.items.length >= this.settings.maxItems;
-	this.$control.toggleClass('full', this.isFull);
+	this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 	this.$control.toggleClass('has-items', this.items.length > 0);
 
 	if (this.isSetup) {
@@ -940,6 +940,16 @@ Selectize.prototype.refreshItems = function() {
 	}
 
 	this.updateOriginalInput();
+};
+
+/**
+ * Determines whether or not more items can be added
+ * to the control without exceeding the user-defined maximum.
+ *
+ * @returns {boolean}
+ */
+Selectize.prototype.isFull = function() {
+	return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 };
 
 /**
