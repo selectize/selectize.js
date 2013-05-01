@@ -16,7 +16,7 @@
 		<script src="../jquery.selectize.js"></script>
 		<script src="_demos.js"></script>
 		<style type="text/css">
-		.selectize-input.contacts > div {
+		.selectize-control.contacts .selectize-input > div {
 			padding: 1px 10px;
 			font-size: 13px;
 			font-weight: normal;
@@ -39,7 +39,7 @@
 			-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 			box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 		}
-		.selectize-input.contacts > div.active {
+		.selectize-control.contacts .selectize-input > div.active {
 			background: #0059c7;
 			background: -moz-linear-gradient(top, #0059c7 0%, #0051c1 100%);
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0059c7), color-stop(100%,#0051c1));
@@ -50,19 +50,19 @@
 			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0059c7', endColorstr='#0051c1',GradientType=0 );
 			border-color: #0051c1;
 		}
-		.selectize-input.contacts > div .email {
+		.selectize-control.contacts .selectize-input > div .email {
 			opacity: 0.8;
 		}
-		.selectize-input.contacts > div .name + .email {
+		.selectize-control.contacts .selectize-input > div .name + .email {
 			margin-left: 5px;
 		}
-		.selectize-input.contacts > div .email:before {
+		.selectize-control.contacts .selectize-input > div .email:before {
 			content: '<';
 		}
-		.selectize-input.contacts > div .email:after {
+		.selectize-control.contacts .selectize-input > div .email:after {
 			content: '>';
 		}
-		.selectize-dropdown.contacts .caption {
+		.selectize-control.contacts .selectize-dropdown .caption {
 			font-size: 12px;
 			display: block;
 			color: #a0a0a0;
@@ -81,10 +81,10 @@
 				</div>
 				<script>
 				// <select id="select-to"></select>
-				
-				var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' + 
+
+				var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
 				                  '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
-				
+
 				$('#select-to').selectize({
 					theme: 'contacts',
 					persist: false,
@@ -106,7 +106,7 @@
 						},
 						option: function(item) {
 							var label = item.name || item.email;
-							var caption = item.name ? item.email : null;							
+							var caption = item.name ? item.email : null;
 							return '<div>' +
 								'<span class="label">' + label + '</span>' +
 								(caption ? '<span class="caption">' + caption + '</span>' : '') +

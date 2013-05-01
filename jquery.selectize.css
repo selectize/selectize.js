@@ -2,7 +2,7 @@
  * THEME: "default"                                       *
  **********************************************************/
 
-.selectize-input.default > div {
+.selectize-control.default.multi .selectize-input > div {
 	color: #3d5d18;
 	text-shadow: 0 1px 0 rgba(255,255,255,0.1);
 	border: 1px solid #74b21e;
@@ -21,7 +21,7 @@
 	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
-.selectize-input.default > div.active {
+.selectize-control.default.multi .selectize-input > div.active {
 	border-color: #6f9839;
 	background: #92c836;
 	background: -moz-linear-gradient(top,  #92c836 0%, #006e2e 0%, #92c836 0%, #7abc2c 100%);
@@ -34,10 +34,10 @@
 }
 
 /**********************************************************
- * BASIC AESTHETIC STYLES                                 *
+ * BASIC AESTHETIC STYLES (common)                        *
  **********************************************************/
 
-.selectize-input {
+.selectize-input, .selectize-control.single .selectize-input.focus {
 	background: #fff;
 	padding: 10px;
 	cursor: text;
@@ -74,8 +74,8 @@
 	right: 0;
 }
 .selectize-input.has-items {
-	padding-top: 8px;
-	padding-bottom: 3px;
+	padding-top: 8px !important;
+	padding-bottom: 3px !important;
 }
 .selectize-input > div {
 	cursor: pointer;
@@ -124,6 +124,50 @@
 .selectize-dropdown .highlight {
 	font-weight: bold;
 }
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (single)                        *
+ **********************************************************/
+
+.selectize-control.single .selectize-input {
+	cursor: pointer;
+	border-color: #aeaeae;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.05);
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.05);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.4), 0 1px 0 rgba(0,0,0,0.05);
+	background: #f6f6f6;
+	background: -moz-linear-gradient(top, #f8f8f8 0%, #e6e6e6 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e6e6e6));
+	background: -webkit-linear-gradient(top, #f8f8f8 0%,#e6e6e6 100%);
+	background: -o-linear-gradient(top, #f8f8f8 0%,#e6e6e6 100%);
+	background: -ms-linear-gradient(top, #f8f8f8 0%,#e6e6e6 100%);
+	background: linear-gradient(to bottom, #f8f8f8 0%,#e6e6e6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#e8e8e8',GradientType=0 );
+}
+
+.selectize-control.single .selectize-input::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	margin-top: -2px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 5px 5px 0 5px;
+	border-color: #808080 transparent transparent transparent;
+}
+
+.selectize-control.single .selectize-input.dropdown-active::after {
+	margin-top: -3px;
+	border-width: 0 5px 5px 5px;
+	border-color: transparent transparent #808080 transparent;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (multi)                         *
+ **********************************************************/
 
 /**********************************************************
  * LAYOUT STYLES (mandatory)                              *

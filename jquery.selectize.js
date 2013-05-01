@@ -139,6 +139,7 @@
 		labelField: 'text',
 		searchField: ['text'],
 	
+		mode: null,
 		theme: 'default',
 		wrapperClass: 'selectize-control',
 		inputClass: 'selectize-input',
@@ -385,7 +386,6 @@
 	
 		this.highlightedValue = null;
 		this.isOpen           = false;
-		this.isFull           = false;
 		this.isLocked         = false;
 		this.isFocused        = false;
 		this.isInputFocused   = false;
@@ -430,24 +430,29 @@
 		var $control;
 		var $control_input;
 		var $dropdown;
+		var inputMode;
 		var displayMode;
 		var timeout_blur;
 		var timeout_focus;
 	
-		if ((this.settings.maxItems === null || this.settings.maxItems > 1) && this.tagType === TAG_SELECT) {
-			this.$input.attr('multiple', 'multiple');
-		}
-	
 		$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);
-		$control       = $('<div>').addClass(this.settings.inputClass).addClass(this.settings.theme).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
+		$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 		$control_input = $('<input type="text">').appendTo($control);
-		$dropdown      = $('<div>').addClass(this.settings.dropdownClass).addClass(this.settings.theme).hide().appendTo($wrapper);
+		$dropdown      = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
 	
 		displayMode = this.$input.css('display');
 		$wrapper.css({
 			width: this.$input[0].style.width,
 			display: displayMode
 		});
+	
+		inputMode = this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+		$wrapper.toggleClass('single', inputMode === 'single');
+		$wrapper.toggleClass('multi', inputMode === 'multi');
+	
+		if ((this.settings.maxItems === null || this.settings.maxItems > 1) && this.tagType === TAG_SELECT) {
+			this.$input.attr('multiple', 'multiple');
+		}
 	
 		if (this.settings.placeholder) {
 			$control_input.attr('placeholder', this.settings.placeholder);
@@ -522,6 +527,7 @@
 		}
 	
 		this.updateOriginalInput();
+		this.refreshItems();
 		this.isSetup = true;
 	};
 	
@@ -593,12 +599,12 @@
 				this.deleteSelection(e);
 				break;
 			default:
-				if (this.isFull) {
+				if (this.isFull()) {
 					e.preventDefault();
 					return;
 				}
 		}
-		if (!this.isFull) {
+		if (!this.isFull()) {
 			this.$control_input[0].focus();
 		}
 	};
@@ -1161,17 +1167,21 @@
 	* @param {string} value
 	*/
 	Selectize.prototype.addItem = function(value) {
+		var inputMode = this.settings.mode;
+		var isFull = this.isFull();
 		value = String(value);
-		if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) return;
+	
+		if (inputMode === 'single') this.clear();
+		if (inputMode === 'multi' && isFull) return;
 		if (this.items.indexOf(value) !== -1) return;
 		if (!this.options.hasOwnProperty(value)) return;
 	
 		this.items.splice(this.caretPos, 0, value);
 		this.insertAtCaret(this.render('item', this.options[value]));
 	
-		this.isFull = this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
+		isFull = this.isFull();
 		this.$control.toggleClass('has-items', true);
-		this.$control.toggleClass('full', this.isFull);
+		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 	
 		if (this.isSetup) {
 			// remove the option from the menu
@@ -1225,8 +1235,7 @@
 	
 			this.items.splice(i, 1);
 			this.$control.toggleClass('has-items', this.items.length > 0);
-			this.$control.removeClass('full');
-			this.isFull = false;
+			this.$control.removeClass('full').addClass('not-full');
 			this.lastQuery = null;
 			if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 				this.removeOption(value);
@@ -1290,9 +1299,9 @@
 	* Re-renders the selected item lists.
 	*/
 	Selectize.prototype.refreshItems = function() {
+		var isFull = this.isFull();
 		this.lastQuery = null;
-		this.isFull = this.items.length >= this.settings.maxItems;
-		this.$control.toggleClass('full', this.isFull);
+		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 		this.$control.toggleClass('has-items', this.items.length > 0);
 	
 		if (this.isSetup) {
@@ -1302,6 +1311,16 @@
 		}
 	
 		this.updateOriginalInput();
+	};
+	
+	/**
+	* Determines whether or not more items can be added
+	* to the control without exceeding the user-defined maximum.
+	*
+	* @returns {boolean}
+	*/
+	Selectize.prototype.isFull = function() {
+		return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 	};
 	
 	/**
@@ -1347,7 +1366,7 @@
 	* the available options.
 	*/
 	Selectize.prototype.open = function() {
-		if (this.isOpen || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) return;
+		if (this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
 		this.isOpen = true;
 		this.positionDropdown();
 		this.$control.addClass('dropdown-active');
@@ -1384,6 +1403,7 @@
 	* from the control.
 	*/
 	Selectize.prototype.clear = function() {
+		if (!this.items.length) return;
 		this.$control.removeClass('has-items');
 		this.$control.children(':not(input)').remove();
 		this.items = [];

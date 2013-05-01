@@ -33,6 +33,7 @@ var defaults = {
 	labelField: 'text',
 	searchField: ['text'],
 
+	mode: null,
 	theme: 'default',
 	wrapperClass: 'selectize-control',
 	inputClass: 'selectize-input',
