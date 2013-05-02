@@ -1192,7 +1192,7 @@ Selectize.prototype.advanceCaret = function(direction, e) {
  * @param {boolean} focus
  */
 Selectize.prototype.setCaret = function(i, focus) {
-	if (this.settings.mode === 'single') {
+	if (this.settings.mode === 'single' || this.isFull()) {
 		i = this.items.length;
 	} else {
 		i = Math.max(0, Math.min(this.items.length, i));
