@@ -73,11 +73,11 @@
 	left: 0;
 	right: 0;
 }
-.selectize-input.has-items {
+.selectize-control.multi .selectize-input.has-items {
 	padding-top: 8px !important;
 	padding-bottom: 3px !important;
 }
-.selectize-input > div {
+.selectize-control.multi .selectize-input > div {
 	cursor: pointer;
 	margin: 0 5px 5px 0;
 	padding: 1px 5px;
@@ -190,7 +190,7 @@
 	display: inline;
 }
 .selectize-input > * {
-	vertical-align: middle;
+	vertical-align: baseline;
 	display: -moz-inline-stack;
 	display: inline-block;
 	zoom: 1;
@@ -203,7 +203,7 @@
 	background: none !important;
 	padding: 0 !important;
 	margin: 0;
-	line-height: 100% !important;
+	line-height: inherit !important;
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
