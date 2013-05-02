@@ -341,9 +341,11 @@ Selectize.prototype.onOptionSelect = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onItemSelect = function(e) {
-	this.$control_input.trigger('blur');
-	this.setActiveItem(e.currentTarget, e);
-	e.stopPropagation();
+	if (this.settings.mode === 'multi') {
+		this.$control_input.trigger('blur');
+		this.setActiveItem(e.currentTarget, e);
+		e.stopPropagation();
+	}
 };
 
 /**
@@ -1190,8 +1192,13 @@ Selectize.prototype.advanceCaret = function(direction, e) {
  * @param {boolean} focus
  */
 Selectize.prototype.setCaret = function(i, focus) {
+	if (this.settings.mode === 'single') {
+		i = this.items.length;
+	} else {
+		i = Math.max(0, Math.min(this.items.length, i));
+	}
+
 	this.ignoreFocus = true;
-	i = Math.max(0, Math.min(this.items.length, i));
 	this.$control_input.detach();
 	if (i === this.items.length) {
 		this.$control.append(this.$control_input);
@@ -1202,6 +1209,7 @@ Selectize.prototype.setCaret = function(i, focus) {
 	if (focus && this.isSetup) {
 		this.$control_input[0].focus();
 	}
+
 	this.caretPos = i;
 };
 
