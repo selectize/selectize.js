@@ -55,6 +55,12 @@ var Selectize = function($input, settings) {
 		delete this.settings.options;
 	}
 
+	// option-dependent defaults
+	this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+	if (typeof this.settings.hideSelected !== 'boolean') {
+		this.settings.hideSelected = this.settings.mode === 'multi';
+	}
+
 	this.setup();
 };
 
@@ -83,7 +89,7 @@ Selectize.prototype.setup = function() {
 		display: displayMode
 	});
 
-	inputMode = this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+	inputMode = this.settings.mode;
 	$wrapper.toggleClass('single', inputMode === 'single');
 	$wrapper.toggleClass('multi', inputMode === 'multi');
 
@@ -661,9 +667,11 @@ Selectize.prototype.search = function(query, settings) {
  * @returns {object}
  */
 Selectize.prototype.prepareResults = function(results, settings) {
-	for (var i = results.items.length - 1; i >= 0; i--) {
-		if (this.items.indexOf(String(results.items[i].value)) !== -1) {
-			results.items.splice(i, 1);
+	if (this.settings.hideSelected) {
+		for (var i = results.items.length - 1; i >= 0; i--) {
+			if (this.items.indexOf(String(results.items[i].value)) !== -1) {
+				results.items.splice(i, 1);
+			}
 		}
 	}
 
@@ -692,6 +700,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	var results = this.search(query, {});
 	var html = [];
 
+	// build markup
 	n = results.items.length;
 	if (typeof this.settings.maxOptions === 'number') {
 		n = Math.min(n, this.settings.maxOptions);
@@ -702,16 +711,27 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 
 	this.$dropdown.html(html.join(''));
 
+	// highlight matching terms inline
 	if (this.settings.highlight && results.query.length && results.tokens.length) {
 		for (i = 0, n = results.tokens.length; i < n; i++) {
 			highlight(this.$dropdown, results.tokens[i].regex);
 		}
 	}
 
+	// add "selected" class to selected options
+	if (!this.settings.hideSelected) {
+		for (i = 0, n = this.items.length; i < n; i++) {
+			this.getOption(this.items[i]).addClass('selected');
+		}
+	}
+
+	// add create option
 	hasCreateOption = this.settings.create && results.query.length;
 	if (hasCreateOption) {
 		this.$dropdown.prepend(this.render('option_create', {input: query}));
 	}
+
+	// activate
 	this.hasOptions = results.items.length > 0 || hasCreateOption;
 	if (this.hasOptions) {
 		this.setActiveOption(this.$dropdown[0].childNodes[hasCreateOption && results.items.length > 0 ? 1 : 0]);
@@ -778,6 +798,17 @@ Selectize.prototype.removeOption = function(value) {
 };
 
 /**
+ * Returns the jQuery element of the option
+ * matching the given value.
+ *
+ * @param {string} value
+ * @returns {object}
+ */
+Selectize.prototype.getOption = function(value) {
+	return this.$dropdown.children('[data-value=' + value + ']:first');
+};
+
+/**
  * Returns the jQuery element of the item
  * matching the given value.
  *
@@ -785,16 +816,15 @@ Selectize.prototype.removeOption = function(value) {
  * @returns {object}
  */
 Selectize.prototype.getItem = function(value) {
-	var $item = $();
 	var i = this.items.indexOf(value);
 	if (i !== -1) {
 		if (i >= this.caretPos) i++;
 		var $el = $(this.$control[0].childNodes[i]);
 		if ($el.attr('data-value') === value) {
-			$item = $el;
+			return $el;
 		}
 	}
-	return $item;
+	return $();
 };
 
 /**

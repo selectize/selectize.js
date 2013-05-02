@@ -23,6 +23,7 @@ var defaults = {
 	openOnFocus: true,
 	maxOptions: 1000,
 	maxItems: null,
+	hideSelected: null,
 
 	scrollDuration: 60,
 
@@ -50,30 +51,32 @@ $.fn.selectize = function (settings) {
 	settings = settings || {};
 
 	return this.each(function() {
-		var $input = $(this);
-		var instance;
-		var tagName = $input[0].tagName.toLowerCase();
+		var instance, value, values, i, n, data, settings_element, tagName;
+		var $options, $option, $input = $(this);
+
+		tagName = $input[0].tagName.toLowerCase();
 
 		if (typeof settings === 'string') {
 			instance = $input.data('selectize');
 			instance[settings].apply(instance, Array.prototype.splice.apply(arguments, 1));
 		} else {
-			var settings_element = {};
+			settings_element = {};
 			settings_element.placeholder = $input.attr('placeholder');
 			settings_element.options = {};
 			settings_element.items = [];
 
 			if (tagName === 'select') {
 				settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
-				var $options = $input.children();
-				for (var i = 0; i < $options.length; i++) {
-					var $option = $($options[i]);
-					var value = $option.attr('value') || '';
+				$options = $input.children();
+				for (i = 0, n = $options.length; i < n; i++) {
+					$option = $($options[i]);
+					value = $option.attr('value') || '';
 					if (!value.length) continue;
-					var data = (settings.dataAttr && $option.attr(settings.dataAttr)) || {
+					data = (settings.dataAttr && $option.attr(settings.dataAttr)) || {
 						'text'  : $option.html(),
 						'value' : value
 					};
+
 					if (typeof data === 'string') data = JSON.parse(data);
 					settings_element.options[value] = data;
 					if ($option.is(':selected')) {
@@ -81,10 +84,10 @@ $.fn.selectize = function (settings) {
 					}
 				}
 			} else {
-				var value = $.trim($input.val() || '');
+				value = $.trim($input.val() || '');
 				if (value.length) {
-					var values = value.split(settings.delimiter || $.fn.selectize.defaults.delimiter);
-					for (var i = 0; i < values.length; i++) {
+					values = value.split(settings.delimiter || $.fn.selectize.defaults.delimiter);
+					for (i = 0, n = values.length; i < n; i++) {
 						settings_element.options[values[i]] = {
 							'text'  : values[i],
 							'value' : values[i]
@@ -93,6 +96,7 @@ $.fn.selectize = function (settings) {
 					settings_element.items = values;
 				}
 			}
+
 			instance = new Selectize($input, $.extend(true, {}, $.fn.selectize.defaults, settings_element, settings));
 			$input.data('selectize', instance);
 			$input.addClass('selectized');

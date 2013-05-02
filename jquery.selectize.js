@@ -129,6 +129,7 @@
 		openOnFocus: true,
 		maxOptions: 1000,
 		maxItems: null,
+		hideSelected: null,
 	
 		scrollDuration: 60,
 	
@@ -156,30 +157,32 @@
 		settings = settings || {};
 	
 		return this.each(function() {
-			var $input = $(this);
-			var instance;
-			var tagName = $input[0].tagName.toLowerCase();
+			var instance, value, values, i, n, data, settings_element, tagName;
+			var $options, $option, $input = $(this);
+	
+			tagName = $input[0].tagName.toLowerCase();
 	
 			if (typeof settings === 'string') {
 				instance = $input.data('selectize');
 				instance[settings].apply(instance, Array.prototype.splice.apply(arguments, 1));
 			} else {
-				var settings_element = {};
+				settings_element = {};
 				settings_element.placeholder = $input.attr('placeholder');
 				settings_element.options = {};
 				settings_element.items = [];
 	
 				if (tagName === 'select') {
 					settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
-					var $options = $input.children();
-					for (var i = 0; i < $options.length; i++) {
-						var $option = $($options[i]);
-						var value = $option.attr('value') || '';
+					$options = $input.children();
+					for (i = 0, n = $options.length; i < n; i++) {
+						$option = $($options[i]);
+						value = $option.attr('value') || '';
 						if (!value.length) continue;
-						var data = (settings.dataAttr && $option.attr(settings.dataAttr)) || {
+						data = (settings.dataAttr && $option.attr(settings.dataAttr)) || {
 							'text'  : $option.html(),
 							'value' : value
 						};
+	
 						if (typeof data === 'string') data = JSON.parse(data);
 						settings_element.options[value] = data;
 						if ($option.is(':selected')) {
@@ -187,10 +190,10 @@
 						}
 					}
 				} else {
-					var value = $.trim($input.val() || '');
+					value = $.trim($input.val() || '');
 					if (value.length) {
-						var values = value.split(settings.delimiter || $.fn.selectize.defaults.delimiter);
-						for (var i = 0; i < values.length; i++) {
+						values = value.split(settings.delimiter || $.fn.selectize.defaults.delimiter);
+						for (i = 0, n = values.length; i < n; i++) {
 							settings_element.options[values[i]] = {
 								'text'  : values[i],
 								'value' : values[i]
@@ -199,6 +202,7 @@
 						settings_element.items = values;
 					}
 				}
+	
 				instance = new Selectize($input, $.extend(true, {}, $.fn.selectize.defaults, settings_element, settings));
 				$input.data('selectize', instance);
 				$input.addClass('selectized');
@@ -418,6 +422,12 @@
 			delete this.settings.options;
 		}
 	
+		// option-dependent defaults
+		this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+		if (typeof this.settings.hideSelected !== 'boolean') {
+			this.settings.hideSelected = this.settings.mode === 'multi';
+		}
+	
 		this.setup();
 	};
 	
@@ -446,7 +456,7 @@
 			display: displayMode
 		});
 	
-		inputMode = this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+		inputMode = this.settings.mode;
 		$wrapper.toggleClass('single', inputMode === 'single');
 		$wrapper.toggleClass('multi', inputMode === 'multi');
 	
@@ -1024,9 +1034,11 @@
 	* @returns {object}
 	*/
 	Selectize.prototype.prepareResults = function(results, settings) {
-		for (var i = results.items.length - 1; i >= 0; i--) {
-			if (this.items.indexOf(String(results.items[i].value)) !== -1) {
-				results.items.splice(i, 1);
+		if (this.settings.hideSelected) {
+			for (var i = results.items.length - 1; i >= 0; i--) {
+				if (this.items.indexOf(String(results.items[i].value)) !== -1) {
+					results.items.splice(i, 1);
+				}
 			}
 		}
 	
@@ -1055,6 +1067,7 @@
 		var results = this.search(query, {});
 		var html = [];
 	
+		// build markup
 		n = results.items.length;
 		if (typeof this.settings.maxOptions === 'number') {
 			n = Math.min(n, this.settings.maxOptions);
@@ -1065,16 +1078,27 @@
 	
 		this.$dropdown.html(html.join(''));
 	
+		// highlight matching terms inline
 		if (this.settings.highlight && results.query.length && results.tokens.length) {
 			for (i = 0, n = results.tokens.length; i < n; i++) {
 				highlight(this.$dropdown, results.tokens[i].regex);
 			}
 		}
 	
+		// add "selected" class to selected options
+		if (!this.settings.hideSelected) {
+			for (i = 0, n = this.items.length; i < n; i++) {
+				this.getOption(this.items[i]).addClass('selected');
+			}
+		}
+	
+		// add create option
 		hasCreateOption = this.settings.create && results.query.length;
 		if (hasCreateOption) {
 			this.$dropdown.prepend(this.render('option_create', {input: query}));
 		}
+	
+		// activate
 		this.hasOptions = results.items.length > 0 || hasCreateOption;
 		if (this.hasOptions) {
 			this.setActiveOption(this.$dropdown[0].childNodes[hasCreateOption && results.items.length > 0 ? 1 : 0]);
@@ -1141,6 +1165,17 @@
 	};
 	
 	/**
+	* Returns the jQuery element of the option
+	* matching the given value.
+	*
+	* @param {string} value
+	* @returns {object}
+	*/
+	Selectize.prototype.getOption = function(value) {
+		return this.$dropdown.children('[data-value=' + value + ']:first');
+	};
+	
+	/**
 	* Returns the jQuery element of the item
 	* matching the given value.
 	*
@@ -1148,16 +1183,15 @@
 	* @returns {object}
 	*/
 	Selectize.prototype.getItem = function(value) {
-		var $item = $();
 		var i = this.items.indexOf(value);
 		if (i !== -1) {
 			if (i >= this.caretPos) i++;
 			var $el = $(this.$control[0].childNodes[i]);
 			if ($el.attr('data-value') === value) {
-				$item = $el;
+				return $el;
 			}
 		}
-		return $item;
+		return $();
 	};
 	
 	/**
