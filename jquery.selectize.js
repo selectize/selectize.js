@@ -146,6 +146,16 @@
 		inputClass: 'selectize-input',
 		dropdownClass: 'selectize-dropdown',
 	
+		onChange        : null, // function(value)
+		onItemAdd       : null, // function(value, $item) { ... }
+		onItemRemove    : null, // function(value) { ... }
+		onClear         : null, // function() { ... }
+		onOptionAdd     : null, // function(value, data) { ... }
+		onOptionRemove  : null, // function(value) { ... }
+		onDropdownOpen  : null, // function($dropdown) { ... }
+		onDropdownClose : null, // function($dropdown) { ... }
+		onType          : null, // function(str) { ... }
+	
 		render: {
 			item: null,
 			option: null,
@@ -543,6 +553,20 @@
 	};
 	
 	/**
+	* Triggers a callback defined in the user-provided settings.
+	* Events: onItemAdd, onOptionAdd, etc
+	*
+	* @param {string} event
+	*/
+	Selectize.prototype.trigger = function(event) {
+		var args;
+		if (typeof this.settings[event] === 'function') {
+			args = Array.prototype.slice.apply(arguments, [1]);
+			this.settings.event.apply(this, args);
+		}
+	};
+	
+	/**
 	* Triggered on <input> keypress.
 	*
 	* @param {object} e
@@ -632,6 +656,7 @@
 		if (this.lastValue !== value) {
 			this.lastValue = value;
 			this.refreshOptions();
+			this.trigger('onType', value);
 		}
 	};
 	
@@ -1127,6 +1152,7 @@
 		this.userOptions[value] = true;
 		this.options[value] = data;
 		this.lastQuery = null;
+		this.trigger('onOptionAdd', value, data);
 	};
 	
 	/**
@@ -1165,6 +1191,7 @@
 		delete this.userOptions[value];
 		delete this.options[value];
 		this.lastQuery = null;
+		this.trigger('onOptionRemove', value);
 	};
 	
 	/**
@@ -1204,6 +1231,7 @@
 	* @param {string} value
 	*/
 	Selectize.prototype.addItem = function(value) {
+		var $item;
 		var inputMode = this.settings.mode;
 		var isFull = this.isFull();
 		value = String(value);
@@ -1213,8 +1241,9 @@
 		if (this.items.indexOf(value) !== -1) return;
 		if (!this.options.hasOwnProperty(value)) return;
 	
+		$item = $(this.render('item', this.options[value]));
 		this.items.splice(this.caretPos, 0, value);
-		this.insertAtCaret(this.render('item', this.options[value]));
+		this.insertAtCaret($item);
 	
 		isFull = this.isFull();
 		this.$control.toggleClass('has-items', true);
@@ -1247,6 +1276,7 @@
 			}
 	
 			this.updateOriginalInput();
+			this.trigger('onItemAdd', value, $item);
 		}
 	};
 	
@@ -1286,6 +1316,7 @@
 	
 			this.updatePlaceholder();
 			this.updateOriginalInput();
+			this.trigger('onItemRemove', value);
 		}
 	};
 	
@@ -1379,7 +1410,11 @@
 		} else {
 			this.$input.val(this.getValue());
 		}
+	
 		this.$input.trigger('change');
+		if (this.isSetup) {
+			this.trigger('onChange', this.$input.val());
+		}
 	};
 	
 	/**
@@ -1408,15 +1443,18 @@
 		this.positionDropdown();
 		this.$control.addClass('dropdown-active');
 		this.$dropdown.show();
+		this.trigger('onDropdownOpen', this.$dropdown);
 	};
 	
 	/**
 	* Closes the autocomplete dropdown menu.
 	*/
 	Selectize.prototype.close = function() {
+		if (!this.isOpen) return;
 		this.$dropdown.hide();
 		this.$control.removeClass('dropdown-active');
 		this.isOpen = false;
+		this.trigger('onDropdownClose', this.$dropdown);
 	};
 	
 	/**
@@ -1447,6 +1485,7 @@
 		this.setCaret(0);
 		this.updatePlaceholder();
 		this.updateOriginalInput();
+		this.trigger('onClear');
 	};
 	
 	/**

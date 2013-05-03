@@ -40,6 +40,16 @@ var defaults = {
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 
+	onChange        : null, // function(value)
+	onItemAdd       : null, // function(value, $item) { ... }
+	onItemRemove    : null, // function(value) { ... }
+	onClear         : null, // function() { ... }
+	onOptionAdd     : null, // function(value, data) { ... }
+	onOptionRemove  : null, // function(value) { ... }
+	onDropdownOpen  : null, // function($dropdown) { ... }
+	onDropdownClose : null, // function($dropdown) { ... }
+	onType          : null, // function(str) { ... }
+
 	render: {
 		item: null,
 		option: null,

@@ -176,6 +176,20 @@ Selectize.prototype.setup = function() {
 };
 
 /**
+ * Triggers a callback defined in the user-provided settings.
+ * Events: onItemAdd, onOptionAdd, etc
+ *
+ * @param {string} event
+ */
+Selectize.prototype.trigger = function(event) {
+	var args;
+	if (typeof this.settings[event] === 'function') {
+		args = Array.prototype.slice.apply(arguments, [1]);
+		this.settings.event.apply(this, args);
+	}
+};
+
+/**
  * Triggered on <input> keypress.
  *
  * @param {object} e
@@ -265,6 +279,7 @@ Selectize.prototype.onKeyUp = function(e) {
 	if (this.lastValue !== value) {
 		this.lastValue = value;
 		this.refreshOptions();
+		this.trigger('onType', value);
 	}
 };
 
@@ -760,6 +775,7 @@ Selectize.prototype.addOption = function(value, data) {
 	this.userOptions[value] = true;
 	this.options[value] = data;
 	this.lastQuery = null;
+	this.trigger('onOptionAdd', value, data);
 };
 
 /**
@@ -798,6 +814,7 @@ Selectize.prototype.removeOption = function(value) {
 	delete this.userOptions[value];
 	delete this.options[value];
 	this.lastQuery = null;
+	this.trigger('onOptionRemove', value);
 };
 
 /**
@@ -837,6 +854,7 @@ Selectize.prototype.getItem = function(value) {
  * @param {string} value
  */
 Selectize.prototype.addItem = function(value) {
+	var $item;
 	var inputMode = this.settings.mode;
 	var isFull = this.isFull();
 	value = String(value);
@@ -846,8 +864,9 @@ Selectize.prototype.addItem = function(value) {
 	if (this.items.indexOf(value) !== -1) return;
 	if (!this.options.hasOwnProperty(value)) return;
 
+	$item = $(this.render('item', this.options[value]));
 	this.items.splice(this.caretPos, 0, value);
-	this.insertAtCaret(this.render('item', this.options[value]));
+	this.insertAtCaret($item);
 
 	isFull = this.isFull();
 	this.$control.toggleClass('has-items', true);
@@ -880,6 +899,7 @@ Selectize.prototype.addItem = function(value) {
 		}
 
 		this.updateOriginalInput();
+		this.trigger('onItemAdd', value, $item);
 	}
 };
 
@@ -919,6 +939,7 @@ Selectize.prototype.removeItem = function(value) {
 
 		this.updatePlaceholder();
 		this.updateOriginalInput();
+		this.trigger('onItemRemove', value);
 	}
 };
 
@@ -1014,6 +1035,9 @@ Selectize.prototype.updateOriginalInput = function() {
 	}
 
 	this.$input.trigger('change');
+	if (this.isSetup) {
+		this.trigger('onChange', this.$input.val());
+	}
 };
 
 /**
@@ -1042,15 +1066,18 @@ Selectize.prototype.open = function() {
 	this.positionDropdown();
 	this.$control.addClass('dropdown-active');
 	this.$dropdown.show();
+	this.trigger('onDropdownOpen', this.$dropdown);
 };
 
 /**
  * Closes the autocomplete dropdown menu.
  */
 Selectize.prototype.close = function() {
+	if (!this.isOpen) return;
 	this.$dropdown.hide();
 	this.$control.removeClass('dropdown-active');
 	this.isOpen = false;
+	this.trigger('onDropdownClose', this.$dropdown);
 };
 
 /**
@@ -1081,6 +1108,7 @@ Selectize.prototype.clear = function() {
 	this.setCaret(0);
 	this.updatePlaceholder();
 	this.updateOriginalInput();
+	this.trigger('onClear');
 };
 
 /**
