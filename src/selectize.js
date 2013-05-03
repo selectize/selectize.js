@@ -171,6 +171,7 @@ Selectize.prototype.setup = function() {
 
 	this.updateOriginalInput();
 	this.refreshItems();
+	this.updatePlaceholder();
 	this.isSetup = true;
 };
 

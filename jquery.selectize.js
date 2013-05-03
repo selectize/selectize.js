@@ -538,6 +538,7 @@
 	
 		this.updateOriginalInput();
 		this.refreshItems();
+		this.updatePlaceholder();
 		this.isSetup = true;
 	};
 	
