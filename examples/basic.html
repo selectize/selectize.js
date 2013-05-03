@@ -19,7 +19,7 @@
     <body>
 		<div id="wrapper">
 			<h1>Selectize Demos</h1>
-			
+
 			<div class="demo">
 				<h2>&lt;input type="text"&gt;</h2>
 				<div class="control-group">
@@ -39,13 +39,13 @@
 				});
 				</script>
 			</div>
-			
+
 			<div class="demo">
 				<h2>&lt;select&gt;</h2>
 				<div class="control-group">
 					<label for="select-beast">Beast:</label>
-					<select id="select-beast" class="demo-default" placeholder="Pick something...">
-						<option value="">Select a beast...</option>
+					<select id="select-beast" class="demo-default" placeholder="Select a person...">
+						<option value="">Select a person...</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
 						<option value="3">Nikola Tesla</option>
@@ -58,12 +58,13 @@
 				});
 				</script>
 			</div>
-			
+
 			<div class="demo">
 				<h2>&lt;select multiple&gt;</h2>
 				<div class="control-group">
 					<label for="select-state">States:</label>
-					<select id="select-state" name="state[]" multiple class="demo-default" style="width:50%">
+					<select id="select-state" name="state[]" multiple class="demo-default" style="width:50%" placeholder="Select a state...">
+						<option value="">Select a state...</option>
 						<option value="AL">Alabama</option>
 						<option value="AK">Alaska</option>
 						<option value="AZ">Arizona</option>
@@ -126,8 +127,9 @@
 			<div class="demo">
 				<div class="control-group">
 					<label for="select-country">Country:</label>
-					<select id="select-country" class="demo-default">
-					    <option value="AF">Afghanistan</option>
+					<select id="select-country" class="demo-default" placeholder="Select a country...">
+					    <option value="">Select a country...</option>
+						<option value="AF">Afghanistan</option>
 					    <option value="AX">&Aring;land Islands</option>
 					    <option value="AL">Albania</option>
 					    <option value="DZ">Algeria</option>
