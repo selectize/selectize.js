@@ -808,7 +808,7 @@ Selectize.prototype.removeOption = function(value) {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return this.$dropdown.children('[data-value=' + value + ']:first');
+	return this.$dropdown.children('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first');
 };
 
 /**
@@ -950,12 +950,12 @@ Selectize.prototype.createItem = function() {
 		self.$control_input[0].focus();
 
 		var value = data && data[self.settings.valueField];
-		if (!isset(value) || !value) return;
+		if (!value) return;
 
 		self.addOption(value, data);
 		self.setCaret(caret, false);
 		self.addItem(value);
-		self.refreshOptions();
+		self.refreshOptions(false);
 		self.$control_input.val('');
 	});
 
@@ -1003,7 +1003,7 @@ Selectize.prototype.updateOriginalInput = function() {
 	if (this.$input[0].tagName.toLowerCase() === 'select') {
 		options = [];
 		for (i = 0, n = this.items.length; i < n; i++) {
-			options.push('<option value=' + htmlEntities(this.items[i]) + ' selected="selected"></option>');
+			options.push('<option value="' + htmlEntities(this.items[i]) + '" selected="selected"></option>');
 		}
 		if (!options.length && !this.$input.attr('multiple')) {
 			options.push('<option value="" selected="selected"></option>');
@@ -1012,6 +1012,7 @@ Selectize.prototype.updateOriginalInput = function() {
 	} else {
 		this.$input.val(this.getValue());
 	}
+
 	this.$input.trigger('change');
 };
 
