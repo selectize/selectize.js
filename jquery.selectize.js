@@ -1515,11 +1515,12 @@
 		var selection = getSelection(this.$control_input[0]);
 	
 		if (this.isInputFocused) {
+			var valueLength = this.$control_input.val().length;
 			var cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
-				: selection.start === this.$control_input.val().length;
+				: selection.start === valueLength;
 	
-			if (cursorAtEdge) {
+			if (cursorAtEdge && !valueLength) {
 				this.advanceCaret(direction, e);
 			}
 		} else {
