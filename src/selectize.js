@@ -770,6 +770,13 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
  * @param {object} data
  */
 Selectize.prototype.addOption = function(value, data) {
+	if ($.isArray(value)) {
+		for (var i = 0, n = value.length; i < n; i++) {
+			this.addOption(value[i][this.settings.valueField], value[i]);
+		}
+		return;
+	}
+
 	if (this.options.hasOwnProperty(value)) return;
 	value = String(value);
 	this.userOptions[value] = true;
