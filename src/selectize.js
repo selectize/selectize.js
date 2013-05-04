@@ -532,6 +532,81 @@ Selectize.prototype.parseSearchTokens = function(query) {
 };
 
 /**
+ * Returns a function to be used to score individual results.
+ * Results will be sorted by the score (descending). Scores less
+ * than or equal to zero (no match) will not be included in the results.
+ *
+ * @param {object} data
+ * @param {object} search
+ * @returns {function}
+ */
+Selectize.prototype.getScoreCallback = function(search) {
+	var self = this;
+	var tokens = search.tokens;
+
+	var calculateFieldScore = (function() {
+		if (!tokens.length) {
+			return function() { return 0; };
+		} else if (tokens.length === 1) {
+			return function(value) {
+				var score, pos;
+
+				value = String(value || '').toLowerCase();
+				pos = value.search(tokens[0].regex);
+				if (pos === -1) return 0;
+				score = tokens[0].string.length / value.length;
+				if (pos === 0) score += 0.5;
+				return score;
+			};
+		} else {
+			return function(value) {
+				var score, pos, i, j;
+
+				value = String(value || '').toLowerCase();
+				score = 0;
+				for (i = 0, j = tokens.length; i < j; i++) {
+					pos = value.search(tokens[i].regex);
+					if (pos === -1) return 0;
+					if (pos === 0) score += 0.5;
+					score += tokens[i].string.length / value.length;
+				}
+				return score / tokens.length;
+			};
+		}
+	})();
+
+	var calculateScore = (function() {
+		var fields = self.settings.searchField;
+		if (typeof fields === 'string') {
+			fields = [fields];
+		}
+		if (!fields || !fields.length) {
+			return function() { return 0; };
+		} else if (fields.length === 1) {
+			var field = fields[0];
+			return function(data) {
+				if (!data.hasOwnProperty(field)) return 0;
+				return calculateFieldScore(data[field]);
+			};
+		} else {
+			return function(data) {
+				var n = 0;
+				var score = 0;
+				for (var i = 0, j = fields.length; i < j; i++) {
+					if (data.hasOwnProperty(fields[i])) {
+						score += calculateFieldScore(data[fields[i]]);
+						n++;
+					}
+				}
+				return score / n;
+			};
+		}
+	})();
+
+	return calculateScore;
+};
+
+/**
  * Searches through available options and returns
  * a sorted array of matches. Includes options that
  * have already been selected.
@@ -554,108 +629,51 @@ Selectize.prototype.parseSearchTokens = function(query) {
  * @returns {object}
  */
 Selectize.prototype.search = function(query, settings) {
+	var self = this;
+	var value, score, search, calculateScore;
+
 	settings = settings || {};
 	query = $.trim(String(query || '').toLowerCase());
 
-	var self = this;
-	var tokens, value, score, results;
-
 	if (query !== this.lastQuery) {
 		this.lastQuery = query;
-		tokens = this.parseSearchTokens(query);
 
-		results = {
+		search = {
 			query  : query,
-			tokens : tokens,
+			tokens : this.parseSearchTokens(query),
 			total  : 0,
 			items  : []
 		};
 
-		var calculateFieldScore = (function() {
-			if (!tokens.length) {
-				return function() { return 0; };
-			} else if (tokens.length === 1) {
-				return function(value) {
-					var score, pos;
+		calculateScore = this.settings.score || this.getScoreCallback(search);
 
-					value = String(value || '').toLowerCase();
-					pos = value.search(tokens[0].regex);
-					if (pos === -1) return 0;
-					score = tokens[0].string.length / value.length;
-					if (pos === 0) score += 0.5;
-					return score;
-				};
-			} else {
-				return function(value) {
-					var score, pos, i, j;
-
-					value = String(value || '').toLowerCase();
-					score = 0;
-					for (i = 0, j = tokens.length; i < j; i++) {
-						pos = value.search(tokens[i].regex);
-						if (pos === -1) return 0;
-						if (pos === 0) score += 0.5;
-						score += tokens[i].string.length / value.length;
-					}
-					return score / tokens.length;
-				};
-			}
-		})();
-
-		var calculateScore = (function() {
-			var fields = self.settings.searchField;
-			if (typeof fields === 'string') {
-				fields = [fields];
-			}
-			if (!fields || !fields.length) {
-				return function() { return 0; };
-			} else if (fields.length === 1) {
-				var field = fields[0];
-				return function(data) {
-					if (!data.hasOwnProperty(field)) return 0;
-					return calculateFieldScore(data[field]);
-				};
-			} else {
-				return function(data) {
-					var n = 0;
-					var score = 0;
-					for (var i = 0, j = fields.length; i < j; i++) {
-						if (data.hasOwnProperty(fields[i])) {
-							score += calculateFieldScore(data[fields[i]]);
-							n++;
-						}
-					}
-					return score / n;
-				};
-			}
-		})();
-
+		// perform search and sort
 		if (query.length) {
 			for (value in this.options) {
 				if (this.options.hasOwnProperty(value)) {
 					score = calculateScore(this.options[value]);
 					if (score > 0) {
-						results.items.push({
+						search.items.push({
 							score: score,
 							value: value
 						});
 					}
 				}
 			}
-			results.items.sort(function(a, b) {
+			search.items.sort(function(a, b) {
 				return b.score - a.score;
 			});
 		} else {
 			for (value in this.options) {
 				if (this.options.hasOwnProperty(value)) {
-					results.items.push({
+					search.items.push({
 						score: 1,
 						value: value
 					});
 				}
 			}
 			if (this.settings.sortField) {
-				results.items.sort((function() {
+				search.items.sort((function() {
 					var field = self.settings.sortField;
 					var multiplier = self.settings.sortDirection === 'desc' ? -1 : 1;
 					return function(a, b) {
@@ -668,12 +686,13 @@ Selectize.prototype.search = function(query, settings) {
 				})());
 			}
 		}
-		this.currentResults = results;
+		this.currentResults = search;
 	} else {
-		results = $.extend(true, {}, this.currentResults);
+		search = $.extend(true, {}, this.currentResults);
 	}
 
-	return this.prepareResults(results, settings);
+	// apply limits and return
+	return this.prepareResults(search, settings);
 };
 
 /**
@@ -684,21 +703,21 @@ Selectize.prototype.search = function(query, settings) {
  * @param {object} settings
  * @returns {object}
  */
-Selectize.prototype.prepareResults = function(results, settings) {
+Selectize.prototype.prepareResults = function(search, settings) {
 	if (this.settings.hideSelected) {
-		for (var i = results.items.length - 1; i >= 0; i--) {
-			if (this.items.indexOf(String(results.items[i].value)) !== -1) {
-				results.items.splice(i, 1);
+		for (var i = search.items.length - 1; i >= 0; i--) {
+			if (this.items.indexOf(String(search.items[i].value)) !== -1) {
+				search.items.splice(i, 1);
 			}
 		}
 	}
 
-	results.total = results.items.length;
+	search.total = search.items.length;
 	if (typeof settings.limit === 'number') {
-		results.items = results.items.slice(0, settings.limit);
+		search.items = search.items.slice(0, settings.limit);
 	}
 
-	return results;
+	return search;
 };
 
 /**

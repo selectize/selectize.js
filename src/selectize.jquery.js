@@ -40,6 +40,7 @@ var defaults = {
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 
+	score           : null, // function(data)
 	onChange        : null, // function(value)
 	onItemAdd       : null, // function(value, $item) { ... }
 	onItemRemove    : null, // function(value) { ... }
