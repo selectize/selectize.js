@@ -35,6 +35,18 @@ var once = function(fn) {
 	};
 };
 
+var debounce = function(fn, delay) {
+	var timeout;
+	return function() {
+		var self = this;
+		var args = arguments;
+		window.clearTimeout(timeout);
+		timeout = window.setTimeout(function() {
+			fn.apply(self, args);
+		}, delay);
+	};
+};
+
 /**
  * A workaround for http://bugs.jquery.com/ticket/6696
  *

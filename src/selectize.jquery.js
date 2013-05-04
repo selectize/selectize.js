@@ -26,6 +26,7 @@ var defaults = {
 	hideSelected: null,
 
 	scrollDuration: 60,
+	loadThrottle: 250,
 
 	dataAttr: 'data-data',
 	sortField: null,
@@ -40,6 +41,7 @@ var defaults = {
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 
+	load            : null, // function(query, callback)
 	score           : null, // function(data)
 	onChange        : null, // function(value)
 	onItemAdd       : null, // function(value, $item) { ... }

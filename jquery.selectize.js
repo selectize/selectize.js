@@ -132,6 +132,7 @@
 		hideSelected: null,
 	
 		scrollDuration: 60,
+		loadThrottle: 250,
 	
 		dataAttr: 'data-data',
 		sortField: null,
@@ -146,6 +147,7 @@
 		inputClass: 'selectize-input',
 		dropdownClass: 'selectize-dropdown',
 	
+		load            : null, // function(str, callback)
 		score           : null, // function(data)
 		onChange        : null, // function(value)
 		onItemAdd       : null, // function(value, $item) { ... }
@@ -259,6 +261,18 @@
 			if (called) return;
 			called = true;
 			fn.apply(this, arguments);
+		};
+	};
+	
+	var debounce = function(fn, delay) {
+		var timeout;
+		return function() {
+			var self = this;
+			var args = arguments;
+			window.clearTimeout(timeout);
+			timeout = window.setTimeout(function() {
+				fn.apply(self, args);
+			}, delay);
 		};
 	};
 	
@@ -412,6 +426,8 @@
 		this.currentResults   = null;
 		this.lastValue        = '';
 		this.caretPos         = 0;
+		this.loading          = 0;
+		this.loadedSearches   = {};
 	
 		this.$activeOption    = null;
 		this.$activeItems     = [];
@@ -420,6 +436,7 @@
 		this.userOptions      = {};
 		this.items            = [];
 		this.renderCache      = {};
+		this.onSearchChange   = debounce(this.onSearchChange, this.settings.loadThrottle);
 	
 		if ($.isArray(settings.options)) {
 			var key = settings.valueField;
@@ -653,12 +670,42 @@
 	*/
 	Selectize.prototype.onKeyUp = function(e) {
 		if (self.isLocked) return;
-		var value = this.$control_input.val();
+		var value = this.$control_input.val() || '';
 		if (this.lastValue !== value) {
 			this.lastValue = value;
+			this.onSearchChange(value);
 			this.refreshOptions();
 			this.trigger('onType', value);
 		}
+	};
+	
+	/**
+	* Invokes the user-provide option provider / loader.
+	*
+	* Note: this function is debounced in the Selectize
+	* constructor (by `settings.loadDelay` milliseconds)
+	*
+	* @param {string} value
+	*/
+	Selectize.prototype.onSearchChange = function(value) {
+		if (!this.settings.load) return;
+		if (this.loadedSearches.hasOwnProperty(value)) return;
+		var self = this;
+		var $control = this.$control.addClass('loading');
+	
+		this.loading++;
+		this.loadedSearches[value] = true;
+		this.settings.load.apply(this, [value, function(results) {
+			self.loading--;
+			if (results && results.length) {
+				self.addOption(results);
+				self.refreshOptions(false);
+				if (self.isInputFocused) self.open();
+			}
+			if (!self.loading) {
+				$control.removeClass('loading');
+			}
+		}]);
 	};
 	
 	/**
@@ -918,7 +965,7 @@
 	* @param {object} search
 	* @returns {function}
 	*/
-	Selectize.prototype.getScoreCallback = function(search) {
+	Selectize.prototype.getScoreFunction = function(search) {
 		var self = this;
 		var tokens = search.tokens;
 	
@@ -1023,7 +1070,15 @@
 				items  : []
 			};
 	
-			calculateScore = this.settings.score || this.getScoreCallback(search);
+			// generate result scoring function
+			if (this.settings.score) {
+				calculateScore = this.settings.score.apply(this, [search]);
+				if (typeof calculateScore !== 'function') {
+					throw new Error('Selectize "score" setting must be a function that returns a function');
+				}
+			} else {
+				calculateScore = this.getScoreFunction(search);
+			}
 	
 			// perform search and sort
 			if (query.length) {

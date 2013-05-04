@@ -122,7 +122,8 @@
 	-webkit-font-smoothing: antialiased;
 }
 .selectize-dropdown .highlight {
-	font-weight: bold;
+	background: rgba(255,237,40,0.4);
+	border-radius: 1px;
 }
 
 /**********************************************************
@@ -217,6 +218,7 @@
 }
 .selectize-dropdown > * {
 	cursor: pointer;
+	overflow: hidden;
 }
 .selectize-input, .selectize-dropdown {
 	-webkit-box-sizing: border-box;

@@ -34,6 +34,8 @@ var Selectize = function($input, settings) {
 	this.currentResults   = null;
 	this.lastValue        = '';
 	this.caretPos         = 0;
+	this.loading          = 0;
+	this.loadedSearches   = {};
 
 	this.$activeOption    = null;
 	this.$activeItems     = [];
@@ -42,6 +44,7 @@ var Selectize = function($input, settings) {
 	this.userOptions      = {};
 	this.items            = [];
 	this.renderCache      = {};
+	this.onSearchChange   = debounce(this.onSearchChange, this.settings.loadThrottle);
 
 	if ($.isArray(settings.options)) {
 		var key = settings.valueField;
@@ -275,12 +278,42 @@ Selectize.prototype.onKeyDown = function(e) {
  */
 Selectize.prototype.onKeyUp = function(e) {
 	if (self.isLocked) return;
-	var value = this.$control_input.val();
+	var value = this.$control_input.val() || '';
 	if (this.lastValue !== value) {
 		this.lastValue = value;
+		this.onSearchChange(value);
 		this.refreshOptions();
 		this.trigger('onType', value);
 	}
+};
+
+/**
+ * Invokes the user-provide option provider / loader.
+ *
+ * Note: this function is debounced in the Selectize
+ * constructor (by `settings.loadDelay` milliseconds)
+ *
+ * @param {string} value
+ */
+Selectize.prototype.onSearchChange = function(value) {
+	if (!this.settings.load) return;
+	if (this.loadedSearches.hasOwnProperty(value)) return;
+	var self = this;
+	var $control = this.$control.addClass('loading');
+
+	this.loading++;
+	this.loadedSearches[value] = true;
+	this.settings.load.apply(this, [value, function(results) {
+		self.loading--;
+		if (results && results.length) {
+			self.addOption(results);
+			self.refreshOptions(false);
+			if (self.isInputFocused) self.open();
+		}
+		if (!self.loading) {
+			$control.removeClass('loading');
+		}
+	}]);
 };
 
 /**
@@ -540,7 +573,7 @@ Selectize.prototype.parseSearchTokens = function(query) {
  * @param {object} search
  * @returns {function}
  */
-Selectize.prototype.getScoreCallback = function(search) {
+Selectize.prototype.getScoreFunction = function(search) {
 	var self = this;
 	var tokens = search.tokens;
 
@@ -645,7 +678,15 @@ Selectize.prototype.search = function(query, settings) {
 			items  : []
 		};
 
-		calculateScore = this.settings.score || this.getScoreCallback(search);
+		// generate result scoring function
+		if (this.settings.score) {
+			calculateScore = this.settings.score.apply(this, [search]);
+			if (typeof calculateScore !== 'function') {
+				throw new Error('Selectize "score" setting must be a function that returns a function');
+			}
+		} else {
+			calculateScore = this.getScoreFunction(search);
+		}
 
 		// perform search and sort
 		if (query.length) {

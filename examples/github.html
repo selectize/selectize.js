@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>jQuery Selectize Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="_normalize.css">
+		<link rel="stylesheet" href="_stylesheet.css">
+		<link rel="stylesheet" href="../jquery.selectize.css">
+		<script src="_jquery.js"></script>
+		<script src="../jquery.selectize.js"></script>
+		<script src="_demos.js"></script>
+		<style type="text/css">
+		.selectize-control.repositories .selectize-dropdown > div {
+			border-bottom: 1px solid rgba(0,0,0,0.05);
+		}
+		.selectize-control.repositories .selectize-dropdown .by {
+			font-size: 11px;
+			opacity: 0.8;
+		}
+		.selectize-control.repositories .selectize-dropdown .by::before {
+			content: 'by ';
+		}
+		.selectize-control.repositories .selectize-dropdown .name {
+			font-weight: bold;
+			margin-right: 5px;
+		}
+		.selectize-control.repositories .selectize-dropdown .title {
+			display: block;
+		}
+		.selectize-control.repositories .selectize-dropdown .description {
+			font-size: 12px;
+			display: block;
+			color: #a0a0a0;
+			white-space: nowrap;
+			width: 100%;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.selectize-control.repositories .selectize-dropdown .meta {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			font-size: 10px;
+		}
+		.selectize-control.repositories .selectize-dropdown .meta li {
+			margin: 0;
+			padding: 0;
+			display: inline;
+			margin-right: 10px;
+		}
+		.selectize-control.repositories .selectize-dropdown .meta li span {
+			font-weight: bold;
+		}
+		</style>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize Demos</h1>
+			<div class="demo">
+				<h2>&lt;select&gt; (async)</h2>
+				<p>This demo shows how to integrate third-party data, loaded asynchronously.</p>
+				<div class="control-group">
+					<label for="select-repo">Repository:</label>
+					<select id="select-repo" placeholder="Pick a repository..."></select>
+				</div>
+				<script>
+				// <select id="select-repo"></select>
+				$('#select-repo').selectize({
+					theme: 'repositories',
+					valueField: 'url',
+					labelField: 'name',
+					searchField: 'name',
+					options: [],
+					create: false,
+					render: {
+						option: function(item) {
+							return '<div>' +
+								'<span class="title">' +
+									'<span class="name">' + item.name + '</span>' +
+									'<span class="by">' + item.username + '</span>' +
+								'</span>' +
+								'<span class="description">' + item.description + '</span>' +
+								'<ul class="meta">' +
+									'<li class="language">' + item.language + '</li>' +
+									'<li class="watchers"><span>' + item.watchers + '</span> watchers</li>' +
+									'<li class="forks"><span>' + item.forks + '</span> forks</li>' +
+								'</ul>' +
+							'</div>';
+						}
+					},
+					score: function(search) {
+						var score = this.getScoreFunction(search);
+						return function(item) {
+							return score(item) * (item.watchers + 1);
+						};
+					},
+					load: function(query, callback) {
+						if (!query.length) return;
+						$.ajax({
+							url: 'https://api.github.com/legacy/repos/search/' + encodeURIComponent(query),
+							type: 'GET',
+							error: function() {
+								callback();
+							},
+							success: function(res) {
+								callback(res.repositories.slice(0, 10));
+							}
+						});
+					}
+				});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>
