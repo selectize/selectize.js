@@ -26,7 +26,7 @@ var defaults = {
 	hideSelected: null,
 
 	scrollDuration: 60,
-	loadThrottle: 250,
+	loadThrottle: 300,
 
 	dataAttr: 'data-data',
 	sortField: null,

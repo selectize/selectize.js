@@ -69,12 +69,26 @@
 			right: 34px;
 			width: 16px;
 			height: 16px;
-			background: url(spinner.gif);
+			background: url(images/spinner.gif);
 			background-size: 16px 16px;
 			opacity: 0;
 		}
 		.selectize-control.repositories.loading::before {
 			opacity: 0.4;
+		}
+		.icon {
+			width: 16px;
+			height: 16px;
+			display: inline-block;
+			vertical-align: middle;
+			background-size: 16px 16px;
+			margin: 0 3px 0 0;
+		}
+		.icon.fork {
+			background-image: url(images/repo-fork.png);
+		}
+		.icon.source {
+			background-image: url(images/repo-source.png);
 		}
 		</style>
 	</head>
@@ -101,12 +115,12 @@
 						option: function(item) {
 							return '<div>' +
 								'<span class="title">' +
-									'<span class="name">' + item.name + '</span>' +
+									'<span class="name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + item.name + '</span>' +
 									'<span class="by">' + item.username + '</span>' +
 								'</span>' +
 								'<span class="description">' + item.description + '</span>' +
 								'<ul class="meta">' +
-									'<li class="language">' + item.language + '</li>' +
+									(item.language ? '<li class="language">' + item.language + '</li>' : '') +
 									'<li class="watchers"><span>' + item.watchers + '</span> watchers</li>' +
 									'<li class="forks"><span>' + item.forks + '</span> forks</li>' +
 								'</ul>' +
@@ -116,7 +130,7 @@
 					score: function(search) {
 						var score = this.getScoreFunction(search);
 						return function(item) {
-							return score(item) * (item.watchers + 1);
+							return score(item) * (1 + Math.min(item.watchers / 100, 1));
 						};
 					},
 					load: function(query, callback) {
