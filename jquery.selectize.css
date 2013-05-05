@@ -63,7 +63,7 @@
 .selectize-input.full {
 	background-color: #f2f2f2;
 }
-.selectize-input.dropdown-active:before {
+.selectize-input.dropdown-active::before {
 	content: ' ';
 	display: block;
 	position: absolute;

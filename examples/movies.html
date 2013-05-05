@@ -38,21 +38,21 @@
 			font-weight: bold;
 			margin-right: 5px;
 		}
-		.selectize-control.movies .selectize-dropdown .title {
-			display: block;
-		}
 		.selectize-control.movies .selectize-dropdown .description {
 			font-size: 12px;
-			display: block;
 			color: #a0a0a0;
+		}
+		.selectize-control.movies .selectize-dropdown .actors,
+		.selectize-control.movies .selectize-dropdown .description,
+		.selectize-control.movies .selectize-dropdown .title {
+			display: block;
 			white-space: nowrap;
 			width: 100%;
-			text-overflow: ellipsis;
 			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 		.selectize-control.movies .selectize-dropdown .actors {
 			font-size: 10px;
-			display: block;
 			color: #a0a0a0;
 		}
 		.selectize-control.movies .selectize-dropdown .actors span {
@@ -80,9 +80,24 @@
 		.selectize-control.movies .selectize-dropdown .meta li span {
 			font-weight: bold;
 		}
-		.selectize-control.movies .highlight {
-			background: rgba(255,237,40,0.4);
-			border-radius: 1px;
+		.selectize-control.movies::before {
+			-moz-transition: opacity 0.2s;
+			-webkit-transition: opacity 0.2s;
+			transition: opacity 0.2s;
+			content: ' ';
+			z-index: 2;
+			position: absolute;
+			display: block;
+			top: 12px;
+			right: 34px;
+			width: 16px;
+			height: 16px;
+			background: url(spinner.gif);
+			background-size: 16px 16px;
+			opacity: 0;
+		}
+		.selectize-control.movies.loading::before {
+			opacity: 0.4;
 		}
 		</style>
 	</head>
@@ -123,7 +138,7 @@
 						}
 					},
 					load: function(query, callback) {
-						if (!query.length) return;
+						if (!query.length) return callback();
 						$.ajax({
 							url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json',
 							type: 'GET',

@@ -299,19 +299,19 @@ Selectize.prototype.onSearchChange = function(value) {
 	if (!this.settings.load) return;
 	if (this.loadedSearches.hasOwnProperty(value)) return;
 	var self = this;
-	var $control = this.$control.addClass('loading');
+	var $wrapper = this.$wrapper.addClass('loading');
 
 	this.loading++;
 	this.loadedSearches[value] = true;
 	this.settings.load.apply(this, [value, function(results) {
-		self.loading--;
+		self.loading = Math.max(self.loading - 1, 0);
 		if (results && results.length) {
 			self.addOption(results);
 			self.refreshOptions(false);
 			if (self.isInputFocused) self.open();
 		}
 		if (!self.loading) {
-			$control.removeClass('loading');
+			$wrapper.removeClass('loading');
 		}
 	}]);
 };

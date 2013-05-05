@@ -42,7 +42,7 @@ var defaults = {
 	dropdownClass: 'selectize-dropdown',
 
 	load            : null, // function(query, callback)
-	score           : null, // function(data)
+	score           : null, // function(search)
 	onChange        : null, // function(value)
 	onItemAdd       : null, // function(value, $item) { ... }
 	onItemRemove    : null, // function(value) { ... }
