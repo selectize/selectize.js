@@ -61,10 +61,11 @@ var defaults = {
 };
 
 $.fn.selectize = function (settings) {
+	var defaults = $.fn.selectize.defaults;
 	settings = settings || {};
 
 	return this.each(function() {
-		var instance, value, values, i, n, data, settings_element, tagName;
+		var instance, value, values, i, n, data, dataAttr, settings_element, tagName;
 		var $options, $option, $input = $(this);
 
 		tagName = $input[0].tagName.toLowerCase();
@@ -73,6 +74,7 @@ $.fn.selectize = function (settings) {
 			instance = $input.data('selectize');
 			instance[settings].apply(instance, Array.prototype.splice.apply(arguments, 1));
 		} else {
+			dataAttr = settings.dataAttr || defaults.dataAttr;
 			settings_element = {};
 			settings_element.placeholder = $input.attr('placeholder');
 			settings_element.options = {};
@@ -85,7 +87,7 @@ $.fn.selectize = function (settings) {
 					$option = $($options[i]);
 					value = $option.attr('value') || '';
 					if (!value.length) continue;
-					data = (settings.dataAttr && $option.attr(settings.dataAttr)) || {
+					data = (dataAttr && $option.attr(dataAttr)) || {
 						'text'  : $option.html(),
 						'value' : value
 					};
@@ -99,7 +101,7 @@ $.fn.selectize = function (settings) {
 			} else {
 				value = $.trim($input.val() || '');
 				if (value.length) {
-					values = value.split(settings.delimiter || $.fn.selectize.defaults.delimiter);
+					values = value.split(settings.delimiter || defaults.delimiter);
 					for (i = 0, n = values.length; i < n; i++) {
 						settings_element.options[values[i]] = {
 							'text'  : values[i],
@@ -110,7 +112,7 @@ $.fn.selectize = function (settings) {
 				}
 			}
 
-			instance = new Selectize($input, $.extend(true, {}, $.fn.selectize.defaults, settings_element, settings));
+			instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings));
 			$input.data('selectize', instance);
 			$input.addClass('selectized');
 		}
