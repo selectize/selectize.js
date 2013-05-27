@@ -11,9 +11,9 @@
 		<meta name="viewport" content="width=device-width">
 		<link rel="stylesheet" href="_normalize.css">
 		<link rel="stylesheet" href="_stylesheet.css">
-		<link rel="stylesheet" href="../jquery.selectize.css">
+		<link rel="stylesheet" href="../selectize.css">
 		<script src="_jquery.js"></script>
-		<script src="../jquery.selectize.js"></script>
+		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
 	</head>
     <body>
@@ -45,15 +45,15 @@
 					],
 					create: false
 				});
-				
+
 				// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-				
+
 				var control = $select[0].selectize;
-				
+
 				$('#button-clear').on('click', function() {
 					control.clear();
 				});
-				
+
 				$('#button-addoption').on('click', function() {
 					control.addOption(4, {
 						id: 4,
@@ -61,11 +61,11 @@
 						url: 'http://google.com'
 					});
 				});
-				
+
 				$('#button-additem').on('click', function() {
 					control.addItem(2);
 				});
-				
+
 				$('#button-setvalue').on('click', function() {
 					control.setValue([2, 3]);
 				});

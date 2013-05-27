@@ -1,4 +1,4 @@
-/*! jquery.selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */
+/*! selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */
 
 (function ($,window,document) {
 	"use strict";	

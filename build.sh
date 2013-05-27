@@ -1,8 +1,8 @@
 #!/bin/bash
 IFS='%'
-out=jquery.selectize.js
-out_min=jquery.selectize.min.js
-banner="/*! jquery.selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */"
+out=selectize.js
+out_min=selectize.min.js
+banner="/*! selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */"
 
 append_file () {
 	src=$(cat $2 | sed 's/^ *//g' | sed 's/ *$//g' | sed 's.\\.\\\\\\\\\\.g')
@@ -11,6 +11,7 @@ append_file () {
 
 # bundle files...
 
+printf "Generating \033[1;39mselectize.js\033[0;39m..."
 src=""
 for file in src/contrib/*.js; do src=`append_file "$src" $file`; done
 for file in src/*.js; do
@@ -24,9 +25,11 @@ src=`echo -e "$src" | while read -r line; do echo -e "\t$line"; done`
 src="$banner\n\n(function ($,window,document) {\n\t\"use strict\";$src\n})(jQuery,window,document);"
 
 echo -e "$src" > $out
+printf " done.\n"
 
 # generate minified version...
 
+printf "Generating \033[1;39mselectize.min.js\033[0;39m..."
 curl -s -d compilation_level=SIMPLE_OPTIMIZATIONS \
         -d output_format=text \
         -d output_info=compiled_code \
@@ -35,5 +38,6 @@ curl -s -d compilation_level=SIMPLE_OPTIMIZATIONS \
         > $out_min
 
 echo "$banner" | cat - $out_min > temp && mv temp $out_min
+printf " done.\n"
 
 unset IFS
