@@ -22,8 +22,8 @@ src=`append_file "$src" src/selectize.js`
 # format and wrap...
 
 src=`echo -e "$src" | while read -r line; do echo -e "\t$line"; done`
-src="$banner\n\n(function ($,window,document) {\n\t\"use strict\";$src\n})(jQuery,window,document);"
 
+src="$banner\n\n(function (factory) {\n\tif (typeof exports === 'object') {\n\t\tfactory(require('jquery'));\n\t} else if (typeof define === 'function' && define.amd) {\n\t\tdefine(['jquery'], factory);\n\t} else {\n\t\tfactory(jQuery);\n\t}\n}(function ($) {\n\t\"use strict\";$src\n\n\treturn Selectize;\n\n}));"
 echo -e "$src" > $out
 printf " done.\n"
 

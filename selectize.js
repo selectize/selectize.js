@@ -1,6 +1,14 @@
 /*! selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */
 
-(function ($,window,document) {
+(function (factory) {
+	if (typeof exports === 'object') {
+		factory(require('jquery'));
+	} else if (typeof define === 'function' && define.amd) {
+		define(['jquery'], factory);
+	} else {
+		factory(jQuery);
+	}
+}(function ($) {
 	"use strict";	
 	
 	// --- src/contrib/highlight.js ---
@@ -1777,4 +1785,7 @@
 	
 		return html;
 	};
-})(jQuery,window,document);
+
+	return Selectize;
+
+}));
