@@ -20,7 +20,7 @@ a, a:visited {
 	color: #48afff;
 	text-decoration: none;
 }
-strong, #toc a {
+strong, #links a {
 	font-weight: 500;
 }
 a:hover {
@@ -79,21 +79,13 @@ pre .keyword { color: #fc611d; font-weight: bold; }
 	padding: 15px 0;
 }
 .demo > .header {
-	font-size: 20px;
+	font-size: 25px;
 	font-weight: 300;
 	padding-top: 0;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 }
 .demo .sandbox {
-	background: rgba(45,45,45,0.01);
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
-	margin-left: -15px;
-	margin-right: -15px;
-	padding-left: 15px;
-	padding-right: 15px;
+	padding: 0;
 }
 .demo select, .demo input, .demo .selectize-control {
 	width: 100%;
@@ -129,7 +121,8 @@ pre .keyword { color: #fc611d; font-weight: bold; }
 	margin-bottom: 0;
 }
 pre {
-	border: 1px dotted #e0e4e5;
+	background: rgba(45,45,45,0.01);
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
 	padding: 10px !important;
 	font-size: 12px;
 	line-height: 15px;
