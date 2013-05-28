@@ -1,0 +1,607 @@
+::selection { background: #fff69d; }
+::-moz-selection { background: #fff69d; }
+
+body {
+	font-family: 'Open Sans', Helvetica, arial, sans-serif;
+	font-size: 15px;
+	line-height: 24px;
+	font-weight: 300;
+	color: #5f6567;
+	background: #fff;
+	background-size: 200px 200px;
+	text-shadow: 0 1px 0 rgba(0,0,0,0.03);
+	-webkit-font-smoothing: antialiased;
+}
+footer {
+	margin-top: 50px;
+	font-size: 12px;
+}
+a, a:visited {
+	color: #48afff;
+	text-decoration: none;
+}
+strong, #toc a {
+	font-weight: 500;
+}
+a:hover {
+	color: #008af5;
+}
+h1 {
+	font-weight: 300;
+	font-size: 40px;
+	margin-bottom: 30px;
+}
+h2 {
+	font-size: 15px;
+}
+label {
+	display: block;
+	font-weight: normal;
+	margin-bottom: 10px;
+}
+p, .control-group {
+	margin: 0 0 20px 0;
+}
+li {
+	margin-bottom: 5px;
+}
+.toggle-code {
+	font-size: 12px;
+	font-weight: 500;
+}
+.toggle-code::before {
+	margin-right: 5px;
+}
+.toggle-code.closed::before {
+	content: '\25B6';
+}
+.toggle-code.open::before {
+	content: '\25B2';
+}
+
+/**
+ * Syntax Highlighting
+ */
+
+pre code { width: 1000px; display: block; }
+pre { overflow: auto; width: 100%; }
+pre .string { color: #0d9bff; font-weight: 500; }
+pre .constant, pre .literal, pre .number { color: #fcb01d;}
+pre .keyword { color: #fc611d; font-weight: bold; }
+
+/**
+ * Demos
+ */
+.demo {
+	margin: 0 0 50px 0;
+}
+.demo > * {
+	padding: 15px 0;
+}
+.demo > .header {
+	font-size: 20px;
+	font-weight: 300;
+	padding-top: 0;
+	margin-bottom: 5px;
+}
+.demo .sandbox {
+	background: rgba(45,45,45,0.01);
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+	margin-left: -15px;
+	margin-right: -15px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.demo select, .demo input, .demo .selectize-control {
+	width: 100%;
+}
+.demo > *:first-child {
+	margin-top: 0;
+}
+.demo > *:last-child {
+	margin-bottom: 0;
+}
+.demo .value {
+	margin: 10px 0 0 0;
+	font-size: 12px;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.demo .value span {
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+}
+
+.inset {
+	background: #f9fbfb;
+}
+.wrapper {
+	width: 520px;
+	margin: 0 auto;
+	text-align: left;
+	padding: 40px 0;
+}
+.wrapper > *:last-child {
+	margin-bottom: 0;
+}
+pre {
+	border: 1px dotted #e0e4e5;
+	padding: 10px !important;
+	font-size: 12px;
+	line-height: 15px;
+	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+input[type=button] {
+	margin: 0 10px 0 0;
+	padding: 6px 10px;
+	color: #606060;
+	background: #e0e0e0;
+	border: 0 none;
+	width: auto;
+	display: inline-block;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-font-smoothing: antialiased;
+}
+.buttons {
+	margin: 0 0 25px 0;
+}
+input[type=button]:hover {
+	background: #dadada;
+}
+
+/**********************************************************
+ * THEME: "default"                                       *
+ **********************************************************/
+
+.selectize-control.default.multi .selectize-input > div {
+	color: #3d5d18;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+	border: 1px solid #74b21e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #b8e76f;
+	background: -moz-linear-gradient(top, #b8e76f 0%, #a9e25c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b8e76f), color-stop(100%,#a9e25c));
+	background: -webkit-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -o-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -ms-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: linear-gradient(to bottom, #b8e76f 0%,#a9e25c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e76f', endColorstr='#a9e25c',GradientType=0 );
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-control.default.multi .selectize-input > div.active {
+	border-color: #6f9839;
+	background: #92c836;
+	background: -moz-linear-gradient(top,  #92c836 0%, #006e2e 0%, #92c836 0%, #7abc2c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c836), color-stop(0%,#006e2e), color-stop(0%,#92c836), color-stop(100%,#7abc2c));
+	background: -webkit-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -o-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -ms-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: linear-gradient(to bottom,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c836', endColorstr='#7abc2c',GradientType=0 );
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (common)                        *
+ **********************************************************/
+
+.selectize-input, .selectize-control.single .selectize-input.focus {
+	background: #fff;
+	padding: 10px;
+	cursor: text;
+	display: inline-block;
+	width: 100%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-input.focus {
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+.selectize-input.dropdown-active {
+	-webkit-border-radius: 3px 3px 0 0 !important;
+	-moz-border-radius: 3px 3px 0 0 !important;
+	border-radius: 3px 3px 0 0 !important;
+}
+.selectize-input.full {
+	background-color: #f2f2f2;
+}
+.selectize-input.dropdown-active::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	background: #f2f2f2;
+	height: 1px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.selectize-control.multi .selectize-input.has-items {
+	padding-top: 8px !important;
+	padding-bottom: 3px !important;
+}
+.selectize-control.multi .selectize-input > div {
+	cursor: pointer;
+	margin: 0 5px 5px 0;
+	padding: 1px 5px;
+}
+.selectize-input > div:last-child {
+	margin-right: 5px;
+}
+.selectize-input > input {
+	margin-right: 2px !important;
+}
+.selectize-dropdown, .selectize-input, .selectize-control.single .selectize-input.dropdown-active {
+	border: 1px solid #aeb8ba;
+}
+.selectize-dropdown {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background: #fff;
+	margin-top: -1px;
+	border-top: 0 none;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-webkit-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+.selectize-dropdown > * {
+	padding: 6px 9px;
+}
+.selectize-dropdown > *.create {
+	color: #a0a0a0;
+}
+.selectize-dropdown > *.active {
+	background-color: #fffceb;
+}
+.selectize-dropdown, .selectize-input, .selectize-input input {
+	color: #303030;
+	font-family: 'Open Sans', Helvetica, arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+}
+.selectize-dropdown .highlight {
+	background: rgba(255,237,40,0.4);
+	border-radius: 1px;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (single)                        *
+ **********************************************************/
+
+.selectize-control.single .selectize-input {
+	cursor: pointer;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #dbdedf;
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #dbdedf;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #dbdedf, 0 3px 0 #b7c2c4, 0 4px 1px rgba(0,0,0,0.1);
+	background: #f6f6f6;
+	background: -moz-linear-gradient(top, #f5f5f5 0%, #efefef 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#efefef));
+	background: -webkit-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: -o-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: -ms-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: linear-gradient(to bottom, #fff 0%,#f3f5f6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#e8e8e8',GradientType=0 );
+}
+
+.selectize-control.single .selectize-input::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	margin-top: -2px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 5px 5px 0 5px;
+	border-color: #808080 transparent transparent transparent;
+}
+
+.selectize-control.single .selectize-input.dropdown-active::after {
+	margin-top: -3px;
+	border-width: 0 5px 5px 5px;
+	border-color: transparent transparent #808080 transparent;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (multi)                         *
+ **********************************************************/
+
+/**********************************************************
+ * LAYOUT STYLES (mandatory)                              *
+ **********************************************************/
+
+.selectize-control {
+	position: relative;
+}
+.selectize-input {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+.selectize-input:after {
+	content: ' ';
+	display: block;
+	clear: left;
+}
+.selectize-input .items {
+	display: inline;
+}
+.selectize-input > * {
+	vertical-align: baseline;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+.selectize-input > input {
+	max-width: 100% !important;
+	text-indent: 0 !important;
+	border: 0 none !important;
+	background: none !important;
+	padding: 0 !important;
+	margin: 0;
+	line-height: inherit !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+.selectize-input > input:focus {
+	outline: none !important;
+}
+.selectize-dropdown {
+	position: absolute;
+	z-index: 2;
+}
+.selectize-dropdown > * {
+	cursor: pointer;
+	overflow: hidden;
+}
+.selectize-input, .selectize-dropdown {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+/**
+ * Github Demo
+ */
+.selectize-control.repositories .selectize-dropdown > div {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.selectize-control.repositories .selectize-dropdown .by {
+	font-size: 11px;
+	opacity: 0.8;
+}
+.selectize-control.repositories .selectize-dropdown .by::before {
+	content: 'by ';
+}
+.selectize-control.repositories .selectize-dropdown .name {
+	font-weight: bold;
+	margin-right: 5px;
+}
+.selectize-control.repositories .selectize-dropdown .title {
+	display: block;
+}
+.selectize-control.repositories .selectize-dropdown .description {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+	white-space: nowrap;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.selectize-control.repositories .selectize-dropdown .meta {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+}
+.selectize-control.repositories .selectize-dropdown .meta li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	margin-right: 10px;
+}
+.selectize-control.repositories .selectize-dropdown .meta li span {
+	font-weight: bold;
+}
+.selectize-control.repositories::before {
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	content: ' ';
+	z-index: 2;
+	position: absolute;
+	display: block;
+	top: 12px;
+	right: 34px;
+	width: 16px;
+	height: 16px;
+	background: url(../images/spinner.gif);
+	background-size: 16px 16px;
+	opacity: 0;
+}
+.selectize-control.repositories.loading::before {
+	opacity: 0.4;
+}
+.icon {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+	margin: 0 3px 0 0;
+}
+.icon.fork {
+	background-image: url(../images/repo-fork.png);
+}
+.icon.source {
+	background-image: url(../images/repo-source.png);
+}
+
+
+/**
+ * Rotton Tomatoes Demo
+ */
+.selectize-control.movies .selectize-dropdown > div {
+	border-bottom: 1px solid rgba(0,0,0,0.05);
+	height: 60px;
+	position: relative;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+	padding: 10px 10px 10px 60px;
+}
+.selectize-control.movies .selectize-dropdown > div:last-child {
+	border-bottom: 0 none;
+}
+.selectize-control.movies .selectize-dropdown .by {
+	font-size: 11px;
+	opacity: 0.8;
+}
+.selectize-control.movies .selectize-dropdown .by::before {
+	content: 'by ';
+}
+.selectize-control.movies .selectize-dropdown .name {
+	font-weight: bold;
+	margin-right: 5px;
+}
+.selectize-control.movies .selectize-dropdown .description {
+	font-size: 12px;
+	color: #a0a0a0;
+}
+.selectize-control.movies .selectize-dropdown .actors,
+.selectize-control.movies .selectize-dropdown .description,
+.selectize-control.movies .selectize-dropdown .title {
+	display: block;
+	white-space: nowrap;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.selectize-control.movies .selectize-dropdown .actors {
+	font-size: 10px;
+	color: #a0a0a0;
+}
+.selectize-control.movies .selectize-dropdown .actors span {
+	color: #606060;
+}
+.selectize-control.movies .selectize-dropdown img {
+	height: 60px;
+	left: 10px;
+	position: absolute;
+	border-radius: 3px;
+	background: rgba(0,0,0,0.04);
+}
+.selectize-control.movies .selectize-dropdown .meta {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-size: 10px;
+}
+.selectize-control.movies .selectize-dropdown .meta li {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	margin-right: 10px;
+}
+.selectize-control.movies .selectize-dropdown .meta li span {
+	font-weight: bold;
+}
+.selectize-control.movies::before {
+	-moz-transition: opacity 0.2s;
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+	content: ' ';
+	z-index: 2;
+	position: absolute;
+	display: block;
+	top: 12px;
+	right: 34px;
+	width: 16px;
+	height: 16px;
+	background: url(../images/spinner.gif);
+	background-size: 16px 16px;
+	opacity: 0;
+}
+.selectize-control.movies.loading::before {
+	opacity: 0.4;
+}
+
+/**
+ * Email Contacts
+ */
+.selectize-control.contacts .selectize-input > div {
+	padding: 1px 10px;
+	font-size: 13px;
+	font-weight: normal;
+	-webkit-font-smoothing: auto;
+	color: #f7fbff;
+	text-shadow: 0 1px 0 rgba(8,32,65,0.2);
+	background: #2183f5;
+	background: -moz-linear-gradient(top, #2183f5 0%, #1d77f3 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2183f5), color-stop(100%,#1d77f3));
+	background: -webkit-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+	background: -o-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+	background: -ms-linear-gradient(top,  #2183f5 0%,#1d77f3 100%);
+	background: linear-gradient(to bottom,  #2183f5 0%,#1d77f3 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2183f5', endColorstr='#1d77f3',GradientType=0 );
+	border: 1px solid #0f65d2;
+	-webkit-border-radius: 999px;
+	-moz-border-radius: 999px;
+	border-radius: 999px;
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+.selectize-control.contacts .selectize-input > div.active {
+	background: #0059c7;
+	background: -moz-linear-gradient(top, #0059c7 0%, #0051c1 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0059c7), color-stop(100%,#0051c1));
+	background: -webkit-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+	background: -o-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+	background: -ms-linear-gradient(top,  #0059c7 0%,#0051c1 100%);
+	background: linear-gradient(to bottom,  #0059c7 0%,#0051c1 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0059c7', endColorstr='#0051c1',GradientType=0 );
+	border-color: #0051c1;
+}
+.selectize-control.contacts .selectize-input > div .email {
+	opacity: 0.8;
+}
+.selectize-control.contacts .selectize-input > div .name + .email {
+	margin-left: 5px;
+}
+.selectize-control.contacts .selectize-input > div .email:before {
+	content: '<';
+}
+.selectize-control.contacts .selectize-input > div .email:after {
+	content: '>';
+}
+.selectize-control.contacts .selectize-dropdown .caption {
+	font-size: 12px;
+	display: block;
+	color: #a0a0a0;
+}
