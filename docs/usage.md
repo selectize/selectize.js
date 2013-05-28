@@ -1,4 +1,4 @@
-## Usage
+## Selectize Usage
 
 ```html
 <script type="text/javascript" src="selectize.js"></script>

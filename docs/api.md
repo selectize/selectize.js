@@ -1,4 +1,4 @@
-## API
+## Selectize API
 
 Selectize controls can be controlled programmatically via the methods described in this section.
 When initializing the control, the "selectize" property is

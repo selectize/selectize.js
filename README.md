@@ -3,6 +3,7 @@
 Selectize is a jQuery-based UI control for selecting items. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable user-experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
+- [Examples](examples/)
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
 

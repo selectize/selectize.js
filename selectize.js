@@ -1,4 +1,4 @@
-/*! selectize.js | https://github.com/brianreavis/jquery-selectize | Apache License (v2) */
+/*! selectize.js | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function (factory) {
 	if (typeof exports === 'object') {
@@ -65,7 +65,7 @@
 	
 	/**
 	* selectize - A highly customizable select control with autocomplete.
-	* Copyright (c) 2013 Brian Reavis
+	* Copyright (c) 2013 Brian Reavis & contributors
 	*
 	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 	* file except in compliance with the License. You may obtain a copy of the License at:
@@ -111,22 +111,6 @@
 	};
 	
 	// --- src/selectize.jquery.js ---
-	
-	/**
-	* selectize - A highly customizable select control with autocomplete.
-	* Copyright (c) 2013 Brian Reavis
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	var defaults = {
 		delimiter: ',',
@@ -236,22 +220,6 @@
 	$.fn.selectize.defaults = defaults;
 	
 	// --- src/utils.js ---
-	
-	/**
-	* selectize - A highly customizable select control with autocomplete.
-	* Copyright (c) 2012 Brian Reavis
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	var isset = function(object) {
 		return typeof object !== 'undefined';
@@ -401,8 +369,8 @@
 	// --- src/selectize.js ---
 	
 	/**
-	* selectize - A highly customizable select control with autocomplete.
-	* Copyright (c) 2013 Brian Reavis
+	* selectize.js
+	* Copyright (c) 2013 Brian Reavis & contributors
 	*
 	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
 	* file except in compliance with the License. You may obtain a copy of the License at:
