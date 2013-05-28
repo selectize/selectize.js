@@ -1,7 +1,7 @@
 {
 	"name": "selectize",
 	"keywords": ["select", "ui", "control", "autocomplete", "tagging", "tag"],
-	"description": "A fast, usable, and clean select box replacement.",
+	"description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
 	"version": "0.1.0",
 	"license": "Apache License, Version 2.0",
 	"readmeFilename": "README.md",
