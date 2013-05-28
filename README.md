@@ -9,24 +9,19 @@ Selectize is a fast, usable, and clean &lt;select&gt; replacement (7kb gzipped).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
 
-### Table of Contents
-- [Usage](#usage)
-- [Options](#options)
-	- [General](#general)
-	- [Data / Searching](#data_searching)
-	- [Callbacks](#callbacks)
-	- [Rendering](#rendering)
-- [License](#license)
-
-## Usage
+### Usage
 
 ```html
 <script type="text/javascript" src="selectize.js"></script>
 <link rel="stylesheet" type="text/css" href="selectize.css" />
 <script type="text/javascript">
-$('select').selectize(options);
+$(function() {
+	$('select').selectize(options);
+});
 </script>
 ```
+
+## API
 
 ### Options
 
@@ -51,12 +46,13 @@ $('select').selectize(options);
 	</tr>
 	<tr>
 		<td valign="top"><code>create</code></td>
-		<td valign="top">Allow the user to create new items that aren't in the list of options.</td>
-		<td valign="top"><code>boolean</code></td>
+		<td valign="top">
+			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true" (default behavior), "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
+		<td valign="top"><code>mixed</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>highlight</code></td>
-		<td valign="top">Toggles matching highlighting within the dropdown menu.</td>
+		<td valign="top">Toggles match highlighting within the dropdown menu.</td>
 		<td valign="top"><code>boolean</code></td>
 	</tr>
 	<tr>
@@ -81,7 +77,7 @@ $('select').selectize(options);
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
-		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of options.</td>
+		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
 		<td valign="top"><code>boolean</code></td>
 	</tr>
 	<tr>
@@ -95,7 +91,7 @@ $('select').selectize(options);
 		<td valign="top"><code>int</code></td>
 	</tr>
 	<tr>
-		<th valign="top" colspan="2" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
+		<th valign="top" colspan="3" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>
 		<th valign="top" align="left">Option</th>
@@ -119,7 +115,7 @@ $('select').selectize(options);
 	</tr>
 	<tr>
 		<td valign="top"><code>sortField</code></td>
-		<td valign="top">The name of the property to sort by.</td>
+		<td valign="top">The name of the property to sort by. This is only used when the score of two or more items is identical.</td>
 		<td valign="top"><code>string</code></td>
 	</tr>
 	<tr>
@@ -129,11 +125,11 @@ $('select').selectize(options);
 	</tr>
 	<tr>
 		<td valign="top"><code>searchField</td>
-		<td valign="top">An array of property names to search.</td>
+		<td valign="top">An array of property names to analyze when filtering options.</td>
 		<td valign="top"><code>array</code></td>
 	</tr>
 	<tr>
-		<th valign="top" colspan="2" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
+		<th valign="top" colspan="3" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
 	</tr>
 	<tr>
 		<th valign="top" align="left">Option</th>
@@ -209,7 +205,7 @@ $('select').selectize(options);
 				</tr>
 				<tr>
 					<td valign="top"><code>item(data)</code></td>
-					<td valign="top">A selected item.</td>
+					<td valign="top">An item the user has selected.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>option_create(data)</code></td>
