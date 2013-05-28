@@ -16,6 +16,7 @@
 	"ignore": [
 		"makefile",
 		"examples",
+		"docs",
 		"src",
 		"*.sh"
 	],
