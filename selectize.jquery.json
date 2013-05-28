@@ -1,0 +1,32 @@
+{
+	"name": "selectize",
+	"title": "Selectize.js",
+	"author": {
+		"name": "Brian Reavis",
+		"email": "brian@thirdroute.com",
+		"url": "http://thirdroute.com"
+	},
+	"keywords": ["select", "ui", "control", "autocomplete", "tagging", "tag"],
+	"description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
+	"homepage": "http://brianreavis.github.io/selectize.js/",
+	"demo": "http://brianreavis.github.io/selectize.js/",
+	"docs": "https://github.com/brianreavis/selectize.js",
+	"bugs": "https://github.com/brianreavis/selectize.js/issues",
+	"version": "0.1.0",
+	"licenses": [
+		{
+			"type": "Apache License, Version 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+		}
+	],
+	"maintainers": [
+		{
+			"name": "Brian Reavis",
+			"email": "brian@thirdroute.com",
+			"url": "http://thirdroute.com"
+		}
+	],
+	"dependencies": {
+		"jquery": ">=1.5"
+	}
+}
