@@ -223,7 +223,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			this.blur();
 			return;
 		case KEY_DOWN:
-			if (!this.isOpen && this.hasOptions) {
+			if (!this.isOpen && this.hasOptions && this.isInputFocused) {
 				this.open();
 			} else if (this.$activeOption) {
 				var $next = this.$activeOption.next();
@@ -251,8 +251,9 @@ Selectize.prototype.onKeyDown = function(e) {
 			this.advanceSelection(1, e);
 			break;
 		case KEY_TAB:
-			if (this.settings.create) {
+			if (this.settings.create && $.trim(this.$control_input.val()).length) {
 				this.createItem();
+				e.preventDefault();
 			}
 			break;
 		case KEY_BACKSPACE:
@@ -327,7 +328,6 @@ Selectize.prototype.onFocus = function(e) {
 	this.isInputFocused = true;
 	if (this.ignoreFocus) return;
 
-	this.isFocused = true;
 	this.setActiveItem(null);
 	this.$control.addClass('focus');
 	this.refreshOptions(!!this.settings.openOnFocus);
@@ -345,6 +345,7 @@ Selectize.prototype.onBlur = function(e) {
 
 	this.close();
 	this.$control_input.val('');
+	this.setActiveOption(null);
 	this.setCaret(this.items.length, false);
 	if (!this.$activeItems.length) {
 		this.$control.removeClass('focus');
@@ -540,6 +541,7 @@ Selectize.prototype.setActiveOption = function($option, scroll, animate) {
  */
 Selectize.prototype.hideInput = function() {
 	this.$control_input.css({opacity: 0});
+	this.isInputFocused = false;
 };
 
 /**
@@ -992,19 +994,15 @@ Selectize.prototype.addItem = function(value) {
 				break;
 			}
 		}
-		if (!options.length) {
+
+		// hide the menu if the maximum number of items have been selected or no options are left
+		if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
 			this.close();
+		} else {
+			this.positionDropdown();
 		}
 
-		this.positionDropdown();
 		this.updatePlaceholder();
-
-		// hide the menu if the maximum number of items have been selected
-		if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) {
-			this.close();
-			this.blur();
-		}
-
 		this.updateOriginalInput();
 		this.trigger('onItemAdd', value, $item);
 	}
@@ -1260,7 +1258,7 @@ Selectize.prototype.deleteSelection = function(e) {
 		this.setCaret(caret);
 		e.preventDefault();
 		e.stopPropagation();
-	} else if (this.isInputFocused && this.items.length) {
+	} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
 		if (direction < 0 && selection.start === 0 && selection.length === 0) {
 			this.removeItem(this.items[this.caretPos - 1]);
 		} else if (direction > 0 && selection.start === this.$control_input.val().length) {
