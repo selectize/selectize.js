@@ -358,7 +358,7 @@ Selectize.prototype.onBlur = function(e) {
 	if (this.ignoreFocus) return;
 
 	this.close();
-	this.$control_input.val('');
+	this.setTextboxValue('');
 	this.setActiveOption(null);
 	this.setCaret(this.items.length, false);
 	if (!this.$activeItems.length) {
@@ -393,19 +393,7 @@ Selectize.prototype.onOptionSelect = function(e) {
 		var value = $target.attr('data-value');
 		if (value) {
 			this.addItem(value);
-			this.$control_input.val('');
-
-			// restore focus to input
-			var self = this;
-			window.setTimeout(function() {
-				if (self.settings.mode === 'single') {
-					self.blur();
-					self.focus(false);
-					self.hideInput();
-				} else {
-					self.focus(false);
-				}
-			}, 0);
+			this.setTextboxValue('');
 		}
 	}
 };
@@ -423,6 +411,16 @@ Selectize.prototype.onItemSelect = function(e) {
 		this.setActiveItem(e.currentTarget, e);
 		e.stopPropagation();
 	}
+};
+
+/**
+ * Sets the input field of the control to the specified value.
+ *
+ * @param {string} value
+ */
+Selectize.prototype.setTextboxValue = function(value) {
+	this.$control_input.val(value);
+	this.lastValue = value;
 };
 
 /**
@@ -978,6 +976,7 @@ Selectize.prototype.getItem = function(value) {
  */
 Selectize.prototype.addItem = function(value) {
 	var $item;
+	var self = this;
 	var inputMode = this.settings.mode;
 	var isFull = this.isFull();
 	value = String(value);
@@ -1014,6 +1013,19 @@ Selectize.prototype.addItem = function(value) {
 			this.close();
 		} else {
 			this.positionDropdown();
+		}
+
+		// restore focus to input
+		if (this.isFocused) {
+			window.setTimeout(function() {
+				if (inputMode === 'single') {
+					self.blur();
+					self.focus(false);
+					self.hideInput();
+				} else {
+					self.focus(false);
+				}
+			}, 0);
 		}
 
 		this.updatePlaceholder();
@@ -1087,7 +1099,7 @@ Selectize.prototype.createItem = function() {
 
 	var create = once(function(data) {
 		self.unlock();
-		self.$control_input[0].focus();
+		self.focus(false);
 
 		var value = data && data[self.settings.valueField];
 		if (!value) return;
@@ -1096,7 +1108,7 @@ Selectize.prototype.createItem = function() {
 		self.setCaret(caret, false);
 		self.addItem(value);
 		self.refreshOptions(false);
-		self.$control_input.val('');
+		self.setTextboxValue('');
 	});
 
 	var output = setup(input, create);
