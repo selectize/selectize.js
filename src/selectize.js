@@ -113,7 +113,7 @@ Selectize.prototype.setup = function() {
 		if (e.currentTarget === self.$control[0]) {
 			$control_input.trigger('focus');
 		} else {
-			$control_input[0].focus();
+			self.focus(true);
 		}
 		e.preventDefault();
 	});
@@ -199,7 +199,7 @@ Selectize.prototype.trigger = function(event) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyPress = function(e) {
-	if (self.isLocked) return;
+	if (this.isLocked) return;
 	var character = String.fromCharCode(e.keyCode || e.which);
 	if (this.settings.create && character === this.settings.delimiter) {
 		this.createItem();
@@ -215,7 +215,7 @@ Selectize.prototype.onKeyPress = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyDown = function(e) {
-	if (self.isLocked) return;
+	if (this.isLocked) return;
 	var isInput = e.target === this.$control_input[0];
 
 	switch (e.keyCode || e.which) {
@@ -266,7 +266,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			}
 	}
 	if (!this.isFull()) {
-		this.$control_input[0].focus();
+		this.focus(true);
 	}
 };
 
@@ -277,7 +277,7 @@ Selectize.prototype.onKeyDown = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyUp = function(e) {
-	if (self.isLocked) return;
+	if (this.isLocked) return;
 	var value = this.$control_input.val() || '';
 	if (this.lastValue !== value) {
 		this.lastValue = value;
@@ -323,10 +323,11 @@ Selectize.prototype.onSearchChange = function(value) {
  * @returns {boolean}
  */
 Selectize.prototype.onFocus = function(e) {
+	this.showInput();
+	this.isInputFocused = true;
 	if (this.ignoreFocus) return;
 
 	this.isFocused = true;
-	this.isInputFocused = true;
 	this.setActiveItem(null);
 	this.$control.addClass('focus');
 	this.refreshOptions(!!this.settings.openOnFocus);
@@ -339,12 +340,12 @@ Selectize.prototype.onFocus = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onBlur = function(e) {
+	this.isInputFocused = false;
 	if (this.ignoreFocus) return;
 
 	this.close();
 	this.$control_input.val('');
 	this.setCaret(this.items.length, false);
-	this.isInputFocused = false;
 	if (!this.$activeItems.length) {
 		this.$control.removeClass('focus');
 		this.isFocused = false;
@@ -378,6 +379,18 @@ Selectize.prototype.onOptionSelect = function(e) {
 		if (value) {
 			this.addItem(value);
 			this.$control_input.val('');
+
+			// restore focus to input
+			var self = this;
+			window.setTimeout(function() {
+				if (self.settings.mode === 'single') {
+					self.blur();
+					self.focus(false);
+					self.hideInput();
+				} else {
+					self.focus(false);
+				}
+			}, 0);
 		}
 	}
 };
@@ -522,12 +535,39 @@ Selectize.prototype.setActiveOption = function($option, scroll, animate) {
 };
 
 /**
+ * Hides the input element out of view, while
+ * retaining its focus.
+ */
+Selectize.prototype.hideInput = function() {
+	this.$control_input.css({opacity: 0});
+};
+
+/**
+ * Restores input visibility.
+ */
+Selectize.prototype.showInput = function() {
+	this.$control_input.css({opacity: 1});
+};
+
+/**
+ * Gives the control focus. If "trigger" is falsy,
+ * focus handlers won't be fired--causing the focus
+ * to happen silently in the background.
+ *
+ * @param {boolean} trigger
+ */
+Selectize.prototype.focus = function(trigger) {
+	var ignoreFocus = this.ignoreFocus;
+	this.ignoreFocus = !trigger;
+	this.$control_input[0].focus();
+	this.ignoreFocus = ignoreFocus;
+};
+
+/**
  * Forces the control out of focus.
  */
 Selectize.prototype.blur = function() {
-	if (this.isInputFocused) {
-		this.$control_input.trigger('blur');
-	}
+	this.$control_input.trigger('blur');
 	this.setActiveItem(null);
 };
 
@@ -1305,7 +1345,7 @@ Selectize.prototype.setCaret = function(i, focus) {
 	}
 	this.ignoreFocus = false;
 	if (focus && this.isSetup) {
-		this.$control_input[0].focus();
+		this.focus(true);
 	}
 
 	this.caretPos = i;
