@@ -151,8 +151,21 @@ Selectize.prototype.setup = function() {
 			else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
 		},
 		mousedown: function(e) {
-			if (self.isFocused  && !self.isLocked && !self.$control.has(e.target).length && e.target !== self.$control[0]) {
-				self.blur();
+			if (self.isFocused && !self.isLocked) {
+				// prevent events on the dropdown scrollbar from causing the control to blur
+				if (e.target === self.$dropdown[0]) {
+					var ignoreFocus = self.ignoreFocus;
+					self.ignoreFocus = true;
+					window.setTimeout(function() {
+						self.ignoreFocus = ignoreFocus;
+						self.focus(false);
+					}, 0);
+					return;
+				}
+				// blur on click outside
+				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+					self.blur();
+				}
 			}
 		}
 	});
@@ -326,6 +339,7 @@ Selectize.prototype.onSearchChange = function(value) {
 Selectize.prototype.onFocus = function(e) {
 	this.showInput();
 	this.isInputFocused = true;
+	this.isFocused = true;
 	if (this.ignoreFocus) return;
 
 	this.setActiveItem(null);
@@ -457,7 +471,7 @@ Selectize.prototype.setActiveItem = function($item, e) {
 	if (!$item.length) {
 		$(this.$activeItems).removeClass('active');
 		this.$activeItems = [];
-		this.isFocused = false;
+		this.isFocused = this.isInputFocused;
 		return;
 	}
 
@@ -494,7 +508,7 @@ Selectize.prototype.setActiveItem = function($item, e) {
 		this.$activeItems = [$item.addClass('active')[0]];
 	}
 
-	this.isFocused = !!this.$activeItems.length;
+	this.isFocused = !!this.$activeItems.length || this.isInputFocused;
 };
 
 /**

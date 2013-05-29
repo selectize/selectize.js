@@ -1,5 +1,6 @@
 {
 	"name": "selectize",
+	"version": "0.1.4",
 	"title": "Selectize.js",
 	"author": {
 		"name": "Brian Reavis",
@@ -12,7 +13,6 @@
 	"demo": "http://brianreavis.github.io/selectize.js/",
 	"docs": "https://github.com/brianreavis/selectize.js",
 	"bugs": "https://github.com/brianreavis/selectize.js/issues",
-	"version": "0.1.3",
 	"licenses": [
 		{
 			"type": "Apache License, Version 2.0",
