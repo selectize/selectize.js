@@ -569,7 +569,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyPress = function(e) {
-		if (self.isLocked) return;
+		if (this.isLocked) return;
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && character === this.settings.delimiter) {
 			this.createItem();
@@ -585,7 +585,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyDown = function(e) {
-		if (self.isLocked) return;
+		if (this.isLocked) return;
 		var isInput = e.target === this.$control_input[0];
 	
 		switch (e.keyCode || e.which) {
@@ -647,7 +647,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyUp = function(e) {
-		if (self.isLocked) return;
+		if (this.isLocked) return;
 		var value = this.$control_input.val() || '';
 		if (this.lastValue !== value) {
 			this.lastValue = value;
