@@ -12,7 +12,7 @@
 	"demo": "http://brianreavis.github.io/selectize.js/",
 	"docs": "https://github.com/brianreavis/selectize.js",
 	"bugs": "https://github.com/brianreavis/selectize.js/issues",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"licenses": [
 		{
 			"type": "Apache License, Version 2.0",
