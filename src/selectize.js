@@ -201,7 +201,7 @@ Selectize.prototype.trigger = function(event) {
 	var args;
 	if (typeof this.settings[event] === 'function') {
 		args = Array.prototype.slice.apply(arguments, [1]);
-		this.settings.event.apply(this, args);
+		this.settings[event].apply(this, args);
 	}
 };
 
