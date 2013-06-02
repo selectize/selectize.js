@@ -396,6 +396,7 @@
 		this.isLocked         = false;
 		this.isFocused        = false;
 		this.isInputFocused   = false;
+		this.isInputHidden    = false;
 		this.isSetup          = false;
 		this.isShiftDown      = false;
 		this.isCtrlDown       = false;
@@ -644,7 +645,7 @@
 				this.deleteSelection(e);
 				break;
 			default:
-				if (this.isFull()) {
+				if (this.isFull() || this.isInputHidden) {
 					e.preventDefault();
 					return;
 				}
@@ -703,15 +704,15 @@
 	/**
 	* Triggered on <input> focus.
 	*
-	* @param {object} e
+	* @param {object} e (optional)
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onFocus = function(e) {
-		this.showInput();
 		this.isInputFocused = true;
 		this.isFocused = true;
 		if (this.ignoreFocus) return;
 	
+		this.showInput();
 		this.setActiveItem(null);
 		this.$control.addClass('focus');
 		this.refreshOptions(!!this.settings.openOnFocus);
@@ -756,6 +757,10 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onOptionSelect = function(e) {
+		e.preventDefault && e.preventDefault();
+		e.stopPropagation && e.stopPropagation();
+		this.focus(false);
+	
 		var $target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
 			this.createItem();
@@ -777,9 +782,12 @@
 	*/
 	Selectize.prototype.onItemSelect = function(e) {
 		if (this.settings.mode === 'multi') {
-			this.$control_input.trigger('blur');
-			this.setActiveItem(e.currentTarget, e);
+			e.preventDefault();
 			e.stopPropagation();
+			this.$control_input.triggerHandler('blur');
+			this.setActiveItem(e.currentTarget, e);
+			this.focus(false);
+			this.hideInput();
 		}
 	};
 	
@@ -789,7 +797,7 @@
 	* @param {string} value
 	*/
 	Selectize.prototype.setTextboxValue = function(value) {
-		this.$control_input.val(value);
+		this.$control_input.val(value).triggerHandler('update');
 		this.lastValue = value;
 	};
 	
@@ -922,15 +930,18 @@
 	* retaining its focus.
 	*/
 	Selectize.prototype.hideInput = function() {
-		this.$control_input.css({opacity: 0});
+		this.setTextboxValue('');
+		this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
 		this.isInputFocused = false;
+		this.isInputHidden = true;
 	};
 	
 	/**
 	* Restores input visibility.
 	*/
 	Selectize.prototype.showInput = function() {
-		this.$control_input.css({opacity: 1});
+		this.$control_input.css({opacity: 1, position: 'relative', left: 0});
+		this.isInputHidden = false;
 	};
 	
 	/**
@@ -942,8 +953,11 @@
 	*/
 	Selectize.prototype.focus = function(trigger) {
 		var ignoreFocus = this.ignoreFocus;
+		var fire = trigger && !this.isInputFocused;
+	
 		this.ignoreFocus = !trigger;
 		this.$control_input[0].focus();
+		if (fire) this.onFocus();
 		this.ignoreFocus = ignoreFocus;
 	};
 	
@@ -1458,7 +1472,7 @@
 		var caret = this.caretPos;
 		if (!input.length) return;
 		this.lock();
-		this.$control_input[0].blur();
+		this.close();
 	
 		var setup = (typeof this.settings.create === 'function') ? this.settings.create : function(input) {
 			var data = {};
@@ -1477,8 +1491,9 @@
 			self.addOption(value, data);
 			self.setCaret(caret, false);
 			self.addItem(value);
-			self.refreshOptions(false);
 			self.setTextboxValue('');
+			self.refreshOptions(true);
+			self.focus(false);
 		});
 	
 		var output = setup(input, create);
@@ -1730,19 +1745,24 @@
 			i = Math.max(0, Math.min(this.items.length, i));
 		}
 	
-		this.ignoreFocus = true;
-		this.$control_input.detach();
-		if (i === this.items.length) {
-			this.$control.append(this.$control_input);
-		} else {
-			this.$control_input.insertBefore(this.$control.children(':not(input)')[i]);
-		}
-		this.ignoreFocus = false;
-		if (focus && this.isSetup) {
-			this.focus(true);
+		// the input must be moved by leaving it in place and moving the
+		// siblings, due to the fact that focus cannot be restored once lost
+		// on mobile webkit devices
+		var j, n, fn, $children, $child;
+		$children = this.$control.children(':not(input)');
+		for (j = 0, n = $children.length; j < n; j++) {
+			$child = $($children[j]).detach();
+			if (j <  i) {
+				this.$control_input.before($child);
+			} else {
+				this.$control.append($child);
+			}
 		}
 	
 		this.caretPos = i;
+		if (focus && this.isSetup) {
+			this.focus(true);
+		}
 	};
 	
 	/**
