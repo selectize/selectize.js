@@ -1,4 +1,4 @@
-/*! selectize.js | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.1.8 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function (factory) {
 	if (typeof exports === 'object') {
@@ -9,10 +9,10 @@
 		factory(jQuery);
 	}
 }(function ($) {
-	"use strict";
-
+	"use strict";	
+	
 	// --- src/contrib/highlight.js ---
-
+	
 	/**
 	* highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
 	* Highlights arbitrary terms in a node.
@@ -20,11 +20,11 @@
 	* - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
 	* - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
 	*/
-
+	
 	var highlight = function($element, pattern) {
 		if (typeof pattern === 'string' && !pattern.length) return;
 		var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
-
+	
 		var highlight = function(node) {
 			var skip = 0;
 			if (node.nodeType === 3) {
@@ -47,12 +47,12 @@
 			}
 			return skip;
 		};
-
+	
 		return $element.each(function() {
 			highlight(this);
 		});
 	};
-
+	
 	var unhighlight = function($element) {
 		return $element.find('span.highlight').each(function() {
 			var parent = this.parentNode;
@@ -60,9 +60,9 @@
 			parent.normalize();
 		}).end();
 	};
-
+	
 	// --- src/constants.js ---
-
+	
 	/**
 	* selectize - A highly customizable select control with autocomplete.
 	* Copyright (c) 2013 Brian Reavis & contributors
@@ -78,9 +78,9 @@
 	*
 	* @author Brian Reavis <brian@thirdroute.com>
 	*/
-
+	
 	var IS_MAC        = /Mac/.test(navigator.userAgent);
-
+	
 	var KEY_COMMA     = 188;
 	var KEY_RETURN    = 13;
 	var KEY_ESC       = 27;
@@ -93,10 +93,10 @@
 	var KEY_SHIFT     = 16;
 	var KEY_CTRL      = IS_MAC ? 18 : 17;
 	var KEY_TAB       = 9;
-
+	
 	var TAG_SELECT    = 1;
 	var TAG_INPUT     = 2;
-
+	
 	var DIACRITICS = {
 		'a': '[aÀÁÂÃÄÅàáâãäå]',
 		'c': '[cÇç]',
@@ -109,9 +109,9 @@
 		'y': '[yŸÿý]',
 		'z': '[zŽž]'
 	};
-
+	
 	// --- src/selectize.jquery.js ---
-
+	
 	var defaults = {
 		delimiter: ',',
 		persist: true,
@@ -122,23 +122,23 @@
 		maxOptions: 1000,
 		maxItems: null,
 		hideSelected: null,
-
+	
 		scrollDuration: 60,
 		loadThrottle: 300,
-
+	
 		dataAttr: 'data-data',
 		sortField: null,
 		sortDirection: 'asc',
 		valueField: 'value',
 		labelField: 'text',
 		searchField: ['text'],
-
+	
 		mode: null,
 		theme: 'default',
 		wrapperClass: 'selectize-control',
 		inputClass: 'selectize-input',
 		dropdownClass: 'selectize-dropdown',
-
+	
 		load            : null, // function(query, callback)
 		score           : null, // function(search)
 		onChange        : null, // function(value)
@@ -150,24 +150,24 @@
 		onDropdownOpen  : null, // function($dropdown) { ... }
 		onDropdownClose : null, // function($dropdown) { ... }
 		onType          : null, // function(str) { ... }
-
+	
 		render: {
 			item: null,
 			option: null,
 			option_create: null
 		}
 	};
-
+	
 	$.fn.selectize = function (settings) {
 		var defaults = $.fn.selectize.defaults;
 		settings = settings || {};
-
+	
 		return this.each(function() {
 			var instance, value, values, i, n, data, dataAttr, settings_element, tagName;
 			var $options, $option, $input = $(this);
-
+	
 			tagName = $input[0].tagName.toLowerCase();
-
+	
 			if (typeof settings === 'string') {
 				instance = $input.data('selectize');
 				instance[settings].apply(instance, Array.prototype.splice.apply(arguments, 1));
@@ -177,7 +177,7 @@
 				settings_element.placeholder = $input.attr('placeholder');
 				settings_element.options = {};
 				settings_element.items = [];
-
+	
 				if (tagName === 'select') {
 					settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
 					$options = $input.children();
@@ -189,7 +189,7 @@
 							'text'  : $option.html(),
 							'value' : value
 						};
-
+	
 						if (typeof data === 'string') data = JSON.parse(data);
 						settings_element.options[value] = data;
 						if ($option.is(':selected')) {
@@ -209,30 +209,30 @@
 						settings_element.items = values;
 					}
 				}
-
+	
 				instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings));
 				$input.data('selectize', instance);
 				$input.addClass('selectized');
 			}
 		});
 	};
-
+	
 	$.fn.selectize.defaults = defaults;
-
+	
 	// --- src/utils.js ---
-
+	
 	var isset = function(object) {
 		return typeof object !== 'undefined';
 	};
-
+	
 	var htmlEntities = function(str) {
 		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 	};
-
+	
 	var quoteRegExp = function(str) {
 		return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 	};
-
+	
 	var once = function(fn) {
 		var called = false;
 		return function() {
@@ -241,7 +241,7 @@
 			fn.apply(this, arguments);
 		};
 	};
-
+	
 	var debounce = function(fn, delay) {
 		var timeout;
 		return function() {
@@ -253,7 +253,7 @@
 			}, delay);
 		};
 	};
-
+	
 	/**
 	* A workaround for http://bugs.jquery.com/ticket/6696
 	*
@@ -272,7 +272,7 @@
 			return fn.apply(this, [e]);
 		});
 	};
-
+	
 	var getSelection = function(input) {
 		var result = {};
 		if ('selectionStart' in input) {
@@ -288,7 +288,7 @@
 		}
 		return result;
 	};
-
+	
 	var transferStyles = function($from, $to, properties) {
 		var styles = {};
 		if (properties) {
@@ -301,7 +301,7 @@
 		$to.css(styles);
 		return $to;
 	};
-
+	
 	var measureString = function(str, $parent) {
 		var $test = $('<test>').css({
 			position: 'absolute',
@@ -311,7 +311,7 @@
 			padding: 0,
 			whiteSpace: 'nowrap'
 		}).text(str).appendTo('body');
-
+	
 		transferStyles($parent, $test, [
 			'letterSpacing',
 			'fontSize',
@@ -319,19 +319,20 @@
 			'fontWeight',
 			'textTransform'
 		]);
-
+	
 		var width = $test.width();
 		$test.remove();
-
+	
 		return width;
 	};
-
+	
 	var autoGrow = function($input) {
 		var update = function(e) {
 			var value, keyCode, printable, placeholder, width;
 			var shift, character;
-
-			e = e || window.event;
+	
+			if ($input.data('grow') === false) return;
+			e = e || window.event || {};
 			value = $input.val();
 			if (e.type && e.type.toLowerCase() === 'keydown') {
 				keyCode = e.keyCode;
@@ -341,7 +342,7 @@
 					(keyCode >= 48 && keyCode <= 57)  || // 0-9
 					keyCode == 32 // space
 				);
-
+	
 				if (printable) {
 					shift = e.shiftKey;
 					character = String.fromCharCode(e.keyCode);
@@ -350,24 +351,25 @@
 					value += character;
 				}
 			}
-
+	
 			placeholder = $input.attr('placeholder') || '';
 			if (!value.length && placeholder.length) {
 				value = placeholder;
 			}
-
+	
 			width = measureString(value, $input) + 4;
 			if (width !== $input.width()) {
 				$input.width(width);
 				$input.triggerHandler('resize');
 			}
 		};
+	
 		$input.on('keydown keyup update blur', update);
-		update({});
+		update();
 	};
-
+	
 	// --- src/selectize.js ---
-
+	
 	/**
 	* selectize.js
 	* Copyright (c) 2013 Brian Reavis & contributors
@@ -383,14 +385,14 @@
 	*
 	* @author Brian Reavis <brian@thirdroute.com>
 	*/
-
+	
 	var Selectize = function($input, settings) {
 		$input[0].selectize   = this;
-
+	
 		this.$input           = $input;
 		this.tagType          = $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT;
 		this.settings         = settings;
-
+	
 		this.highlightedValue = null;
 		this.isOpen           = false;
 		this.isLocked         = false;
@@ -407,16 +409,16 @@
 		this.caretPos         = 0;
 		this.loading          = 0;
 		this.loadedSearches   = {};
-
+	
 		this.$activeOption    = null;
 		this.$activeItems     = [];
-
+	
 		this.options          = {};
 		this.userOptions      = {};
 		this.items            = [];
 		this.renderCache      = {};
 		this.onSearchChange   = debounce(this.onSearchChange, this.settings.loadThrottle);
-
+	
 		if ($.isArray(settings.options)) {
 			var key = settings.valueField;
 			for (var i = 0; i < settings.options.length; i++) {
@@ -428,16 +430,16 @@
 			$.extend(this.options, settings.options);
 			delete this.settings.options;
 		}
-
+	
 		// option-dependent defaults
 		this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
 		if (typeof this.settings.hideSelected !== 'boolean') {
 			this.settings.hideSelected = this.settings.mode === 'multi';
 		}
-
+	
 		this.setup();
 	};
-
+	
 	/**
 	* Creates all elements and sets up event bindings.
 	*/
@@ -451,35 +453,35 @@
 		var displayMode;
 		var timeout_blur;
 		var timeout_focus;
-
+	
 		$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);
 		$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 		$control_input = $('<input type="text">').appendTo($control);
 		$dropdown      = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
-
+	
 		displayMode = this.$input.css('display');
 		$wrapper.css({
 			width: this.$input[0].style.width,
 			display: displayMode
 		});
-
+	
 		inputMode = this.settings.mode;
 		$wrapper.toggleClass('single', inputMode === 'single');
 		$wrapper.toggleClass('multi', inputMode === 'multi');
-
+	
 		if ((this.settings.maxItems === null || this.settings.maxItems > 1) && this.tagType === TAG_SELECT) {
 			this.$input.attr('multiple', 'multiple');
 		}
-
+	
 		if (this.settings.placeholder) {
 			$control_input.attr('placeholder', this.settings.placeholder);
 		}
-
+	
 		this.$wrapper       = $wrapper;
 		this.$control       = $control;
 		this.$control_input = $control_input;
 		this.$dropdown      = $dropdown;
-
+	
 		$control.on('mousedown', function(e) {
 			if (e.currentTarget === self.$control[0]) {
 				$control_input.trigger('focus');
@@ -488,13 +490,13 @@
 			}
 			e.preventDefault();
 		});
-
+	
 		watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
 		watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
-
+	
 		autoGrow($control_input);
-
+	
 		$control_input.on({
 			mousedown : function(e) { e.stopPropagation(); },
 			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
@@ -504,7 +506,7 @@
 			blur      : function() { return self.onBlur.apply(self, arguments); },
 			focus     : function() { return self.onFocus.apply(self, arguments); }
 		});
-
+	
 		$(document).on({
 			keydown: function(e) {
 				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
@@ -540,7 +542,7 @@
 				}
 			}
 		});
-
+	
 		$(window).on({
 			resize: function() {
 				if (self.isOpen) {
@@ -548,20 +550,20 @@
 				}
 			}
 		});
-
+	
 		this.$input.hide().after(this.$wrapper);
-
+	
 		if ($.isArray(this.settings.items)) {
 			this.setValue(this.settings.items);
 			delete this.settings.items;
 		}
-
+	
 		this.updateOriginalInput();
 		this.refreshItems();
 		this.updatePlaceholder();
 		this.isSetup = true;
 	};
-
+	
 	/**
 	* Triggers a callback defined in the user-provided settings.
 	* Events: onItemAdd, onOptionAdd, etc
@@ -575,7 +577,7 @@
 			this.settings[event].apply(this, args);
 		}
 	};
-
+	
 	/**
 	* Triggered on <input> keypress.
 	*
@@ -591,7 +593,7 @@
 			return false;
 		}
 	};
-
+	
 	/**
 	* Triggered on <input> keydown.
 	*
@@ -601,7 +603,7 @@
 	Selectize.prototype.onKeyDown = function(e) {
 		if (this.isLocked) return;
 		var isInput = e.target === this.$control_input[0];
-
+	
 		switch (e.keyCode || e.which) {
 			case KEY_ESC:
 				this.blur();
@@ -654,7 +656,7 @@
 			this.focus(true);
 		}
 	};
-
+	
 	/**
 	* Triggered on <input> keyup.
 	*
@@ -671,7 +673,7 @@
 			this.trigger('onType', value);
 		}
 	};
-
+	
 	/**
 	* Invokes the user-provide option provider / loader.
 	*
@@ -685,7 +687,7 @@
 		if (this.loadedSearches.hasOwnProperty(value)) return;
 		var self = this;
 		var $wrapper = this.$wrapper.addClass('loading');
-
+	
 		this.loading++;
 		this.loadedSearches[value] = true;
 		this.settings.load.apply(this, [value, function(results) {
@@ -700,7 +702,7 @@
 			}
 		}]);
 	};
-
+	
 	/**
 	* Triggered on <input> focus.
 	*
@@ -711,13 +713,13 @@
 		this.isInputFocused = true;
 		this.isFocused = true;
 		if (this.ignoreFocus) return;
-
+	
 		this.showInput();
 		this.setActiveItem(null);
 		this.$control.addClass('focus');
 		this.refreshOptions(!!this.settings.openOnFocus);
 	};
-
+	
 	/**
 	* Triggered on <input> blur.
 	*
@@ -727,7 +729,7 @@
 	Selectize.prototype.onBlur = function(e) {
 		this.isInputFocused = false;
 		if (this.ignoreFocus) return;
-
+	
 		this.close();
 		this.setTextboxValue('');
 		this.setActiveOption(null);
@@ -737,7 +739,7 @@
 			this.isFocused = false;
 		}
 	};
-
+	
 	/**
 	* Triggered when the user rolls over
 	* an option in the autocomplete dropdown menu.
@@ -748,7 +750,7 @@
 	Selectize.prototype.onOptionHover = function(e) {
 		this.setActiveOption(e.currentTarget, false);
 	};
-
+	
 	/**
 	* Triggered when the user clicks on an option
 	* in the autocomplete dropdown menu.
@@ -760,19 +762,19 @@
 		e.preventDefault && e.preventDefault();
 		e.stopPropagation && e.stopPropagation();
 		this.focus(false);
-
+	
 		var $target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
 			this.createItem();
 		} else {
 			var value = $target.attr('data-value');
 			if (value) {
-				this.addItem(value);
 				this.setTextboxValue('');
+				this.addItem(value);
 			}
 		}
 	};
-
+	
 	/**
 	* Triggered when the user clicks on an item
 	* that has been selected.
@@ -790,7 +792,7 @@
 			this.hideInput();
 		}
 	};
-
+	
 	/**
 	* Sets the input field of the control to the specified value.
 	*
@@ -800,7 +802,7 @@
 		this.$control_input.val(value).triggerHandler('update');
 		this.lastValue = value;
 	};
-
+	
 	/**
 	* Returns the value of the control. If multiple items
 	* can be selected (e.g. <select multiple>), this returns
@@ -816,7 +818,7 @@
 			return this.items.join(this.settings.delimiter);
 		}
 	};
-
+	
 	/**
 	* Resets the selected items to the given value.
 	*
@@ -829,7 +831,7 @@
 			this.addItem(items[i]);
 		}
 	};
-
+	
 	/**
 	* Sets the selected item.
 	*
@@ -840,9 +842,9 @@
 		var eventName;
 		var i, idx, begin, end, item, swap;
 		var $last;
-
+	
 		$item = $($item);
-
+	
 		// clear the active selection
 		if (!$item.length) {
 			$(this.$activeItems).removeClass('active');
@@ -850,10 +852,10 @@
 			this.isFocused = this.isInputFocused;
 			return;
 		}
-
+	
 		// modify selection
 		eventName = e && e.type.toLowerCase();
-
+	
 		if (eventName === 'mousedown' && this.isShiftDown && this.$activeItems.length) {
 			$last = this.$control.children('.active:last');
 			begin = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$last[0]]);
@@ -883,10 +885,10 @@
 			$(this.$activeItems).removeClass('active');
 			this.$activeItems = [$item.addClass('active')[0]];
 		}
-
+	
 		this.isFocused = !!this.$activeItems.length || this.isInputFocused;
 	};
-
+	
 	/**
 	* Sets the selected item in the dropdown menu
 	* of available options.
@@ -898,33 +900,33 @@
 	Selectize.prototype.setActiveOption = function($option, scroll, animate) {
 		var height_menu, height_item, y;
 		var scroll_top, scroll_bottom;
-
+	
 		if (this.$activeOption) this.$activeOption.removeClass('active');
 		this.$activeOption = null;
-
+	
 		$option = $($option);
 		if (!$option.length) return;
-
+	
 		this.$activeOption = $option.addClass('active');
-
+	
 		if (scroll || !isset(scroll)) {
-
+	
 			height_menu   = this.$dropdown.height();
 			height_item   = this.$activeOption.outerHeight(true);
 			scroll        = this.$dropdown.scrollTop() || 0;
 			y             = this.$activeOption.offset().top - this.$dropdown.offset().top + scroll;
 			scroll_top    = y;
 			scroll_bottom = y - height_menu + height_item;
-
+	
 			if (y + height_item > height_menu - scroll) {
 				this.$dropdown.stop().animate({scrollTop: scroll_bottom}, animate ? this.settings.scrollDuration : 0);
 			} else if (y < scroll) {
 				this.$dropdown.stop().animate({scrollTop: scroll_top}, animate ? this.settings.scrollDuration : 0);
 			}
-
+	
 		}
 	};
-
+	
 	/**
 	* Hides the input element out of view, while
 	* retaining its focus.
@@ -935,7 +937,7 @@
 		this.isInputFocused = false;
 		this.isInputHidden = true;
 	};
-
+	
 	/**
 	* Restores input visibility.
 	*/
@@ -943,7 +945,7 @@
 		this.$control_input.css({opacity: 1, position: 'relative', left: 0});
 		this.isInputHidden = false;
 	};
-
+	
 	/**
 	* Gives the control focus. If "trigger" is falsy,
 	* focus handlers won't be fired--causing the focus
@@ -954,13 +956,13 @@
 	Selectize.prototype.focus = function(trigger) {
 		var ignoreFocus = this.ignoreFocus;
 		var fire = trigger && !this.isInputFocused;
-
+	
 		this.ignoreFocus = !trigger;
 		this.$control_input[0].focus();
 		if (fire) this.onFocus();
 		this.ignoreFocus = ignoreFocus;
 	};
-
+	
 	/**
 	* Forces the control out of focus.
 	*/
@@ -968,7 +970,7 @@
 		this.$control_input.trigger('blur');
 		this.setActiveItem(null);
 	};
-
+	
 	/**
 	* Splits a search string into an array of
 	* individual regexps to be used to match results.
@@ -979,11 +981,11 @@
 	Selectize.prototype.parseSearchTokens = function(query) {
 		query = $.trim(String(query || '').toLowerCase());
 		if (!query || !query.length) return [];
-
+	
 		var i, n, regex, letter;
 		var tokens = [];
 		var words = query.split(/ +/);
-
+	
 		for (i = 0, n = words.length; i < n; i++) {
 			regex = quoteRegExp(words[i]);
 			if (this.settings.diacritics) {
@@ -998,10 +1000,10 @@
 				regex  : new RegExp(regex, 'i')
 			});
 		}
-
+	
 		return tokens;
 	};
-
+	
 	/**
 	* Returns a function to be used to score individual results.
 	* Results will be sorted by the score (descending). Scores less
@@ -1014,14 +1016,14 @@
 	Selectize.prototype.getScoreFunction = function(search) {
 		var self = this;
 		var tokens = search.tokens;
-
+	
 		var calculateFieldScore = (function() {
 			if (!tokens.length) {
 				return function() { return 0; };
 			} else if (tokens.length === 1) {
 				return function(value) {
 					var score, pos;
-
+	
 					value = String(value || '').toLowerCase();
 					pos = value.search(tokens[0].regex);
 					if (pos === -1) return 0;
@@ -1032,7 +1034,7 @@
 			} else {
 				return function(value) {
 					var score, pos, i, j;
-
+	
 					value = String(value || '').toLowerCase();
 					score = 0;
 					for (i = 0, j = tokens.length; i < j; i++) {
@@ -1045,7 +1047,7 @@
 				};
 			}
 		})();
-
+	
 		var calculateScore = (function() {
 			var fields = self.settings.searchField;
 			if (typeof fields === 'string') {
@@ -1073,10 +1075,10 @@
 				};
 			}
 		})();
-
+	
 		return calculateScore;
 	};
-
+	
 	/**
 	* Searches through available options and returns
 	* a sorted array of matches. Includes options that
@@ -1102,20 +1104,20 @@
 	Selectize.prototype.search = function(query, settings) {
 		var self = this;
 		var value, score, search, calculateScore;
-
+	
 		settings = settings || {};
 		query = $.trim(String(query || '').toLowerCase());
-
+	
 		if (query !== this.lastQuery) {
 			this.lastQuery = query;
-
+	
 			search = {
 				query  : query,
 				tokens : this.parseSearchTokens(query),
 				total  : 0,
 				items  : []
 			};
-
+	
 			// generate result scoring function
 			if (this.settings.score) {
 				calculateScore = this.settings.score.apply(this, [search]);
@@ -1125,7 +1127,7 @@
 			} else {
 				calculateScore = this.getScoreFunction(search);
 			}
-
+	
 			// perform search and sort
 			if (query.length) {
 				for (value in this.options) {
@@ -1169,11 +1171,11 @@
 		} else {
 			search = $.extend(true, {}, this.currentResults);
 		}
-
+	
 		// apply limits and return
 		return this.prepareResults(search, settings);
 	};
-
+	
 	/**
 	* Filters out any items that have already been selected
 	* and applies search limits.
@@ -1190,15 +1192,15 @@
 				}
 			}
 		}
-
+	
 		search.total = search.items.length;
 		if (typeof settings.limit === 'number') {
 			search.items = search.items.slice(0, settings.limit);
 		}
-
+	
 		return search;
 	};
-
+	
 	/**
 	* Refreshes the list of available options shown
 	* in the autocomplete dropdown menu.
@@ -1209,13 +1211,13 @@
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
 		}
-
+	
 		var i, n;
 		var hasCreateOption;
 		var query = this.$control_input.val();
 		var results = this.search(query, {});
 		var html = [];
-
+	
 		// build markup
 		n = results.items.length;
 		if (typeof this.settings.maxOptions === 'number') {
@@ -1224,29 +1226,29 @@
 		for (i = 0; i < n; i++) {
 			html.push(this.render('option', this.options[results.items[i].value]));
 		}
-
+	
 		this.$dropdown.html(html.join(''));
-
+	
 		// highlight matching terms inline
 		if (this.settings.highlight && results.query.length && results.tokens.length) {
 			for (i = 0, n = results.tokens.length; i < n; i++) {
 				highlight(this.$dropdown, results.tokens[i].regex);
 			}
 		}
-
+	
 		// add "selected" class to selected options
 		if (!this.settings.hideSelected) {
 			for (i = 0, n = this.items.length; i < n; i++) {
 				this.getOption(this.items[i]).addClass('selected');
 			}
 		}
-
+	
 		// add create option
 		hasCreateOption = this.settings.create && results.query.length;
 		if (hasCreateOption) {
 			this.$dropdown.prepend(this.render('option_create', {input: query}));
 		}
-
+	
 		// activate
 		this.hasOptions = results.items.length > 0 || hasCreateOption;
 		if (this.hasOptions) {
@@ -1257,7 +1259,7 @@
 			if (triggerDropdown && this.isOpen) { this.close(); }
 		}
 	};
-
+	
 	/**
 	* Adds an available option. If it already exists,
 	* nothing will happen. Note: this does not refresh
@@ -1274,7 +1276,7 @@
 			}
 			return;
 		}
-
+	
 		if (this.options.hasOwnProperty(value)) return;
 		value = String(value);
 		this.userOptions[value] = true;
@@ -1282,7 +1284,7 @@
 		this.lastQuery = null;
 		this.trigger('onOptionAdd', value, data);
 	};
-
+	
 	/**
 	* Updates an option available for selection. If
 	* it is visible in the selected items or options
@@ -1296,19 +1298,19 @@
 		this.options[value] = data;
 		if (isset(this.renderCache['item'])) delete this.renderCache['item'][value];
 		if (isset(this.renderCache['option'])) delete this.renderCache['option'][value];
-
+	
 		if (this.items.indexOf(value) !== -1) {
 			var $item = this.getItem(value);
 			var $item_new = $(this.render('item', data));
 			if ($item.hasClass('active')) $item_new.addClass('active');
 			$item.replaceWith($item_new);
 		}
-
+	
 		if (this.isOpen) {
 			this.refreshOptions(false);
 		}
 	};
-
+	
 	/**
 	* Removes an option.
 	*
@@ -1321,7 +1323,7 @@
 		this.lastQuery = null;
 		this.trigger('onOptionRemove', value);
 	};
-
+	
 	/**
 	* Returns the jQuery element of the option
 	* matching the given value.
@@ -1332,7 +1334,7 @@
 	Selectize.prototype.getOption = function(value) {
 		return this.$dropdown.children('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first');
 	};
-
+	
 	/**
 	* Returns the jQuery element of the item
 	* matching the given value.
@@ -1351,7 +1353,7 @@
 		}
 		return $();
 	};
-
+	
 	/**
 	* "Selects" an item. Adds it to the list
 	* at the current caret position.
@@ -1362,22 +1364,18 @@
 		var $item;
 		var self = this;
 		var inputMode = this.settings.mode;
-		var isFull = this.isFull();
 		value = String(value);
-
+	
 		if (inputMode === 'single') this.clear();
-		if (inputMode === 'multi' && isFull) return;
+		if (inputMode === 'multi' && this.isFull()) return;
 		if (this.items.indexOf(value) !== -1) return;
 		if (!this.options.hasOwnProperty(value)) return;
-
+	
 		$item = $(this.render('item', this.options[value]));
 		this.items.splice(this.caretPos, 0, value);
 		this.insertAtCaret($item);
-
-		isFull = this.isFull();
-		this.$control.toggleClass('has-items', true);
-		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
-
+		this.refreshClasses();
+	
 		if (this.isSetup) {
 			// remove the option from the menu
 			var options = this.$dropdown[0].childNodes;
@@ -1391,14 +1389,14 @@
 					break;
 				}
 			}
-
+	
 			// hide the menu if the maximum number of items have been selected or no options are left
 			if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
 				this.close();
 			} else {
 				this.positionDropdown();
 			}
-
+	
 			// restore focus to input
 			if (this.isFocused) {
 				window.setTimeout(function() {
@@ -1411,13 +1409,13 @@
 					}
 				}, 0);
 			}
-
+	
 			this.updatePlaceholder();
 			this.updateOriginalInput();
 			this.trigger('onItemAdd', value, $item);
 		}
 	};
-
+	
 	/**
 	* Removes the selected item matching
 	* the provided value.
@@ -1426,21 +1424,19 @@
 	*/
 	Selectize.prototype.removeItem = function(value) {
 		var $item, i, idx;
-
+	
 		$item = (typeof value === 'object') ? value : this.getItem(value);
 		value = String($item.attr('data-value'));
 		i = this.items.indexOf(value);
-
+	
 		if (i !== -1) {
 			$item.remove();
 			if ($item.hasClass('active')) {
 				idx = this.$activeItems.indexOf($item[0]);
 				this.$activeItems.splice(idx, 1);
 			}
-
+	
 			this.items.splice(i, 1);
-			this.$control.toggleClass('has-items', this.items.length > 0);
-			this.$control.removeClass('full').addClass('not-full');
 			this.lastQuery = null;
 			if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 				this.removeOption(value);
@@ -1448,16 +1444,17 @@
 			this.setCaret(i);
 			this.positionDropdown();
 			this.refreshOptions(false);
-
+			this.refreshClasses();
+	
 			if (!this.hasOptions) { this.close(); }
 			else if (this.isInputFocused) { this.open(); }
-
+	
 			this.updatePlaceholder();
 			this.updateOriginalInput();
 			this.trigger('onItemRemove', value);
 		}
 	};
-
+	
 	/**
 	* Invokes the `create` method provided in the
 	* selectize options that should provide the data
@@ -1473,53 +1470,61 @@
 		if (!input.length) return;
 		this.lock();
 		this.close();
-
+	
 		var setup = (typeof this.settings.create === 'function') ? this.settings.create : function(input) {
 			var data = {};
 			data[self.settings.labelField] = input;
 			data[self.settings.valueField] = input;
 			return data;
 		};
-
+	
 		var create = once(function(data) {
 			self.unlock();
 			self.focus(false);
-
+	
 			var value = data && data[self.settings.valueField];
 			if (!value) return;
-
+	
+			self.setTextboxValue('');
 			self.addOption(value, data);
 			self.setCaret(caret, false);
 			self.addItem(value);
-			self.setTextboxValue('');
 			self.refreshOptions(true);
 			self.focus(false);
 		});
-
+	
 		var output = setup(input, create);
 		if (typeof output === 'object') {
 			create(output);
 		}
 	};
-
+	
 	/**
 	* Re-renders the selected item lists.
 	*/
 	Selectize.prototype.refreshItems = function() {
-		var isFull = this.isFull();
 		this.lastQuery = null;
-		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
-		this.$control.toggleClass('has-items', this.items.length > 0);
-
+	
 		if (this.isSetup) {
 			for (var i = 0; i < this.items.length; i++) {
 				this.addItem(this.items);
 			}
 		}
-
+	
+		this.refreshClasses();
 		this.updateOriginalInput();
 	};
-
+	
+	/**
+	* Updates all state-dependent CSS classes.
+	*/
+	Selectize.prototype.refreshClasses = function() {
+		var isFull = this.isFull();
+		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
+		this.$control.toggleClass('has-items', this.items.length > 0);
+		this.$control_input.data('grow', !isFull);
+	};
+	
 	/**
 	* Determines whether or not more items can be added
 	* to the control without exceeding the user-defined maximum.
@@ -1529,14 +1534,14 @@
 	Selectize.prototype.isFull = function() {
 		return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 	};
-
+	
 	/**
 	* Refreshes the original <select> or <input>
 	* element to reflect the current state.
 	*/
 	Selectize.prototype.updateOriginalInput = function() {
 		var i, n, options;
-
+	
 		if (this.$input[0].tagName.toLowerCase() === 'select') {
 			options = [];
 			for (i = 0, n = this.items.length; i < n; i++) {
@@ -1549,13 +1554,13 @@
 		} else {
 			this.$input.val(this.getValue());
 		}
-
+	
 		this.$input.trigger('change');
 		if (this.isSetup) {
 			this.trigger('onChange', this.$input.val());
 		}
 	};
-
+	
 	/**
 	* Shows/hide the input placeholder depending
 	* on if there items in the list already.
@@ -1563,7 +1568,7 @@
 	Selectize.prototype.updatePlaceholder = function() {
 		if (!this.settings.placeholder) return;
 		var $input = this.$control_input;
-
+	
 		if (this.items.length) {
 			$input.removeAttr('placeholder');
 		} else {
@@ -1571,7 +1576,7 @@
 		}
 		$input.triggerHandler('update');
 	};
-
+	
 	/**
 	* Shows the autocomplete dropdown containing
 	* the available options.
@@ -1584,7 +1589,7 @@
 		this.$dropdown.show();
 		this.trigger('onDropdownOpen', this.$dropdown);
 	};
-
+	
 	/**
 	* Closes the autocomplete dropdown menu.
 	*/
@@ -1595,7 +1600,7 @@
 		this.isOpen = false;
 		this.trigger('onDropdownClose', this.$dropdown);
 	};
-
+	
 	/**
 	* Calculates and applies the appropriate
 	* position of the dropdown.
@@ -1604,29 +1609,29 @@
 		var $control = this.$control;
 		var offset = $control.position();
 		offset.top += $control.outerHeight(true);
-
+	
 		this.$dropdown.css({
 			width : $control.outerWidth(),
 			top   : offset.top,
 			left  : offset.left
 		});
 	};
-
+	
 	/**
 	* Resets / clears all selected items
 	* from the control.
 	*/
 	Selectize.prototype.clear = function() {
 		if (!this.items.length) return;
-		this.$control.removeClass('has-items');
 		this.$control.children(':not(input)').remove();
 		this.items = [];
 		this.setCaret(0);
 		this.updatePlaceholder();
 		this.updateOriginalInput();
+		this.refreshClasses();
 		this.trigger('onClear');
 	};
-
+	
 	/**
 	* A helper method for inserting an element
 	* at the current caret position.
@@ -1642,7 +1647,7 @@
 		}
 		this.setCaret(caret + 1);
 	};
-
+	
 	/**
 	* Removes the current selected item(s).
 	*
@@ -1650,14 +1655,14 @@
 	*/
 	Selectize.prototype.deleteSelection = function(e) {
 		var i, n, direction, selection, values, caret, $tail;
-
+	
 		direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(this.$control_input[0]);
 		if (this.$activeItems.length) {
 			$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
 			caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
 			if (this.$activeItems.length > 1 && direction > 0) { caret--; }
-
+	
 			values = [];
 			for (i = 0, n = this.$activeItems.length; i < n; i++) {
 				values.push($(this.$activeItems[i]).attr('data-value'));
@@ -1665,7 +1670,7 @@
 			while (values.length) {
 				this.removeItem(values.pop());
 			}
-
+	
 			this.setCaret(caret);
 			e.preventDefault();
 			e.stopPropagation();
@@ -1677,7 +1682,7 @@
 			}
 		}
 	};
-
+	
 	/**
 	* Selects the previous / next item (depending
 	* on the `direction` argument).
@@ -1692,13 +1697,13 @@
 		if (direction === 0) return;
 		var tail = direction > 0 ? 'last' : 'first';
 		var selection = getSelection(this.$control_input[0]);
-
+	
 		if (this.isInputFocused) {
 			var valueLength = this.$control_input.val().length;
 			var cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
 				: selection.start === valueLength;
-
+	
 			if (cursorAtEdge && !valueLength) {
 				this.advanceCaret(direction, e);
 			}
@@ -1710,7 +1715,7 @@
 			}
 		}
 	};
-
+	
 	/**
 	* Moves the caret left / right.
 	*
@@ -1731,7 +1736,7 @@
 			this.setCaret(this.caretPos + direction);
 		}
 	};
-
+	
 	/**
 	* Moves the caret to the specified index.
 	*
@@ -1739,12 +1744,12 @@
 	* @param {boolean} focus
 	*/
 	Selectize.prototype.setCaret = function(i, focus) {
-		if (this.settings.mode === 'single' || this.isFull()) {
+		if (this.settings.mode === 'single') {
 			i = this.items.length;
 		} else {
 			i = Math.max(0, Math.min(this.items.length, i));
 		}
-
+	
 		// the input must be moved by leaving it in place and moving the
 		// siblings, due to the fact that focus cannot be restored once lost
 		// on mobile webkit devices
@@ -1758,13 +1763,13 @@
 				this.$control.append($child);
 			}
 		}
-
+	
 		this.caretPos = i;
 		if (focus && this.isSetup) {
 			this.focus(true);
 		}
 	};
-
+	
 	/**
 	* Disables user input on the control. Used while
 	* items are being asynchronously created.
@@ -1773,7 +1778,7 @@
 		this.isLocked = true;
 		this.$control.addClass('locked');
 	};
-
+	
 	/**
 	* Re-enables user input on the control.
 	*/
@@ -1781,7 +1786,7 @@
 		this.isLocked = false;
 		this.$control.removeClass('locked');
 	};
-
+	
 	/**
 	* A helper method for rendering "item" and
 	* "option" templates, given the data.
@@ -1792,16 +1797,16 @@
 	*/
 	Selectize.prototype.render = function(templateName, data) {
 		cache = isset(cache) ? cache : true;
-
+	
 		var value, label;
 		var html = '';
 		var cache = false;
-
+	
 		if (['option', 'item'].indexOf(templateName) !== -1) {
 			value = data[this.settings.valueField];
 			cache = isset(value);
 		}
-
+	
 		if (cache) {
 			if (!isset(this.renderCache[templateName])) {
 				this.renderCache[templateName] = {};
@@ -1810,7 +1815,7 @@
 				return this.renderCache[templateName][value];
 			}
 		}
-
+	
 		if (this.settings.render && typeof this.settings.render[templateName] === 'function') {
 			html = this.settings.render[templateName].apply(this, [data]);
 		} else {
@@ -1827,14 +1832,14 @@
 					break;
 			}
 		}
-
+	
 		if (isset(value)) {
 			html = html.replace(/^[\	 ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i, '<$1 data-value="' + value + '"');
 		}
 		if (cache) {
 			this.renderCache[templateName][value] = html;
 		}
-
+	
 		return html;
 	};
 
