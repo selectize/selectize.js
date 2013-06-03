@@ -1,4 +1,4 @@
-/*! selectize.js - v0.1.8 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.1.9 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function (factory) {
 	if (typeof exports === 'object') {
