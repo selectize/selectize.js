@@ -331,7 +331,8 @@
 			var value, keyCode, printable, placeholder, width;
 			var shift, character;
 	
-			e = e || window.event;
+			if ($input.data('grow') === false) return;
+			e = e || window.event || {};
 			value = $input.val();
 			if (e.type && e.type.toLowerCase() === 'keydown') {
 				keyCode = e.keyCode;
@@ -362,8 +363,9 @@
 				$input.triggerHandler('resize');
 			}
 		};
+	
 		$input.on('keydown keyup update blur', update);
-		update({});
+		update();
 	};
 	
 	// --- src/selectize.js ---
@@ -767,8 +769,8 @@
 		} else {
 			var value = $target.attr('data-value');
 			if (value) {
-				this.addItem(value);
 				this.setTextboxValue('');
+				this.addItem(value);
 			}
 		}
 	};
@@ -1362,21 +1364,17 @@
 		var $item;
 		var self = this;
 		var inputMode = this.settings.mode;
-		var isFull = this.isFull();
 		value = String(value);
 	
 		if (inputMode === 'single') this.clear();
-		if (inputMode === 'multi' && isFull) return;
+		if (inputMode === 'multi' && this.isFull()) return;
 		if (this.items.indexOf(value) !== -1) return;
 		if (!this.options.hasOwnProperty(value)) return;
 	
 		$item = $(this.render('item', this.options[value]));
 		this.items.splice(this.caretPos, 0, value);
 		this.insertAtCaret($item);
-	
-		isFull = this.isFull();
-		this.$control.toggleClass('has-items', true);
-		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
+		this.refreshClasses();
 	
 		if (this.isSetup) {
 			// remove the option from the menu
@@ -1439,8 +1437,6 @@
 			}
 	
 			this.items.splice(i, 1);
-			this.$control.toggleClass('has-items', this.items.length > 0);
-			this.$control.removeClass('full').addClass('not-full');
 			this.lastQuery = null;
 			if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 				this.removeOption(value);
@@ -1448,6 +1444,7 @@
 			this.setCaret(i);
 			this.positionDropdown();
 			this.refreshOptions(false);
+			this.refreshClasses();
 	
 			if (!this.hasOptions) { this.close(); }
 			else if (this.isInputFocused) { this.open(); }
@@ -1488,10 +1485,10 @@
 			var value = data && data[self.settings.valueField];
 			if (!value) return;
 	
+			self.setTextboxValue('');
 			self.addOption(value, data);
 			self.setCaret(caret, false);
 			self.addItem(value);
-			self.setTextboxValue('');
 			self.refreshOptions(true);
 			self.focus(false);
 		});
@@ -1506,10 +1503,7 @@
 	* Re-renders the selected item lists.
 	*/
 	Selectize.prototype.refreshItems = function() {
-		var isFull = this.isFull();
 		this.lastQuery = null;
-		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
-		this.$control.toggleClass('has-items', this.items.length > 0);
 	
 		if (this.isSetup) {
 			for (var i = 0; i < this.items.length; i++) {
@@ -1517,7 +1511,18 @@
 			}
 		}
 	
+		this.refreshClasses();
 		this.updateOriginalInput();
+	};
+	
+	/**
+	* Updates all state-dependent CSS classes.
+	*/
+	Selectize.prototype.refreshClasses = function() {
+		var isFull = this.isFull();
+		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
+		this.$control.toggleClass('has-items', this.items.length > 0);
+		this.$control_input.data('grow', !isFull);
 	};
 	
 	/**
@@ -1618,12 +1623,12 @@
 	*/
 	Selectize.prototype.clear = function() {
 		if (!this.items.length) return;
-		this.$control.removeClass('has-items');
 		this.$control.children(':not(input)').remove();
 		this.items = [];
 		this.setCaret(0);
 		this.updatePlaceholder();
 		this.updateOriginalInput();
+		this.refreshClasses();
 		this.trigger('onClear');
 	};
 	
@@ -1739,7 +1744,7 @@
 	* @param {boolean} focus
 	*/
 	Selectize.prototype.setCaret = function(i, focus) {
-		if (this.settings.mode === 'single' || this.isFull()) {
+		if (this.settings.mode === 'single') {
 			i = this.items.length;
 		} else {
 			i = Math.max(0, Math.min(this.items.length, i));

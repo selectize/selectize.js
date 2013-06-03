@@ -108,7 +108,8 @@ var autoGrow = function($input) {
 		var value, keyCode, printable, placeholder, width;
 		var shift, character;
 
-		e = e || window.event;
+		if ($input.data('grow') === false) return;
+		e = e || window.event || {};
 		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keydown') {
 			keyCode = e.keyCode;
@@ -139,6 +140,7 @@ var autoGrow = function($input) {
 			$input.triggerHandler('resize');
 		}
 	};
+
 	$input.on('keydown keyup update blur', update);
-	update({});
+	update();
 };
