@@ -1,8 +1,17 @@
 #!/bin/bash
+
+# read version info
+config=$(cat bower.json)
+version_regex="\"version\": \"([^\"]*)\""
+[[ "$config" =~ $version_regex ]]
+version="${BASH_REMATCH[1]}"
+
+# setup
+
 IFS='%'
 out=selectize.js
 out_min=selectize.min.js
-banner="/*! selectize.js | https://github.com/brianreavis/selectize.js | Apache License (v2) */"
+banner="/*! selectize.js - v${version} | https://github.com/brianreavis/selectize.js | Apache License (v2) */"
 
 append_file () {
 	src=$(cat $2 | sed 's/^ *//g' | sed 's/ *$//g' | sed 's.\\.\\\\\\\\\\.g')
@@ -39,5 +48,6 @@ curl -s -d compilation_level=SIMPLE_OPTIMIZATIONS \
 
 echo "$banner" | cat - $out_min > temp && mv temp $out_min
 printf " done.\n"
+printf "\033[32mv${version} compiled\033[0;39m\n"
 
 unset IFS
