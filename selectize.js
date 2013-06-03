@@ -1494,7 +1494,7 @@
 		});
 	
 		var output = setup(input, create);
-		if (typeof output === 'object') {
+		if (typeof output !== 'undefined') {
 			create(output);
 		}
 	};
