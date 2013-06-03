@@ -31,6 +31,10 @@ $('select').selectize(options);
 
 The available options are [documented here](docs/usage.md).
 
+#### IE8 Support
+
+To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim/) must be added your page.
+
 ### Contributing
 
 To test, build your copy with `make` then try out the [bundled examples](examples/).
