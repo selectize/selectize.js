@@ -112,6 +112,10 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>focus()</code></td>
+		<td valign="top">Brings the control into focus.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>blur()</code></td>
 		<td valign="top">Forces the control out of focus.</td>
 	</tr>
@@ -130,6 +134,14 @@ var selectize = $select[0].selectize;
 	<tr>
 		<td valign="top"><code>setValue(value)</code></td>
 		<td valign="top">Resets the selected items to the given value.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>setCaret(index)</code></td>
+		<td valign="top">Moves the caret to the specified position ("index" being the index in the list of selected items).</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>isFull()</code></td>
+		<td valign="top">Returns whether or not the user can select more items.</td>
 	</tr>
 </table>
 

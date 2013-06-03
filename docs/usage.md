@@ -130,7 +130,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>score(search)</code></td>
-		<td valign="top">Overrides the scoring function used to sort available options. The provided function should return a number greater than or equal to zero to represent the "score" of the item. If 0, the option is declared not a match. The "search" argument is a <a href="#search">Search</a> object.</td>
+		<td valign="top">Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the "score" of an item (the function's first argument). If 0, the option is declared not a match. The "search" argument is a <a href="#search">Search</a> object. For an example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.</td>
 		<td valign="top"><code>function</code></td>
 	</tr>
 	<tr>

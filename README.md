@@ -17,12 +17,19 @@ Selectize is a jQuery-based custom &lt;select&gt; UI control. It's useful for ta
 - **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
+- **Touch Support**<br> Plays nice with iOS 5+ devices.
 
 ### Usage
+
+If using [Bower](http://bower.io/), run `bower install selectize`. Otherwise,
+grab ["selectize.min.js"](selectize.min.js) (or ["selectize.js"](selectize.js)
+if in a development environment) and ["selectize.css"](selectize.css) and include them in your project.
 
 ```js
 $('select').selectize(options);
 ```
+
+The available options are [documented here](docs/usage.md).
 
 ### Contributing
 
@@ -32,7 +39,7 @@ Please exclude "selectize.js" and "selectize.min.js" in the project root when is
 
 ## License
 
-Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis), [DIY](https://diy.org), & Contributors
+Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis), & Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 
