@@ -1,4 +1,4 @@
-/*! selectize.js - v0.1.9 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.1.10 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function (factory) {
 	if (typeof exports === 'object') {
@@ -454,8 +454,8 @@
 		var timeout_blur;
 		var timeout_focus;
 		var tab_index;
-
-		tab_index = this.$input.attr('tabindex') || "";
+	
+		tab_index = this.$input.attr('tabindex') || '';
 		this.$input.attr('tabindex',-1);
 	
 		$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);

@@ -82,8 +82,8 @@ Selectize.prototype.setup = function() {
 	var timeout_blur;
 	var timeout_focus;
 	var tab_index;
-	
-	tab_index = this.$input.attr('tabindex') || "";
+
+	tab_index = this.$input.attr('tabindex') || '';
 	this.$input.attr('tabindex',-1);
 
 	$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);
