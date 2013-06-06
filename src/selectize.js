@@ -82,7 +82,7 @@ Selectize.prototype.setup = function() {
 	var timeout_blur;
 	var timeout_focus;
 	var tab_index;
-	var classes = [];
+	var classes;
 
 	tab_index = this.$input.attr('tabindex') || '';
 	this.$input.attr('tabindex',-1);
