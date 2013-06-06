@@ -1,4 +1,4 @@
-/*! selectize.js - v0.1.10 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.1.11 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function (factory) {
 	if (typeof exports === 'object') {
@@ -252,6 +252,36 @@
 				fn.apply(self, args);
 			}, delay);
 		};
+	};
+	
+	/**
+	* Debounce all fired events types listed in `types`
+	* while executing the provided `fn`.
+	*
+	* @param {object} self
+	* @param {array} types
+	* @param {function} fn
+	*/
+	var debounce_events = function(self, types, fn) {
+		var type;
+		var trigger = self.trigger;
+		var event_args = {};
+	
+		// override trigger method
+		self.trigger = function() {
+			event_args[arguments[0]] = arguments;
+		};
+	
+		// invoke provided function
+		fn.apply(self, []);
+		self.trigger = trigger;
+	
+		// trigger queued events
+		for (type in event_args) {
+			if (event_args.hasOwnProperty(type)) {
+				trigger.apply(self, event_args[type]);
+			}
+		}
 	};
 	
 	/**
@@ -829,11 +859,13 @@
 	* @param {mixed} value
 	*/
 	Selectize.prototype.setValue = function(value) {
-		this.clear();
-		var items = $.isArray(value) ? value : [value];
-		for (var i = 0, n = items.length; i < n; i++) {
-			this.addItem(items[i]);
-		}
+		debounce_events(this, ['change'], function() {
+			this.clear();
+			var items = $.isArray(value) ? value : [value];
+			for (var i = 0, n = items.length; i < n; i++) {
+				this.addItem(items[i]);
+			}
+		});
 	};
 	
 	/**
@@ -1365,59 +1397,61 @@
 	* @param {string} value
 	*/
 	Selectize.prototype.addItem = function(value) {
-		var $item;
-		var self = this;
-		var inputMode = this.settings.mode;
-		value = String(value);
+		debounce_events(this, ['change'], function() {
+			var $item;
+			var self = this;
+			var inputMode = this.settings.mode;
+			value = String(value);
 	
-		if (inputMode === 'single') this.clear();
-		if (inputMode === 'multi' && this.isFull()) return;
-		if (this.items.indexOf(value) !== -1) return;
-		if (!this.options.hasOwnProperty(value)) return;
+			if (inputMode === 'single') this.clear();
+			if (inputMode === 'multi' && this.isFull()) return;
+			if (this.items.indexOf(value) !== -1) return;
+			if (!this.options.hasOwnProperty(value)) return;
 	
-		$item = $(this.render('item', this.options[value]));
-		this.items.splice(this.caretPos, 0, value);
-		this.insertAtCaret($item);
-		this.refreshClasses();
+			$item = $(this.render('item', this.options[value]));
+			this.items.splice(this.caretPos, 0, value);
+			this.insertAtCaret($item);
+			this.refreshClasses();
 	
-		if (this.isSetup) {
-			// remove the option from the menu
-			var options = this.$dropdown[0].childNodes;
-			for (var i = 0; i < options.length; i++) {
-				var $option = $(options[i]);
-				if ($option.attr('data-value') === value) {
-					$option.remove();
-					if ($option[0] === this.$activeOption[0]) {
-						this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
+			if (this.isSetup) {
+				// remove the option from the menu
+				var options = this.$dropdown[0].childNodes;
+				for (var i = 0; i < options.length; i++) {
+					var $option = $(options[i]);
+					if ($option.attr('data-value') === value) {
+						$option.remove();
+						if ($option[0] === this.$activeOption[0]) {
+							this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
+						}
+						break;
 					}
-					break;
 				}
-			}
 	
-			// hide the menu if the maximum number of items have been selected or no options are left
-			if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
-				this.close();
-			} else {
-				this.positionDropdown();
-			}
+				// hide the menu if the maximum number of items have been selected or no options are left
+				if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
+					this.close();
+				} else {
+					this.positionDropdown();
+				}
 	
-			// restore focus to input
-			if (this.isFocused) {
-				window.setTimeout(function() {
-					if (inputMode === 'single') {
-						self.blur();
-						self.focus(false);
-						self.hideInput();
-					} else {
-						self.focus(false);
-					}
-				}, 0);
-			}
+				// restore focus to input
+				if (this.isFocused) {
+					window.setTimeout(function() {
+						if (inputMode === 'single') {
+							self.blur();
+							self.focus(false);
+							self.hideInput();
+						} else {
+							self.focus(false);
+						}
+					}, 0);
+				}
 	
-			this.updatePlaceholder();
-			this.updateOriginalInput();
-			this.trigger('onItemAdd', value, $item);
-		}
+				this.updatePlaceholder();
+				this.trigger('onItemAdd', value, $item);
+				this.updateOriginalInput();
+			}
+		});
 	};
 	
 	/**
