@@ -32,6 +32,36 @@ var debounce = function(fn, delay) {
 };
 
 /**
+ * Debounce all fired events types listed in `types`
+ * while executing the provided `fn`.
+ *
+ * @param {object} self
+ * @param {array} types
+ * @param {function} fn
+ */
+var debounce_events = function(self, types, fn) {
+	var type;
+	var trigger = self.trigger;
+	var event_args = {};
+
+	// override trigger method
+	self.trigger = function() {
+		event_args[arguments[0]] = arguments;
+	};
+
+	// invoke provided function
+	fn.apply(self, []);
+	self.trigger = trigger;
+
+	// trigger queued events
+	for (type in event_args) {
+		if (event_args.hasOwnProperty(type)) {
+			trigger.apply(self, event_args[type]);
+		}
+	}
+};
+
+/**
  * A workaround for http://bugs.jquery.com/ticket/6696
  *
  * @param {object} $parent - Parent element to listen on.
