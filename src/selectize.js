@@ -1483,3 +1483,50 @@ Selectize.prototype.render = function(templateName, data) {
 
 	return html;
 };
+
+Selectize.defaults = {
+	delimiter: ',',
+	persist: true,
+	diacritics: true,
+	create: false,
+	highlight: true,
+	openOnFocus: true,
+	maxOptions: 1000,
+	maxItems: null,
+	hideSelected: null,
+	preload: false,
+
+	scrollDuration: 60,
+	loadThrottle: 300,
+
+	dataAttr: 'data-data',
+	sortField: null,
+	sortDirection: 'asc',
+	valueField: 'value',
+	labelField: 'text',
+	searchField: ['text'],
+
+	mode: null,
+	theme: 'default',
+	wrapperClass: 'selectize-control',
+	inputClass: 'selectize-input',
+	dropdownClass: 'selectize-dropdown',
+
+	load            : null, // function(query, callback)
+	score           : null, // function(search)
+	onChange        : null, // function(value)
+	onItemAdd       : null, // function(value, $item) { ... }
+	onItemRemove    : null, // function(value) { ... }
+	onClear         : null, // function() { ... }
+	onOptionAdd     : null, // function(value, data) { ... }
+	onOptionRemove  : null, // function(value) { ... }
+	onDropdownOpen  : null, // function($dropdown) { ... }
+	onDropdownClose : null, // function($dropdown) { ... }
+	onType          : null, // function(str) { ... }
+
+	render: {
+		item: null,
+		option: null,
+		option_create: null
+	}
+};
