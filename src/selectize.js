@@ -78,26 +78,21 @@ Selectize.prototype.setup = function() {
 	var $control_input;
 	var $dropdown;
 	var inputMode;
-	var displayMode;
 	var timeout_blur;
 	var timeout_focus;
 	var tab_index;
 	var classes;
 
-	tab_index = this.$input.attr('tabindex') || '';
-	this.$input.attr('tabindex',-1);
-
-	classes = this.$input.attr('class') || '';
-
+	tab_index      = this.$input.attr('tabindex') || '';
+	classes        = this.$input.attr('class') || '';
 	$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass).addClass(classes);
 	$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
 	$control_input = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
 	$dropdown      = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
 
-	displayMode = this.$input.css('display');
 	$wrapper.css({
 		width: this.$input[0].style.width,
-		display: displayMode
+		display: this.$input.css('display')
 	});
 
 	inputMode = this.settings.mode;
@@ -186,7 +181,7 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	this.$input.hide().after(this.$wrapper);
+	this.$input.attr('tabindex',-1).hide().after(this.$wrapper);
 
 	if ($.isArray(this.settings.items)) {
 		this.setValue(this.settings.items);
