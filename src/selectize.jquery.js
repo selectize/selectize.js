@@ -8,6 +8,7 @@ var defaults = {
 	maxOptions: 1000,
 	maxItems: null,
 	hideSelected: null,
+	preload: false,
 
 	scrollDuration: 60,
 	loadThrottle: 300,

@@ -194,6 +194,11 @@ Selectize.prototype.setup = function() {
 	this.refreshItems();
 	this.updatePlaceholder();
 	this.isSetup = true;
+
+	// preload options
+	if (this.settings.preload) {
+		this.onSearchChange('');
+	}
 };
 
 /**

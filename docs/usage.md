@@ -78,6 +78,11 @@ $(function() {
 		<td valign="top"><code>int</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>preload</code></td>
+		<td valign="top">If true, the "load" function will be called upon control initialization (with an empty search).</td>
+		<td valign="top"><code>boolean</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>
