@@ -28,6 +28,7 @@
 				</div>
 				<div class="buttons">
 					<input type="button" value="clear()" id="button-clear">
+					<input type="button" value="clearOptions()" id="button-clearoptions">
 					<input type="button" value="addOption()" id="button-addoption">
 					<input type="button" value="addItem()" id="button-additem">
 					<input type="button" value="setValue()" id="button-setvalue">
@@ -52,6 +53,10 @@
 
 				$('#button-clear').on('click', function() {
 					control.clear();
+				});
+
+				$('#button-clearoptions').on('click', function() {
+					control.clearOptions();
 				});
 
 				$('#button-addoption').on('click', function() {

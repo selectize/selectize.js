@@ -903,6 +903,11 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
  * the options list dropdown (use `refreshOptions`
  * for that).
  *
+ * Usage:
+ *
+ *   this.addOption(value, data)
+ *   this.addOption(data)
+ *
  * @param {string} value
  * @param {object} data
  */
@@ -949,7 +954,7 @@ Selectize.prototype.updateOption = function(value, data) {
 };
 
 /**
- * Removes an option.
+ * Removes a single option.
  *
  * @param {string} value
  */
@@ -960,6 +965,17 @@ Selectize.prototype.removeOption = function(value) {
 	this.lastQuery = null;
 	this.trigger('onOptionRemove', value);
 	this.removeItem(value);
+};
+
+/**
+ * Clears all options.
+ */
+Selectize.prototype.clearOptions = function() {
+	this.userOptions = {};
+	this.options = {};
+	this.lastQuery = null;
+	this.trigger('onOptionClear');
+	this.clear();
 };
 
 /**
@@ -1519,6 +1535,7 @@ Selectize.defaults = {
 	onClear         : null, // function() { ... }
 	onOptionAdd     : null, // function(value, data) { ... }
 	onOptionRemove  : null, // function(value) { ... }
+	onOptionClear   : null, // function() { ... }
 	onDropdownOpen  : null, // function($dropdown) { ... }
 	onDropdownClose : null, // function($dropdown) { ... }
 	onType          : null, // function(str) { ... }
