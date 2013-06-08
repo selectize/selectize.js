@@ -1,4 +1,4 @@
-/*! selectize.js - v0.2.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.2.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -447,7 +447,7 @@
 				else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
 			},
 			mousedown: function(e) {
-				if (self.isFocused && !self.isLocked) {
+				if (self.isFocused) {
 					// prevent events on the dropdown scrollbar from causing the control to blur
 					if (e.target === self.$dropdown[0]) {
 						var ignoreFocus = self.ignoreFocus;
@@ -513,7 +513,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyPress = function(e) {
-		if (this.isLocked) return;
+		if (this.isLocked) return e && e.preventDefault();
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && character === this.settings.delimiter) {
 			this.createItem();
@@ -529,10 +529,17 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyDown = function(e) {
-		if (this.isLocked) return;
+		var keyCode = e.keyCode || e.which;
 		var isInput = e.target === this.$control_input[0];
 	
-		switch (e.keyCode || e.which) {
+		if (this.isLocked) {
+			if (keyCode !== KEY_TAB) {
+				e.preventDefault();
+			}
+			return;
+		}
+	
+		switch (keyCode) {
 			case KEY_ESC:
 				this.blur();
 				return;
@@ -592,7 +599,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyUp = function(e) {
-		if (this.isLocked) return;
+		if (this.isLocked) return e && e.preventDefault();
 		var value = this.$control_input.val() || '';
 		if (this.lastValue !== value) {
 			this.lastValue = value;
@@ -1401,7 +1408,6 @@
 		var caret = this.caretPos;
 		if (!input.length) return;
 		this.lock();
-		this.close();
 	
 		var setup = (typeof this.settings.create === 'function') ? this.settings.create : function(input) {
 			var data = {};
@@ -1452,9 +1458,11 @@
 	*/
 	Selectize.prototype.refreshClasses = function() {
 		var isFull = this.isFull();
+		var isLocked = this.isLocked;
+		this.$control.toggleClass('locked', isLocked);
 		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 		this.$control.toggleClass('has-items', this.items.length > 0);
-		this.$control_input.data('grow', !isFull);
+		this.$control_input.data('grow', !isFull && !isLocked);
 	};
 	
 	/**
@@ -1514,7 +1522,7 @@
 	* the available options.
 	*/
 	Selectize.prototype.open = function() {
-		if (this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
+		if (this.isLocked || this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
 		this.isOpen = true;
 		this.positionDropdown();
 		this.$control.addClass('dropdown-active');
@@ -1707,8 +1715,9 @@
 	* items are being asynchronously created.
 	*/
 	Selectize.prototype.lock = function() {
+		this.close();
 		this.isLocked = true;
-		this.$control.addClass('locked');
+		this.refreshClasses();
 	};
 	
 	/**
@@ -1716,7 +1725,7 @@
 	*/
 	Selectize.prototype.unlock = function() {
 		this.isLocked = false;
-		this.$control.removeClass('locked');
+		this.refreshClasses();
 	};
 	
 	/**
