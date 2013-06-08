@@ -959,6 +959,7 @@ Selectize.prototype.removeOption = function(value) {
 	delete this.options[value];
 	this.lastQuery = null;
 	this.trigger('onOptionRemove', value);
+	this.removeItem(value);
 };
 
 /**
