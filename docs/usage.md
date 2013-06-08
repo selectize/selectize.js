@@ -184,6 +184,11 @@ $(function() {
 		<td valign="top"><code>function</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>onLoad(data)</code></td>
+		<td valign="top">Invoked when new options have been loaded and added to the control (via the "load" option or "load" API method).</td>
+		<td valign="top"><code>function</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#rendering" name="rendering">Rendering</a></th>
 	</tr>
 	<tr>

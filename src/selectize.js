@@ -318,24 +318,14 @@ Selectize.prototype.onKeyUp = function(e) {
  * @param {string} value
  */
 Selectize.prototype.onSearchChange = function(value) {
-	if (!this.settings.load) return;
-	if (this.loadedSearches.hasOwnProperty(value)) return;
 	var self = this;
-	var $wrapper = this.$wrapper.addClass('loading');
-
-	this.loading++;
-	this.loadedSearches[value] = true;
-	this.settings.load.apply(this, [value, function(results) {
-		self.loading = Math.max(self.loading - 1, 0);
-		if (results && results.length) {
-			self.addOption(results);
-			self.refreshOptions(false);
-			if (self.isInputFocused) self.open();
-		}
-		if (!self.loading) {
-			$wrapper.removeClass('loading');
-		}
-	}]);
+	var fn = self.settings.load;
+	if (!fn) return;
+	if (self.loadedSearches.hasOwnProperty(value)) return;
+	self.loadedSearches[value] = true;
+	self.load(function(callback) {
+		fn.apply(self, [value, callback]);
+	});
 };
 
 /**
@@ -426,6 +416,33 @@ Selectize.prototype.onItemSelect = function(e) {
 		this.focus(false);
 		this.hideInput();
 	}
+};
+
+/**
+ * Invokes the provided method that provides
+ * results to a callback---which are then added
+ * as options to the control.
+ *
+ * @param {function} fn
+ */
+Selectize.prototype.load = function(fn) {
+	var self = this;
+	var $wrapper = self.$wrapper.addClass('loading');
+
+	self.loading++;
+	fn.apply(self, [function(results) {
+		console.log('!!!', arguments);
+		self.loading = Math.max(self.loading - 1, 0);
+		if (results && results.length) {
+			self.addOption(results);
+			self.refreshOptions(false);
+			if (self.isInputFocused) self.open();
+		}
+		if (!self.loading) {
+			$wrapper.removeClass('loading');
+		}
+		self.trigger('onLoad', results);
+	}]);
 };
 
 /**
@@ -971,6 +988,7 @@ Selectize.prototype.removeOption = function(value) {
  * Clears all options.
  */
 Selectize.prototype.clearOptions = function() {
+	this.loadedSearches = {};
 	this.userOptions = {};
 	this.options = {};
 	this.lastQuery = null;

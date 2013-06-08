@@ -36,6 +36,10 @@ var selectize = $select[0].selectize;
 		<td valign="top">Removes the option identified by the given value.</td>
 	</tr>
 	<tr>
+		<td valign="top"><code>clearOptions()</code></td>
+		<td valign="top">Removes all options from the control.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>getOption(value)</code></td>
 		<td valign="top">Retrieves the data for the option identified by the given value.</td>
 	</tr>
@@ -110,6 +114,10 @@ var selectize = $select[0].selectize;
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>load(fn)</code></td>
+		<td valign="top">Loads options by invoking the the provided function. The function should accept one argument (callback) and invoke the callback with the results once they are available.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>focus()</code></td>
