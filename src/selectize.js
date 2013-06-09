@@ -1300,31 +1300,35 @@ Selectize.prototype.insertAtCaret = function($el) {
  * @param {object} e (optional)
  */
 Selectize.prototype.deleteSelection = function(e) {
-	var i, n, direction, selection, values, caret, $tail;
+	var i, n, direction, selection, values, caret, $tail, confirm_delete;
 
-	direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
-	selection = getSelection(this.$control_input[0]);
-	if (this.$activeItems.length) {
-		$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
-		caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
-		if (this.$activeItems.length > 1 && direction > 0) { caret--; }
+	confirm_delete = typeof this.settings.onDelete === 'function' ? this.settings.onDelete() !== false : true;
 
-		values = [];
-		for (i = 0, n = this.$activeItems.length; i < n; i++) {
-			values.push($(this.$activeItems[i]).attr('data-value'));
-		}
-		while (values.length) {
-			this.removeItem(values.pop());
-		}
+	if(confirm_delete) {
+		direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+		selection = getSelection(this.$control_input[0]);
+		if (this.$activeItems.length) {
+			$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
+			caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+			if (this.$activeItems.length > 1 && direction > 0) { caret--; }
 
-		this.setCaret(caret);
-		e.preventDefault();
-		e.stopPropagation();
-	} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
-		if (direction < 0 && selection.start === 0 && selection.length === 0) {
-			this.removeItem(this.items[this.caretPos - 1]);
-		} else if (direction > 0 && selection.start === this.$control_input.val().length) {
-			this.removeItem(this.items[this.caretPos]);
+			values = [];
+			for (i = 0, n = this.$activeItems.length; i < n; i++) {
+				values.push($(this.$activeItems[i]).attr('data-value'));
+			}
+			while (values.length) {
+				this.removeItem(values.pop());
+			}
+
+			this.setCaret(caret);
+			e.preventDefault();
+			e.stopPropagation();
+		} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
+			if (direction < 0 && selection.start === 0 && selection.length === 0) {
+				this.removeItem(this.items[this.caretPos - 1]);
+			} else if (direction > 0 && selection.start === this.$control_input.val().length) {
+				this.removeItem(this.items[this.caretPos]);
+			}
 		}
 	}
 };
