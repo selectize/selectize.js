@@ -1,4 +1,4 @@
-/*! selectize.js - v0.2.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.2.3 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -406,11 +406,9 @@
 		this.$dropdown      = $dropdown;
 	
 		$control.on('mousedown', function(e) {
-			if (e.currentTarget === self.$control[0]) {
-				$control_input.trigger('focus');
-			} else {
+			window.setTimeout(function() {
 				self.focus(true);
-			}
+			}, 0);
 			e.preventDefault();
 		});
 	
@@ -891,13 +889,14 @@
 	* @param {boolean} trigger
 	*/
 	Selectize.prototype.focus = function(trigger) {
-		var ignoreFocus = this.ignoreFocus;
+		var self = this;
 		var fire = trigger && !this.isInputFocused;
-	
-		this.ignoreFocus = !trigger;
-		this.$control_input[0].focus();
-		if (fire) this.onFocus();
-		this.ignoreFocus = ignoreFocus;
+		self.ignoreFocus = !trigger;
+		self.$control_input[0].focus();
+		if (fire) self.onFocus();
+		window.setTimeout(function() {
+			self.ignoreFocus = false;
+		}, 0);
 	};
 	
 	/**
