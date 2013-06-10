@@ -113,11 +113,9 @@ Selectize.prototype.setup = function() {
 	this.$dropdown      = $dropdown;
 
 	$control.on('mousedown', function(e) {
-		if (e.currentTarget === self.$control[0]) {
-			$control_input.trigger('focus');
-		} else {
+		window.setTimeout(function() {
 			self.focus(true);
-		}
+		}, 0);
 		e.preventDefault();
 	});
 
@@ -154,7 +152,7 @@ Selectize.prototype.setup = function() {
 			else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
 		},
 		mousedown: function(e) {
-			if (self.isFocused && !self.isLocked) {
+			if (self.isFocused) {
 				// prevent events on the dropdown scrollbar from causing the control to blur
 				if (e.target === self.$dropdown[0]) {
 					var ignoreFocus = self.ignoreFocus;
@@ -220,7 +218,7 @@ Selectize.prototype.trigger = function(event) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyPress = function(e) {
-	if (this.isLocked) return;
+	if (this.isLocked) return e && e.preventDefault();
 	var character = String.fromCharCode(e.keyCode || e.which);
 	if (this.settings.create && character === this.settings.delimiter) {
 		this.createItem();
@@ -236,10 +234,17 @@ Selectize.prototype.onKeyPress = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyDown = function(e) {
-	if (this.isLocked) return;
+	var keyCode = e.keyCode || e.which;
 	var isInput = e.target === this.$control_input[0];
 
-	switch (e.keyCode || e.which) {
+	if (this.isLocked) {
+		if (keyCode !== KEY_TAB) {
+			e.preventDefault();
+		}
+		return;
+	}
+
+	switch (keyCode) {
 		case KEY_ESC:
 			this.blur();
 			return;
@@ -287,9 +292,6 @@ Selectize.prototype.onKeyDown = function(e) {
 				return;
 			}
 	}
-	if (!this.isFull()) {
-		this.focus(true);
-	}
 };
 
 /**
@@ -299,7 +301,7 @@ Selectize.prototype.onKeyDown = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyUp = function(e) {
-	if (this.isLocked) return;
+	if (this.isLocked) return e && e.preventDefault();
 	var value = this.$control_input.val() || '';
 	if (this.lastValue !== value) {
 		this.lastValue = value;
@@ -358,7 +360,7 @@ Selectize.prototype.onBlur = function(e) {
 	this.close();
 	this.setTextboxValue('');
 	this.setActiveOption(null);
-	this.setCaret(this.items.length, false);
+	this.setCaret(this.items.length);
 	if (!this.$activeItems.length) {
 		this.$control.removeClass('focus');
 		this.isFocused = false;
@@ -588,7 +590,6 @@ Selectize.prototype.setActiveOption = function($option, scroll, animate) {
 Selectize.prototype.hideInput = function() {
 	this.setTextboxValue('');
 	this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
-	this.isInputFocused = false;
 	this.isInputHidden = true;
 };
 
@@ -608,13 +609,14 @@ Selectize.prototype.showInput = function() {
  * @param {boolean} trigger
  */
 Selectize.prototype.focus = function(trigger) {
-	var ignoreFocus = this.ignoreFocus;
-	var fire = trigger && !this.isInputFocused;
-
-	this.ignoreFocus = !trigger;
-	this.$control_input[0].focus();
-	if (fire) this.onFocus();
-	this.ignoreFocus = ignoreFocus;
+	var self = this;
+	self.ignoreFocus = true;
+	self.$control_input[0].focus();
+	self.isInputFocused = true;
+	window.setTimeout(function() {
+		self.ignoreFocus = false;
+		if (trigger) self.onFocus();
+	}, 0);
 };
 
 /**
@@ -1116,7 +1118,6 @@ Selectize.prototype.removeItem = function(value) {
 			this.removeOption(value);
 		}
 		this.setCaret(i);
-		this.positionDropdown();
 		this.refreshOptions(false);
 		this.refreshClasses();
 
@@ -1124,6 +1125,9 @@ Selectize.prototype.removeItem = function(value) {
 		else if (this.isInputFocused) { this.open(); }
 
 		this.updatePlaceholder();
+		if (!this.items.length) this.showInput();
+
+		this.positionDropdown();
 		this.updateOriginalInput();
 		this.trigger('onItemRemove', value);
 	}
@@ -1143,7 +1147,6 @@ Selectize.prototype.createItem = function() {
 	var caret = this.caretPos;
 	if (!input.length) return;
 	this.lock();
-	this.close();
 
 	var setup = (typeof this.settings.create === 'function') ? this.settings.create : function(input) {
 		var data = {};
@@ -1161,7 +1164,7 @@ Selectize.prototype.createItem = function() {
 
 		self.setTextboxValue('');
 		self.addOption(value, data);
-		self.setCaret(caret, false);
+		self.setCaret(caret);
 		self.addItem(value);
 		self.refreshOptions(true);
 		self.focus(false);
@@ -1194,9 +1197,11 @@ Selectize.prototype.refreshItems = function() {
  */
 Selectize.prototype.refreshClasses = function() {
 	var isFull = this.isFull();
+	var isLocked = this.isLocked;
+	this.$control.toggleClass('locked', isLocked);
 	this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
 	this.$control.toggleClass('has-items', this.items.length > 0);
-	this.$control_input.data('grow', !isFull);
+	this.$control_input.data('grow', !isFull && !isLocked);
 };
 
 /**
@@ -1256,7 +1261,7 @@ Selectize.prototype.updatePlaceholder = function() {
  * the available options.
  */
 Selectize.prototype.open = function() {
-	if (this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
+	if (this.isLocked || this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
 	this.isOpen = true;
 	this.positionDropdown();
 	this.$control.addClass('dropdown-active');
@@ -1330,30 +1335,44 @@ Selectize.prototype.insertAtCaret = function($el) {
 Selectize.prototype.deleteSelection = function(e) {
 	var i, n, direction, selection, values, caret, $tail;
 
-	direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+	direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 	selection = getSelection(this.$control_input[0]);
+
+	// determine items that will be removed
+	values = [];
+
 	if (this.$activeItems.length) {
 		$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
 		caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
 		if (this.$activeItems.length > 1 && direction > 0) { caret--; }
 
-		values = [];
 		for (i = 0, n = this.$activeItems.length; i < n; i++) {
 			values.push($(this.$activeItems[i]).attr('data-value'));
 		}
-		while (values.length) {
-			this.removeItem(values.pop());
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
 		}
-
-		this.setCaret(caret);
-		e.preventDefault();
-		e.stopPropagation();
 	} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
 		if (direction < 0 && selection.start === 0 && selection.length === 0) {
-			this.removeItem(this.items[this.caretPos - 1]);
+			values.push(this.items[this.caretPos - 1]);
 		} else if (direction > 0 && selection.start === this.$control_input.val().length) {
-			this.removeItem(this.items[this.caretPos]);
+			values.push(this.items[this.caretPos]);
 		}
+	}
+
+	// allow the callback to abort
+	if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false)) {
+		return;
+	}
+
+	// perform removal
+	while (values.length) {
+		this.removeItem(values.pop());
+	}
+	if (typeof caret !== 'undefined') {
+		this.setCaret(caret);
+		this.showInput();
 	}
 };
 
@@ -1368,13 +1387,16 @@ Selectize.prototype.deleteSelection = function(e) {
  * @param {object} e (optional)
  */
 Selectize.prototype.advanceSelection = function(direction, e) {
-	if (direction === 0) return;
-	var tail = direction > 0 ? 'last' : 'first';
-	var selection = getSelection(this.$control_input[0]);
+	var tail, selection, idx, valueLength, cursorAtEdge, $tail, $items;
 
-	if (this.isInputFocused) {
-		var valueLength = this.$control_input.val().length;
-		var cursorAtEdge = direction < 0
+	if (direction === 0) return;
+
+	tail = direction > 0 ? 'last' : 'first';
+	selection = getSelection(this.$control_input[0]);
+
+	if (this.isInputFocused && !this.isInputHidden) {
+		valueLength = this.$control_input.val().length;
+		cursorAtEdge = direction < 0
 			? selection.start === 0 && selection.length === 0
 			: selection.start === valueLength;
 
@@ -1382,10 +1404,13 @@ Selectize.prototype.advanceSelection = function(direction, e) {
 			this.advanceCaret(direction, e);
 		}
 	} else {
-		var $tail = this.$control.children('.active:' + tail);
+		$tail = this.$control.children('.active:' + tail);
 		if ($tail.length) {
-			var idx = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+			$items = this.$control.children(':not(input)');
+			idx = Array.prototype.indexOf.apply($items, [$tail[0]]);
+			this.setActiveItem(null);
 			this.setCaret(direction > 0 ? idx + 1 : idx);
+			this.showInput();
 		}
 	}
 };
@@ -1402,7 +1427,7 @@ Selectize.prototype.advanceCaret = function(direction, e) {
 	if (this.isShiftDown) {
 		var $adj = this.$control_input[fn]();
 		if ($adj.length) {
-			this.blur();
+			this.hideInput();
 			this.setActiveItem($adj);
 			e && e.preventDefault();
 		}
@@ -1415,9 +1440,8 @@ Selectize.prototype.advanceCaret = function(direction, e) {
  * Moves the caret to the specified index.
  *
  * @param {int} i
- * @param {boolean} focus
  */
-Selectize.prototype.setCaret = function(i, focus) {
+Selectize.prototype.setCaret = function(i) {
 	if (this.settings.mode === 'single') {
 		i = this.items.length;
 	} else {
@@ -1439,9 +1463,6 @@ Selectize.prototype.setCaret = function(i, focus) {
 	}
 
 	this.caretPos = i;
-	if (focus && this.isSetup) {
-		this.focus(true);
-	}
 };
 
 /**
@@ -1449,8 +1470,9 @@ Selectize.prototype.setCaret = function(i, focus) {
  * items are being asynchronously created.
  */
 Selectize.prototype.lock = function() {
+	this.close();
 	this.isLocked = true;
-	this.$control.addClass('locked');
+	this.refreshClasses();
 };
 
 /**
@@ -1458,7 +1480,7 @@ Selectize.prototype.lock = function() {
  */
 Selectize.prototype.unlock = function() {
 	this.isLocked = false;
-	this.$control.removeClass('locked');
+	this.refreshClasses();
 };
 
 /**
@@ -1557,6 +1579,7 @@ Selectize.defaults = {
 	onDropdownOpen  : null, // function($dropdown) { ... }
 	onDropdownClose : null, // function($dropdown) { ... }
 	onType          : null, // function(str) { ... }
+	onDelete        : null, // function(values) { ... }
 
 	render: {
 		item: null,
