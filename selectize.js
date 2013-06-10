@@ -1,4 +1,4 @@
-/*! selectize.js - v0.2.3 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.2.4 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -585,9 +585,6 @@
 					return;
 				}
 		}
-		if (!this.isFull()) {
-			this.focus(true);
-		}
 	};
 	
 	/**
@@ -666,7 +663,7 @@
 		this.close();
 		this.setTextboxValue('');
 		this.setActiveOption(null);
-		this.setCaret(this.items.length, false);
+		this.setCaret(this.items.length);
 		if (!this.$activeItems.length) {
 			this.$control.removeClass('focus');
 			this.isFocused = false;
@@ -869,7 +866,6 @@
 	Selectize.prototype.hideInput = function() {
 		this.setTextboxValue('');
 		this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
-		this.isInputFocused = false;
 		this.isInputHidden = true;
 	};
 	
@@ -890,12 +886,12 @@
 	*/
 	Selectize.prototype.focus = function(trigger) {
 		var self = this;
-		var fire = trigger && !this.isInputFocused;
-		self.ignoreFocus = !trigger;
+		self.ignoreFocus = true;
 		self.$control_input[0].focus();
-		if (fire) self.onFocus();
+		self.isInputFocused = true;
 		window.setTimeout(function() {
 			self.ignoreFocus = false;
+			if (trigger) self.onFocus();
 		}, 0);
 	};
 	
@@ -1380,7 +1376,6 @@
 				this.removeOption(value);
 			}
 			this.setCaret(i);
-			this.positionDropdown();
 			this.refreshOptions(false);
 			this.refreshClasses();
 	
@@ -1388,6 +1383,9 @@
 			else if (this.isInputFocused) { this.open(); }
 	
 			this.updatePlaceholder();
+			if (!this.items.length) this.showInput();
+	
+			this.positionDropdown();
 			this.updateOriginalInput();
 			this.trigger('onItemRemove', value);
 		}
@@ -1424,7 +1422,7 @@
 	
 			self.setTextboxValue('');
 			self.addOption(value, data);
-			self.setCaret(caret, false);
+			self.setCaret(caret);
 			self.addItem(value);
 			self.refreshOptions(true);
 			self.focus(false);
@@ -1595,30 +1593,44 @@
 	Selectize.prototype.deleteSelection = function(e) {
 		var i, n, direction, selection, values, caret, $tail;
 	
-		direction = (e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(this.$control_input[0]);
+	
+		// determine items that will be removed
+		values = [];
+	
 		if (this.$activeItems.length) {
 			$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
 			caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
 			if (this.$activeItems.length > 1 && direction > 0) { caret--; }
 	
-			values = [];
 			for (i = 0, n = this.$activeItems.length; i < n; i++) {
 				values.push($(this.$activeItems[i]).attr('data-value'));
 			}
-			while (values.length) {
-				this.removeItem(values.pop());
+			if (e) {
+				e.preventDefault();
+				e.stopPropagation();
 			}
-	
-			this.setCaret(caret);
-			e.preventDefault();
-			e.stopPropagation();
 		} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
-				this.removeItem(this.items[this.caretPos - 1]);
+				values.push(this.items[this.caretPos - 1]);
 			} else if (direction > 0 && selection.start === this.$control_input.val().length) {
-				this.removeItem(this.items[this.caretPos]);
+				values.push(this.items[this.caretPos]);
 			}
+		}
+	
+		// allow the callback to abort
+		if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false)) {
+			return;
+		}
+	
+		// perform removal
+		while (values.length) {
+			this.removeItem(values.pop());
+		}
+		if (typeof caret !== 'undefined') {
+			this.setCaret(caret);
+			this.showInput();
 		}
 	};
 	
@@ -1633,13 +1645,16 @@
 	* @param {object} e (optional)
 	*/
 	Selectize.prototype.advanceSelection = function(direction, e) {
-		if (direction === 0) return;
-		var tail = direction > 0 ? 'last' : 'first';
-		var selection = getSelection(this.$control_input[0]);
+		var tail, selection, idx, valueLength, cursorAtEdge, $tail, $items;
 	
-		if (this.isInputFocused) {
-			var valueLength = this.$control_input.val().length;
-			var cursorAtEdge = direction < 0
+		if (direction === 0) return;
+	
+		tail = direction > 0 ? 'last' : 'first';
+		selection = getSelection(this.$control_input[0]);
+	
+		if (this.isInputFocused && !this.isInputHidden) {
+			valueLength = this.$control_input.val().length;
+			cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
 				: selection.start === valueLength;
 	
@@ -1647,10 +1662,13 @@
 				this.advanceCaret(direction, e);
 			}
 		} else {
-			var $tail = this.$control.children('.active:' + tail);
+			$tail = this.$control.children('.active:' + tail);
 			if ($tail.length) {
-				var idx = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+				$items = this.$control.children(':not(input)');
+				idx = Array.prototype.indexOf.apply($items, [$tail[0]]);
+				this.setActiveItem(null);
 				this.setCaret(direction > 0 ? idx + 1 : idx);
+				this.showInput();
 			}
 		}
 	};
@@ -1667,7 +1685,7 @@
 		if (this.isShiftDown) {
 			var $adj = this.$control_input[fn]();
 			if ($adj.length) {
-				this.blur();
+				this.hideInput();
 				this.setActiveItem($adj);
 				e && e.preventDefault();
 			}
@@ -1680,9 +1698,8 @@
 	* Moves the caret to the specified index.
 	*
 	* @param {int} i
-	* @param {boolean} focus
 	*/
-	Selectize.prototype.setCaret = function(i, focus) {
+	Selectize.prototype.setCaret = function(i) {
 		if (this.settings.mode === 'single') {
 			i = this.items.length;
 		} else {
@@ -1704,9 +1721,6 @@
 		}
 	
 		this.caretPos = i;
-		if (focus && this.isSetup) {
-			this.focus(true);
-		}
 	};
 	
 	/**
@@ -1822,6 +1836,7 @@
 		onDropdownOpen  : null, // function($dropdown) { ... }
 		onDropdownClose : null, // function($dropdown) { ... }
 		onType          : null, // function(str) { ... }
+		onDelete        : null, // function(values) { ... }
 	
 		render: {
 			item: null,
