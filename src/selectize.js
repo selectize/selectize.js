@@ -292,9 +292,6 @@ Selectize.prototype.onKeyDown = function(e) {
 				return;
 			}
 	}
-	if (!this.isFull()) {
-		this.focus(true);
-	}
 };
 
 /**
@@ -373,7 +370,7 @@ Selectize.prototype.onBlur = function(e) {
 	this.close();
 	this.setTextboxValue('');
 	this.setActiveOption(null);
-	this.setCaret(this.items.length, false);
+	this.setCaret(this.items.length);
 	if (!this.$activeItems.length) {
 		this.$control.removeClass('focus');
 		this.isFocused = false;
@@ -576,7 +573,6 @@ Selectize.prototype.setActiveOption = function($option, scroll, animate) {
 Selectize.prototype.hideInput = function() {
 	this.setTextboxValue('');
 	this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
-	this.isInputFocused = false;
 	this.isInputHidden = true;
 };
 
@@ -597,12 +593,12 @@ Selectize.prototype.showInput = function() {
  */
 Selectize.prototype.focus = function(trigger) {
 	var self = this;
-	var fire = trigger && !this.isInputFocused;
-	self.ignoreFocus = !trigger;
+	self.ignoreFocus = true;
 	self.$control_input[0].focus();
-	if (fire) self.onFocus();
+	self.isInputFocused = true;
 	window.setTimeout(function() {
 		self.ignoreFocus = false;
+		if (trigger) self.onFocus();
 	}, 0);
 };
 
@@ -1087,7 +1083,6 @@ Selectize.prototype.removeItem = function(value) {
 			this.removeOption(value);
 		}
 		this.setCaret(i);
-		this.positionDropdown();
 		this.refreshOptions(false);
 		this.refreshClasses();
 
@@ -1095,6 +1090,9 @@ Selectize.prototype.removeItem = function(value) {
 		else if (this.isInputFocused) { this.open(); }
 
 		this.updatePlaceholder();
+		if (!this.items.length) this.showInput();
+
+		this.positionDropdown();
 		this.updateOriginalInput();
 		this.trigger('onItemRemove', value);
 	}
@@ -1131,7 +1129,7 @@ Selectize.prototype.createItem = function() {
 
 		self.setTextboxValue('');
 		self.addOption(value, data);
-		self.setCaret(caret, false);
+		self.setCaret(caret);
 		self.addItem(value);
 		self.refreshOptions(true);
 		self.focus(false);
@@ -1316,6 +1314,10 @@ Selectize.prototype.deleteSelection = function(e) {
 		for (i = 0, n = this.$activeItems.length; i < n; i++) {
 			values.push($(this.$activeItems[i]).attr('data-value'));
 		}
+		if (e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 	} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
 		if (direction < 0 && selection.start === 0 && selection.length === 0) {
 			values.push(this.items[this.caretPos - 1]);
@@ -1325,7 +1327,7 @@ Selectize.prototype.deleteSelection = function(e) {
 	}
 
 	// allow the callback to abort
-	if (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false) {
+	if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false)) {
 		return;
 	}
 
@@ -1335,10 +1337,7 @@ Selectize.prototype.deleteSelection = function(e) {
 	}
 	if (typeof caret !== 'undefined') {
 		this.setCaret(caret);
-	}
-	if (e) {
-		e.preventDefault();
-		e.stopPropagation();
+		this.showInput();
 	}
 };
 
@@ -1353,13 +1352,16 @@ Selectize.prototype.deleteSelection = function(e) {
  * @param {object} e (optional)
  */
 Selectize.prototype.advanceSelection = function(direction, e) {
-	if (direction === 0) return;
-	var tail = direction > 0 ? 'last' : 'first';
-	var selection = getSelection(this.$control_input[0]);
+	var tail, selection, idx, valueLength, cursorAtEdge, $tail, $items;
 
-	if (this.isInputFocused) {
-		var valueLength = this.$control_input.val().length;
-		var cursorAtEdge = direction < 0
+	if (direction === 0) return;
+
+	tail = direction > 0 ? 'last' : 'first';
+	selection = getSelection(this.$control_input[0]);
+
+	if (this.isInputFocused && !this.isInputHidden) {
+		valueLength = this.$control_input.val().length;
+		cursorAtEdge = direction < 0
 			? selection.start === 0 && selection.length === 0
 			: selection.start === valueLength;
 
@@ -1367,10 +1369,13 @@ Selectize.prototype.advanceSelection = function(direction, e) {
 			this.advanceCaret(direction, e);
 		}
 	} else {
-		var $tail = this.$control.children('.active:' + tail);
+		$tail = this.$control.children('.active:' + tail);
 		if ($tail.length) {
-			var idx = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
+			$items = this.$control.children(':not(input)');
+			idx = Array.prototype.indexOf.apply($items, [$tail[0]]);
+			this.setActiveItem(null);
 			this.setCaret(direction > 0 ? idx + 1 : idx);
+			this.showInput();
 		}
 	}
 };
@@ -1387,7 +1392,7 @@ Selectize.prototype.advanceCaret = function(direction, e) {
 	if (this.isShiftDown) {
 		var $adj = this.$control_input[fn]();
 		if ($adj.length) {
-			this.blur();
+			this.hideInput();
 			this.setActiveItem($adj);
 			e && e.preventDefault();
 		}
@@ -1400,9 +1405,8 @@ Selectize.prototype.advanceCaret = function(direction, e) {
  * Moves the caret to the specified index.
  *
  * @param {int} i
- * @param {boolean} focus
  */
-Selectize.prototype.setCaret = function(i, focus) {
+Selectize.prototype.setCaret = function(i) {
 	if (this.settings.mode === 'single') {
 		i = this.items.length;
 	} else {
@@ -1424,9 +1428,6 @@ Selectize.prototype.setCaret = function(i, focus) {
 	}
 
 	this.caretPos = i;
-	if (focus && this.isSetup) {
-		this.focus(true);
-	}
 };
 
 /**
