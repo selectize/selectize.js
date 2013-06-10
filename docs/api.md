@@ -129,11 +129,19 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>lock()</code></td>
-		<td valign="top">Disables user input on the control.</td>
+		<td valign="top">Disables user input on the control (note: the control can still receive focus).</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>unlock()</code></td>
 		<td valign="top">Re-enables user input on the control.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>disable()</code></td>
+		<td valign="top">Disables user input on the control completely. While disabled, it cannot receive focus.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>enable()</code></td>
+		<td valign="top">Enables the control so that it can respond to focus and user input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>getValue()</code></td>

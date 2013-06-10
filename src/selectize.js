@@ -23,6 +23,7 @@ var Selectize = function($input, settings) {
 
 	this.highlightedValue = null;
 	this.isOpen           = false;
+	this.isDisabled       = false;
 	this.isLocked         = false;
 	this.isFocused        = false;
 	this.isInputFocused   = false;
@@ -191,6 +192,10 @@ Selectize.prototype.setup = function() {
 	this.updatePlaceholder();
 	this.isSetup = true;
 
+	if (this.$input.is(':disabled')) {
+		this.disable();
+	}
+
 	// preload options
 	if (this.settings.preload) {
 		this.onSearchChange('');
@@ -339,6 +344,11 @@ Selectize.prototype.onSearchChange = function(value) {
 Selectize.prototype.onFocus = function(e) {
 	this.isInputFocused = true;
 	this.isFocused = true;
+	if (this.isDisabled) {
+		this.blur();
+		e.preventDefault();
+		return false;
+	}
 	if (this.ignoreFocus) return;
 
 	this.showInput();
@@ -609,6 +619,7 @@ Selectize.prototype.showInput = function() {
  * @param {boolean} trigger
  */
 Selectize.prototype.focus = function(trigger) {
+	if (this.isDisabled) return;
 	var self = this;
 	self.ignoreFocus = true;
 	self.$control_input[0].focus();
@@ -1198,9 +1209,11 @@ Selectize.prototype.refreshItems = function() {
 Selectize.prototype.refreshClasses = function() {
 	var isFull = this.isFull();
 	var isLocked = this.isLocked;
-	this.$control.toggleClass('locked', isLocked);
-	this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
-	this.$control.toggleClass('has-items', this.items.length > 0);
+	this.$control
+		.toggleClass('disabled', this.isDisabled)
+		.toggleClass('locked', isLocked)
+		.toggleClass('full', isFull).toggleClass('not-full', !isFull)
+		.toggleClass('has-items', this.items.length > 0);
 	this.$control_input.data('grow', !isFull && !isLocked);
 };
 
@@ -1308,6 +1321,7 @@ Selectize.prototype.clear = function() {
 	this.updatePlaceholder();
 	this.updateOriginalInput();
 	this.refreshClasses();
+	this.showInput();
 	this.trigger('onClear');
 };
 
@@ -1481,6 +1495,24 @@ Selectize.prototype.lock = function() {
 Selectize.prototype.unlock = function() {
 	this.isLocked = false;
 	this.refreshClasses();
+};
+
+/**
+ * Disables user input on the control completely.
+ * While disabled, it cannot receive focus.
+ */
+Selectize.prototype.disable = function() {
+	this.isDisabled = true;
+	this.lock();
+};
+
+/**
+ * Enables the control so that it can respond
+ * to focus and user input.
+ */
+Selectize.prototype.enable = function() {
+	this.isDisabled = false;
+	this.unlock();
 };
 
 /**
