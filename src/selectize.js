@@ -81,14 +81,21 @@ Selectize.prototype.setup = function() {
 	var displayMode;
 	var timeout_blur;
 	var timeout_focus;
-	var tab_index;
+	var tab_index, required;
+	var classes = [];
 
 	tab_index = this.$input.attr('tabindex') || '';
 	this.$input.attr('tabindex',-1);
 
+	classes = this.$input.attr('class').split(/\s+/);
+	this.$input.attr('css', classes.join(' '));
+
+	required = this.$input.prop('required') || false;
+	if(required) this.$input.removeAttr('required');
+
 	$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass);
-	$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
-	$control_input = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
+	$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).toggleClass(required ? 'required' : '').appendTo($wrapper);
+	$control_input = $('<input type="text">').appendTo($control).attr('tabindex',tab_index).prop('required', required);
 	$dropdown      = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
 
 	displayMode = this.$input.css('display');
