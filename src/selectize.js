@@ -1198,7 +1198,7 @@ Selectize.prototype.createItem = function() {
 		self.focus(false);
 	});
 
-	var output = setup(input, create);
+	var output = setup.apply(this, [input, create]);
 	if (typeof output !== 'undefined') {
 		create(output);
 	}
