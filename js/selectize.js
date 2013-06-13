@@ -1,4 +1,4 @@
-/*! selectize.js - v0.2.4 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.3.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -81,6 +81,7 @@
 	
 	var IS_MAC        = /Mac/.test(navigator.userAgent);
 	
+	var KEY_A         = 65;
 	var KEY_COMMA     = 188;
 	var KEY_RETURN    = 13;
 	var KEY_ESC       = 27;
@@ -316,12 +317,14 @@
 	
 		this.highlightedValue = null;
 		this.isOpen           = false;
+		this.isDisabled       = false;
 		this.isLocked         = false;
 		this.isFocused        = false;
 		this.isInputFocused   = false;
 		this.isInputHidden    = false;
 		this.isSetup          = false;
 		this.isShiftDown      = false;
+		this.isCmdDown        = false;
 		this.isCtrlDown       = false;
 		this.ignoreFocus      = false;
 		this.hasOptions       = false;
@@ -430,6 +433,7 @@
 	
 		$(document).on({
 			keydown: function(e) {
+				self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
 				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
 				self.isShiftDown = e.shiftKey;
 				if (self.isFocused && !self.isLocked) {
@@ -483,6 +487,10 @@
 		this.refreshItems();
 		this.updatePlaceholder();
 		this.isSetup = true;
+	
+		if (this.$input.is(':disabled')) {
+			this.disable();
+		}
 	
 		// preload options
 		if (this.settings.preload) {
@@ -538,6 +546,13 @@
 		}
 	
 		switch (keyCode) {
+			case KEY_A:
+				if (this.isCmdDown) {
+					this.selectAll();
+					e.preventDefault();
+					return;
+				}
+				break;
 			case KEY_ESC:
 				this.blur();
 				return;
@@ -549,41 +564,40 @@
 					if ($next.length) this.setActiveOption($next, true, true);
 				}
 				e.preventDefault();
-				break;
+				return;
 			case KEY_UP:
 				if (this.$activeOption) {
 					var $prev = this.$activeOption.prev();
 					if ($prev.length) this.setActiveOption($prev, true, true);
 				}
 				e.preventDefault();
-				break;
+				return;
 			case KEY_RETURN:
 				if (this.$activeOption) {
 					this.onOptionSelect({currentTarget: this.$activeOption});
 				}
 				e.preventDefault();
-				break;
+				return;
 			case KEY_LEFT:
 				this.advanceSelection(-1, e);
-				break;
+				return;
 			case KEY_RIGHT:
 				this.advanceSelection(1, e);
-				break;
+				return;
 			case KEY_TAB:
 				if (this.settings.create && $.trim(this.$control_input.val()).length) {
 					this.createItem();
 					e.preventDefault();
 				}
-				break;
+				return;
 			case KEY_BACKSPACE:
 			case KEY_DELETE:
 				this.deleteSelection(e);
-				break;
-			default:
-				if (this.isFull() || this.isInputHidden) {
-					e.preventDefault();
-					return;
-				}
+				return;
+		}
+		if (this.isFull() || this.isInputHidden) {
+			e.preventDefault();
+			return;
 		}
 	};
 	
@@ -613,24 +627,14 @@
 	* @param {string} value
 	*/
 	Selectize.prototype.onSearchChange = function(value) {
-		if (!this.settings.load) return;
-		if (this.loadedSearches.hasOwnProperty(value)) return;
 		var self = this;
-		var $wrapper = this.$wrapper.addClass('loading');
-	
-		this.loading++;
-		this.loadedSearches[value] = true;
-		this.settings.load.apply(this, [value, function(results) {
-			self.loading = Math.max(self.loading - 1, 0);
-			if (results && results.length) {
-				self.addOption(results);
-				self.refreshOptions(false);
-				if (self.isInputFocused) self.open();
-			}
-			if (!self.loading) {
-				$wrapper.removeClass('loading');
-			}
-		}]);
+		var fn = self.settings.load;
+		if (!fn) return;
+		if (self.loadedSearches.hasOwnProperty(value)) return;
+		self.loadedSearches[value] = true;
+		self.load(function(callback) {
+			fn.apply(self, [value, callback]);
+		});
 	};
 	
 	/**
@@ -642,6 +646,11 @@
 	Selectize.prototype.onFocus = function(e) {
 		this.isInputFocused = true;
 		this.isFocused = true;
+		if (this.isDisabled) {
+			this.blur();
+			e.preventDefault();
+			return false;
+		}
 		if (this.ignoreFocus) return;
 	
 		this.showInput();
@@ -721,6 +730,32 @@
 			this.focus(false);
 			this.hideInput();
 		}
+	};
+	
+	/**
+	* Invokes the provided method that provides
+	* results to a callback---which are then added
+	* as options to the control.
+	*
+	* @param {function} fn
+	*/
+	Selectize.prototype.load = function(fn) {
+		var self = this;
+		var $wrapper = self.$wrapper.addClass('loading');
+	
+		self.loading++;
+		fn.apply(self, [function(results) {
+			self.loading = Math.max(self.loading - 1, 0);
+			if (results && results.length) {
+				self.addOption(results);
+				self.refreshOptions(false);
+				if (self.isInputFocused) self.open();
+			}
+			if (!self.loading) {
+				$wrapper.removeClass('loading');
+			}
+			self.trigger('onLoad', results);
+		}]);
 	};
 	
 	/**
@@ -860,10 +895,20 @@
 	};
 	
 	/**
+	* Selects all items (CTRL + A).
+	*/
+	Selectize.prototype.selectAll = function() {
+		this.$activeItems = Array.prototype.slice.apply(this.$control.children(':not(input)').addClass('active'));
+		this.isFocused = true;
+		if (this.$activeItems.length) this.hideInput();
+	};
+	
+	/**
 	* Hides the input element out of view, while
 	* retaining its focus.
 	*/
 	Selectize.prototype.hideInput = function() {
+		this.close();
 		this.setTextboxValue('');
 		this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
 		this.isInputHidden = true;
@@ -885,6 +930,7 @@
 	* @param {boolean} trigger
 	*/
 	Selectize.prototype.focus = function(trigger) {
+		if (this.isDisabled) return;
 		var self = this;
 		self.ignoreFocus = true;
 		self.$control_input[0].focus();
@@ -1198,6 +1244,11 @@
 	* the options list dropdown (use `refreshOptions`
 	* for that).
 	*
+	* Usage:
+	*
+	*   this.addOption(value, data)
+	*   this.addOption(data)
+	*
 	* @param {string} value
 	* @param {object} data
 	*/
@@ -1244,7 +1295,7 @@
 	};
 	
 	/**
-	* Removes an option.
+	* Removes a single option.
 	*
 	* @param {string} value
 	*/
@@ -1254,6 +1305,19 @@
 		delete this.options[value];
 		this.lastQuery = null;
 		this.trigger('onOptionRemove', value);
+		this.removeItem(value);
+	};
+	
+	/**
+	* Clears all options.
+	*/
+	Selectize.prototype.clearOptions = function() {
+		this.loadedSearches = {};
+		this.userOptions = {};
+		this.options = {};
+		this.lastQuery = null;
+		this.trigger('onOptionClear');
+		this.clear();
 	};
 	
 	/**
@@ -1456,9 +1520,11 @@
 	Selectize.prototype.refreshClasses = function() {
 		var isFull = this.isFull();
 		var isLocked = this.isLocked;
-		this.$control.toggleClass('locked', isLocked);
-		this.$control.toggleClass('full', isFull).toggleClass('not-full', !isFull);
-		this.$control.toggleClass('has-items', this.items.length > 0);
+		this.$control
+			.toggleClass('disabled', this.isDisabled)
+			.toggleClass('locked', isLocked)
+			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
+			.toggleClass('has-items', this.items.length > 0);
 		this.$control_input.data('grow', !isFull && !isLocked);
 	};
 	
@@ -1534,6 +1600,7 @@
 		if (!this.isOpen) return;
 		this.$dropdown.hide();
 		this.$control.removeClass('dropdown-active');
+		this.setActiveOption(null);
 		this.isOpen = false;
 		this.trigger('onDropdownClose', this.$dropdown);
 	};
@@ -1566,6 +1633,7 @@
 		this.updatePlaceholder();
 		this.updateOriginalInput();
 		this.refreshClasses();
+		this.showInput();
 		this.trigger('onClear');
 	};
 	
@@ -1742,6 +1810,24 @@
 	};
 	
 	/**
+	* Disables user input on the control completely.
+	* While disabled, it cannot receive focus.
+	*/
+	Selectize.prototype.disable = function() {
+		this.isDisabled = true;
+		this.lock();
+	};
+	
+	/**
+	* Enables the control so that it can respond
+	* to focus and user input.
+	*/
+	Selectize.prototype.enable = function() {
+		this.isDisabled = false;
+		this.unlock();
+	};
+	
+	/**
 	* A helper method for rendering "item" and
 	* "option" templates, given the data.
 	*
@@ -1833,6 +1919,7 @@
 		onClear         : null, // function() { ... }
 		onOptionAdd     : null, // function(value, data) { ... }
 		onOptionRemove  : null, // function(value) { ... }
+		onOptionClear   : null, // function() { ... }
 		onDropdownOpen  : null, // function($dropdown) { ... }
 		onDropdownClose : null, // function($dropdown) { ... }
 		onType          : null, // function(str) { ... }
