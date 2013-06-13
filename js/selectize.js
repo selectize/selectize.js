@@ -1,4 +1,4 @@
-/*! selectize.js - v0.3.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.3.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -1492,7 +1492,7 @@
 			self.focus(false);
 		});
 	
-		var output = setup(input, create);
+		var output = setup.apply(this, [input, create]);
 		if (typeof output !== 'undefined') {
 			create(output);
 		}
