@@ -30,6 +30,7 @@ var Selectize = function($input, settings) {
 	this.isInputHidden    = false;
 	this.isSetup          = false;
 	this.isShiftDown      = false;
+	this.isCmdDown        = false;
 	this.isCtrlDown       = false;
 	this.ignoreFocus      = false;
 	this.hasOptions       = false;
@@ -138,6 +139,7 @@ Selectize.prototype.setup = function() {
 
 	$(document).on({
 		keydown: function(e) {
+			self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
 			self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
 			self.isShiftDown = e.shiftKey;
 			if (self.isFocused && !self.isLocked) {
@@ -250,6 +252,13 @@ Selectize.prototype.onKeyDown = function(e) {
 	}
 
 	switch (keyCode) {
+		case KEY_A:
+			if (this.isCmdDown) {
+				this.selectAll();
+				e.preventDefault();
+				return;
+			}
+			break;
 		case KEY_ESC:
 			this.blur();
 			return;
@@ -261,41 +270,40 @@ Selectize.prototype.onKeyDown = function(e) {
 				if ($next.length) this.setActiveOption($next, true, true);
 			}
 			e.preventDefault();
-			break;
+			return;
 		case KEY_UP:
 			if (this.$activeOption) {
 				var $prev = this.$activeOption.prev();
 				if ($prev.length) this.setActiveOption($prev, true, true);
 			}
 			e.preventDefault();
-			break;
+			return;
 		case KEY_RETURN:
 			if (this.$activeOption) {
 				this.onOptionSelect({currentTarget: this.$activeOption});
 			}
 			e.preventDefault();
-			break;
+			return;
 		case KEY_LEFT:
 			this.advanceSelection(-1, e);
-			break;
+			return;
 		case KEY_RIGHT:
 			this.advanceSelection(1, e);
-			break;
+			return;
 		case KEY_TAB:
 			if (this.settings.create && $.trim(this.$control_input.val()).length) {
 				this.createItem();
 				e.preventDefault();
 			}
-			break;
+			return;
 		case KEY_BACKSPACE:
 		case KEY_DELETE:
 			this.deleteSelection(e);
-			break;
-		default:
-			if (this.isFull() || this.isInputHidden) {
-				e.preventDefault();
-				return;
-			}
+			return;
+	}
+	if (this.isFull() || this.isInputHidden) {
+		e.preventDefault();
+		return;
 	}
 };
 
@@ -443,7 +451,6 @@ Selectize.prototype.load = function(fn) {
 
 	self.loading++;
 	fn.apply(self, [function(results) {
-		console.log('!!!', arguments);
 		self.loading = Math.max(self.loading - 1, 0);
 		if (results && results.length) {
 			self.addOption(results);
@@ -594,10 +601,20 @@ Selectize.prototype.setActiveOption = function($option, scroll, animate) {
 };
 
 /**
+ * Selects all items (CTRL + A).
+ */
+Selectize.prototype.selectAll = function() {
+	this.$activeItems = Array.prototype.slice.apply(this.$control.children(':not(input)').addClass('active'));
+	this.isFocused = true;
+	if (this.$activeItems.length) this.hideInput();
+};
+
+/**
  * Hides the input element out of view, while
  * retaining its focus.
  */
 Selectize.prototype.hideInput = function() {
+	this.close();
 	this.setTextboxValue('');
 	this.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
 	this.isInputHidden = true;
@@ -1289,6 +1306,7 @@ Selectize.prototype.close = function() {
 	if (!this.isOpen) return;
 	this.$dropdown.hide();
 	this.$control.removeClass('dropdown-active');
+	this.setActiveOption(null);
 	this.isOpen = false;
 	this.trigger('onDropdownClose', this.$dropdown);
 };

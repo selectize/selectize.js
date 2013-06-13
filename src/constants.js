@@ -16,6 +16,7 @@
 
 var IS_MAC        = /Mac/.test(navigator.userAgent);
 
+var KEY_A         = 65;
 var KEY_COMMA     = 188;
 var KEY_RETURN    = 13;
 var KEY_ESC       = 27;
