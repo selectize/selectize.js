@@ -27,6 +27,7 @@ var KEY_DOWN      = 40;
 var KEY_BACKSPACE = 8;
 var KEY_DELETE    = 46;
 var KEY_SHIFT     = 16;
+var KEY_CMD       = IS_MAC ? 91 : 17;
 var KEY_CTRL      = IS_MAC ? 18 : 17;
 var KEY_TAB       = 9;
 

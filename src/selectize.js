@@ -152,7 +152,8 @@ Selectize.prototype.setup = function() {
 		},
 		keyup: function(e) {
 			if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
-			else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+			if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+			if (e.keyCode === KEY_CMD) self.isCmdDown = false;
 		},
 		mousedown: function(e) {
 			if (self.isFocused) {
