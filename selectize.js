@@ -1,4 +1,4 @@
-/*! selectize.js - v0.3.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.3.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -92,6 +92,7 @@
 	var KEY_BACKSPACE = 8;
 	var KEY_DELETE    = 46;
 	var KEY_SHIFT     = 16;
+	var KEY_CMD       = IS_MAC ? 91 : 17;
 	var KEY_CTRL      = IS_MAC ? 18 : 17;
 	var KEY_TAB       = 9;
 	
@@ -446,7 +447,8 @@
 			},
 			keyup: function(e) {
 				if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
-				else if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+				if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+				if (e.keyCode === KEY_CMD) self.isCmdDown = false;
 			},
 			mousedown: function(e) {
 				if (self.isFocused) {
