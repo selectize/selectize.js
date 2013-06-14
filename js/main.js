@@ -48,6 +48,6 @@ $(function() {
 		$(this).on('change', update);
 		update();
 
-		$container.insertAfter($input.siblings('.selectize-control'));
+		$container.insertAfter($input.next());
 	});
 });

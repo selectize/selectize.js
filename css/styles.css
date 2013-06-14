@@ -185,6 +185,10 @@ input[type=button]:hover {
 	background: linear-gradient(to bottom,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c836', endColorstr='#7abc2c',GradientType=0 );
 }
+.selectize-control.default.multi .selectize-input.disabled > div {
+	border-color: #d8d8d8;
+	background: #fafafa;
+}
 
 /**********************************************************
  * BASIC AESTHETIC STYLES (common)                        *
@@ -278,6 +282,9 @@ input[type=button]:hover {
 	background: rgba(255,237,40,0.4);
 	border-radius: 1px;
 }
+.selectize-input.disabled, .selectize-input.disabled * {
+	cursor: default !important;
+}
 
 /**********************************************************
  * BASIC AESTHETIC STYLES (single)                        *
@@ -317,10 +324,17 @@ input[type=button]:hover {
 	border-width: 0 5px 5px 5px;
 	border-color: transparent transparent #808080 transparent;
 }
+.selectize-control.single .selectize-input.disabled {
+	opacity: 0.5;
+}
 
 /**********************************************************
  * BASIC AESTHETIC STYLES (multi)                         *
  **********************************************************/
+
+.selectize-control.multi .selectize-input.disabled {
+	background-color: #fafafa;
+}
 
 /**********************************************************
  * LAYOUT STYLES (mandatory)                              *
