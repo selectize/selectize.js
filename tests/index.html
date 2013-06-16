@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Tests</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="../examples/_normalize.css">
+		<link rel="stylesheet" href="vendor/mocha.css">
+		<link rel="stylesheet" href="../selectize.css">
+		<!--[if IE 8]><script src="../examples/_es5.js"></script><![endif]-->
+		<script src="../examples/_jquery.js"></script>
+		<script src="vendor/mocha.js"></script>
+		<script src="vendor/chai.js"></script>
+		<script src="/testem.js"></script>
+		<script src="../selectize.js"></script>
+	</head>
+    <body>
+    	<script>
+    	mocha.setup({ui: 'bdd', ignoreLeaks: true});
+		window.expect = chai.expect;
+		window.assert = chai.assert;
+		window.test = null;
+		window.has_focus = function(elem) {
+			return !!(elem === document.activeElement);
+		};
+		window.setup_test = function(html, options) {
+			var $select = $(html).appendTo(document.body).selectize(options)
+			var instance = $select[0].selectize;
+			return {
+				selectize: instance,
+				teardown: function() {
+					$select.remove();
+					instance.$wrapper.remove();
+				}
+			}
+		}
+    	</script>
+		<div id="mocha"></div>
+		<!-- begin tests -->
+		<script src="setup.js"></script>
+		<script src="api.js"></script>
+		<script src="interaction.js"></script>
+		<!-- end tests -->
+		<script>
+		if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+		else { mocha.run(); }
+		</script>
+	</body>
+</html>

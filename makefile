@@ -1,6 +1,8 @@
-.PHONY: compile release
+.PHONY: compile release test
 
 all: compile
+test:
+	testem
 compile:
 	./build.sh
 release:
