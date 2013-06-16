@@ -1,4 +1,5 @@
 # selectize.js
+[![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
 Selectize is a jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable user-experience with a clean and powerful API.
 
