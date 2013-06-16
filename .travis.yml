@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "0.10"
 before_script:
-  - sudo npm install -g testem
+  - npm install -g testem
   - make
 script:
   - testem ci
