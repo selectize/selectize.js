@@ -226,7 +226,7 @@ Selectize.prototype.setup = function() {
  */
 Selectize.prototype.setupCallbacks = function() {
 	var key, fn, callbacks = {
-		'on_change'      : 'onChange',
+		'change'         : 'onChange',
 		'item_add'       : 'onItemAdd',
 		'item_remove'    : 'onItemRemove',
 		'clear'          : 'onClear',
@@ -1125,7 +1125,7 @@ Selectize.prototype.addItem = function(value) {
 			for (i = 0; i < options.length; i++) {
 				$option = $(options[i]);
 				if ($option.attr('data-value') === value) {
-					active = $option[0] === this.$activeOption[0];
+					active = this.$activeOption && $option[0] === this.$activeOption[0];
 					$option.remove();
 					if (active) {
 						this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
