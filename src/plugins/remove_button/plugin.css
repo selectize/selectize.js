@@ -1,0 +1,30 @@
+.selectize-control.plugin-remove_button .item {
+	position: relative;
+	padding-right: 24px !important;
+}
+.selectize-control.plugin-remove_button .item .remove {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 17px;
+	-moz-sizing: border-box;
+	-webkit-sizing: border-box;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	color: inherit;
+	vertical-align: middle;
+	display: inline-block;
+	padding: 7px 0 0 0;
+	line-height: 8px;
+	-webkit-border-radius: 0 2px 2px 0;
+	-moz-border-radius: 0 2px 2px 0;
+	border-radius: 0 2px 2px 0;
+	border-left: 1px solid #74b21e;
+}
+.selectize-control.plugin-remove_button .item .remove:hover {
+	border-left-color: #5e8f1a;
+	background: rgba(50,90,0,0.15);
+}
