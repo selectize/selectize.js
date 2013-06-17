@@ -1,4 +1,18 @@
 $(function() {
+	// tab navigation
+	$('#tabs').on('click', 'a', function(e) {
+		var $a = $(e.target);
+		var $li = $a.parent();
+		var selector = $a.attr('data-section');
+		$li.siblings().removeClass('active');
+		$li.addClass('active');
+		$('.tab-content').hide();
+		$(selector).show();
+		e.preventDefault();
+		return false;
+	});
+
+	// show source code
 	$('script.show').each(function() {
 		var $a, $pre;
 		var self = this;

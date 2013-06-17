@@ -61,7 +61,7 @@
 			<h2>Features</h2>
 
 			<ul>
-				<li><strong>Clean API &amp; code + extensible</strong> — Interface &amp; make modifications to it like a boss with the lean plugin system. Fully documented on GitHub &amp; inline.</li>
+				<li><strong>Clean API &amp; code + extensible</strong> — Interface &amp; make addons like a boss with the plugin system. Fully documented on GitHub &amp; inline.</li>
 				<li><strong>Smart Ranking / Multi-property searching</strong> — Want to search an item's title <em>and</em> description? No problem. You can even override the scoring function used for sorting if you want to get crazy.</li>
 				<li><strong>Caret between items</strong> — Order matters sometimes. Use the [left] and [right] arrow keys to move between items.</li>
 				<li><strong>Select &amp; delete multiple items at once</strong> — Hold down [option] on Mac or [ctrl] on Windows to select more than one item to delete.</li>
@@ -70,8 +70,14 @@
 				<li><strong>Remote data loading</strong> — For when you have thousands of options and want them provided by the server as the user types.</li>
 			</ul>
 		</div>
-		<div class="inset" id="demos">
-			<div class="wrapper">
+		<div class="inset" id="content">
+			<div class="wrapper" id="tabs">
+				<ul class="tabs">
+					<li class="active"><a href="#demos" data-section="#demos">Demos</a></li>
+					<li><a href="#demos" data-section="#plugins">Plugins</a></li>
+				</ul>
+			</div>
+			<div class="wrapper tab-content" id="demos">
 
 				<!-- ************** Tagging Demo ************** -->
 				<section class="demo">
@@ -754,6 +760,64 @@
 					select_state = $select_state[0].selectize;
 
 					select_city.disable();
+					</script>
+				</section>
+
+			</div>
+			<div class="wrapper tab-content" id="plugins" style="display:none">
+
+				<!-- ************** "restore_on_backspace" Plugin Demo ************** -->
+				<section class="demo plugin">
+					<div class="header">
+						"restore_on_backspace"
+					</div>
+					<div class="sandbox">
+						<label for="input-tags2">Tags:</label>
+						<input type="text" id="input-tags2" class="demo-default" value="web development,design">
+					</div>
+					<div class="description">
+						Press the [backspace] key and go back to editing the item without it being fully removed.
+					</div>
+					<script class="show">
+					$('#input-tags2').selectize({
+						plugins: ['restore_on_backspace'],
+						delimiter: ',',
+						persist: false,
+						create: function(input) {
+							return {
+								value: input,
+								text: input
+							}
+						}
+					});
+					</script>
+				</section>
+
+
+				<!-- ************** "remove_button" Plugin Demo ************** -->
+				<section class="demo plugin">
+					<div class="header">
+						"remove_button"
+					</div>
+					<div class="sandbox">
+						<label for="input-tags3">Tags:</label>
+						<input type="text" id="input-tags3" class="demo-default" value="science,biology,chemistry,physics">
+					</div>
+					<div class="description">
+						This plugin adds classic a classic remove button to each item for behavior that mimics Select2 and Chosen.
+					</div>
+					<script class="show">
+					$('#input-tags3').selectize({
+						plugins: ['remove_button'],
+						delimiter: ',',
+						persist: false,
+						create: function(input) {
+							return {
+								value: input,
+								text: input
+							}
+						}
+					});
 					</script>
 				</section>
 
