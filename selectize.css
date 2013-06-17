@@ -1,6 +1,10 @@
+/*! selectize.css - v0.4.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+
+/* --- file: "src/selectize.css" --- */
+
 /**********************************************************
- * THEME: "default"                                       *
- **********************************************************/
+* THEME: "default"                                       *
+**********************************************************/
 
 .selectize-control.default.multi .selectize-input > div {
 	color: #3d5d18;
@@ -35,11 +39,12 @@
 .selectize-control.default.multi .selectize-input.disabled > div {
 	border-color: #d8d8d8;
 	background: #fafafa;
+	color: #808080;
 }
 
 /**********************************************************
- * BASIC AESTHETIC STYLES (common)                        *
- **********************************************************/
+* BASIC AESTHETIC STYLES (common)                        *
+**********************************************************/
 
 .selectize-input, .selectize-control.single .selectize-input.focus {
 	background: #fff;
@@ -134,8 +139,8 @@
 }
 
 /**********************************************************
- * BASIC AESTHETIC STYLES (single)                        *
- **********************************************************/
+* BASIC AESTHETIC STYLES (single)                        *
+**********************************************************/
 
 .selectize-control.single .selectize-input {
 	cursor: pointer;
@@ -178,16 +183,16 @@
 }
 
 /**********************************************************
- * BASIC AESTHETIC STYLES (multi)                         *
- **********************************************************/
+* BASIC AESTHETIC STYLES (multi)                         *
+**********************************************************/
 
 .selectize-control.multi .selectize-input.disabled {
 	background-color: #fafafa;
 }
 
 /**********************************************************
- * LAYOUT STYLES (mandatory)                              *
- **********************************************************/
+* LAYOUT STYLES (mandatory)                              *
+**********************************************************/
 
 .selectize-control {
 	position: relative;
@@ -240,4 +245,37 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+/* --- file: "src/plugins/remove_button/plugin.css" --- */
+
+.selectize-control.plugin-remove_button .item {
+	position: relative;
+	padding-right: 24px !important;
+}
+.selectize-control.plugin-remove_button .item .remove {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 17px;
+	-moz-sizing: border-box;
+	-webkit-sizing: border-box;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	color: inherit;
+	vertical-align: middle;
+	display: inline-block;
+	padding: 7px 0 0 0;
+	line-height: 8px;
+	-webkit-border-radius: 0 2px 2px 0;
+	-moz-border-radius: 0 2px 2px 0;
+	border-radius: 0 2px 2px 0;
+	border-left: 1px solid #74b21e;
+}
+.selectize-control.plugin-remove_button .item .remove:hover {
+	border-left-color: #5e8f1a;
+	background: rgba(50,90,0,0.15);
 }

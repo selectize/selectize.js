@@ -1,4 +1,4 @@
-/*! selectize.js - v0.3.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.4.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -11,7 +11,7 @@
 }(function ($) {
 	"use strict";	
 	
-	// --- src/contrib/highlight.js ---
+	/* --- file: "src/contrib/highlight.js" --- */
 	
 	/**
 	* highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
@@ -61,7 +61,54 @@
 		}).end();
 	};
 	
-	// --- src/constants.js ---
+	/* --- file: "src/contrib/microevent.js" --- */
+	
+	/**
+	* MicroEvent - to make any js object an event emitter
+	*
+	* - pure javascript - server compatible, browser compatible
+	* - dont rely on the browser doms
+	* - super simple - you get it immediatly, no mistery, no magic involved
+	*
+	* @author Jerome Etienne (https://github.com/jeromeetienne)
+	*/
+	
+	var MicroEvent = function() {};
+	MicroEvent.prototype = {
+		on: function(event, fct){
+			this._events = this._events || {};
+			this._events[event] = this._events[event] || [];
+			this._events[event].push(fct);
+		},
+		off: function(event, fct){
+			this._events = this._events || {};
+			if (event in this._events === false) return;
+			this._events[event].splice(this._events[event].indexOf(fct), 1);
+		},
+		trigger: function(event /* , args... */){
+			this._events = this._events || {};
+			if (event in this._events === false) return;
+			for (var i = 0; i < this._events[event].length; i++){
+				this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
+			}
+		}
+	};
+	
+	/**
+	* Mixin will delegate all MicroEvent.js function in the destination object.
+	*
+	* - MicroEvent.mixin(Foobar) will make Foobar able to use MicroEvent
+	*
+	* @param {object} the object which will support MicroEvent
+	*/
+	MicroEvent.mixin = function(destObject){
+		var props = ['on', 'off', 'trigger'];
+		for (var i = 0; i < props.length; i++){
+			destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
+		}
+	};
+	
+	/* --- file: "src/constants.js" --- */
 	
 	/**
 	* selectize - A highly customizable select control with autocomplete.
@@ -112,7 +159,85 @@
 		'z': '[zŽž]'
 	};
 	
-	// --- src/utils.js ---
+	/* --- file: "src/plugins.js" --- */
+	
+	var Plugins = {};
+	
+	Plugins.mixin = function(Interface, interfaceName) {
+		Interface.plugins = {};
+	
+		/**
+		 * Initializes the provided functions.
+		 * Acceptable formats:
+		 *
+		 * List (without options):
+		 *   ['a', 'b', 'c']
+		 *
+		 * List (with options)
+		 *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+		 *
+		 * @param {mixed} plugins
+		 */
+		Interface.prototype.loadPlugins = function(plugins) {
+			var i, n, key;
+			this.plugins = [];
+			this.pluginSettings = {};
+	
+			if ($.isArray(plugins)) {
+				for (i = 0, n = plugins.length; i < n; i++) {
+					this.loadPlugin(plugins[i]);
+				}
+			} else if (plugins) {
+				this.pluginSettings = $.extend({}, plugins);
+				for (key in plugins) {
+					if (plugins.hasOwnProperty(key)) {
+						this.loadPlugin(key);
+					}
+				}
+			}
+		};
+	
+		/**
+		 * Initializes a plugin.
+		 *
+		 * @param {string} name
+		 */
+		Interface.prototype.loadPlugin = function(name) {
+			var plugin, i, n;
+	
+			if (this.plugins.indexOf(name) !== -1) return;
+			if (!Interface.plugins.hasOwnProperty(name)) {
+				throw new Error(interfaceName + ' unable to find "' +  name + '" plugin');
+			}
+	
+			plugin = Interface.plugins[name];
+	
+			// initialize plugin and dependencies
+			this.plugins.push(name);
+			for (i = 0, n = plugin.dependencies.length; i < n; i++) {
+				this.loadPlugin(plugin.dependencies[i]);
+			}
+			plugin.fn.apply(this, [this.pluginSettings[name] || {}]);
+		};
+	
+		/**
+		 * Registers a plugin.
+		 *
+		 * @param {string} name
+		 * @param {array} dependencies (optional)
+		 * @param {function} fn
+		 */
+		Interface.registerPlugin = function(name) {
+			var args = arguments;
+			Interface.plugins[name] = {
+				'name'         : name,
+				'fn'           : args[args.length - 1],
+				'dependencies' : args.length === 3 ? args[1] : []
+			};
+		};
+	};
+	
+	/* --- file: "src/utils.js" --- */
 	
 	var isset = function(object) {
 		return typeof object !== 'undefined';
@@ -291,7 +416,7 @@
 		update();
 	};
 	
-	// --- src/selectize.js ---
+	/* --- file: "src/selectize.js" --- */
 	
 	/**
 	* selectize.js
@@ -362,8 +487,19 @@
 			this.settings.hideSelected = this.settings.mode === 'multi';
 		}
 	
+		this.loadPlugins(this.settings.plugins);
+		this.setupCallbacks();
 		this.setup();
 	};
+	
+	// mixins
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	
+	MicroEvent.mixin(Selectize);
+	Plugins.mixin(Selectize, 'Selectize');
+	
+	// methods
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	/**
 	* Creates all elements and sets up event bindings.
@@ -392,6 +528,10 @@
 			display: this.$input.css('display')
 		});
 	
+		if (this.plugins.length) {
+			$wrapper.addClass('plugin-' + this.plugins.join(' plugin-'));
+		}
+	
 		inputMode = this.settings.mode;
 		$wrapper.toggleClass('single', inputMode === 'single');
 		$wrapper.toggleClass('multi', inputMode === 'multi');
@@ -410,16 +550,16 @@
 		this.$dropdown      = $dropdown;
 	
 		$control.on('mousedown', function(e) {
-			window.setTimeout(function() {
-				self.focus(true);
-			}, 0);
-			e.preventDefault();
+			if (!e.isDefaultPrevented()) {
+				window.setTimeout(function() {
+					self.focus(true);
+				}, 0);
+			}
 		});
 	
 		watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
 		watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
-	
 		autoGrow($control_input);
 	
 		$control_input.on({
@@ -501,12 +641,38 @@
 	};
 	
 	/**
+	* Maps fired events to callbacks provided
+	* in the settings used when creating the control.
+	*/
+	Selectize.prototype.setupCallbacks = function() {
+		var key, fn, callbacks = {
+			'on_change'      : 'onChange',
+			'item_add'       : 'onItemAdd',
+			'item_remove'    : 'onItemRemove',
+			'clear'          : 'onClear',
+			'option_add'     : 'onOptionAdd',
+			'option_remove'  : 'onOptionRemove',
+			'option_clear'   : 'onOptionClear',
+			'dropdown_open'  : 'onDropdownOpen',
+			'dropdown_close' : 'onDropdownClose',
+			'type'           : 'onType'
+		};
+	
+		for (key in callbacks) {
+			if (callbacks.hasOwnProperty(key)) {
+				fn = this.settings[callbacks[key]];
+				if (fn) this.on(key, fn);
+			}
+		}
+	};
+	
+	/**
 	* Triggers a callback defined in the user-provided settings.
 	* Events: onItemAdd, onOptionAdd, etc
 	*
 	* @param {string} event
 	*/
-	Selectize.prototype.trigger = function(event) {
+	Selectize.prototype.triggerCallback = function(event) {
 		var args;
 		if (typeof this.settings[event] === 'function') {
 			args = Array.prototype.slice.apply(arguments, [1]);
@@ -537,17 +703,16 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onKeyDown = function(e) {
-		var keyCode = e.keyCode || e.which;
 		var isInput = e.target === this.$control_input[0];
 	
 		if (this.isLocked) {
-			if (keyCode !== KEY_TAB) {
+			if (e.keyCode !== KEY_TAB) {
 				e.preventDefault();
 			}
 			return;
 		}
 	
-		switch (keyCode) {
+		switch (e.keyCode) {
 			case KEY_A:
 				if (this.isCmdDown) {
 					this.selectAll();
@@ -616,7 +781,7 @@
 			this.lastValue = value;
 			this.onSearchChange(value);
 			this.refreshOptions();
-			this.trigger('onType', value);
+			this.trigger('type', value);
 		}
 	};
 	
@@ -726,8 +891,6 @@
 	Selectize.prototype.onItemSelect = function(e) {
 		if (this.settings.mode === 'multi') {
 			e.preventDefault();
-			e.stopPropagation();
-			this.$control_input.triggerHandler('blur');
 			this.setActiveItem(e.currentTarget, e);
 			this.focus(false);
 			this.hideInput();
@@ -756,7 +919,7 @@
 			if (!self.loading) {
 				$wrapper.removeClass('loading');
 			}
-			self.trigger('onLoad', results);
+			self.trigger('load', results);
 		}]);
 	};
 	
@@ -1267,7 +1430,7 @@
 		this.userOptions[value] = true;
 		this.options[value] = data;
 		this.lastQuery = null;
-		this.trigger('onOptionAdd', value, data);
+		this.trigger('option_add', value, data);
 	};
 	
 	/**
@@ -1306,7 +1469,7 @@
 		delete this.userOptions[value];
 		delete this.options[value];
 		this.lastQuery = null;
-		this.trigger('onOptionRemove', value);
+		this.trigger('option_remove', value);
 		this.removeItem(value);
 	};
 	
@@ -1318,7 +1481,7 @@
 		this.userOptions = {};
 		this.options = {};
 		this.lastQuery = null;
-		this.trigger('onOptionClear');
+		this.trigger('option_clear');
 		this.clear();
 	};
 	
@@ -1360,9 +1523,10 @@
 	*/
 	Selectize.prototype.addItem = function(value) {
 		debounce_events(this, ['change'], function() {
-			var $item;
+			var $item, $option;
 			var self = this;
 			var inputMode = this.settings.mode;
+			var i, active, options;
 			value = String(value);
 	
 			if (inputMode === 'single') this.clear();
@@ -1377,12 +1541,13 @@
 	
 			if (this.isSetup) {
 				// remove the option from the menu
-				var options = this.$dropdown[0].childNodes;
-				for (var i = 0; i < options.length; i++) {
-					var $option = $(options[i]);
+				options = this.$dropdown[0].childNodes;
+				for (i = 0; i < options.length; i++) {
+					$option = $(options[i]);
 					if ($option.attr('data-value') === value) {
+						active = $option[0] === this.$activeOption[0];
 						$option.remove();
-						if ($option[0] === this.$activeOption[0]) {
+						if (active) {
 							this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
 						}
 						break;
@@ -1410,7 +1575,7 @@
 				}
 	
 				this.updatePlaceholder();
-				this.trigger('onItemAdd', value, $item);
+				this.trigger('item_add', value, $item);
 				this.updateOriginalInput();
 			}
 		});
@@ -1453,7 +1618,7 @@
 	
 			this.positionDropdown();
 			this.updateOriginalInput();
-			this.trigger('onItemRemove', value);
+			this.trigger('item_remove', value);
 		}
 	};
 	
@@ -1562,7 +1727,7 @@
 	
 		this.$input.trigger('change');
 		if (this.isSetup) {
-			this.trigger('onChange', this.$input.val());
+			this.trigger('change', this.$input.val());
 		}
 	};
 	
@@ -1592,7 +1757,7 @@
 		this.positionDropdown();
 		this.$control.addClass('dropdown-active');
 		this.$dropdown.show();
-		this.trigger('onDropdownOpen', this.$dropdown);
+		this.trigger('dropdown_open', this.$dropdown);
 	};
 	
 	/**
@@ -1604,7 +1769,7 @@
 		this.$control.removeClass('dropdown-active');
 		this.setActiveOption(null);
 		this.isOpen = false;
-		this.trigger('onDropdownClose', this.$dropdown);
+		this.trigger('dropdown_close', this.$dropdown);
 	};
 	
 	/**
@@ -1636,7 +1801,7 @@
 		this.updateOriginalInput();
 		this.refreshClasses();
 		this.showInput();
-		this.trigger('onClear');
+		this.trigger('clear');
 	};
 	
 	/**
@@ -1659,6 +1824,7 @@
 	* Removes the current selected item(s).
 	*
 	* @param {object} e (optional)
+	* @returns {boolean}
 	*/
 	Selectize.prototype.deleteSelection = function(e) {
 		var i, n, direction, selection, values, caret, $tail;
@@ -1691,7 +1857,7 @@
 	
 		// allow the callback to abort
 		if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false)) {
-			return;
+			return false;
 		}
 	
 		// perform removal
@@ -1702,6 +1868,7 @@
 			this.setCaret(caret);
 			this.showInput();
 		}
+		return true;
 	};
 	
 	/**
@@ -1886,6 +2053,7 @@
 	};
 	
 	Selectize.defaults = {
+		plugins: [],
 		delimiter: ',',
 		persist: true,
 		diacritics: true,
@@ -1934,7 +2102,7 @@
 		}
 	};
 	
-	// --- src/selectize.jquery.js ---
+	/* --- file: "src/selectize.jquery.js" --- */
 	
 	$.fn.selectize = function(settings) {
 		var defaults = $.fn.selectize.defaults;
@@ -1996,6 +2164,102 @@
 	};
 	
 	$.fn.selectize.defaults = Selectize.defaults;
+	
+	/* --- file: "src/plugins/remove_button/plugin.js" --- */
+	
+	/**
+	* Plugin: "remove_button" (selectize.js)
+	* Copyright (c) 2013 Brian Reavis & contributors
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+	* file except in compliance with the License. You may obtain a copy of the License at:
+	* http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software distributed under
+	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+	* ANY KIND, either express or implied. See the License for the specific language
+	* governing permissions and limitations under the License.
+	*
+	* @author Brian Reavis <brian@thirdroute.com>
+	*/
+	
+	(function() {
+		Selectize.registerPlugin('remove_button', function(options) {
+			var self = this;
+	
+			// override the item rendering method to add a "x" to each
+			this.settings.render.item = function(data) {
+				var label = data[self.settings.labelField];
+				return '<div class="item">' + label + ' <a href="javascript:void(0)" class="remove" tabindex="-1" title="Remove">&times;</a></div>';
+			};
+	
+			// override the setup method to add an extra "click" handler
+			// that listens for mousedown events on the "x"
+			this.setup = (function() {
+				var original = self.setup;
+				return function() {
+					original.apply(this, arguments);
+					this.$control.on('click', '.remove', function(e) {
+						e.preventDefault();
+						var $item = $(e.target).parent();
+						self.setActiveItem($item);
+						if (self.deleteSelection()) {
+							self.setCaret(self.items.length);
+						}
+					});
+				};
+			})();
+	
+		});
+	})();
+	
+	/* --- file: "src/plugins/restore_on_backspace/plugin.js" --- */
+	
+	/**
+	* Plugin: "restore_on_backspace" (selectize.js)
+	* Copyright (c) 2013 Brian Reavis & contributors
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+	* file except in compliance with the License. You may obtain a copy of the License at:
+	* http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software distributed under
+	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+	* ANY KIND, either express or implied. See the License for the specific language
+	* governing permissions and limitations under the License.
+	*
+	* @author Brian Reavis <brian@thirdroute.com>
+	*/
+	
+	(function() {
+		Selectize.registerPlugin('restore_on_backspace', function(options) {
+			var self = this;
+	
+			options.text = options.text || function(option) {
+				return option[this.settings.labelField];
+			};
+	
+			this.onKeyDown = (function(e) {
+				var original = self.onKeyDown;
+				return function(e) {
+					var index, option;
+					if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
+						index = this.caretPos - 1;
+						if (index >= 0 && index < this.items.length) {
+							option = this.options[this.items[index]];
+							if (this.deleteSelection(e)) {
+								this.setTextboxValue(options.text.apply(this, [option]));
+							}
+							e.preventDefault();
+							return;
+						}
+					}
+					return original.apply(this, arguments);
+				};
+			})();
+	
+		});
+	})();
 
 	return Selectize;
 
