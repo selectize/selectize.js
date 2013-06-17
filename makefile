@@ -1,10 +1,11 @@
 .PHONY: compile release test
+plugins=*
 
 all: compile
 test:
 	testem
 compile:
-	./build.sh
+	./build.sh --plugins=$(plugins)
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."

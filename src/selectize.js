@@ -67,8 +67,19 @@ var Selectize = function($input, settings) {
 		this.settings.hideSelected = this.settings.mode === 'multi';
 	}
 
+	this.loadPlugins(this.settings.plugins);
+	this.setupCallbacks();
 	this.setup();
 };
+
+// mixins
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MicroEvent.mixin(Selectize);
+Plugins.mixin(Selectize, 'Selectize');
+
+// methods
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 /**
  * Creates all elements and sets up event bindings.
@@ -97,6 +108,10 @@ Selectize.prototype.setup = function() {
 		display: this.$input.css('display')
 	});
 
+	if (this.plugins.length) {
+		$wrapper.addClass('plugin-' + this.plugins.join(' plugin-'));
+	}
+
 	inputMode = this.settings.mode;
 	$wrapper.toggleClass('single', inputMode === 'single');
 	$wrapper.toggleClass('multi', inputMode === 'multi');
@@ -115,16 +130,16 @@ Selectize.prototype.setup = function() {
 	this.$dropdown      = $dropdown;
 
 	$control.on('mousedown', function(e) {
-		window.setTimeout(function() {
-			self.focus(true);
-		}, 0);
-		e.preventDefault();
+		if (!e.isDefaultPrevented()) {
+			window.setTimeout(function() {
+				self.focus(true);
+			}, 0);
+		}
 	});
 
 	watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
 	watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
-
 	autoGrow($control_input);
 
 	$control_input.on({
@@ -206,12 +221,38 @@ Selectize.prototype.setup = function() {
 };
 
 /**
+ * Maps fired events to callbacks provided
+ * in the settings used when creating the control.
+ */
+Selectize.prototype.setupCallbacks = function() {
+	var key, fn, callbacks = {
+		'on_change'      : 'onChange',
+		'item_add'       : 'onItemAdd',
+		'item_remove'    : 'onItemRemove',
+		'clear'          : 'onClear',
+		'option_add'     : 'onOptionAdd',
+		'option_remove'  : 'onOptionRemove',
+		'option_clear'   : 'onOptionClear',
+		'dropdown_open'  : 'onDropdownOpen',
+		'dropdown_close' : 'onDropdownClose',
+		'type'           : 'onType'
+	};
+
+	for (key in callbacks) {
+		if (callbacks.hasOwnProperty(key)) {
+			fn = this.settings[callbacks[key]];
+			if (fn) this.on(key, fn);
+		}
+	}
+};
+
+/**
  * Triggers a callback defined in the user-provided settings.
  * Events: onItemAdd, onOptionAdd, etc
  *
  * @param {string} event
  */
-Selectize.prototype.trigger = function(event) {
+Selectize.prototype.triggerCallback = function(event) {
 	var args;
 	if (typeof this.settings[event] === 'function') {
 		args = Array.prototype.slice.apply(arguments, [1]);
@@ -242,17 +283,16 @@ Selectize.prototype.onKeyPress = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onKeyDown = function(e) {
-	var keyCode = e.keyCode || e.which;
 	var isInput = e.target === this.$control_input[0];
 
 	if (this.isLocked) {
-		if (keyCode !== KEY_TAB) {
+		if (e.keyCode !== KEY_TAB) {
 			e.preventDefault();
 		}
 		return;
 	}
 
-	switch (keyCode) {
+	switch (e.keyCode) {
 		case KEY_A:
 			if (this.isCmdDown) {
 				this.selectAll();
@@ -321,7 +361,7 @@ Selectize.prototype.onKeyUp = function(e) {
 		this.lastValue = value;
 		this.onSearchChange(value);
 		this.refreshOptions();
-		this.trigger('onType', value);
+		this.trigger('type', value);
 	}
 };
 
@@ -431,8 +471,6 @@ Selectize.prototype.onOptionSelect = function(e) {
 Selectize.prototype.onItemSelect = function(e) {
 	if (this.settings.mode === 'multi') {
 		e.preventDefault();
-		e.stopPropagation();
-		this.$control_input.triggerHandler('blur');
 		this.setActiveItem(e.currentTarget, e);
 		this.focus(false);
 		this.hideInput();
@@ -461,7 +499,7 @@ Selectize.prototype.load = function(fn) {
 		if (!self.loading) {
 			$wrapper.removeClass('loading');
 		}
-		self.trigger('onLoad', results);
+		self.trigger('load', results);
 	}]);
 };
 
@@ -972,7 +1010,7 @@ Selectize.prototype.addOption = function(value, data) {
 	this.userOptions[value] = true;
 	this.options[value] = data;
 	this.lastQuery = null;
-	this.trigger('onOptionAdd', value, data);
+	this.trigger('option_add', value, data);
 };
 
 /**
@@ -1011,7 +1049,7 @@ Selectize.prototype.removeOption = function(value) {
 	delete this.userOptions[value];
 	delete this.options[value];
 	this.lastQuery = null;
-	this.trigger('onOptionRemove', value);
+	this.trigger('option_remove', value);
 	this.removeItem(value);
 };
 
@@ -1023,7 +1061,7 @@ Selectize.prototype.clearOptions = function() {
 	this.userOptions = {};
 	this.options = {};
 	this.lastQuery = null;
-	this.trigger('onOptionClear');
+	this.trigger('option_clear');
 	this.clear();
 };
 
@@ -1065,9 +1103,10 @@ Selectize.prototype.getItem = function(value) {
  */
 Selectize.prototype.addItem = function(value) {
 	debounce_events(this, ['change'], function() {
-		var $item;
+		var $item, $option;
 		var self = this;
 		var inputMode = this.settings.mode;
+		var i, active, options;
 		value = String(value);
 
 		if (inputMode === 'single') this.clear();
@@ -1082,12 +1121,13 @@ Selectize.prototype.addItem = function(value) {
 
 		if (this.isSetup) {
 			// remove the option from the menu
-			var options = this.$dropdown[0].childNodes;
-			for (var i = 0; i < options.length; i++) {
-				var $option = $(options[i]);
+			options = this.$dropdown[0].childNodes;
+			for (i = 0; i < options.length; i++) {
+				$option = $(options[i]);
 				if ($option.attr('data-value') === value) {
+					active = $option[0] === this.$activeOption[0];
 					$option.remove();
-					if ($option[0] === this.$activeOption[0]) {
+					if (active) {
 						this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
 					}
 					break;
@@ -1115,7 +1155,7 @@ Selectize.prototype.addItem = function(value) {
 			}
 
 			this.updatePlaceholder();
-			this.trigger('onItemAdd', value, $item);
+			this.trigger('item_add', value, $item);
 			this.updateOriginalInput();
 		}
 	});
@@ -1158,7 +1198,7 @@ Selectize.prototype.removeItem = function(value) {
 
 		this.positionDropdown();
 		this.updateOriginalInput();
-		this.trigger('onItemRemove', value);
+		this.trigger('item_remove', value);
 	}
 };
 
@@ -1267,7 +1307,7 @@ Selectize.prototype.updateOriginalInput = function() {
 
 	this.$input.trigger('change');
 	if (this.isSetup) {
-		this.trigger('onChange', this.$input.val());
+		this.trigger('change', this.$input.val());
 	}
 };
 
@@ -1297,7 +1337,7 @@ Selectize.prototype.open = function() {
 	this.positionDropdown();
 	this.$control.addClass('dropdown-active');
 	this.$dropdown.show();
-	this.trigger('onDropdownOpen', this.$dropdown);
+	this.trigger('dropdown_open', this.$dropdown);
 };
 
 /**
@@ -1309,7 +1349,7 @@ Selectize.prototype.close = function() {
 	this.$control.removeClass('dropdown-active');
 	this.setActiveOption(null);
 	this.isOpen = false;
-	this.trigger('onDropdownClose', this.$dropdown);
+	this.trigger('dropdown_close', this.$dropdown);
 };
 
 /**
@@ -1341,7 +1381,7 @@ Selectize.prototype.clear = function() {
 	this.updateOriginalInput();
 	this.refreshClasses();
 	this.showInput();
-	this.trigger('onClear');
+	this.trigger('clear');
 };
 
 /**
@@ -1364,6 +1404,7 @@ Selectize.prototype.insertAtCaret = function($el) {
  * Removes the current selected item(s).
  *
  * @param {object} e (optional)
+ * @returns {boolean}
  */
 Selectize.prototype.deleteSelection = function(e) {
 	var i, n, direction, selection, values, caret, $tail;
@@ -1396,7 +1437,7 @@ Selectize.prototype.deleteSelection = function(e) {
 
 	// allow the callback to abort
 	if (!values.length || (typeof this.settings.onDelete === 'function' && this.settings.onDelete(values) === false)) {
-		return;
+		return false;
 	}
 
 	// perform removal
@@ -1407,6 +1448,7 @@ Selectize.prototype.deleteSelection = function(e) {
 		this.setCaret(caret);
 		this.showInput();
 	}
+	return true;
 };
 
 /**
@@ -1591,6 +1633,7 @@ Selectize.prototype.render = function(templateName, data) {
 };
 
 Selectize.defaults = {
+	plugins: [],
 	delimiter: ',',
 	persist: true,
 	diacritics: true,

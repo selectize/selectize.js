@@ -13,6 +13,11 @@ var $select = $('select').selectize(options);
 var selectize = $select[0].selectize;
 ```
 
+#### Related Topics
+
+- [Event Documentation](docs/events)
+- [Developing Plugins](docs/plugins)
+
 ### Methods
 
 <table width="100%">
@@ -88,6 +93,29 @@ var selectize = $select[0].selectize;
 	<tr>
 		<td valign="top"><code>getScoreFunction(search)</code></td>
 		<td valign="top">Returns a function for scoring individual options. This should only be used within the "score" callback provided in the options. Returns a float.</td>
+	</tr>
+	<tr>
+		<th valign="top" colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
+	</tr>
+	<tr>
+		<th valign="top" width="120px" align="left">Method</th>
+		<th valign="top" align="left">Description</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>on(event, handler)</code></td>
+		<td valign="top">Adds an event listener.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>off(event, handler)</code></td>
+		<td valign="top">Removes an event listener.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>off(event)</code></td>
+		<td valign="top">Removes all event listeners.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>trigger(event, ...)</code></td>
+		<td valign="top">Triggers event listeners.</td>
 	</tr>
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_dropdown" name="methods_dropdown">Dropdown</a></th>

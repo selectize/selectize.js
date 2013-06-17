@@ -1,12 +1,13 @@
 # selectize.js
 [![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
-Selectize is a jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable user-experience with a clean and powerful API.
+Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~8kb (gzipped). The goal is to provide a solid & usable user-experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Examples](examples/)
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
+- [Plugin Documentation](docs/api.md)
 
 ### Features
 
@@ -19,6 +20,7 @@ Selectize is a jQuery-based custom &lt;select&gt; UI control. It's useful for ta
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
+- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features.
 
 ### Usage
 
@@ -36,11 +38,23 @@ The available options are [documented here](docs/usage.md).
 
 To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim/) must be added your page.
 
+### Custom Builds
+
+By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run `make` with the "plugins" setting. After this completes, grab the js and css from the project root as described above.
+
+```sh
+make plugins=
+make plugins=*
+make plugins=remove_button,restore_on_backspace
+```
+
 ### Contributing
 
-To test, build your copy with `make` then try out the [bundled examples](examples/).
+First build your copy with `make` then try out the [bundled examples](examples/).
 
-Please exclude "selectize.js" and "selectize.min.js" in the project root when issuing a pull request.
+To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. That latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
+
+When issuing a pull request, please exclude "selectize.js" and "selectize.min.js" in the project root.
 
 ## License
 

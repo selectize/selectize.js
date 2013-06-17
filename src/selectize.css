@@ -1,0 +1,244 @@
+/**********************************************************
+ * THEME: "default"                                       *
+ **********************************************************/
+
+.selectize-control.default.multi .selectize-input > div {
+	color: #3d5d18;
+	text-shadow: 0 1px 0 rgba(255,255,255,0.1);
+	border: 1px solid #74b21e;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	background: #b8e76f;
+	background: -moz-linear-gradient(top, #b8e76f 0%, #a9e25c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b8e76f), color-stop(100%,#a9e25c));
+	background: -webkit-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -o-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: -ms-linear-gradient(top, #b8e76f 0%,#a9e25c 100%);
+	background: linear-gradient(to bottom, #b8e76f 0%,#a9e25c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b8e76f', endColorstr='#a9e25c',GradientType=0 );
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-control.default.multi .selectize-input > div.active {
+	border-color: #6f9839;
+	background: #92c836;
+	background: -moz-linear-gradient(top,  #92c836 0%, #006e2e 0%, #92c836 0%, #7abc2c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#92c836), color-stop(0%,#006e2e), color-stop(0%,#92c836), color-stop(100%,#7abc2c));
+	background: -webkit-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -o-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: -ms-linear-gradient(top,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	background: linear-gradient(to bottom,  #92c836 0%,#006e2e 0%,#92c836 0%,#7abc2c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#92c836', endColorstr='#7abc2c',GradientType=0 );
+}
+.selectize-control.default.multi .selectize-input.disabled > div {
+	border-color: #d8d8d8;
+	background: #fafafa;
+	color: #808080;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (common)                        *
+ **********************************************************/
+
+.selectize-input, .selectize-control.single .selectize-input.focus {
+	background: #fff;
+	padding: 10px;
+	cursor: text;
+	display: inline-block;
+	width: 100%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+}
+.selectize-input.focus {
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+}
+.selectize-input.dropdown-active {
+	-webkit-border-radius: 3px 3px 0 0 !important;
+	-moz-border-radius: 3px 3px 0 0 !important;
+	border-radius: 3px 3px 0 0 !important;
+}
+.selectize-input.full {
+	background-color: #f2f2f2;
+}
+.selectize-input.dropdown-active::before {
+	content: ' ';
+	display: block;
+	position: absolute;
+	background: #f2f2f2;
+	height: 1px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+.selectize-control.multi .selectize-input.has-items {
+	padding-top: 8px !important;
+	padding-bottom: 3px !important;
+}
+.selectize-control.multi .selectize-input > div {
+	cursor: pointer;
+	margin: 0 5px 5px 0;
+	padding: 1px 5px;
+}
+.selectize-input > div:last-child {
+	margin-right: 5px;
+}
+.selectize-input > input {
+	margin-right: 2px !important;
+}
+.selectize-dropdown, .selectize-input, .selectize-control.single .selectize-input.dropdown-active {
+	border: 1px solid #d0d0d0;
+}
+.selectize-dropdown {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background: #fff;
+	margin-top: -1px;
+	border-top: 0 none;
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	-webkit-border-radius: 0 0 3px 3px;
+	-moz-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+.selectize-dropdown > * {
+	padding: 6px 9px;
+}
+.selectize-dropdown > *.create {
+	color: #a0a0a0;
+}
+.selectize-dropdown > *.active {
+	background-color: #fffceb;
+}
+.selectize-dropdown, .selectize-input, .selectize-input input {
+	color: #303030;
+	font-family: Helvetica, arial, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+}
+.selectize-dropdown .highlight {
+	background: rgba(255,237,40,0.4);
+	border-radius: 1px;
+}
+.selectize-input.disabled, .selectize-input.disabled * {
+	cursor: default !important;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (single)                        *
+ **********************************************************/
+
+.selectize-control.single .selectize-input {
+	cursor: pointer;
+	border-color: #b8b8b8;
+	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #c6c6c6;
+	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #c6c6c6;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 0 #e0e0e0, 0 3px 0 #c8c8c8, 0 4px 1px rgba(0,0,0,0.1);
+	background: #f6f6f6;
+	background: -moz-linear-gradient(top, #f5f5f5 0%, #efefef 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f5f5), color-stop(100%,#efefef));
+	background: -webkit-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: -o-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: -ms-linear-gradient(top, #f5f5f5 0%,#efefef 100%);
+	background: linear-gradient(to bottom, #fafafa 0%,#f2f2f2 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f6f6', endColorstr='#e8e8e8',GradientType=0 );
+}
+
+.selectize-control.single .selectize-input::after {
+	content: ' ';
+	display: block;
+	position: absolute;
+	top: 50%;
+	right: 15px;
+	margin-top: -2px;
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 5px 5px 0 5px;
+	border-color: #808080 transparent transparent transparent;
+}
+
+.selectize-control.single .selectize-input.dropdown-active::after {
+	margin-top: -3px;
+	border-width: 0 5px 5px 5px;
+	border-color: transparent transparent #808080 transparent;
+}
+
+.selectize-control.single .selectize-input.disabled {
+	opacity: 0.5;
+}
+
+/**********************************************************
+ * BASIC AESTHETIC STYLES (multi)                         *
+ **********************************************************/
+
+.selectize-control.multi .selectize-input.disabled {
+	background-color: #fafafa;
+}
+
+/**********************************************************
+ * LAYOUT STYLES (mandatory)                              *
+ **********************************************************/
+
+.selectize-control {
+	position: relative;
+}
+.selectize-input {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+.selectize-input:after {
+	content: ' ';
+	display: block;
+	clear: left;
+}
+.selectize-input .items {
+	display: inline;
+}
+.selectize-input > * {
+	vertical-align: baseline;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom: 1;
+	*display: inline;
+}
+.selectize-input > input {
+	max-width: 100% !important;
+	text-indent: 0 !important;
+	border: 0 none !important;
+	background: none !important;
+	padding: 0 !important;
+	margin: 0;
+	line-height: inherit !important;
+	-webkit-user-select: auto !important;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+.selectize-input > input:focus {
+	outline: none !important;
+}
+.selectize-dropdown {
+	position: absolute;
+	z-index: 2;
+}
+.selectize-dropdown > * {
+	cursor: pointer;
+	overflow: hidden;
+}
+.selectize-input, .selectize-dropdown {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}

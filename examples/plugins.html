@@ -22,17 +22,45 @@
 			<h1>Selectize.js</h1>
 
 			<div class="demo">
-				<h2>Confirm Delete</h2>
+				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>
-					<input type="text" id="input-tags" class="demo-default" value="awesome,neat,yeah">
+					<input type="text" id="input-tags" class="demo-default" value="awesome,neat">
 				</div>
 				<script>
 				$('#input-tags').selectize({
+					plugins: ['remove_button'],
 					delimiter: ',',
 					persist: false,
+					create: function(input) {
+						return {
+							value: input,
+							text: input
+						}
+					},
 					onDelete: function(values) {
 						return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+					}
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "restore_on_backspace"</h2>
+				<div class="control-group">
+					<label for="input-tags2">Tags:</label>
+					<input type="text" id="input-tags2" class="demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('#input-tags2').selectize({
+					plugins: ['restore_on_backspace'],
+					delimiter: ',',
+					persist: false,
+					create: function(input) {
+						return {
+							value: input,
+							text: input
+						}
 					}
 				});
 				</script>
