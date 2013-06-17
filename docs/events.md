@@ -1,6 +1,6 @@
 ## Selectize API – Events
 
-In the [usage documentation](docs/usage.md), a few callbacks are listed that
+In the [usage documentation](usage.md), a few callbacks are listed that
 allow you to listen for certain events. Callbacks aren't always ideal though;
 specifically when you wish to have multiple handlers.
 

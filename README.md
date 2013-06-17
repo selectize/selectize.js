@@ -7,7 +7,7 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 - [Examples](examples/)
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
-- [Plugin Documentation](docs/api.md)
+- [Plugin Documentation](docs/plugins.md)
 
 ### Features
 

@@ -7,13 +7,13 @@ to be sexy; it's lean, makes very few assumptions, and gives the developer
 complete control.
 
 **A few notes:**
-- All plugins live in their own folders in ["src/plugins"](src/plugins).
+- All plugins live in their own folders in ["src/plugins"](../src/plugins).
 - Plugin names should be in follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
 - CSS should live in a "plugin.css" file (optional). It will be bundled at build time.
 - Plugins are initialized right before the control is setup.
   This means that if you want to listen for events on any of the control's
-  elements, you should override the `setup()` method (see ["DOM Events"](dom-events)).
+  elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
 
 ### Boilerplate
 
