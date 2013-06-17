@@ -26,6 +26,16 @@ complete control.
 })();
 ```
 
+#### Adding Dependencies
+
+```js
+(function() {
+	Selectize.registerPlugin('plugin_name', ['another_plugin'], function(options) {
+		// "another_plugin" will be loaded at this point
+	});
+})();
+```
+
 ## Overriding Methods
 
 Methods should be extended by [wrapping them](http://coreymaynard.com/blog/extending-a-javascript-function/):
