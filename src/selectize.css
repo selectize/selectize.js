@@ -113,6 +113,16 @@
 .selectize-dropdown > * {
 	padding: 6px 9px;
 }
+.selectize-dropdown > [data-optgroup]:first-child {
+	border-top: 0 none;
+}
+.selectize-dropdown > [data-optgroup] {
+	background: #fafafa;
+	border-bottom: 1px solid #e8e8e8;
+	border-top: 1px solid #e8e8e8;
+	font-weight: bold;
+	font-size: 0.8em;
+}
 .selectize-dropdown > *.create {
 	color: #a0a0a0;
 }

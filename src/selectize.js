@@ -43,6 +43,7 @@ var Selectize = function($input, settings) {
 	this.$activeOption    = null;
 	this.$activeItems     = [];
 
+	this.optgroups        = {};
 	this.options          = {};
 	this.userOptions      = {};
 	this.items            = [];
@@ -59,6 +60,10 @@ var Selectize = function($input, settings) {
 	} else if (typeof settings.options === 'object') {
 		$.extend(this.options, settings.options);
 		delete this.settings.options;
+	}
+	if (typeof settings.optgroups === 'object') {
+		$.extend(this.optgroups, settings.optgroups);
+		delete this.settings.optgroups;
 	}
 
 	// option-dependent defaults
@@ -137,8 +142,8 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	watchChildEvent($dropdown, 'mouseenter', '*', function() { return self.onOptionHover.apply(self, arguments); });
-	watchChildEvent($dropdown, 'mousedown', '*', function() { return self.onOptionSelect.apply(self, arguments); });
+	watchChildEvent($dropdown, 'mouseenter', '*:not([data-optgroup])', function() { return self.onOptionHover.apply(self, arguments); });
+	watchChildEvent($dropdown, 'mousedown', '*:not([data-optgroup])', function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 	autoGrow($control_input);
 
@@ -307,14 +312,14 @@ Selectize.prototype.onKeyDown = function(e) {
 			if (!this.isOpen && this.hasOptions && this.isInputFocused) {
 				this.open();
 			} else if (this.$activeOption) {
-				var $next = this.$activeOption.next();
+				var $next = this.$activeOption.nextAll(':not([data-optgroup]):first');
 				if ($next.length) this.setActiveOption($next, true, true);
 			}
 			e.preventDefault();
 			return;
 		case KEY_UP:
 			if (this.$activeOption) {
-				var $prev = this.$activeOption.prev();
+				var $prev = this.$activeOption.prevAll(':not([data-optgroup]):first');
 				if ($prev.length) this.setActiveOption($prev, true, true);
 			}
 			e.preventDefault();
@@ -935,19 +940,43 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 		triggerDropdown = true;
 	}
 
-	var i, n;
+	var i, n, groups, groups_order, option, optgroup, html;
 	var hasCreateOption;
 	var query = this.$control_input.val();
 	var results = this.search(query, {});
-	var html = [];
+	var $active, $create;
 
 	// build markup
 	n = results.items.length;
 	if (typeof this.settings.maxOptions === 'number') {
 		n = Math.min(n, this.settings.maxOptions);
 	}
+
+	// render and group available options individually
+	groups = {};
+	groups_order = [];
+
 	for (i = 0; i < n; i++) {
-		html.push(this.render('option', this.options[results.items[i].value]));
+		option = this.options[results.items[i].value];
+		optgroup = option[this.settings.optgroupField] || '';
+		if (!this.optgroups.hasOwnProperty(optgroup)) {
+			optgroup = '';
+		}
+		if (!groups.hasOwnProperty(optgroup)) {
+			groups[optgroup] = [];
+			groups_order.push(optgroup);
+		}
+		groups[optgroup].push(this.render('option', option));
+	}
+
+	// render optgroup headers & join groups
+	html = [];
+	for (i = 0, n = groups_order.length; i < n; i++) {
+		optgroup = groups_order[i];
+		if (this.optgroups.hasOwnProperty(optgroup)) {
+			html.push(this.render('optgroup', this.optgroups[optgroup]) || '');
+		}
+		html.push(groups[optgroup].join(''));
 	}
 
 	this.$dropdown.html(html.join(''));
@@ -970,12 +999,22 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	hasCreateOption = this.settings.create && results.query.length;
 	if (hasCreateOption) {
 		this.$dropdown.prepend(this.render('option_create', {input: query}));
+		$create = $(this.$dropdown[0].childNodes[0]);
 	}
 
 	// activate
 	this.hasOptions = results.items.length > 0 || hasCreateOption;
 	if (this.hasOptions) {
-		this.setActiveOption(this.$dropdown[0].childNodes[hasCreateOption && results.items.length > 0 ? 1 : 0]);
+		if (results.items.length > 0) {
+			if ($create) {
+				$active = $create.nextAll(':not([data-optgroup]):first');
+			} else {
+				$active = this.$dropdown.children(':not([data-optgroup]):first');
+			}
+		} else {
+			$active = $create;
+		}
+		this.setActiveOption($active);
 		if (triggerDropdown && !this.isOpen) { this.open(); }
 	} else {
 		this.setActiveOption(null);
@@ -998,19 +1037,34 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
  * @param {object} data
  */
 Selectize.prototype.addOption = function(value, data) {
+	var i, n, optgroup;
+
 	if ($.isArray(value)) {
-		for (var i = 0, n = value.length; i < n; i++) {
+		for (i = 0, n = value.length; i < n; i++) {
 			this.addOption(value[i][this.settings.valueField], value[i]);
 		}
 		return;
 	}
 
+	value = value || '';
 	if (this.options.hasOwnProperty(value)) return;
-	value = String(value);
+
 	this.userOptions[value] = true;
 	this.options[value] = data;
 	this.lastQuery = null;
 	this.trigger('option_add', value, data);
+};
+
+/**
+ * Registers a new optgroup for options
+ * to be bucketed into.
+ *
+ * @param {string} id
+ * @param {object} data
+ */
+Selectize.prototype.addOptionGroup = function(id, data) {
+	this.optgroups[id] = data;
+	this.trigger('optgroup_add', value, data);
 };
 
 /**
@@ -1073,7 +1127,7 @@ Selectize.prototype.clearOptions = function() {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return this.$dropdown.children('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first');
+	return value ? this.$dropdown.children('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
 };
 
 /**
@@ -1106,7 +1160,7 @@ Selectize.prototype.addItem = function(value) {
 		var $item, $option;
 		var self = this;
 		var inputMode = this.settings.mode;
-		var i, active, options;
+		var i, active, options, value_next;
 		value = String(value);
 
 		if (inputMode === 'single') this.clear();
@@ -1121,24 +1175,16 @@ Selectize.prototype.addItem = function(value) {
 
 		if (this.isSetup) {
 			// remove the option from the menu
-			options = this.$dropdown[0].childNodes;
-			for (i = 0; i < options.length; i++) {
-				$option = $(options[i]);
-				if ($option.attr('data-value') === value) {
-					active = this.$activeOption && $option[0] === this.$activeOption[0];
-					$option.remove();
-					if (active) {
-						this.setActiveOption(options.length ? $(options[0]).addClass('active') : null);
-					}
-					break;
-				}
+			$option = this.getOption(value);
+			value_next = $option.nextAll(':not([data-optgroup]):first').attr('data-value');
+			this.refreshOptions(true);
+			if (value_next) {
+				this.setActiveOption(this.getOption(value_next));
 			}
 
 			// hide the menu if the maximum number of items have been selected or no options are left
-			if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
+			if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) {
 				this.close();
-			} else {
-				this.positionDropdown();
 			}
 
 			// restore focus to input
@@ -1590,6 +1636,7 @@ Selectize.prototype.render = function(templateName, data) {
 	var value, label;
 	var html = '';
 	var cache = false;
+	var regex_tag = /^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
 	if (['option', 'item'].indexOf(templateName) !== -1) {
 		value = data[this.settings.valueField];
@@ -1610,6 +1657,10 @@ Selectize.prototype.render = function(templateName, data) {
 	} else {
 		label = data[this.settings.labelField];
 		switch (templateName) {
+			case 'optgroup':
+				label = data[this.settings.optgroupLabelField];
+				html = '<div class="optgroup">' + label + '</div>';
+				break;
 			case 'option':
 				html = '<div class="option">' + label + '</div>';
 				break;
@@ -1622,8 +1673,11 @@ Selectize.prototype.render = function(templateName, data) {
 		}
 	}
 
+	if (templateName === 'optgroup') {
+		html = html.replace(regex_tag, '<$1 data-optgroup="1"');
+	}
 	if (isset(value)) {
-		html = html.replace(/^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i, '<$1 data-value="' + value + '"');
+		html = html.replace(regex_tag, '<$1 data-value="' + value + '"');
 	}
 	if (cache) {
 		this.renderCache[templateName][value] = html;
@@ -1649,10 +1703,12 @@ Selectize.defaults = {
 	loadThrottle: 300,
 
 	dataAttr: 'data-data',
+	optgroupField: 'optgroup',
 	sortField: null,
 	sortDirection: 'asc',
 	valueField: 'value',
 	labelField: 'text',
+	optgroupLabelField: 'label',
 	searchField: ['text'],
 
 	mode: null,
@@ -1677,6 +1733,7 @@ Selectize.defaults = {
 
 	render: {
 		item: null,
+		optgroup: null,
 		option: null,
 		option_create: null
 	}
