@@ -89,3 +89,18 @@ input[type=button] {
 input[type=button]:hover {
 	background: #dadada;
 }
+
+@media only screen and (max-width : 320px) {
+	#wrapper {
+		margin: 0;
+	}
+	h1 {
+		margin: 20px;
+	}
+	.demo {
+		padding: 20px;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+	}
+}
