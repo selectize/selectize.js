@@ -979,10 +979,11 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	for (i = 0, n = groups_order.length; i < n; i++) {
 		optgroup = groups_order[i];
 		if (this.optgroups.hasOwnProperty(optgroup)) {
-			html.push(this.render('optgroupstart', this.optgroups[optgroup]) || '');
-			html.push(this.render('optgroup', this.optgroups[optgroup]) || '');
-			html.push(groups[optgroup].join(''));
-			html.push(this.render('optgroupend', this.optgroups[optgroup]) || '');
+			// render the optgroup header and options within it, then pass it to the
+			// wrapper template
+			var options = this.render('optgroup', this.optgroups[optgroup]) || '';
+			options += groups[optgroup].join('');
+			html.push(this.render('optgroupwrapper', options));
 		} else {
 			html.push(groups[optgroup].join(''));
 		}
@@ -1678,11 +1679,8 @@ Selectize.prototype.render = function(templateName, data) {
 	} else {
 		label = data[this.settings.labelField];
 		switch (templateName) {
-			case 'optgroupstart':
-				html = '<div class="optgroup-wrapper">';
-				break;
-			case 'optgroupend':
-				html = '</div>';
+			case 'optgroupwrapper':
+				html = '<div class="optgroup-wrapper">' + data + "</div>";
 				break;
 			case 'optgroup':
 				label = data[this.settings.optgroupLabelField];
