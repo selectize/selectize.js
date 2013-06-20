@@ -21,6 +21,11 @@ var Selectize = function($input, settings) {
 	this.tagType          = $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT;
 	this.settings         = settings;
 
+	this.optionSelector   = settings.optionSelector || ".option";
+	this.itemSelector     = settings.itemSelector || ".item";
+	this.createSelector   = settings.createSelector || ".create";
+	this.childSelector    = [this.optionSelector, this.createSelector, this.itemSelector].join(",");
+
 	this.highlightedValue = null;
 	this.isOpen           = false;
 	this.isDisabled       = false;
@@ -142,8 +147,8 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	watchChildEvent($dropdown, 'mouseenter', '*:not([data-optgroup])', function() { return self.onOptionHover.apply(self, arguments); });
-	watchChildEvent($dropdown, 'mousedown', '*:not([data-optgroup])', function() { return self.onOptionSelect.apply(self, arguments); });
+	$dropdown.on('mouseenter', this.childSelector, function() { return self.onOptionHover.apply(self, arguments); });
+	$dropdown.on('mousedown', this.childSelector, function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 	autoGrow($control_input);
 
@@ -312,14 +317,14 @@ Selectize.prototype.onKeyDown = function(e) {
 			if (!this.isOpen && this.hasOptions && this.isInputFocused) {
 				this.open();
 			} else if (this.$activeOption) {
-				var $next = this.$activeOption.nextAll(':not([data-optgroup]):first');
+				var $next = this.getAdjacentOption(this.$activeOption);
 				if ($next.length) this.setActiveOption($next, true, true);
 			}
 			e.preventDefault();
 			return;
 		case KEY_UP:
 			if (this.$activeOption) {
-				var $prev = this.$activeOption.prevAll(':not([data-optgroup]):first');
+				var $prev = this.getAdjacentOption(this.$activeOption, -1);
 				if ($prev.length) this.setActiveOption($prev, true, true);
 			}
 			e.preventDefault();
@@ -1007,9 +1012,9 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	if (this.hasOptions) {
 		if (results.items.length > 0) {
 			if ($create) {
-				$active = $create.nextAll(':not([data-optgroup]):first');
+				$active = this.getAdjacentOption($create);
 			} else {
-				$active = this.$dropdown.children(':not([data-optgroup]):first');
+				$active = this.$dropdown.find(this.optionSelector).first();
 			}
 		} else {
 			$active = $create;
@@ -1127,7 +1132,19 @@ Selectize.prototype.clearOptions = function() {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return value ? this.$dropdown.children('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+	return value ? this.$dropdown.find(this.childSelector).filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+};
+
+/**
+ * Returns the jQuery element of the next selectable option
+ * @param  {object} option
+ * @param  {int} direction  can be 1 for next (default) or -1 for previous
+ * @return {object}
+ */
+Selectize.prototype.getAdjacentOption = function(option, direction) {
+	var options = this.$dropdown.find(this.childSelector),
+		index = options.index(option) + (isset(direction) ? direction : 1);
+	return index >= 0 && index < options.length ? options.eq(index) : $();
 };
 
 /**
@@ -1176,7 +1193,7 @@ Selectize.prototype.addItem = function(value) {
 		if (this.isSetup) {
 			// remove the option from the menu
 			$option = this.getOption(value);
-			value_next = $option.nextAll(':not([data-optgroup]):first').attr('data-value');
+			value_next = this.getAdjacentOption($option).attr('data-value');
 			this.refreshOptions(true);
 			if (value_next) {
 				this.setActiveOption(this.getOption(value_next));
@@ -1673,9 +1690,6 @@ Selectize.prototype.render = function(templateName, data) {
 		}
 	}
 
-	if (templateName === 'optgroup') {
-		html = html.replace(regex_tag, '<$1 data-optgroup="1"');
-	}
 	if (isset(value)) {
 		html = html.replace(regex_tag, '<$1 data-value="' + value + '"');
 	}
