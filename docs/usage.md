@@ -247,6 +247,14 @@ $(function() {
 					<td valign="top"><code>option_create(data)</code></td>
 					<td valign="top">The "create new" option at the bottom of the dropdown. The "data" argument contains one property: "input" (which is what the user has typed).</td>
 				</tr>
+				<tr>
+					<td valign="top"><code>optgroup_header(data)</code></td>
+					<td valign="top">The header of an option group.</td>
+				</tr>
+				<tr>
+					<td valign="top"><code>optgroup(data)</code></td>
+					<td valign="top">The wrapper for an optgroup. The "html" property in the "data" argument will be the raw html of the optgroup's header and options.</td>
+				</tr>
 			</table>
 		</td>
 		<td valign="top"><code>object</code></td>

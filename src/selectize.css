@@ -111,13 +111,13 @@
 	border-radius: 0 0 3px 3px;
 }
 .selectize-dropdown [data-selectable],
-.selectize-dropdown .optgroup {
+.selectize-dropdown .optgroup-header {
 	padding: 6px 9px;
 }
-.selectize-dropdown .optgroup-wrapper:first-child .optgroup {
+.selectize-dropdown .optgroup:first-child .optgroup-header {
 	border-top: 0 none;
 }
-.selectize-dropdown .optgroup {
+.selectize-dropdown .optgroup-header {
 	background: #fafafa;
 	border-bottom: 1px solid #e8e8e8;
 	border-top: 1px solid #e8e8e8;

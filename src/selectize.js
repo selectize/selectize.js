@@ -940,7 +940,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 		triggerDropdown = true;
 	}
 
-	var i, n, groups, groups_order, option, optgroup, html;
+	var i, n, groups, groups_order, option, optgroup, html, html_children;
 	var hasCreateOption;
 	var query = this.$control_input.val();
 	var results = this.search(query, {});
@@ -974,11 +974,13 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	for (i = 0, n = groups_order.length; i < n; i++) {
 		optgroup = groups_order[i];
 		if (this.optgroups.hasOwnProperty(optgroup)) {
-			// render the optgroup header and options within it, then pass it to the
-			// wrapper template
-			var options = this.render('optgroup', this.optgroups[optgroup]) || '';
-			options += groups[optgroup].join('');
-			html.push(this.render('optgroupwrapper', options));
+			// render the optgroup header and options within it,
+			// then pass it to the wrapper template
+			html_children = this.render('optgroup_header', this.optgroups[optgroup]) || '';
+			html_children += groups[optgroup].join('');
+			html.push(this.render('optgroup', $.extend({}, this.optgroups[optgroup], {
+				html: html_children
+			})));
 		} else {
 			html.push(groups[optgroup].join(''));
 		}
@@ -1674,12 +1676,12 @@ Selectize.prototype.render = function(templateName, data) {
 	} else {
 		label = data[this.settings.labelField];
 		switch (templateName) {
-			case 'optgroupwrapper':
-				html = '<div class="optgroup-wrapper">' + data + "</div>";
-				break;
 			case 'optgroup':
+				html = '<div class="optgroup">' + data.html + "</div>";
+				break;
+			case 'optgroup_header':
 				label = data[this.settings.optgroupLabelField];
-				html = '<div class="optgroup">' + label + '</div>';
+				html = '<div class="optgroup-header">' + label + '</div>';
 				break;
 			case 'option':
 				html = '<div class="option">' + label + '</div>';
@@ -1755,6 +1757,7 @@ Selectize.defaults = {
 	render: {
 		item: null,
 		optgroup: null,
+		optgroup_header: null,
 		option: null,
 		option_create: null
 	}
