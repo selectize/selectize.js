@@ -48,6 +48,39 @@
 				});
 				</script>
 			</div>
+
+			<div class="demo">
+				<h2>progammatic optgroups</h2>
+				<div class="control-group">
+					<label for="select-animal">Animal:</label>
+					<input type="text" id="select-animal">
+				</div>
+				<script>
+				$('#select-animal').selectize({
+					options: [
+						{class: 'mammal', value: "dog", name: "Dog" },
+						{class: 'mammal', value: "cat", name: "Cat" },
+						{class: 'mammal', value: "horse", name: "Horse" },
+						{class: 'mammal', value: "kangaroo", name: "Kangaroo" },
+						{class: 'bird', value: 'duck', name: 'Duck'},
+						{class: 'bird', value: 'chicken', name: 'Chicken'},
+						{class: 'bird', value: 'ostrich', name: 'Ostrich'},
+						{class: 'bird', value: 'seagull', name: 'Seagull'},
+						{class: 'reptile', value: 'snake', name: 'Snake'},
+						{class: 'reptile', value: 'lizard', name: 'Lizard'},
+						{class: 'reptile', value: 'alligator', name: 'Alligator'},
+						{class: 'reptile', value: 'turtle', name: 'Turtle'}
+					],
+					optgroups: [
+						{value: 'mammal', label: 'Mammal'},
+						{value: 'bird', label: 'Bird'},
+						{value: 'reptile', label: 'Reptile'}
+					],
+					optgroupField: 'class',
+					labelField: 'name'
+				});
+				</script>
+			</div>
 		</div>
 	</body>
 </html>
