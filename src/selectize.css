@@ -110,15 +110,13 @@
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 }
-.selectize-dropdown .option,
-.selectize-dropdown .create,
+.selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup {
 	padding: 6px 9px;
 }
-/*.selectize-dropdown > [data-optgroup]:first-child {
+.selectize-dropdown .optgroup-wrapper:first-child .optgroup {
 	border-top: 0 none;
 }
-*/
 .selectize-dropdown .optgroup {
 	background: #fafafa;
 	border-bottom: 1px solid #e8e8e8;
