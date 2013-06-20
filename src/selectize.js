@@ -1202,6 +1202,7 @@ Selectize.prototype.addItem = function(value) {
 
 		if (this.isSetup) {
 			// remove the option from the menu
+			options = this.$dropdown.find("[data-selectable]");
 			$option = this.getOption(value);
 			value_next = this.getAdjacentOption($option).attr('data-value');
 			this.refreshOptions(true);
@@ -1210,8 +1211,10 @@ Selectize.prototype.addItem = function(value) {
 			}
 
 			// hide the menu if the maximum number of items have been selected or no options are left
-			if (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems) {
+			if (!options.length || (this.settings.maxItems !== null && this.items.length >= this.settings.maxItems)) {
 				this.close();
+			} else {
+				this.positionDropdown();
 			}
 
 			// restore focus to input
