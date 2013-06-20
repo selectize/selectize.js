@@ -1,4 +1,4 @@
-/*! selectize.js - v0.4.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.4.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -377,10 +377,12 @@
 	var autoGrow = function($input) {
 		var update = function(e) {
 			var value, keyCode, printable, placeholder, width;
-			var shift, character;
-	
-			if ($input.data('grow') === false) return;
+			var shift, character, selection;
 			e = e || window.event || {};
+	
+			if (e.metaKey || e.altKey) return;
+			if ($input.data('grow') === false) return;
+	
 			value = $input.val();
 			if (e.type && e.type.toLowerCase() === 'keydown') {
 				keyCode = e.keyCode;
@@ -391,7 +393,16 @@
 					keyCode == 32 // space
 				);
 	
-				if (printable) {
+				if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
+					selection = getSelection($input[0]);
+					if (selection.length) {
+						value = value.substring(0, selection.start) + value.substring(selection.start + selection.length);
+					} else if (keyCode === KEY_BACKSPACE && selection.start) {
+						value = value.substring(0, selection.start - 1) + value.substring(selection.start + 1);
+					} else if (keyCode === KEY_DELETE && typeof selection.start !== 'undefined') {
+						value = value.substring(0, selection.start) + value.substring(selection.start + 1);
+					}
+				} else if (printable) {
 					shift = e.shiftKey;
 					character = String.fromCharCode(e.keyCode);
 					if (shift) character = character.toUpperCase();
