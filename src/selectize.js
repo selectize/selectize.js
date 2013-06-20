@@ -21,11 +21,6 @@ var Selectize = function($input, settings) {
 	this.tagType          = $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT;
 	this.settings         = settings;
 
-	this.optionSelector   = settings.optionSelector || ".option";
-	this.itemSelector     = settings.itemSelector || ".item";
-	this.createSelector   = settings.createSelector || ".create";
-	this.childSelector    = [this.optionSelector, this.createSelector, this.itemSelector].join(",");
-
 	this.highlightedValue = null;
 	this.isOpen           = false;
 	this.isDisabled       = false;
@@ -147,8 +142,8 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	$dropdown.on('mouseenter', this.childSelector, function() { return self.onOptionHover.apply(self, arguments); });
-	$dropdown.on('mousedown', this.childSelector, function() { return self.onOptionSelect.apply(self, arguments); });
+	$dropdown.on('mouseenter', "[data-selectable]", function() { return self.onOptionHover.apply(self, arguments); });
+	$dropdown.on('mousedown', "[data-selectable]", function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 	autoGrow($control_input);
 
@@ -1019,7 +1014,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 			if ($create) {
 				$active = this.getAdjacentOption($create);
 			} else {
-				$active = this.$dropdown.find(this.optionSelector).first();
+				$active = this.$dropdown.find("[data-selectable]").first();
 			}
 		} else {
 			$active = $create;
@@ -1137,7 +1132,7 @@ Selectize.prototype.clearOptions = function() {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return value ? this.$dropdown.find(this.childSelector).filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+	return value ? this.$dropdown.find("[data-selectable]").filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
 };
 
 /**
@@ -1147,7 +1142,7 @@ Selectize.prototype.getOption = function(value) {
  * @return {object}
  */
 Selectize.prototype.getAdjacentOption = function(option, direction) {
-	var options = this.$dropdown.find(this.childSelector),
+	var options = this.$dropdown.find("[data-selectable]"),
 		index = options.index(option) + (isset(direction) ? direction : 1);
 	return index >= 0 && index < options.length ? options.eq(index) : $();
 };
@@ -1696,6 +1691,10 @@ Selectize.prototype.render = function(templateName, data) {
 				html = '<div class="create">Create <strong>' + htmlEntities(data.input) + '</strong>&hellip;</div>';
 				break;
 		}
+	}
+
+	if(['option', 'option_create'].indexOf(templateName) !== -1) {
+		html = html.replace(regex_tag, '<$1 data-selectable');
 	}
 
 	if (isset(value)) {
