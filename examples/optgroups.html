@@ -16,6 +16,16 @@
 		<script src="_jquery.js"></script>
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
+
+		<style>
+			#select-car-group .optgroup {
+				float: left;
+				width: 33.33%;
+			}
+			#select-car-group .optgroup .optgroup-header {
+				border-top: none;
+			}
+		</style>
 	</head>
     <body>
 		<div id="wrapper">
@@ -79,6 +89,51 @@
 					optgroupField: 'class',
 					labelField: 'name'
 				});
+				</script>
+			</div>
+			<div class="demo">
+				<h2>optgroups via load</h2>
+				<div class="control-group" id="select-car-group">
+					<input type="text" id="select-car">
+				</div>
+				<script>
+					$("#select-car").selectize({
+						options: [
+							{id: 'avenger', make: 'dodge', model: 'Avenger'},
+							{id: 'caliber', make: 'dodge', model: 'Caliber'},
+							{id: 'caravan-grand-passenger', make: 'dodge', model: 'Caravan Grand Passenger'},
+							{id: 'challenger', make: 'dodge', model: 'Challenger'},
+							{id: 'ram-1500', make: 'dodge', model: 'Ram 1500'},
+							{id: 'viper', make: 'dodge', model: 'Viper'},
+							{id: 'a3', make: 'audi', model: 'A3'},
+							{id: 'a6', make: 'audi', model: 'A6'},
+							{id: 'r8', make: 'audi', model: 'R8'},
+							{id: 'rs-4', make: 'audi', model: 'RS 4'},
+							{id: 's4', make: 'audi', model: 'S4'},
+							{id: 's8', make: 'audi', model: 'S8'},
+							{id: 'tt', make: 'audi', model: 'TT'},
+							{id: 'avalanche', make: 'chevrolet', model: 'Avalanche'},
+							{id: 'aveo', make: 'chevrolet', model: 'Aveo'},
+							{id: 'cobalt', make: 'chevrolet', model: 'Cobalt'},
+							{id: 'silverado', make: 'chevrolet', model: 'Silverado'},
+							{id: 'suburban', make: 'chevrolet', model: 'Suburban'},
+							{id: 'tahoe', make: 'chevrolet', model: 'Tahoe'},
+							{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
+						],
+						optgroups: [
+							{id: 'dodge', name: 'Dodge'},
+							{id: 'audi', name: 'Audi'},
+							{id: 'chevrolet', name: 'Chevrolet'}
+						],
+						labelField: 'model',
+						valueField: 'id',
+						optgroupField: 'make',
+						optgroupLabelField: 'name',
+						optgroupValueField: 'id',
+						searchField: ['model'],
+						plugins: ['optgroup_columns'],
+						openOnFocus: false
+					});
 				</script>
 			</div>
 		</div>
