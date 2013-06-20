@@ -1156,6 +1156,7 @@ Selectize.prototype.addItem = function(value) {
 
 			this.updatePlaceholder();
 			this.trigger('item_add', value, $item);
+			this.positionDropdown();
 			this.updateOriginalInput();
 		}
 	});
