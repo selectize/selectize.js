@@ -61,7 +61,15 @@ var Selectize = function($input, settings) {
 		$.extend(this.options, settings.options);
 		delete this.settings.options;
 	}
-	if (typeof settings.optgroups === 'object') {
+
+	if ($.isArray(settings.optgroups)) {
+		var key = settings.optgroupValueField;
+		for (var i = 0; i < settings.optgroups.length; i++) {
+			if (settings.optgroups[i].hasOwnProperty(key)) {
+				this.optgroups[settings.optgroups[i][key]] = settings.optgroups[i];
+			}
+		}
+	} else if (typeof settings.optgroups === 'object') {
 		$.extend(this.optgroups, settings.optgroups);
 		delete this.settings.optgroups;
 	}
@@ -1732,6 +1740,7 @@ Selectize.defaults = {
 	valueField: 'value',
 	labelField: 'text',
 	optgroupLabelField: 'label',
+	optgroupValueField: 'value',
 	searchField: ['text'],
 
 	mode: null,
