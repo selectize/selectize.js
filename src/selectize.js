@@ -979,9 +979,13 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	for (i = 0, n = groups_order.length; i < n; i++) {
 		optgroup = groups_order[i];
 		if (this.optgroups.hasOwnProperty(optgroup)) {
+			html.push(this.render('optgroupstart', this.optgroups[optgroup]) || '');
 			html.push(this.render('optgroup', this.optgroups[optgroup]) || '');
+			html.push(groups[optgroup].join(''));
+			html.push(this.render('optgroupend', this.optgroups[optgroup]) || '');
+		} else {
+			html.push(groups[optgroup].join(''));
 		}
-		html.push(groups[optgroup].join(''));
 	}
 
 	this.$dropdown.html(html.join(''));
@@ -1674,6 +1678,12 @@ Selectize.prototype.render = function(templateName, data) {
 	} else {
 		label = data[this.settings.labelField];
 		switch (templateName) {
+			case 'optgroupstart':
+				html = '<div class="optgroup-wrapper">';
+				break;
+			case 'optgroupend':
+				html = '</div>';
+				break;
 			case 'optgroup':
 				label = data[this.settings.optgroupLabelField];
 				html = '<div class="optgroup">' + label + '</div>';
