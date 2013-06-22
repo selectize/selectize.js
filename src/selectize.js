@@ -962,7 +962,15 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 
 	// render and group available options individually
 	groups = {};
-	groups_order = [];
+
+	if(this.settings.optgroupOrder) {
+		groups_order = this.settings.optgroupOrder;
+		for (i = 0; i < groups_order.length; i++) {
+			groups[groups_order[i]] = [];
+		}
+	} else {
+		groups_order = [];
+	}
 
 	for (i = 0; i < n; i++) {
 		option = this.options[results.items[i].value];
@@ -1744,6 +1752,7 @@ Selectize.defaults = {
 	labelField: 'text',
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
+	optgroupOrder: false,
 	searchField: ['text'],
 
 	mode: null,
