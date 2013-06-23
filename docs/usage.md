@@ -117,10 +117,28 @@ $(function() {
 		<td valign="top"><code>'value'</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>optgroupValueField</code></td>
+		<td valign="top">The name of the option group property that serves as its unique identifier.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'value'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>labelField</code></td>
-		<td valign="top">The name of the property to render as the option/item label (not needed when custom rendering functions are defined).</td>
+		<td valign="top">The name of the property to render as an option / item label (not needed when custom rendering functions are defined).</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'text'</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>optgroupLabelField</code></td>
+		<td valign="top">The name of the property to render as an option group label (not needed when custom rendering functions are defined).</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'label'</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>optgroupField</code></td>
+		<td valign="top">The name of the property to group items by.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'optgroup'</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>sortField</code></td>
@@ -139,6 +157,12 @@ $(function() {
 		<td valign="top">An array of property names to analyze when filtering options.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>['text']</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>optgroupOrder</td>
+		<td valign="top">An array of optgroup values that indicates the order they should be listed in in the dropdown. If not provided, groups will be ordered by the ranking of the options within them.</td>
+		<td valign="top"><code>array</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>

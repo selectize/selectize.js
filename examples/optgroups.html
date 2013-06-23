@@ -16,13 +16,26 @@
 		<script src="_jquery.js"></script>
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
+		<style type="text/css">
+		.demo-animals .scientific {
+			font-weight: normal;
+			opacity: 0.3;
+			margin: 0 0 0 2px;
+		}
+		.demo-animals .scientific::before {
+			content: '(';
+		}
+		.demo-animals .scientific::after {
+			content: ')';
+		}
+		</style>
 	</head>
     <body>
 		<div id="wrapper">
 			<h1>Selectize.js</h1>
 
 			<div class="demo">
-				<h2>optgroups</h2>
+				<h2>Optgroups (basic)</h2>
 				<div class="control-group">
 					<label for="select-gear">Gear:</label>
 					<select id="select-gear" class="demo-default" multiple placeholder="Select gear...">
@@ -50,10 +63,10 @@
 			</div>
 
 			<div class="demo">
-				<h2>progammatic optgroups</h2>
+				<h2>Optgroups (programmatic)</h2>
 				<div class="control-group">
 					<label for="select-animal">Animal:</label>
-					<input type="text" id="select-animal">
+					<input type="text" id="select-animal" class="demo-animals" placeholder="Select animals...">
 				</div>
 				<script>
 				$('#select-animal').selectize({
@@ -72,20 +85,26 @@
 						{class: 'reptile', value: 'turtle', name: 'Turtle'}
 					],
 					optgroups: [
-						{value: 'mammal', label: 'Mammal'},
-						{value: 'bird', label: 'Bird'},
-						{value: 'reptile', label: 'Reptile'}
+						{value: 'mammal', label: 'Mammal', label_scientific: 'Mammalia'},
+						{value: 'bird', label: 'Bird', label_scientific: 'Aves'},
+						{value: 'reptile', label: 'Reptile', label_scientific: 'Reptilia'}
 					],
 					optgroupField: 'class',
 					labelField: 'name',
-					searchField: ['name']
+					searchField: ['name'],
+					render: {
+						optgroup_header: function(data) {
+							return '<div class="optgroup-header">' + data.label + ' <span class="scientific">' + data.label_scientific + '</span></div>';
+						}
+					}
 				});
 				</script>
 			</div>
+
 			<div class="demo">
-				<h2>optgroups via load</h2>
+				<h2>Plugin: "optgroup_columns"</h2>
 				<div class="control-group" id="select-car-group">
-					<input type="text" id="select-car">
+					<input type="text" id="select-car" placeholder="Select cars...">
 				</div>
 				<script>
 					$("#select-car").selectize({
