@@ -428,6 +428,7 @@ Selectize.prototype.onBlur = function(e) {
 
 	this.close();
 	this.setTextboxValue('');
+	this.setActiveItem(null);
 	this.setActiveOption(null);
 	this.setCaret(this.items.length);
 	this.isFocused = false;
@@ -699,7 +700,6 @@ Selectize.prototype.focus = function(trigger) {
  */
 Selectize.prototype.blur = function() {
 	this.$control_input.trigger('blur');
-	this.setActiveItem(null);
 };
 
 /**
