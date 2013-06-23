@@ -1,4 +1,4 @@
-/*! selectize.css - v0.5.4 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.css - v0.5.5 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 /* --- file: "src/selectize.css" --- */
 
@@ -257,6 +257,27 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+/* --- file: "src/plugins/drag_drop/plugin.css" --- */
+
+.selectize-control.plugin-drag_drop.multi > .selectize-input > div.ui-sortable-placeholder {
+	visibility: visible !important;
+	background: #f2f2f2 !important;
+	background: rgba(0,0,0,0.06) !important;
+	border: 0 none !important;
+	-webkit-box-shadow: inset 0 0 12px 4px #fff;
+	-moz-box-shadow: inset 0 0 12px 4px #fff;
+	box-shadow: inset 0 0 12px 4px #fff;
+}
+.selectize-control.plugin-drag_drop .ui-sortable-placeholder::after {
+	content: '!';
+	visibility: hidden;
+}
+.selectize-control.plugin-drag_drop .ui-sortable-helper {
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+	box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 }
 
 /* --- file: "src/plugins/optgroup_columns/plugin.css" --- */
