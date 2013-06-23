@@ -18,22 +18,18 @@ complete control.
 ### Boilerplate
 
 ```js
-(function() {
-	Selectize.registerPlugin('plugin_name', function(options) {
-		// options: plugin-specific options
-		// this: selectize instance
-	});
-})();
+Selectize.registerPlugin('plugin_name', function(options) {
+	// options: plugin-specific options
+	// this: selectize instance
+});
 ```
 
 #### Adding Dependencies
 
 ```js
-(function() {
-	Selectize.registerPlugin('plugin_name', ['another_plugin'], function(options) {
-		// "another_plugin" will be loaded at this point
-	});
-})();
+Selectize.registerPlugin('plugin_name', ['another_plugin'], function(options) {
+	// "another_plugin" will be loaded at this point
+});
 ```
 
 ## Overriding Methods

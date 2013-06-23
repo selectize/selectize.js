@@ -14,32 +14,30 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-(function() {
-	Selectize.registerPlugin('remove_button', function(options) {
-		var self = this;
+Selectize.registerPlugin('remove_button', function(options) {
+	var self = this;
 
-		// override the item rendering method to add a "x" to each
-		this.settings.render.item = function(data) {
-			var label = data[self.settings.labelField];
-			return '<div class="item">' + label + ' <a href="javascript:void(0)" class="remove" tabindex="-1" title="Remove">&times;</a></div>';
+	// override the item rendering method to add a "x" to each
+	this.settings.render.item = function(data) {
+		var label = data[self.settings.labelField];
+		return '<div class="item">' + label + ' <a href="javascript:void(0)" class="remove" tabindex="-1" title="Remove">&times;</a></div>';
+	};
+
+	// override the setup method to add an extra "click" handler
+	// that listens for mousedown events on the "x"
+	this.setup = (function() {
+		var original = self.setup;
+		return function() {
+			original.apply(this, arguments);
+			this.$control.on('click', '.remove', function(e) {
+				e.preventDefault();
+				var $item = $(e.target).parent();
+				self.setActiveItem($item);
+				if (self.deleteSelection()) {
+					self.setCaret(self.items.length);
+				}
+			});
 		};
+	})();
 
-		// override the setup method to add an extra "click" handler
-		// that listens for mousedown events on the "x"
-		this.setup = (function() {
-			var original = self.setup;
-			return function() {
-				original.apply(this, arguments);
-				this.$control.on('click', '.remove', function(e) {
-					e.preventDefault();
-					var $item = $(e.target).parent();
-					self.setActiveItem($item);
-					if (self.deleteSelection()) {
-						self.setCaret(self.items.length);
-					}
-				});
-			};
-		})();
-
-	});
-})();
+});
