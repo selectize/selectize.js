@@ -1,4 +1,4 @@
-/*! selectize.js - v0.5.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.5.3 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -894,6 +894,7 @@
 	
 		this.close();
 		this.setTextboxValue('');
+		this.setActiveItem(null);
 		this.setActiveOption(null);
 		this.setCaret(this.items.length);
 		this.isFocused = false;
@@ -1165,7 +1166,6 @@
 	*/
 	Selectize.prototype.blur = function() {
 		this.$control_input.trigger('blur');
-		this.setActiveItem(null);
 	};
 	
 	/**
