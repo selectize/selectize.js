@@ -150,8 +150,8 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
-	$dropdown.on('mouseenter', "[data-selectable]", function() { return self.onOptionHover.apply(self, arguments); });
-	$dropdown.on('mousedown', "[data-selectable]", function() { return self.onOptionSelect.apply(self, arguments); });
+	$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
+	$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 	autoGrow($control_input);
 
@@ -320,7 +320,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			if (!this.isOpen && this.hasOptions && this.isInputFocused) {
 				this.open();
 			} else if (this.$activeOption) {
-				var $next = this.getAdjacentOption(this.$activeOption);
+				var $next = this.getAdjacentOption(this.$activeOption, 1);
 				if ($next.length) this.setActiveOption($next, true, true);
 			}
 			e.preventDefault();
@@ -963,7 +963,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	// render and group available options individually
 	groups = {};
 
-	if(this.settings.optgroupOrder) {
+	if (this.settings.optgroupOrder) {
 		groups_order = this.settings.optgroupOrder;
 		for (i = 0; i < groups_order.length; i++) {
 			groups[groups_order[i]] = [];
@@ -989,7 +989,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	html = [];
 	for (i = 0, n = groups_order.length; i < n; i++) {
 		optgroup = groups_order[i];
-		if (this.optgroups.hasOwnProperty(optgroup)) {
+		if (this.optgroups.hasOwnProperty(optgroup) && groups[optgroup].length) {
 			// render the optgroup header and options within it,
 			// then pass it to the wrapper template
 			html_children = this.render('optgroup_header', this.optgroups[optgroup]) || '';
@@ -1030,7 +1030,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	if (this.hasOptions) {
 		if (results.items.length > 0) {
 			if ($create) {
-				$active = this.getAdjacentOption($create);
+				$active = this.getAdjacentOption($create, 1);
 			} else {
 				$active = this.$dropdown.find("[data-selectable]").first();
 			}
@@ -1150,19 +1150,22 @@ Selectize.prototype.clearOptions = function() {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return value ? this.$dropdown.find("[data-selectable]").filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+	return value ? this.$dropdown.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
 };
 
 /**
- * Returns the jQuery element of the next selectable option
- * @param  {object} option
- * @param  {int} direction  can be 1 for next (default) or -1 for previous
+ * Returns the jQuery element of the next or
+ * previous selectable option.
+ *
+ * @param {object} $option
+ * @param {int} direction  can be 1 for next or -1 for previous
  * @return {object}
  */
-Selectize.prototype.getAdjacentOption = function(option, direction) {
-	var options = this.$dropdown.find("[data-selectable]"),
-		index = options.index(option) + (isset(direction) ? direction : 1);
-	return index >= 0 && index < options.length ? options.eq(index) : $();
+Selectize.prototype.getAdjacentOption = function($option, direction) {
+	var $options = this.$dropdown.find('[data-selectable]');
+	var index    = $options.index($option) + direction;
+
+	return index >= 0 && index < $options.length ? $options.eq(index) : $();
 };
 
 /**
@@ -1210,9 +1213,9 @@ Selectize.prototype.addItem = function(value) {
 
 		if (this.isSetup) {
 			// remove the option from the menu
-			options = this.$dropdown.find("[data-selectable]");
+			options = this.$dropdown.find('[data-selectable]');
 			$option = this.getOption(value);
-			value_next = this.getAdjacentOption($option).attr('data-value');
+			value_next = this.getAdjacentOption($option, 1).attr('data-value');
 			this.refreshOptions(true);
 			if (value_next) {
 				this.setActiveOption(this.getOption(value_next));

@@ -25,7 +25,7 @@
 
 		this.getAdjacentOption = function($option, direction) {
 			var $options = $option.closest('.optgroup').find('[data-selectable]');
-			var index    = $options.index($option) + (isset(direction) ? direction : 1);
+			var index    = $options.index($option) + direction;
 
 			return index >= 0 && index < $options.length ? $options.eq(index) : $();
 		};
