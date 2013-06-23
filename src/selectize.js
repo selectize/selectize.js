@@ -104,18 +104,20 @@ Selectize.prototype.setup = function() {
 	var $control;
 	var $control_input;
 	var $dropdown;
+	var $dropdown_content;
 	var inputMode;
 	var timeout_blur;
 	var timeout_focus;
 	var tab_index;
 	var classes;
 
-	tab_index      = this.$input.attr('tabindex') || '';
-	classes        = this.$input.attr('class') || '';
-	$wrapper       = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass).addClass(classes);
-	$control       = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
-	$control_input = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
-	$dropdown      = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
+	tab_index         = this.$input.attr('tabindex') || '';
+	classes           = this.$input.attr('class') || '';
+	$wrapper          = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass).addClass(classes);
+	$control          = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
+	$control_input    = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
+	$dropdown         = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
+	$dropdown_content = $('<div>').addClass(this.settings.dropdownContentClass).appendTo($dropdown);
 
 	$wrapper.css({
 		width: this.$input[0].style.width,
@@ -138,10 +140,11 @@ Selectize.prototype.setup = function() {
 		$control_input.attr('placeholder', this.settings.placeholder);
 	}
 
-	this.$wrapper       = $wrapper;
-	this.$control       = $control;
-	this.$control_input = $control_input;
-	this.$dropdown      = $dropdown;
+	this.$wrapper          = $wrapper;
+	this.$control          = $control;
+	this.$control_input    = $control_input;
+	this.$dropdown         = $dropdown;
+	this.$dropdown_content = $dropdown_content;
 
 	$control.on('mousedown', function(e) {
 		if (!e.isDefaultPrevented()) {
@@ -954,6 +957,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	var query = this.$control_input.val();
 	var results = this.search(query, {});
 	var $active, $create;
+	var $dropdown_content = this.$dropdown_content;
 
 	// build markup
 	n = results.items.length;
@@ -1003,12 +1007,12 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 		}
 	}
 
-	this.$dropdown.html(html.join(''));
+	$dropdown_content.html(html.join(''));
 
 	// highlight matching terms inline
 	if (this.settings.highlight && results.query.length && results.tokens.length) {
 		for (i = 0, n = results.tokens.length; i < n; i++) {
-			highlight(this.$dropdown, results.tokens[i].regex);
+			highlight($dropdown_content, results.tokens[i].regex);
 		}
 	}
 
@@ -1022,8 +1026,8 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 	// add create option
 	hasCreateOption = this.settings.create && results.query.length;
 	if (hasCreateOption) {
-		this.$dropdown.prepend(this.render('option_create', {input: query}));
-		$create = $(this.$dropdown[0].childNodes[0]);
+		$dropdown_content.prepend(this.render('option_create', {input: query}));
+		$create = $($dropdown_content[0].childNodes[0]);
 	}
 
 	// activate
@@ -1033,7 +1037,7 @@ Selectize.prototype.refreshOptions = function(triggerDropdown) {
 			if ($create) {
 				$active = this.getAdjacentOption($create, 1);
 			} else {
-				$active = this.$dropdown.find("[data-selectable]").first();
+				$active = $dropdown_content.find("[data-selectable]").first();
 			}
 		} else {
 			$active = $create;
@@ -1151,7 +1155,7 @@ Selectize.prototype.clearOptions = function() {
  * @returns {object}
  */
 Selectize.prototype.getOption = function(value) {
-	return value ? this.$dropdown.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+	return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
 };
 
 /**
@@ -1214,7 +1218,7 @@ Selectize.prototype.addItem = function(value) {
 
 		if (this.isSetup) {
 			// remove the option from the menu
-			options = this.$dropdown.find('[data-selectable]');
+			options = this.$dropdown_content.find('[data-selectable]');
 			$option = this.getOption(value);
 			value_next = this.getAdjacentOption($option, 1).attr('data-value');
 			this.refreshOptions(true);
@@ -1770,6 +1774,7 @@ Selectize.defaults = {
 	wrapperClass: 'selectize-control',
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
+	dropdownContentClass: 'selectize-dropdown-content',
 
 	load            : null, // function(query, callback)
 	score           : null, // function(search)

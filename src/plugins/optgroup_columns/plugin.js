@@ -34,24 +34,31 @@
 			this.refreshOptions = (function() {
 				var original = self.refreshOptions;
 				return function() {
-					var i, n, h = 0, css = {}, $optgroups;
+					var i, n, height_max, width, width_last, width_parent, $optgroups;
 					original.apply(self, arguments);
 
-					$optgroups = $('[data-group]', self.$dropdown);
-					if (!$optgroups.length) return;
+					$optgroups = $('[data-group]', self.$dropdown_content);
+					n = $optgroups.length;
+					if (!n) return;
 
 					if (options.equalizeHeight) {
-						for (i = 0, n = $optgroups.length; i < n; i++) {
-							h = Math.max(h, $optgroups.eq(i).height());
+						height_max = 0;
+						for (i = 0; i < n; i++) {
+							height_max = Math.max(height_max, $optgroups.eq(i).height());
 						}
-						css.height = h;
+						$optgroups.css({height: height_max});
 					}
 
 					if (options.equalizeWidth) {
-						css.width = (100 / $optgroups.length) + '%';
+						width_parent = this.$dropdown_content.innerWidth();
+						width = Math.round(width_parent / n);
+						$optgroups.css({width: width});
+						if (n > 1) {
+							width_last = width_parent - width * (n - 1);
+							$optgroups.eq(n - 1).css({width: width_last});
+						}
 					}
 
-					$optgroups.css(css);
 				};
 			})();
 		}

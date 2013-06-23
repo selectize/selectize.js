@@ -2,6 +2,7 @@
 	border-right: 1px solid #f2f2f2;
 	float: left;
 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 .selectize-control.plugin-optgroup_columns .optgroup:last-child {
