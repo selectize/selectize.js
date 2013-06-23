@@ -30,39 +30,6 @@
 			return index >= 0 && index < $options.length ? $options.eq(index) : $();
 		};
 
-		if (options.equalizeHeight || options.equalizeWidth) {
-			this.refreshOptions = (function() {
-				var original = self.refreshOptions;
-				return function() {
-					var i, n, height_max, width, width_last, width_parent, $optgroups;
-					original.apply(self, arguments);
-
-					$optgroups = $('[data-group]', self.$dropdown_content);
-					n = $optgroups.length;
-					if (!n) return;
-
-					if (options.equalizeHeight) {
-						height_max = 0;
-						for (i = 0; i < n; i++) {
-							height_max = Math.max(height_max, $optgroups.eq(i).height());
-						}
-						$optgroups.css({height: height_max});
-					}
-
-					if (options.equalizeWidth) {
-						width_parent = this.$dropdown_content.innerWidth();
-						width = Math.round(width_parent / n);
-						$optgroups.css({width: width});
-						if (n > 1) {
-							width_last = width_parent - width * (n - 1);
-							$optgroups.eq(n - 1).css({width: width_last});
-						}
-					}
-
-				};
-			})();
-		}
-
 		this.onKeyDown = (function() {
 			var original = self.onKeyDown;
 			return function(e) {
@@ -89,6 +56,38 @@
 				return original.apply(this, arguments);
 			};
 		})();
+
+		var equalizeSizes = function() {
+			var i, n, height_max, width, width_last, width_parent, $optgroups;
+
+			$optgroups = $('[data-group]', self.$dropdown_content);
+			n = $optgroups.length;
+			if (!n || !self.$dropdown_content.width()) return;
+
+			if (options.equalizeHeight) {
+				height_max = 0;
+				for (i = 0; i < n; i++) {
+					height_max = Math.max(height_max, $optgroups.eq(i).height());
+				}
+				$optgroups.css({height: height_max});
+			}
+
+			if (options.equalizeWidth) {
+				width_parent = self.$dropdown_content.innerWidth();
+				width = Math.round(width_parent / n);
+				$optgroups.css({width: width});
+				if (n > 1) {
+					width_last = width_parent - width * (n - 1);
+					$optgroups.eq(n - 1).css({width: width_last});
+				}
+			}
+		};
+
+		if (options.equalizeHeight || options.equalizeWidth) {
+			hook.after(this, 'positionDropdown', equalizeSizes);
+			hook.after(this, 'refreshOptions', equalizeSizes);
+		}
+
 
 	});
 })();
