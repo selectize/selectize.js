@@ -36,6 +36,7 @@
 				var index, $option, $options, $optgroup;
 
 				if (this.isOpen && (e.keyCode === KEY_LEFT || e.keyCode === KEY_RIGHT)) {
+					self.ignoreHover = true;
 					$optgroup = this.$activeOption.closest('[data-group]');
 					index = $optgroup.find('[data-selectable]').index(this.$activeOption);
 

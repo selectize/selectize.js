@@ -34,6 +34,7 @@ var Selectize = function($input, settings) {
 	this.isCmdDown        = false;
 	this.isCtrlDown       = false;
 	this.ignoreFocus      = false;
+	this.ignoreHover      = false;
 	this.hasOptions       = false;
 	this.currentResults   = null;
 	this.lastValue        = '';
@@ -205,6 +206,9 @@ Selectize.prototype.setup = function() {
 			if (self.isOpen) {
 				self.positionDropdown.apply(self, arguments);
 			}
+		},
+		mousemove: function() {
+			self.ignoreHover = false;
 		}
 	});
 
@@ -317,6 +321,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			if (!this.isOpen && this.hasOptions) {
 				this.open();
 			} else if (this.$activeOption) {
+				this.ignoreHover = true;
 				var $next = this.getAdjacentOption(this.$activeOption, 1);
 				if ($next.length) this.setActiveOption($next, true, true);
 			}
@@ -324,6 +329,7 @@ Selectize.prototype.onKeyDown = function(e) {
 			return;
 		case KEY_UP:
 			if (this.$activeOption) {
+				this.ignoreHover = true;
 				var $prev = this.getAdjacentOption(this.$activeOption, -1);
 				if ($prev.length) this.setActiveOption($prev, true, true);
 			}
@@ -443,6 +449,7 @@ Selectize.prototype.onBlur = function(e) {
  * @returns {boolean}
  */
 Selectize.prototype.onOptionHover = function(e) {
+	if (this.ignoreHover) return;
 	this.setActiveOption(e.currentTarget, false);
 };
 

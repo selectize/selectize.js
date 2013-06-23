@@ -26,7 +26,7 @@
 			return !!(elem === document.activeElement);
 		};
 		window.setup_test = function(html, options) {
-			var $select = $(html).appendTo(document.body).selectize(options)
+			var $select = $(html).appendTo(document.body).selectize(options);
 			var instance = $select[0].selectize;
 			return {
 				selectize: instance,
