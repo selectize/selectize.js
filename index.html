@@ -19,6 +19,7 @@
 		<link rel="stylesheet" href="css/styles.css">
 		<!--[if IE 8]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script><![endif]-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="http://yandex.st/highlightjs/7.3/highlight.min.js"></script>
 		<script src="js/selectize.js"></script>
 		<script src="js/main.js"></script>
@@ -856,6 +857,33 @@
 					</script>
 				</section>
 
+
+				<!-- ************** "drag_drop" Plugin Demo ************** -->
+				<section class="demo plugin">
+					<div class="header">
+						"drag_drop"
+					</div>
+					<div class="sandbox">
+						<label for="input-draggable">Tags:</label>
+						<input type="text" id="input-draggable" class="demo-default" value="drag,these,items,around,with,your,mouse">
+					</div>
+					<div class="description">
+						Adds drag-and-drop support for easily rearranging selected items. Requires jQuery UI (sortable).
+					</div>
+					<script class="show">
+					$('#input-draggable').selectize({
+						plugins: ['drag_drop'],
+						delimiter: ',',
+						persist: false,
+						create: function(input) {
+							return {
+								value: input,
+								text: input
+							}
+						}
+					});
+					</script>
+				</section>
 
 				<!-- ************** "optgroup_columns" Plugin Demo ************** -->
 				<section class="demo plugin">
