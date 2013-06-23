@@ -17,7 +17,7 @@ append_file () {
 	echo -eE "$1\n\n/* --- file: \"$2\" --- */\n\n$src"
 }
 
-# enmerate selected plugins
+# enumerate selected plugins
 for i in "$@"; do
 case $i in
 	-p=*|--plugins=*)
@@ -25,7 +25,6 @@ case $i in
 	;;
 esac
 done
-
 
 if [ "$plugins" == "*" ]; then
 	plugins=""
@@ -83,6 +82,12 @@ curl -s -d compilation_level=SIMPLE_OPTIMIZATIONS \
 echo "$banner" | cat - $out_min > temp && mv temp $out_min
 printf " done.\n"
 
+closure_stats=`curl -s -d compilation_level=SIMPLE_OPTIMIZATIONS \
+        -d output_format=text \
+        -d output_info=statistics \
+		--data-urlencode "js_code@$out" \
+        http://closure-compiler.appspot.com/compile`
+
 #
 # BUILD CSS
 #
@@ -107,5 +112,6 @@ printf " done.\n"
 # COMPLETE
 #
 
+echo "$closure_stats"
 printf "\033[32mv${version} compiled\033[0;39m\n"
 unset IFS
