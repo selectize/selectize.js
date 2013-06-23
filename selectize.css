@@ -1,4 +1,4 @@
-/*! selectize.css - v0.5.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.css - v0.5.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 /* --- file: "src/selectize.css" --- */
 
@@ -265,6 +265,7 @@
 	border-right: 1px solid #f2f2f2;
 	float: left;
 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 .selectize-control.plugin-optgroup_columns .optgroup:last-child {
