@@ -1,4 +1,4 @@
-/*! selectize.js - v0.5.3 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.5.4 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -500,6 +500,7 @@
 		this.isCmdDown        = false;
 		this.isCtrlDown       = false;
 		this.ignoreFocus      = false;
+		this.ignoreHover      = false;
 		this.hasOptions       = false;
 		this.currentResults   = null;
 		this.lastValue        = '';
@@ -671,6 +672,9 @@
 				if (self.isOpen) {
 					self.positionDropdown.apply(self, arguments);
 				}
+			},
+			mousemove: function() {
+				self.ignoreHover = false;
 			}
 		});
 	
@@ -783,6 +787,7 @@
 				if (!this.isOpen && this.hasOptions) {
 					this.open();
 				} else if (this.$activeOption) {
+					this.ignoreHover = true;
 					var $next = this.getAdjacentOption(this.$activeOption, 1);
 					if ($next.length) this.setActiveOption($next, true, true);
 				}
@@ -790,6 +795,7 @@
 				return;
 			case KEY_UP:
 				if (this.$activeOption) {
+					this.ignoreHover = true;
 					var $prev = this.getAdjacentOption(this.$activeOption, -1);
 					if ($prev.length) this.setActiveOption($prev, true, true);
 				}
@@ -909,6 +915,7 @@
 	* @returns {boolean}
 	*/
 	Selectize.prototype.onOptionHover = function(e) {
+		if (this.ignoreHover) return;
 		this.setActiveOption(e.currentTarget, false);
 	};
 	
@@ -2413,6 +2420,7 @@
 					var index, $option, $options, $optgroup;
 	
 					if (this.isOpen && (e.keyCode === KEY_LEFT || e.keyCode === KEY_RIGHT)) {
+						self.ignoreHover = true;
 						$optgroup = this.$activeOption.closest('[data-group]');
 						index = $optgroup.find('[data-selectable]').index(this.$activeOption);
 	
