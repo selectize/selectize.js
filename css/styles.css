@@ -298,13 +298,25 @@ input[type=button]:hover {
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
 }
-.selectize-dropdown > * {
+.selectize-dropdown [data-selectable],
+.selectize-dropdown .optgroup-header {
 	padding: 6px 9px;
 }
-.selectize-dropdown > *.create {
+.selectize-dropdown .optgroup:first-child .optgroup-header {
+	border-top: 0 none;
+}
+.selectize-dropdown .optgroup-header {
+	background: #fafafa;
+	border-bottom: 1px solid #e8e8e8;
+	border-top: 1px solid #e8e8e8;
+	font-weight: bold;
+	font-size: 0.8em;
+	cursor: default;
+}
+.selectize-dropdown .create {
 	color: #a0a0a0;
 }
-.selectize-dropdown > *.active {
+.selectize-dropdown .active {
 	background-color: #fffceb;
 }
 .selectize-dropdown, .selectize-input, .selectize-input input {
@@ -314,7 +326,7 @@ input[type=button]:hover {
 	line-height: 20px;
 	-webkit-font-smoothing: antialiased;
 }
-.selectize-dropdown .highlight {
+.selectize-dropdown [data-selectable] .highlight {
 	background: rgba(255,237,40,0.4);
 	border-radius: 1px;
 }
@@ -431,7 +443,7 @@ input[type=button]:hover {
 /**
  * Github Demo
  */
-.selectize-control.repositories .selectize-dropdown > div {
+.selectize-control.repositories .selectize-dropdown [data-selectable] {
 	border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 .selectize-control.repositories .selectize-dropdown .by {
@@ -510,7 +522,7 @@ input[type=button]:hover {
 /**
  * Rotton Tomatoes Demo
  */
-.selectize-control.movies .selectize-dropdown > div {
+.selectize-control.movies .selectize-dropdown [data-selectable] {
 	border-bottom: 1px solid rgba(0,0,0,0.05);
 	height: 60px;
 	position: relative;
@@ -518,7 +530,7 @@ input[type=button]:hover {
 	box-sizing: content-box;
 	padding: 10px 10px 10px 60px;
 }
-.selectize-control.movies .selectize-dropdown > div:last-child {
+.selectize-control.movies .selectize-dropdown [data-selectable]:last-child {
 	border-bottom: 0 none;
 }
 .selectize-control.movies .selectize-dropdown .by {
@@ -680,4 +692,19 @@ input[type=button]:hover {
 .selectize-control.plugin-remove_button .item .remove:hover {
 	border-left-color: #5e8f1a;
 	background: rgba(50,90,0,0.15);
+}
+
+/* --- file: "src/plugins/optgroup_columns/plugin.css" --- */
+
+.selectize-control.plugin-optgroup_columns .optgroup {
+	border-right: 1px solid #f2f2f2;
+	float: left;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.selectize-control.plugin-optgroup_columns .optgroup:last-child {
+	border-right: 0 none;
+}
+.selectize-control.plugin-optgroup_columns .optgroup-header {
+	border-top: 0 none;
 }
