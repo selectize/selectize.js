@@ -15,6 +15,7 @@
  */
 
 var Selectize = function($input, settings) {
+	var key, i, n;
 	$input[0].selectize   = this;
 
 	this.$input           = $input;
@@ -51,8 +52,8 @@ var Selectize = function($input, settings) {
 	this.onSearchChange   = debounce(this.onSearchChange, this.settings.loadThrottle);
 
 	if ($.isArray(settings.options)) {
-		var key = settings.valueField;
-		for (var i = 0; i < settings.options.length; i++) {
+		key = settings.valueField;
+		for (i = 0, n = settings.options.length; i < n; i++) {
 			if (settings.options[i].hasOwnProperty(key)) {
 				this.options[settings.options[i][key]] = settings.options[i];
 			}
@@ -63,8 +64,8 @@ var Selectize = function($input, settings) {
 	}
 
 	if ($.isArray(settings.optgroups)) {
-		var key = settings.optgroupValueField;
-		for (var i = 0; i < settings.optgroups.length; i++) {
+		key = settings.optgroupValueField;
+		for (i = 0, n = settings.optgroups.length; i < n; i++) {
 			if (settings.optgroups[i].hasOwnProperty(key)) {
 				this.optgroups[settings.optgroups[i][key]] = settings.optgroups[i];
 			}
@@ -1672,18 +1673,17 @@ Selectize.prototype.enable = function() {
  * @returns {string}
  */
 Selectize.prototype.render = function(templateName, data) {
-	cache = isset(cache) ? cache : true;
-
-	var value, label;
+	var value, id, label;
 	var html = '';
 	var cache = false;
 	var regex_tag = /^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
-	if (['option', 'item'].indexOf(templateName) !== -1) {
+	if (templateName === 'option' || templateName === 'item') {
 		value = data[this.settings.valueField];
 		cache = isset(value);
 	}
 
+	// pull markup from cache if it exists
 	if (cache) {
 		if (!isset(this.renderCache[templateName])) {
 			this.renderCache[templateName] = {};
@@ -1693,6 +1693,7 @@ Selectize.prototype.render = function(templateName, data) {
 		}
 	}
 
+	// render markup
 	if (this.settings.render && typeof this.settings.render[templateName] === 'function') {
 		html = this.settings.render[templateName].apply(this, [data]);
 	} else {
@@ -1717,13 +1718,19 @@ Selectize.prototype.render = function(templateName, data) {
 		}
 	}
 
-	if(['option', 'option_create'].indexOf(templateName) !== -1) {
+	// add mandatory attributes
+	if (templateName === 'option' || templateName === 'option_create') {
 		html = html.replace(regex_tag, '<$1 data-selectable');
 	}
-
-	if (isset(value)) {
-		html = html.replace(regex_tag, '<$1 data-value="' + value + '"');
+	if (templateName === 'optgroup') {
+		id = data[this.settings.optgroupValueField] || '';
+		html = html.replace(regex_tag, '<$1 data-group="' + htmlEntities(id) + '"');
 	}
+	if (templateName === 'option' || templateName === 'item') {
+		html = html.replace(regex_tag, '<$1 data-value="' + htmlEntities(value || '') + '"');
+	}
+
+	// update cache
 	if (cache) {
 		this.renderCache[templateName][value] = html;
 	}
@@ -1755,7 +1762,7 @@ Selectize.defaults = {
 	labelField: 'text',
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
-	optgroupOrder: false,
+	optgroupOrder: null,
 	searchField: ['text'],
 
 	mode: null,

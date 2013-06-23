@@ -24,7 +24,7 @@
 		}, options);
 
 		this.getAdjacentOption = function($option, direction) {
-			var $options = $option.closest('.optgroup').find('[data-selectable]');
+			var $options = $option.closest('[data-group]').find('[data-selectable]');
 			var index    = $options.index($option) + direction;
 
 			return index >= 0 && index < $options.length ? $options.eq(index) : $();
@@ -37,7 +37,7 @@
 					var i, n, h = 0, css = {}, $optgroups;
 					original.apply(self, arguments);
 
-					$optgroups = $('.optgroup', self.$dropdown);
+					$optgroups = $('[data-group]', self.$dropdown);
 					if (!$optgroups.length) return;
 
 					if (options.equalizeHeight) {
@@ -62,13 +62,13 @@
 				var index, $option, $options, $optgroup;
 
 				if (this.isOpen && (e.keyCode === KEY_LEFT || e.keyCode === KEY_RIGHT)) {
-					$optgroup = this.$activeOption.closest('.optgroup');
+					$optgroup = this.$activeOption.closest('[data-group]');
 					index = $optgroup.find('[data-selectable]').index(this.$activeOption);
 
 					if(e.keyCode === KEY_LEFT) {
-						$optgroup = $optgroup.prev('.optgroup');
+						$optgroup = $optgroup.prev('[data-group]');
 					} else {
-						$optgroup = $optgroup.next('.optgroup');
+						$optgroup = $optgroup.next('[data-group]');
 					}
 
 					$options = $optgroup.find('[data-selectable]');
