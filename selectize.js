@@ -1,4 +1,4 @@
-/*! selectize.js - v0.5.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.5.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -249,6 +249,41 @@
 	
 	var quoteRegExp = function(str) {
 		return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+	};
+	
+	var hook = {};
+	
+	/**
+	* Wraps `method` on `self` so that `fn`
+	* is invoked before the original method.
+	*
+	* @param {object} self
+	* @param {string} method
+	* @param {function} fn
+	*/
+	hook.before = function(self, method, fn) {
+		var original = self[method];
+		self[method] = function() {
+			fn.apply(self, arguments);
+			return original.apply(self, arguments);
+		};
+	};
+	
+	/**
+	* Wraps `method` on `self` so that `fn`
+	* is invoked after the original method.
+	*
+	* @param {object} self
+	* @param {string} method
+	* @param {function} fn
+	*/
+	hook.after = function(self, method, fn) {
+		var original = self[method];
+		self[method] = function() {
+			var result = original.apply(self, arguments);
+			fn.apply(self, arguments);
+			return result;
+		};
 	};
 	
 	var once = function(fn) {
@@ -605,13 +640,6 @@
 				self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
 				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
 				self.isShiftDown = e.shiftKey;
-				if (self.isFocused && !self.isLocked) {
-					var tagName = (e.target.tagName || '').toLowerCase();
-					if (tagName === 'input' || tagName === 'textarea') return;
-					if ([KEY_SHIFT, KEY_BACKSPACE, KEY_DELETE, KEY_ESC, KEY_LEFT, KEY_RIGHT, KEY_TAB].indexOf(e.keyCode) !== -1) {
-						return self.onKeyDown.apply(self, arguments);
-					}
-				}
 			},
 			keyup: function(e) {
 				if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
@@ -752,7 +780,7 @@
 				this.blur();
 				return;
 			case KEY_DOWN:
-				if (!this.isOpen && this.hasOptions && this.isInputFocused) {
+				if (!this.isOpen && this.hasOptions) {
 					this.open();
 				} else if (this.$activeOption) {
 					var $next = this.getAdjacentOption(this.$activeOption, 1);
@@ -850,8 +878,8 @@
 	
 		this.showInput();
 		this.setActiveItem(null);
-		this.$control.addClass('focus');
 		this.refreshOptions(!!this.settings.openOnFocus);
+		this.refreshClasses();
 	};
 	
 	/**
@@ -868,10 +896,8 @@
 		this.setTextboxValue('');
 		this.setActiveOption(null);
 		this.setCaret(this.items.length);
-		if (!this.$activeItems.length) {
-			this.$control.removeClass('focus');
-			this.isFocused = false;
-		}
+		this.isFocused = false;
+		this.refreshClasses();
 	};
 	
 	/**
@@ -1709,18 +1735,15 @@
 			if (!this.settings.persist && this.userOptions.hasOwnProperty(value)) {
 				this.removeOption(value);
 			}
-			this.setCaret(i);
-			this.refreshOptions(false);
+	
+			if (i < this.caretPos) {
+				this.setCaret(this.caretPos - 1);
+			}
+	
 			this.refreshClasses();
-	
-			if (!this.hasOptions) { this.close(); }
-			else if (this.isInputFocused) { this.open(); }
-	
 			this.updatePlaceholder();
-			if (!this.items.length) this.showInput();
-	
-			this.positionDropdown();
 			this.updateOriginalInput();
+			this.positionDropdown();
 			this.trigger('item_remove', value);
 		}
 	};
@@ -1791,6 +1814,7 @@
 		var isFull = this.isFull();
 		var isLocked = this.isLocked;
 		this.$control
+			.toggleClass('focus', this.isFocused)
 			.toggleClass('disabled', this.isDisabled)
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
@@ -1856,10 +1880,12 @@
 	*/
 	Selectize.prototype.open = function() {
 		if (this.isLocked || this.isOpen || (this.settings.mode === 'multi' && this.isFull())) return;
+		this.focus();
 		this.isOpen = true;
-		this.positionDropdown();
+		this.$dropdown.css({visibility: 'hidden', display: 'block'});
 		this.$control.addClass('dropdown-active');
-		this.$dropdown.show();
+		this.positionDropdown();
+		this.$dropdown.css({visibility: 'visible'});
 		this.trigger('dropdown_open', this.$dropdown);
 	};
 	
@@ -1940,8 +1966,8 @@
 	
 		if (this.$activeItems.length) {
 			$tail = this.$control.children('.active:' + (direction > 0 ? 'last' : 'first'));
-			caret = Array.prototype.indexOf.apply(this.$control[0].childNodes, [$tail[0]]);
-			if (this.$activeItems.length > 1 && direction > 0) { caret--; }
+			caret = this.$control.children(':not(input)').index($tail);
+			if (direction > 0) { caret++; }
 	
 			for (i = 0, n = this.$activeItems.length; i < n; i++) {
 				values.push($(this.$activeItems[i]).attr('data-value'));
@@ -1950,7 +1976,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 			}
-		} else if ((this.isInputFocused || this.settings.mode === 'single') && this.items.length) {
+		} else if ((this.isFocused || this.settings.mode === 'single') && this.items.length) {
 			if (direction < 0 && selection.start === 0 && selection.length === 0) {
 				values.push(this.items[this.caretPos - 1]);
 			} else if (direction > 0 && selection.start === this.$control_input.val().length) {
@@ -1964,13 +1990,15 @@
 		}
 	
 		// perform removal
+		if (typeof caret !== 'undefined') {
+			this.setCaret(caret);
+		}
 		while (values.length) {
 			this.removeItem(values.pop());
 		}
-		if (typeof caret !== 'undefined') {
-			this.setCaret(caret);
-			this.showInput();
-		}
+	
+		this.showInput();
+		this.refreshOptions(true);
 		return true;
 	};
 	
@@ -1985,7 +2013,7 @@
 	* @param {object} e (optional)
 	*/
 	Selectize.prototype.advanceSelection = function(direction, e) {
-		var tail, selection, idx, valueLength, cursorAtEdge, $tail, $items;
+		var tail, selection, idx, valueLength, cursorAtEdge, $tail;
 	
 		if (direction === 0) return;
 	
@@ -2004,8 +2032,7 @@
 		} else {
 			$tail = this.$control.children('.active:' + tail);
 			if ($tail.length) {
-				$items = this.$control.children(':not(input)');
-				idx = Array.prototype.indexOf.apply($items, [$tail[0]]);
+				idx = this.$control.children(':not(input)').index($tail);
 				this.setActiveItem(null);
 				this.setCaret(direction > 0 ? idx + 1 : idx);
 				this.showInput();
@@ -2380,39 +2407,6 @@
 				return index >= 0 && index < $options.length ? $options.eq(index) : $();
 			};
 	
-			if (options.equalizeHeight || options.equalizeWidth) {
-				this.refreshOptions = (function() {
-					var original = self.refreshOptions;
-					return function() {
-						var i, n, height_max, width, width_last, width_parent, $optgroups;
-						original.apply(self, arguments);
-	
-						$optgroups = $('[data-group]', self.$dropdown_content);
-						n = $optgroups.length;
-						if (!n) return;
-	
-						if (options.equalizeHeight) {
-							height_max = 0;
-							for (i = 0; i < n; i++) {
-								height_max = Math.max(height_max, $optgroups.eq(i).height());
-							}
-							$optgroups.css({height: height_max});
-						}
-	
-						if (options.equalizeWidth) {
-							width_parent = this.$dropdown_content.innerWidth();
-							width = Math.round(width_parent / n);
-							$optgroups.css({width: width});
-							if (n > 1) {
-								width_last = width_parent - width * (n - 1);
-								$optgroups.eq(n - 1).css({width: width_last});
-							}
-						}
-	
-					};
-				})();
-			}
-	
 			this.onKeyDown = (function() {
 				var original = self.onKeyDown;
 				return function(e) {
@@ -2439,6 +2433,38 @@
 					return original.apply(this, arguments);
 				};
 			})();
+	
+			var equalizeSizes = function() {
+				var i, n, height_max, width, width_last, width_parent, $optgroups;
+	
+				$optgroups = $('[data-group]', self.$dropdown_content);
+				n = $optgroups.length;
+				if (!n || !self.$dropdown_content.width()) return;
+	
+				if (options.equalizeHeight) {
+					height_max = 0;
+					for (i = 0; i < n; i++) {
+						height_max = Math.max(height_max, $optgroups.eq(i).height());
+					}
+					$optgroups.css({height: height_max});
+				}
+	
+				if (options.equalizeWidth) {
+					width_parent = self.$dropdown_content.innerWidth();
+					width = Math.round(width_parent / n);
+					$optgroups.css({width: width});
+					if (n > 1) {
+						width_last = width_parent - width * (n - 1);
+						$optgroups.eq(n - 1).css({width: width_last});
+					}
+				}
+			};
+	
+			if (options.equalizeHeight || options.equalizeWidth) {
+				hook.after(this, 'positionDropdown', equalizeSizes);
+				hook.after(this, 'refreshOptions', equalizeSizes);
+			}
+	
 	
 		});
 	})();
