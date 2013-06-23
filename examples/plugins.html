@@ -14,6 +14,7 @@
 		<link rel="stylesheet" href="../selectize.css">
 		<!--[if IE 8]><script src="_es5.js"></script><![endif]-->
 		<script src="_jquery.js"></script>
+		<script src="_jqueryui.js"></script>
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
 	</head>
@@ -54,6 +55,27 @@
 				<script>
 				$('#input-tags2').selectize({
 					plugins: ['restore_on_backspace'],
+					delimiter: ',',
+					persist: false,
+					create: function(input) {
+						return {
+							value: input,
+							text: input
+						}
+					}
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "drag_drop"</h2>
+				<div class="control-group">
+					<label for="input-sortable">Tags:</label>
+					<input type="text" id="input-sortable" class="demo-default" value="drag,these,items,around">
+				</div>
+				<script>
+				$('#input-sortable').selectize({
+					plugins: ['drag_drop'],
 					delimiter: ',',
 					persist: false,
 					create: function(input) {
