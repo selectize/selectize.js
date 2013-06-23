@@ -138,7 +138,7 @@
 	line-height: 20px;
 	-webkit-font-smoothing: antialiased;
 }
-.selectize-dropdown .highlight {
+.selectize-dropdown [data-selectable] .highlight {
 	background: rgba(255,237,40,0.4);
 	border-radius: 1px;
 }
