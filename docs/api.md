@@ -46,7 +46,11 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>getOption(value)</code></td>
-		<td valign="top">Retrieves the data for the option identified by the given value.</td>
+		<td valign="top">Retrieves the jQuery element for the option identified by the given value.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>getAdjacentOption(value, direction)</code></td>
+		<td valign="top">Retrieves the jQuery element for the previous or next option, relative to the currently highlighted option. The "direction" argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
@@ -82,6 +86,17 @@ var selectize = $select[0].selectize;
 	<tr>
 		<td valign="top"><code>refreshItems()</code></td>
 		<td valign="top">Re-renders the selected item lists.</td>
+	</tr>
+	<tr>
+		<th valign="top" colspan="3" align="left"><a href="#methods_items" name="methods_optgroups">Optgroups</a></th>
+	</tr>
+	<tr>
+		<th valign="top" width="120px" align="left">Method</th>
+		<th valign="top" align="left">Description</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>addOptionGroup(id, data)</code></td>
+		<td valign="top">Registers a new optgroup for options to be bucketed into. The "id" argument refers to a value of the property in option identified by the "optgroupField" setting.</td>
 	</tr>
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_search" name="methods_search">Search</a></th>
