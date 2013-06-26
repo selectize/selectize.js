@@ -1707,13 +1707,13 @@ Selectize.prototype.render = function(templateName, data) {
 				break;
 			case 'optgroup_header':
 				label = data[this.settings.optgroupLabelField];
-				html = '<div class="optgroup-header">' + label + '</div>';
+				html = '<div class="optgroup-header">' + htmlEntities(label) + '</div>';
 				break;
 			case 'option':
-				html = '<div class="option">' + label + '</div>';
+				html = '<div class="option">' + htmlEntities(label) + '</div>';
 				break;
 			case 'item':
-				html = '<div class="item">' + label + '</div>';
+				html = '<div class="item">' + htmlEntities(label) + '</div>';
 				break;
 			case 'option_create':
 				html = '<div class="create">Create <strong>' + htmlEntities(data.input) + '</strong>&hellip;</div>';

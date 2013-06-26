@@ -25,16 +25,18 @@
 		window.has_focus = function(elem) {
 			return !!(elem === document.activeElement);
 		};
-		window.setup_test = function(html, options) {
+		window.setup_test = function(html, options, callback) {
 			var $select = $(html).appendTo(document.body).selectize(options);
 			var instance = $select[0].selectize;
-			return {
+			window.test = {
+				callback: callback,
 				selectize: instance,
 				teardown: function() {
 					$select.remove();
 					instance.$wrapper.remove();
 				}
-			}
+			};
+			return test;
 		}
     	</script>
 		<div id="mocha"></div>
@@ -42,6 +44,7 @@
 		<script src="setup.js"></script>
 		<script src="api.js"></script>
 		<script src="interaction.js"></script>
+		<script src="xss.js"></script>
 		<!-- end tests -->
 		<script>
 		if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
