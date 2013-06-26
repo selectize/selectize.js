@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.1 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -2608,6 +2608,7 @@
 							option = this.options[this.items[index]];
 							if (this.deleteSelection(e)) {
 								this.setTextboxValue(options.text.apply(this, [option]));
+								this.refreshOptions(true);
 							}
 							e.preventDefault();
 							return;
