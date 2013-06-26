@@ -1,4 +1,4 @@
-/*! selectize.js - v0.5.5 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.0 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -2164,7 +2164,7 @@
 	
 		// render markup
 		if (this.settings.render && typeof this.settings.render[templateName] === 'function') {
-			html = this.settings.render[templateName].apply(this, [data]);
+			html = this.settings.render[templateName].apply(this, [data, htmlEntities]);
 		} else {
 			label = data[this.settings.labelField];
 			switch (templateName) {
@@ -2173,13 +2173,13 @@
 					break;
 				case 'optgroup_header':
 					label = data[this.settings.optgroupLabelField];
-					html = '<div class="optgroup-header">' + label + '</div>';
+					html = '<div class="optgroup-header">' + htmlEntities(label) + '</div>';
 					break;
 				case 'option':
-					html = '<div class="option">' + label + '</div>';
+					html = '<div class="option">' + htmlEntities(label) + '</div>';
 					break;
 				case 'item':
-					html = '<div class="item">' + label + '</div>';
+					html = '<div class="item">' + htmlEntities(label) + '</div>';
 					break;
 				case 'option_create':
 					html = '<div class="create">Create <strong>' + htmlEntities(data.input) + '</strong>&hellip;</div>';
