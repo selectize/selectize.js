@@ -32,6 +32,7 @@
 						option = this.options[this.items[index]];
 						if (this.deleteSelection(e)) {
 							this.setTextboxValue(options.text.apply(this, [option]));
+							this.refreshOptions(true);
 						}
 						e.preventDefault();
 						return;
