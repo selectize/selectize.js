@@ -257,27 +257,29 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			An object containing any of the following methods:
+			Custom rendering functions. Each function should accept two arguments: "data" and "escape".
+			The "escape" argument is a function that takes a string and escapes all special HTML characters.
+			This is very important to use to prevent XSS vulnerabilities.
 			<table width="100%">
 				<tr>
-					<td valign="top"><code>option(data)</code></td>
+					<td valign="top"><code>option</code></td>
 					<td valign="top">An option in the dropdown list of available options.</td>
 				</tr>
 				<tr>
-					<td valign="top"><code>item(data)</code></td>
+					<td valign="top"><code>item</code></td>
 					<td valign="top">An item the user has selected.</td>
 				</tr>
 				<tr>
-					<td valign="top"><code>option_create(data)</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The "data" argument contains one property: "input" (which is what the user has typed).</td>
+					<td valign="top"><code>option_create</code></td>
+					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: "input" (which is what the user has typed).</td>
 				</tr>
 				<tr>
-					<td valign="top"><code>optgroup_header(data)</code></td>
+					<td valign="top"><code>optgroup_header</code></td>
 					<td valign="top">The header of an option group.</td>
 				</tr>
 				<tr>
-					<td valign="top"><code>optgroup(data)</code></td>
-					<td valign="top">The wrapper for an optgroup. The "html" property in the "data" argument will be the raw html of the optgroup's header and options.</td>
+					<td valign="top"><code>optgroup</code></td>
+					<td valign="top">The wrapper for an optgroup. The "html" property in the data will be the raw html of the optgroup's header and options.</td>
 				</tr>
 			</table>
 		</td>

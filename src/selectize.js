@@ -1698,7 +1698,7 @@ Selectize.prototype.render = function(templateName, data) {
 
 	// render markup
 	if (this.settings.render && typeof this.settings.render[templateName] === 'function') {
-		html = this.settings.render[templateName].apply(this, [data]);
+		html = this.settings.render[templateName].apply(this, [data, htmlEntities]);
 	} else {
 		label = data[this.settings.labelField];
 		switch (templateName) {

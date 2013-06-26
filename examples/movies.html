@@ -17,7 +17,7 @@
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
 		<style type="text/css">
-		.selectize-control.movies .selectize-dropdown > div {
+		.selectize-control.movies .selectize-dropdown [data-selectable] {
 			border-bottom: 1px solid rgba(0,0,0,0.05);
 			height: 60px;
 			position: relative;
@@ -25,7 +25,7 @@
 			box-sizing: content-box;
 			padding: 10px 10px 10px 60px;
 		}
-		.selectize-control.movies .selectize-dropdown > div:last-child {
+		.selectize-control.movies .selectize-dropdown [data-selectable]:last-child {
 			border-bottom: 0 none;
 		}
 		.selectize-control.movies .selectize-dropdown .by {
@@ -122,18 +122,18 @@
 					options: [],
 					create: false,
 					render: {
-						option: function(item) {
+						option: function(item, escape) {
 							var actors = [];
 							for (var i = 0, n = item.abridged_cast.length; i < n; i++) {
-								actors.push('<span>' + item.abridged_cast[i].name + '</span>');
+								actors.push('<span>' + escape(item.abridged_cast[i].name) + '</span>');
 							}
 
 							return '<div>' +
-								'<img src="' + item.posters.thumbnail + '" alt="">' +
+								'<img src="' + escape(item.posters.thumbnail) + '" alt="">' +
 								'<span class="title">' +
-									'<span class="name">' + item.title + '</span>' +
+									'<span class="name">' + escape(item.title) + '</span>' +
 								'</span>' +
-								'<span class="description">' + (item.synopsis || 'No synopsis available at this time.') + '</span>' +
+								'<span class="description">' + escape(item.synopsis || 'No synopsis available at this time.') + '</span>' +
 								'<span class="actors">' + (actors.length ? 'Starring ' + actors.join(', ') : 'Actors unavailable') + '</span>' +
 							'</div>';
 						}

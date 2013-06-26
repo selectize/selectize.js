@@ -93,8 +93,8 @@
 					labelField: 'name',
 					searchField: ['name'],
 					render: {
-						optgroup_header: function(data) {
-							return '<div class="optgroup-header">' + data.label + ' <span class="scientific">' + data.label_scientific + '</span></div>';
+						optgroup_header: function(data, escape) {
+							return '<div class="optgroup-header">' + escape(data.label) + ' <span class="scientific">' + escape(data.label_scientific) + '</span></div>';
 						}
 					}
 				});

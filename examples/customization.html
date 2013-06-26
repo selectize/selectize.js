@@ -17,18 +17,18 @@
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
 		<style type="text/css">
-		.selectize-dropdown.links .option .title {
+		.selectize-control.links .option .title {
 			display: block;
 		}
-		.selectize-dropdown.links .option .url {
+		.selectize-control.links .option .url {
 			font-size: 12px;
 			display: block;
 			color: #a0a0a0;
 		}
-		.selectize-input.links .item a {
+		.selectize-control.links .item a {
 			color: #006ef5;
 		}
-		.selectize-input.links .item.active a {
+		.selectize-control.links .item.active a {
 			color: #303030;
 		}
 		</style>
@@ -57,14 +57,14 @@
 						{id: 3, title: 'Yahoo', url: 'http://yahoo.com'},
 					],
 					render: {
-						option: function(data) {
+						option: function(data, escape) {
 							return '<div class="option">' +
-									'<span class="title">' + data.title + '</span>' +
-									'<span class="url">' + data.url + '</span>' +
+									'<span class="title">' + escape(data.title) + '</span>' +
+									'<span class="url">' + escape(data.url) + '</span>' +
 								'</div>';
 						},
-						item: function(data) {
-							return '<div class="item"><a href="' + data.url + '">' + data.title + '</a></div>';
+						item: function(data, escape) {
+							return '<div class="item"><a href="' + escape(data.url) + '">' + escape(data.title) + '</a></div>';
 						}
 					},
 					create: function(input) {
