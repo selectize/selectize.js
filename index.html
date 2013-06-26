@@ -139,18 +139,18 @@
 							{email: 'someone@gmail.com'}
 						],
 						render: {
-							item: function(item) {
+							item: function(item, escape) {
 								return '<div>' +
-									(item.name ? '<span class="name">' + item.name + '</span>' : '') +
-									(item.email ? '<span class="email">' + item.email + '</span>' : '') +
+									(item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+									(item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
 								'</div>';
 							},
-							option: function(item) {
+							option: function(item, escape) {
 								var label = item.name || item.email;
 								var caption = item.name ? item.email : null;
 								return '<div>' +
-									'<span class="label">' + label + '</span>' +
-									(caption ? '<span class="caption">' + caption + '</span>' : '') +
+									'<span class="label">' + escape(label) + '</span>' +
+									(caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
 								'</div>';
 							}
 						},
@@ -593,17 +593,17 @@
 						searchField: 'name',
 						create: false,
 						render: {
-							option: function(item) {
+							option: function(item, escape) {
 								return '<div>' +
 									'<span class="title">' +
-										'<span class="name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + item.name + '</span>' +
-										'<span class="by">' + item.username + '</span>' +
+										'<span class="name"><i class="icon ' + (item.fork ? 'fork' : 'source') + '"></i>' + escape(item.name) + '</span>' +
+										'<span class="by">' + escape(item.username) + '</span>' +
 									'</span>' +
-									'<span class="description">' + item.description + '</span>' +
+									'<span class="description">' + escape(item.description) + '</span>' +
 									'<ul class="meta">' +
-										(item.language ? '<li class="language">' + item.language + '</li>' : '') +
-										'<li class="watchers"><span>' + item.watchers + '</span> watchers</li>' +
-										'<li class="forks"><span>' + item.forks + '</span> forks</li>' +
+										(item.language ? '<li class="language">' + escape(item.language) + '</li>' : '') +
+										'<li class="watchers"><span>' + escape(item.watchers) + '</span> watchers</li>' +
+										'<li class="forks"><span>' + escape(item.forks) + '</span> forks</li>' +
 									'</ul>' +
 								'</div>';
 							}
@@ -653,18 +653,18 @@
 						options: [],
 						create: false,
 						render: {
-							option: function(item) {
+							option: function(item, escape) {
 								var actors = [];
 								for (var i = 0, n = item.abridged_cast.length; i < n; i++) {
-									actors.push('<span>' + item.abridged_cast[i].name + '</span>');
+									actors.push('<span>' + escape(item.abridged_cast[i].name) + '</span>');
 								}
 
 								return '<div>' +
-									'<img src="' + item.posters.thumbnail + '" alt="">' +
+									'<img src="' + escape(item.posters.thumbnail) + '" alt="">' +
 									'<span class="title">' +
-										'<span class="name">' + item.title + '</span>' +
+										'<span class="name">' + escape(item.title) + '</span>' +
 									'</span>' +
-									'<span class="description">' + (item.synopsis || 'No synopsis available at this time.') + '</span>' +
+									'<span class="description">' + escape(item.synopsis || 'No synopsis available at this time.') + '</span>' +
 									'<span class="actors">' + (actors.length ? 'Starring ' + actors.join(', ') : 'Actors unavailable') + '</span>' +
 								'</div>';
 							}
