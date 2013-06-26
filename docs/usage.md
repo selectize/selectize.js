@@ -59,6 +59,12 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>true</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>loadOnFocus</code></td>
+        <td valign="top">Load items immediately when the control receives focus.</td>
+        <td valign="top"><code>boolean</code></td>
+        <td valign="top"><code>false</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>maxOptions</code></td>
 		<td valign="top">The max number of items to render at once in the dropdown list of options.</td>

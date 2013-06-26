@@ -416,6 +416,8 @@ Selectize.prototype.onFocus = function(e) {
 	}
 	if (this.ignoreFocus) return;
 
+    if (this.settings.loadOnFocus) this.onSearchChange('');
+
 	this.showInput();
 	this.setActiveItem(null);
 	this.refreshOptions(!!this.settings.openOnFocus);
