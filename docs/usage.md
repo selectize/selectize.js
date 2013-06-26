@@ -91,8 +91,8 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>preload</code></td>
-		<td valign="top">If true, the "load" function will be called upon control initialization (with an empty search).</td>
-		<td valign="top"><code>boolean</code></td>
+		<td valign="top">If true, the "load" function will be called upon control initialization (with an empty search). Alternatively it can be set to "focus" to call the "load" function when control receives focus.</td>
+		<td valign="top"><code>boolean/string</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
