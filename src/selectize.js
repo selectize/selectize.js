@@ -22,6 +22,8 @@ var Selectize = function($input, settings) {
 	this.tagType          = $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT;
 	this.settings         = settings;
 
+	this.tabIndex         = 0;
+	this.classes          = [];
 	this.highlightedValue = null;
 	this.isOpen           = false;
 	this.isDisabled       = false;
@@ -51,6 +53,7 @@ var Selectize = function($input, settings) {
 	this.items            = [];
 	this.renderCache      = {};
 	this.onSearchChange   = debounce(this.onSearchChange, this.settings.loadThrottle);
+	this.destroy          = this.destroy;
 
 	if ($.isArray(settings.options)) {
 		key = settings.valueField;
@@ -109,14 +112,12 @@ Selectize.prototype.setup = function() {
 	var inputMode;
 	var timeout_blur;
 	var timeout_focus;
-	var tab_index;
-	var classes;
 
-	tab_index         = this.$input.attr('tabindex') || '';
-	classes           = this.$input.attr('class') || '';
-	$wrapper          = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass).addClass(classes);
+	this.tabIndex     = this.$input.attr('tabindex') || '';
+	this.classes      = this.$input.attr('class') || '';
+	$wrapper          = $('<div>').addClass(this.settings.theme).addClass(this.settings.wrapperClass).addClass(this.classes);
 	$control          = $('<div>').addClass(this.settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(this.options)).appendTo($wrapper);
-	$control_input    = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
+	$control_input    = $('<input type="text">').appendTo($control).attr('tabindex',this.tabIndex);
 	$dropdown         = $('<div>').addClass(this.settings.dropdownClass).hide().appendTo($wrapper);
 	$dropdown_content = $('<div>').addClass(this.settings.dropdownContentClass).appendTo($dropdown);
 
@@ -1667,6 +1668,27 @@ Selectize.prototype.disable = function() {
 Selectize.prototype.enable = function() {
 	this.isDisabled = false;
 	this.unlock();
+};
+
+/**
+ * Destroys Selectize control
+ */
+Selectize.prototype.destroy = function() {
+	$(this.$wrapper).remove();
+	$(this.$control).remove();
+	$(this.$control_input).remove();
+	$(this.$dropdown).remove();
+	$(this.$dropdown_content).remove();
+
+	this.$input.attr('tabindex',this.tabIndex).show().addClass(this.classes);
+	this.isSetup = false;
+
+	$(this.control).off();
+	$(this.dropdown).off();
+	$(this.dropdown).off();
+	$(this.control_input).off();
+
+	this.$input[0].selectize = null;
 };
 
 /**

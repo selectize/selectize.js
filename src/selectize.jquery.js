@@ -4,6 +4,17 @@ $.fn.selectize = function(settings) {
 	var defaults = $.fn.selectize.defaults;
 	var dataAttr = settings.dataAttr || defaults.dataAttr;
 
+	var methods = {
+		destroy: function() {
+			return $(this).each(function() {
+				var $this = $(this);
+				$this.removeClass('selectized');
+				$this.removeData('selectize');
+				$this[0].selectize.destroy();
+			});
+		}
+	};
+
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
@@ -88,25 +99,32 @@ $.fn.selectize = function(settings) {
 	};
 
 	return this.each(function() {
-		var instance;
-		var $input = $(this);
-		var tag_name = $input[0].tagName.toLowerCase();
-		var settings_element = {
-			'placeholder' : $input.attr('placeholder'),
-			'options'     : {},
-			'optgroups'   : {},
-			'items'       : []
-		};
+		var method = settings;
+		var args = [];
+		if(methods[method]) {
+			method = methods[method];
+			return method.apply(this);
+		}else{
+			var instance;
+			var $input = $(this);
+			var tag_name = $input[0].tagName.toLowerCase();
+			var settings_element = {
+				'placeholder' : $input.attr('placeholder'),
+				'options'     : {},
+				'optgroups'   : {},
+				'items'       : []
+			};
 
-		if (tag_name === 'select') {
-			init_select($input, settings_element);
-		} else {
-			init_textbox($input, settings_element);
+			if (tag_name === 'select') {
+				init_select($input, settings_element);
+			} else {
+				init_textbox($input, settings_element);
+			}
+
+			instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings));
+			$input.data('selectize', instance);
+			$input.addClass('selectized');
 		}
-
-		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings));
-		$input.data('selectize', instance);
-		$input.addClass('selectized');
 	});
 };
 
