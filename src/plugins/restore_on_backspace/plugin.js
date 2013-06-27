@@ -14,33 +14,30 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-(function() {
-	Selectize.registerPlugin('restore_on_backspace', function(options) {
-		var self = this;
+Selectize.registerPlugin('restore_on_backspace', function(options) {
+	var self = this;
 
-		options.text = options.text || function(option) {
-			return option[this.settings.labelField];
-		};
+	options.text = options.text || function(option) {
+		return option[this.settings.labelField];
+	};
 
-		this.onKeyDown = (function(e) {
-			var original = self.onKeyDown;
-			return function(e) {
-				var index, option;
-				if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
-					index = this.caretPos - 1;
-					if (index >= 0 && index < this.items.length) {
-						option = this.options[this.items[index]];
-						if (this.deleteSelection(e)) {
-							this.setTextboxValue(options.text.apply(this, [option]));
-							this.refreshOptions(true);
-						}
-						e.preventDefault();
-						return;
+	this.onKeyDown = (function(e) {
+		var original = self.onKeyDown;
+		return function(e) {
+			var index, option;
+			if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
+				index = this.caretPos - 1;
+				if (index >= 0 && index < this.items.length) {
+					option = this.options[this.items[index]];
+					if (this.deleteSelection(e)) {
+						this.setTextboxValue(options.text.apply(this, [option]));
+						this.refreshOptions(true);
 					}
+					e.preventDefault();
+					return;
 				}
-				return original.apply(this, arguments);
-			};
-		})();
-
-	});
-})();
+			}
+			return original.apply(this, arguments);
+		};
+	})();
+});

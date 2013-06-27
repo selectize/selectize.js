@@ -414,8 +414,8 @@ Selectize.prototype.onFocus = function(e) {
 		e.preventDefault();
 		return false;
 	}
-	if (this.ignoreFocus) return;
 
+	if (this.ignoreFocus) return;
 	if (this.settings.preload === 'focus') this.onSearchChange('');
 
 	this.showInput();
