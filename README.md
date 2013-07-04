@@ -1,7 +1,7 @@
 # selectize.js
 [![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
-Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~8kb (gzipped). The goal is to provide a solid & usable user-experience with a clean and powerful API.
+Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~8kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Examples](examples/)
@@ -38,6 +38,10 @@ The available options are [documented here](docs/usage.md).
 
 To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim/) must be added your page.
 
+```html
+<!--[if lt IE 9]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script><![endif]-->
+```
+
 ### Custom Builds
 
 By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run `make` with the "plugins" setting. After this completes, grab the js and css from the project root as described above.
@@ -52,13 +56,13 @@ make plugins=remove_button,restore_on_backspace
 
 First build your copy with `make` then try out the [bundled examples](examples/).
 
-To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. That latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
+To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. The latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
 
 When issuing a pull request, please exclude "selectize.js" and "selectize.min.js" in the project root.
 
 ## License
 
-Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis), & Contributors
+Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis), & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 
