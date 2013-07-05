@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.2 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.3 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -618,6 +618,14 @@
 				window.setTimeout(function() {
 					self.focus(true);
 				}, 0);
+			}
+		});
+	
+		// necessary for mobile webkit devices (manual focus triggering
+		// is ignored unless invoked within a click event)
+		$control.on('click', function(e) {
+			if (!self.isInputFocused) {
+				self.focus(true);
 			}
 		});
 	
