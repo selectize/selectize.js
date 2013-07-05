@@ -155,6 +155,14 @@ Selectize.prototype.setup = function() {
 		}
 	});
 
+	// necessary for mobile webkit devices (manual focus triggering
+	// is ignored unless invoked within a click event)
+	$control.on('click', function(e) {
+		if (!self.isInputFocused) {
+			self.focus(true);
+		}
+	});
+
 	$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 	$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 	watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
