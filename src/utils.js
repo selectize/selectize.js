@@ -81,7 +81,12 @@ var debounce_events = function(self, types, fn) {
 
 	// override trigger method
 	self.trigger = function() {
-		event_args[arguments[0]] = arguments;
+		var type = arguments[0];
+		if (types.indexOf(type) !== -1) {
+			event_args[type] = arguments;
+		} else {
+			return trigger.apply(self, arguments);
+		}
 	};
 
 	// invoke provided function
