@@ -1,12 +1,34 @@
+/**
+ * Determines if the provided value has been defined.
+ *
+ * @param {mixed} object
+ * @returns {boolean}
+ */
 var isset = function(object) {
 	return typeof object !== 'undefined';
 };
 
-var htmlEntities = function(str) {
-	return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+/**
+ * Escapes a string for use within HTML.
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+var escape_html = function(str) {
+	return (str + '')
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
 };
 
-var quoteRegExp = function(str) {
+/**
+ * Escapes a string for use within regular expressions.
+ *
+ * @param {string} str
+ * @returns {string}
+ */
+var escape_regex = function(str) {
 	return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
 
@@ -45,6 +67,31 @@ hook.after = function(self, method, fn) {
 	};
 };
 
+/**
+ * Builds a hash table out of an array of
+ * objects, using the specified `key` within
+ * each object.
+ *
+ * @param {string} key
+ * @param {mixed} objects
+ */
+var build_hash_table = function(key, objects) {
+	if (!$.isArray(objects)) return objects;
+	var i, n, table = {};
+	for (i = 0, n = objects.length; i < n; i++) {
+		if (objects[i].hasOwnProperty(key)) {
+			table[objects[i][key]] = objects[i];
+		}
+	}
+	return table;
+};
+
+/**
+ * Wraps `fn` so that it can only be invoked once.
+ *
+ * @param {function} fn
+ * @returns {function}
+ */
 var once = function(fn) {
 	var called = false;
 	return function() {
@@ -54,6 +101,14 @@ var once = function(fn) {
 	};
 };
 
+/**
+ * Wraps `fn` so that it can only be called once
+ * every `delay` milliseconds (invoked on the falling edge).
+ *
+ * @param {function} fn
+ * @param {int} delay
+ * @returns {function}
+ */
 var debounce = function(fn, delay) {
 	var timeout;
 	return function() {
@@ -120,6 +175,15 @@ var watchChildEvent = function($parent, event, selector, fn) {
 	});
 };
 
+/**
+ * Determines the current selection within a text input control.
+ * Returns an object containing:
+ *   - start
+ *   - length
+ *
+ * @param {object} input
+ * @returns {object}
+ */
 var getSelection = function(input) {
 	var result = {};
 	if ('selectionStart' in input) {
@@ -136,19 +200,33 @@ var getSelection = function(input) {
 	return result;
 };
 
+/**
+ * Copies CSS properties from one element to another.
+ *
+ * @param {object} $from
+ * @param {object} $to
+ * @param {array} properties
+ */
 var transferStyles = function($from, $to, properties) {
-	var styles = {};
+	var i, n, styles = {};
 	if (properties) {
-		for (var i = 0; i < properties.length; i++) {
+		for (i = 0, n = properties.length; i < n; i++) {
 			styles[properties[i]] = $from.css(properties[i]);
 		}
 	} else {
 		styles = $from.css();
 	}
 	$to.css(styles);
-	return $to;
 };
 
+/**
+ * Measures the width of a string within a
+ * parent element (in pixels).
+ *
+ * @param {string} str
+ * @param {object} $parent
+ * @returns {int}
+ */
 var measureString = function(str, $parent) {
 	var $test = $('<test>').css({
 		position: 'absolute',
@@ -173,6 +251,15 @@ var measureString = function(str, $parent) {
 	return width;
 };
 
+/**
+ * Sets up an input to grow horizontally as the user
+ * types. If the value is changed manually, you can
+ * trigger the "update" handler to resize:
+ *
+ * $input.trigger('update');
+ *
+ * @param {object} $input
+ */
 var autoGrow = function($input) {
 	var update = function(e) {
 		var value, keyCode, printable, placeholder, width;
