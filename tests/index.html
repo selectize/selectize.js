@@ -9,8 +9,17 @@
 		<link rel="stylesheet" href="../examples/_normalize.css">
 		<link rel="stylesheet" href="vendor/mocha.css">
 		<link rel="stylesheet" href="../selectize.css">
+		<style type="text/css">
+		#fixture {
+			background: #fafafa;
+			padding: 30px;
+			text-align: center;
+			box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+		}
+		</style>
 		<!--[if IE 8]><script src="../examples/_es5.js"></script><![endif]-->
 		<script src="../examples/_jquery.js"></script>
+		<script src="vendor/syn.js"></script>
 		<script src="vendor/mocha.js"></script>
 		<script src="vendor/chai.js"></script>
 		<script src="/testem.js"></script>
@@ -26,7 +35,7 @@
 			return !!(elem === document.activeElement);
 		};
 		window.setup_test = function(html, options, callback) {
-			var $select = $(html).appendTo(document.body).selectize(options);
+			var $select = $(html).appendTo('#fixture').selectize(options);
 			var instance = $select[0].selectize;
 			window.test = {
 				callback: callback,
@@ -40,6 +49,7 @@
 		}
     	</script>
 		<div id="mocha"></div>
+		<div id="fixture"></div>
 		<!-- begin tests -->
 		<script src="setup.js"></script>
 		<script src="api.js"></script>
