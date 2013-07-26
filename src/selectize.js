@@ -421,7 +421,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.ignoreFocus) return;
-		if (self.settings.preload === 'focus') self.onSearchChange('');
+		if (self.settings.preload === 'focus') self.onSearchChange(null);
 
 		self.showInput();
 		self.setActiveItem(null);
