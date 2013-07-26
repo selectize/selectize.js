@@ -397,7 +397,7 @@ $.extend(Selectize.prototype, {
 		var fn = self.settings.load;
 		if (!fn) return;
 		if (self.loadedSearches.hasOwnProperty(value)) return;
-		self.loadedSearches[value] = true;
+		if (value) self.loadedSearches[value] = true;
 		self.load(function(callback) {
 			fn.apply(self, [value, callback]);
 		});
@@ -421,7 +421,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.ignoreFocus) return;
-		if (self.settings.preload === 'focus') self.onSearchChange('');
+		if (self.settings.preload === 'focus') self.onSearchChange(null);
 
 		self.showInput();
 		self.setActiveItem(null);
