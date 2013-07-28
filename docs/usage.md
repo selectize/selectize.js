@@ -192,6 +192,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>onInitialize()</code></td>
+		<td valign="top">Invoked once the control is completely initialized.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>onChange(value)</code></td>
 		<td valign="top">Invoked when the value of the control changes.</td>
 		<td valign="top"><code>function</code></td>

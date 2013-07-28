@@ -228,6 +228,8 @@ $.extend(Selectize.prototype, {
 			self.disable();
 		}
 
+		self.trigger('initialize');
+
 		// preload options
 		if (settings.preload) {
 			self.onSearchChange('');
@@ -240,6 +242,7 @@ $.extend(Selectize.prototype, {
 	 */
 	setupCallbacks: function() {
 		var key, fn, callbacks = {
+			'initialize'     : 'onInitialize',
 			'change'         : 'onChange',
 			'item_add'       : 'onItemAdd',
 			'item_remove'    : 'onItemRemove',
@@ -1816,9 +1819,10 @@ Selectize.defaults = {
 	dropdownParent: null,
 
 	/*
-	load            : null, // function(query, callback)
-	score           : null, // function(search)
-	onChange        : null, // function(value)
+	load            : null, // function(query, callback) { ... }
+	score           : null, // function(search) { ... }
+	onInitialize    : null, // function() { ... }
+	onChange        : null, // function(value) { ... }
 	onItemAdd       : null, // function(value, $item) { ... }
 	onItemRemove    : null, // function(value) { ... }
 	onClear         : null, // function() { ... }

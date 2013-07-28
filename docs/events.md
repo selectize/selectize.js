@@ -23,6 +23,11 @@ selectize.off('event_name', handler);
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>"initialize"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked once the control is completely initialized.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>"change"</code></td>
 		<td valign="top">value</td>
 		<td valign="top">Invoked when the value of the control changes.</td>
