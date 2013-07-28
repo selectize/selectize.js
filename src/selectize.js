@@ -1752,7 +1752,7 @@ $.extend(Selectize.prototype, {
 					html = '<div class="item">' + escape_html(label) + '</div>';
 					break;
 				case 'option_create':
-					html = '<div class="create">Create <strong>' + escape_html(data.input) + '</strong>&hellip;</div>';
+					html = '<div class="create">Add <strong>' + escape_html(data.input) + '</strong>&hellip;</div>';
 					break;
 			}
 		}
