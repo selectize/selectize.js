@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.8 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.9 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -1809,7 +1809,7 @@
 					// update menu / remove the option
 					$option = self.getOption(value);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
-					self.refreshOptions(true);
+					self.refreshOptions(inputMode !== 'single');
 					if (value_next) {
 						self.setActiveOption(self.getOption(value_next));
 					}
@@ -1913,7 +1913,7 @@
 				self.addOption(value, data);
 				self.setCaret(caret);
 				self.addItem(value);
-				self.refreshOptions(true);
+				self.refreshOptions(self.settings.mode !== 'single');
 				self.focus(false);
 			});
 	
