@@ -472,18 +472,23 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionSelect: function(e) {
+		var value, $target, $option, self = this;
+
 		e.preventDefault && e.preventDefault();
 		e.stopPropagation && e.stopPropagation();
-		this.focus(false);
+		self.focus(false);
 
-		var $target = $(e.currentTarget);
+		$target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
-			this.createItem();
+			self.createItem();
 		} else {
-			var value = $target.attr('data-value');
+			value = $target.attr('data-value');
 			if (value) {
-				this.setTextboxValue('');
-				this.addItem(value);
+				self.setTextboxValue('');
+				self.addItem(value);
+				if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+					self.setActiveOption(self.getOption(value));
+				}
 			}
 		}
 	},
@@ -1241,8 +1246,9 @@ $.extend(Selectize.prototype, {
 			self.refreshClasses();
 
 			if (self.isSetup) {
-				// remove the option from the menu
 				options = self.$dropdown_content.find('[data-selectable]');
+
+				// update menu / remove the option
 				$option = self.getOption(value);
 				value_next = self.getAdjacentOption($option, 1).attr('data-value');
 				self.refreshOptions(true);
