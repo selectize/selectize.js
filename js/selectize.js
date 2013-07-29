@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.6 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.7 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -1030,18 +1030,23 @@
 		 * @returns {boolean}
 		 */
 		onOptionSelect: function(e) {
+			var value, $target, $option, self = this;
+	
 			e.preventDefault && e.preventDefault();
 			e.stopPropagation && e.stopPropagation();
-			this.focus(false);
+			self.focus(false);
 	
-			var $target = $(e.currentTarget);
+			$target = $(e.currentTarget);
 			if ($target.hasClass('create')) {
-				this.createItem();
+				self.createItem();
 			} else {
-				var value = $target.attr('data-value');
+				value = $target.attr('data-value');
 				if (value) {
-					this.setTextboxValue('');
-					this.addItem(value);
+					self.setTextboxValue('');
+					self.addItem(value);
+					if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+						self.setActiveOption(self.getOption(value));
+					}
 				}
 			}
 		},
@@ -1799,8 +1804,9 @@
 				self.refreshClasses();
 	
 				if (self.isSetup) {
-					// remove the option from the menu
 					options = self.$dropdown_content.find('[data-selectable]');
+	
+					// update menu / remove the option
 					$option = self.getOption(value);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(true);
@@ -2088,11 +2094,15 @@
 		 * @returns {boolean}
 		 */
 		deleteSelection: function(e) {
-			var i, n, direction, selection, values, caret, $tail;
+			var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 			var self = this;
 	
 			direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 			selection = getSelection(self.$control_input[0]);
+	
+			if (self.$activeOption && !self.settings.hideSelected) {
+				option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+			}
 	
 			// determine items that will be removed
 			values = [];
@@ -2132,6 +2142,15 @@
 	
 			self.showInput();
 			self.refreshOptions(true);
+	
+			// select previous option
+			if (option_select) {
+				$option_select = self.getOption(option_select);
+				if ($option_select.length) {
+					self.setActiveOption($option_select);
+				}
+			}
+	
 			return true;
 		},
 	
