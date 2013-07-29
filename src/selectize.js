@@ -1251,7 +1251,7 @@ $.extend(Selectize.prototype, {
 				// update menu / remove the option
 				$option = self.getOption(value);
 				value_next = self.getAdjacentOption($option, 1).attr('data-value');
-				self.refreshOptions(true);
+				self.refreshOptions(inputMode !== 'single');
 				if (value_next) {
 					self.setActiveOption(self.getOption(value_next));
 				}
@@ -1355,7 +1355,7 @@ $.extend(Selectize.prototype, {
 			self.addOption(value, data);
 			self.setCaret(caret);
 			self.addItem(value);
-			self.refreshOptions(true);
+			self.refreshOptions(self.settings.mode !== 'single');
 			self.focus(false);
 		});
 
