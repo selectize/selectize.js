@@ -259,7 +259,7 @@ input[type=button]:hover {
 	background-image: -webkit-linear-gradient(bottom, #534E41 3%, #9E9B96 5%, #64625A 7%, #5C5A55 93%, #9E9B96 95%, #534E41 97%);
 	background-image: -ms-linear-gradient(bottom, #534E41 3%, #9E9B96 5%, #64625A 7%, #5C5A55 93%, #9E9B96 95%, #534E41 97%);
 
-	background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0.03, #534E41), color-stop(0.05, #9E9B96), color-stop(0.07, #64625A), color-stop(0.93, #5C5A55), color-stop(0.95, #9E9B96), color-stop(0.97, #534E41) );;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.03, #534E41), color-stop(0.05, #9E9B96), color-stop(0.07, #64625A), color-stop(0.93, #5C5A55), color-stop(0.95, #9E9B96), color-stop(0.97, #534E41) );;
 }
 
 /**********************************************************
@@ -360,9 +360,6 @@ input[type=button]:hover {
 	border: 1px solid #CECBC6;
 }
 .selectize-dropdown {
-	max-height: 200px;
-	overflow-y: auto;
-	overflow-x: hidden;
 	background: #fff;
 	margin-top: -1px;
 	border-top: 0 none;
@@ -372,6 +369,11 @@ input[type=button]:hover {
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
+}
+.selectize-dropdown-content {
+	max-height: 200px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup-header {
@@ -505,7 +507,7 @@ input[type=button]:hover {
 	position: absolute;
 	z-index: 2;
 }
-.selectize-dropdown > * {
+.selectize-dropdown [data-selectable] {
 	cursor: pointer;
 	overflow: hidden;
 }
@@ -592,7 +594,6 @@ input[type=button]:hover {
 .icon.source {
 	background-image: url(../images/repo-source.png);
 }
-
 
 /**
  * Rotton Tomatoes Demo
@@ -803,4 +804,21 @@ input[type=button]:hover {
 	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 	box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* --- file: "src/plugins/dropdown_header/plugin.css" --- */
+
+.selectize-dropdown-header {
+	padding: 6px 9px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+}
+.selectize-dropdown-header-close {
+	float: right;
+	color: #ddd;
+	font-size: 20px !important;
+}
+.selectize-dropdown-header-close:hover {
+	color: #aaa;
 }

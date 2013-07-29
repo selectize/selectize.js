@@ -280,6 +280,32 @@
 					border-color: #b5b5b5;
 					box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
 				}
+
+				.selectize-control.demo-code-language .selectize-dropdown-header {
+					color: #666;
+					padding: 8px 10px;
+					background-color: #fefefe;
+					background-image: -moz-linear-gradient(#fefefe, #eee);
+					background-image: -webkit-linear-gradient(#fefefe, #eee);
+					background-image: linear-gradient(#fff, #f5f4f2);
+					background-repeat: repeat-x;
+					border-bottom: 1px solid #ddd;
+				}
+				.selectize-control.demo-code-language .selectize-dropdown-header-label {
+					font-weight: bold;
+					font-size: 13px !important;
+					color: #111;
+					text-shadow: 1px 1px 0 #fff;
+				}
+				.selectize-control.demo-code-language .selectize-dropdown-header-close {
+					float: right;
+					font-size: 20px !important;
+					color: #ccc;
+					margin-top: 1px;
+				}
+				.selectize-control.demo-code-language .selectize-dropdown-header-close:hover {
+					color: #aaa;
+				}
 				</style>
 				<section class="demo">
 					<div class="header">
@@ -323,7 +349,10 @@
 					<script class="show">
 					$('.demo-code-language').selectize({
 						sortField: 'text',
-						hideSelected: false
+						hideSelected: false,
+						plugins: {
+							'dropdown_header': {title: 'Language'}
+						}
 					});
 					</script>
 				</section>
