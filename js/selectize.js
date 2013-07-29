@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.7 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.8 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -1943,14 +1943,16 @@
 		 * Updates all state-dependent CSS classes.
 		 */
 		refreshClasses: function() {
-			var isFull = this.isFull();
-			var isLocked = this.isLocked;
+			var self = this;
+			var isFull = self.isFull();
+			var isLocked = self.isLocked;
 			this.$control
-				.toggleClass('focus', this.isFocused)
-				.toggleClass('disabled', this.isDisabled)
+				.toggleClass('focus', self.isFocused)
+				.toggleClass('disabled', self.isDisabled)
 				.toggleClass('locked', isLocked)
 				.toggleClass('full', isFull).toggleClass('not-full', !isFull)
-				.toggleClass('has-items', this.items.length > 0);
+				.toggleClass('dropdown-active', self.isOpen)
+				.toggleClass('has-items', self.items.length > 0);
 			this.$control_input.data('grow', !isFull && !isLocked);
 		},
 	
@@ -2014,10 +2016,10 @@
 			var self = this;
 	
 			if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
-			self.focus();
+			self.focus(true);
 			self.isOpen = true;
+			self.refreshClasses();
 			self.$dropdown.css({visibility: 'hidden', display: 'block'});
-			self.$control.addClass('dropdown-active');
 			self.positionDropdown();
 			self.$dropdown.css({visibility: 'visible'});
 			self.trigger('dropdown_open', this.$dropdown);
@@ -2031,9 +2033,9 @@
 	
 			if (!self.isOpen) return;
 			self.$dropdown.hide();
-			self.$control.removeClass('dropdown-active');
 			self.setActiveOption(null);
 			self.isOpen = false;
+			self.refreshClasses();
 			self.trigger('dropdown_close', self.$dropdown);
 		},
 	
