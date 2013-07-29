@@ -654,17 +654,17 @@ $.extend(Selectize.prototype, {
 
 		if (scroll || !isset(scroll)) {
 
-			height_menu   = self.$dropdown.height();
+			height_menu   = self.$dropdown_content.height();
 			height_item   = self.$activeOption.outerHeight(true);
-			scroll        = self.$dropdown.scrollTop() || 0;
-			y             = self.$activeOption.offset().top - self.$dropdown.offset().top + scroll;
+			scroll        = self.$dropdown_content.scrollTop() || 0;
+			y             = self.$activeOption.offset().top - self.$dropdown_content.offset().top + scroll;
 			scroll_top    = y;
 			scroll_bottom = y - height_menu + height_item;
 
 			if (y + height_item > height_menu - scroll) {
-				self.$dropdown.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
+				self.$dropdown_content.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
 			} else if (y < scroll) {
-				self.$dropdown.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
+				self.$dropdown_content.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
 			}
 
 		}

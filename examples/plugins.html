@@ -17,6 +17,199 @@
 		<script src="_jqueryui.js"></script>
 		<script src="../selectize.js"></script>
 		<script src="_demos.js"></script>
+		<style type="text/css">
+		/* common */
+		.selectize-control.demo-code-language,
+		.selectize-control.demo-code-language .selectize-input,
+		.selectize-control.demo-code-language .selectize-dropdown,
+		.selectize-control.demo-code-language input {
+			font-family: arial, sans-serif !important;
+			font-weight: bold !important;
+			font-size: 13px !important;
+		}
+		.selectize-control.demo-code-language .selectize-input {
+			color: #333 !important;
+			-webkit-border-radius: 3px !important;
+			-moz-border-radius: 3px !important;
+			border-radius: 3px !important;
+		}
+		.selectize-control.demo-code-language .selectize-input [data-value]::before {
+			content: 'Language: ';
+			font-weight: normal;
+			color: #808080;
+		}
+		.selectize-control.demo-code-language input::-webkit-input-placeholder { font-weight: normal; }
+		.selectize-control.demo-code-language input:-moz-placeholder { font-weight: normal; }
+		.selectize-control.demo-code-language input::-moz-placeholder { font-weight: normal; }
+		.selectize-control.demo-code-language input:-ms-input-placeholder { font-weight: normal; }
+
+		.selectize-control.demo-code-language .selectize-dropdown {
+			margin-top: 10px;
+			-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+			border-radius: 4px;
+			border: 1px solid #c1c1c1;
+			-webkit-box-shadow: 0 0 13px rgba(0,0,0,0.31);
+			-moz-box-shadow: 0 0 13px rgba(0,0,0,0.31);
+			box-shadow: 0 0 13px rgba(0,0,0,0.31);
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value] {
+			border-bottom: 1px solid #eee;
+			color: #666666;
+			font-weight: normal;
+			padding-left: 30px;
+			position: relative;
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].selected {
+			color: #333;
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].active {
+			background: #3d84c4;
+			color: #fff;
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].selected::before,
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].active::before {
+			content: ' ';
+			display: block;
+			position: absolute;
+			top: 50%;
+			left: 10px;
+			width: 12px;
+			height: 10px;
+			margin: -5px 0 0 0;
+			background: url(images/check@2x.png) 0 0;
+			background-size: 12px 20px;
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].active::before,
+		.selectize-control.demo-code-language .selectize-dropdown [data-value].selected.active::before {
+			background-position: 0 -10px;
+		}
+		.selectize-control.demo-code-language .selectize-dropdown [data-value]:last-child {
+			border-bottom: 0 none;
+		}
+
+		/* multiple language select */
+		.selectize-control.demo-code-language.multi .selectize-input [data-value] {
+			color: #333;
+			padding: 2px 7px;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+			background-color: #FCFAF8;
+			background-image: -moz-linear-gradient(#FCFAF8, #F3F0ED);
+			background-image: -webkit-linear-gradient(#FCFAF8, #F3F0ED);
+			background-image: linear-gradient(#FCFAF8, #F3F0ED);
+			background-repeat: repeat-x;
+			-webkit-border-radius: 3px !important;
+			-moz-border-radius: 3px !important;
+			border-radius: 3px !important;
+			border: 1px solid #B8B7B5;
+			border-bottom-color: #C4BFB2;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+		}
+		.selectize-control.demo-code-language.multi .selectize-input [data-value].active {
+			border-color: #3775ae;
+			border-bottom-color: #316ca2;
+			background-color: #3d84c4;
+			background-image: -moz-linear-gradient(#4d98db, #3d84c4);
+			background-image: -webkit-linear-gradient(#4d98db, #3d84c4);
+			background-image: linear-gradient(#4d98db, #3d84c4);
+			color: #fff;
+			text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+		}
+		.selectize-control.demo-code-language.multi .selectize-input [data-value].active::before {
+			color: #a1caf0;
+		}
+		.selectize-control.demo-code-language.multi .selectize-input {
+			padding: 9px 8px 8px;
+		}
+		.selectize-control.demo-code-language.multi .selectize-input.has-items {
+			padding-top: 6px !important;
+			padding-bottom: 0px !important;
+			padding-left: 5px !important;
+		}
+
+		/* single language select */
+		.selectize-control.demo-code-language.single {
+			width: 180px;
+		}
+		.selectize-control.demo-code-language.single .selectize-dropdown {
+			width: 400px !important;
+		}
+		.selectize-control.demo-code-language.single .selectize-input {
+			padding: 4px 10px;
+			text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+			white-space: nowrap;
+			background-color: #FCFAF8;
+			background-image: -moz-linear-gradient(#FCFAF8, #F3F0ED);
+			background-image: -webkit-linear-gradient(#FCFAF8, #F3F0ED);
+			background-image: linear-gradient(#FCFAF8, #F3F0ED);
+			background-repeat: repeat-x;
+			border: 1px solid #B8B7B5;
+			border-bottom-color: #C4BFB2;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+		}
+		.selectize-control.demo-code-language.single .selectize-input:hover {
+			text-decoration: none;
+			background-color: #F0ECE8;
+			background-image: -moz-linear-gradient(#F0ECE8, #E7E4E0);
+			background-image: -webkit-linear-gradient(#F0ECE8, #E7E4E0);
+			background-image: linear-gradient(#F0ECE8, #E7E4E0);
+			background-repeat: repeat-x;
+			border-color: #C2BFBA #C2BFBA #AFADA7;
+		}
+		.selectize-control.demo-code-language.single .selectize-input::after {
+			right: 8px;
+		}
+		.selectize-control.demo-code-language.single .selectize-input::before,
+		.selectize-control.demo-code-language.single .selectize-input.dropdown-active::before {
+			content: ' ';
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: auto;
+			width: 0;
+			right: 25px;
+			height: auto;
+			border-right: 1px solid #c2c0bd;
+			border-left: 1px solid rgba(255,255,255,0.7);
+		}
+		.selectize-control.demo-code-language.single .selectize-input.dropdown-active::before {
+			border-right: 1px solid #b5b5b5 !important;
+			border-left: 1px solid rgba(255,255,255,0.02) !important;
+		}
+		.selectize-control.demo-code-language.single .selectize-input.dropdown-active,
+		.selectize-control.demo-code-language.single .selectize-input.dropdown-active:hover {
+			background-color: #E2DFDB;
+			background-image: none;
+			border-color: #b5b5b5;
+			box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
+		}
+
+		.selectize-control.plugin-dropdown_header .selectize-dropdown-header {
+			color: #666;
+			padding: 8px 10px;
+			background-color: #fefefe;
+			background-image: -moz-linear-gradient(#fefefe, #eee);
+			background-image: -webkit-linear-gradient(#fefefe, #eee);
+			background-image: linear-gradient(#fefefe, #eee);
+			background-repeat: repeat-x;
+			border-bottom: 1px solid #ddd;
+		}
+		.selectize-control.plugin-dropdown_header .selectize-dropdown-header-label {
+			font-weight: bold;
+			font-size: 13px !important;
+			color: #111;
+			text-shadow: 1px 1px 0 #fff;
+		}
+		.selectize-control.plugin-dropdown_header .selectize-dropdown-header-close {
+			float: right;
+			font-size: 20px !important;
+			color: #ccc;
+			margin-top: 1px;
+		}
+		.selectize-control.plugin-dropdown_header .selectize-dropdown-header-close:hover {
+			color: #aaa;
+		}
+		</style>
 	</head>
     <body>
 		<div id="wrapper">
@@ -85,6 +278,38 @@
 						}
 					}
 				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "dropdown_header"</h2>
+				<div class="control-group">
+					<label for="select-code-language">Single:</label>
+					<select id="select-code-language" class="demo-code-language" placeholder="Select a language...">
+						<option value="txt">Text</option>
+						<option value="md">Markdown</option>
+						<option value="html">HTML</option>
+						<option value="php">PHP</option>
+						<option value="python">Python</option>
+						<option value="java">Java</option>
+						<option value="js" selected>JavaScript</option>
+						<option value="c#">Ruby</option>
+						<option value="c#">VHDL</option>
+						<option value="c#">Verilog</option>
+						<option value="c#">C#</option>
+						<option value="c++">C/C++</option>
+					</select>
+				</div>
+				<script>
+				$('.demo-code-language').selectize({
+					sortField: 'text',
+					hideSelected: false,
+					plugins: {
+						'dropdown_header': {
+							title: 'Language'
+						}
+					}
+				})
 				</script>
 			</div>
 		</div>
