@@ -1536,11 +1536,15 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	deleteSelection: function(e) {
-		var i, n, direction, selection, values, caret, $tail;
+		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.$control_input[0]);
+
+		if (self.$activeOption && !self.settings.hideSelected) {
+			option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+		}
 
 		// determine items that will be removed
 		values = [];
@@ -1580,6 +1584,15 @@ $.extend(Selectize.prototype, {
 
 		self.showInput();
 		self.refreshOptions(true);
+
+		// select previous option
+		if (option_select) {
+			$option_select = self.getOption(option_select);
+			if ($option_select.length) {
+				self.setActiveOption($option_select);
+			}
+		}
+
 		return true;
 	},
 
