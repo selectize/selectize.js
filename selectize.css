@@ -1,4 +1,4 @@
-/*! selectize.css - v0.6.5 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.css - v0.6.6 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 /* --- file: "src/selectize.css" --- */
 
@@ -101,9 +101,6 @@
 	border: 1px solid #d0d0d0;
 }
 .selectize-dropdown {
-	max-height: 200px;
-	overflow-y: auto;
-	overflow-x: hidden;
 	background: #fff;
 	margin-top: -1px;
 	border-top: 0 none;
@@ -113,6 +110,11 @@
 	-webkit-border-radius: 0 0 3px 3px;
 	-moz-border-radius: 0 0 3px 3px;
 	border-radius: 0 0 3px 3px;
+}
+.selectize-dropdown-content {
+	max-height: 200px;
+	overflow-y: auto !important;
+	overflow-x: hidden !important;
 }
 .selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup-header {
@@ -249,7 +251,7 @@
 	position: absolute;
 	z-index: 2;
 }
-.selectize-dropdown > * {
+.selectize-dropdown [data-selectable] {
 	cursor: pointer;
 	overflow: hidden;
 }
@@ -278,6 +280,23 @@
 	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 	box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+}
+
+/* --- file: "src/plugins/dropdown_header/plugin.css" --- */
+
+.selectize-dropdown-header {
+	padding: 6px 9px;
+	-moz-border-radius: 3px 3px 0 0;
+	-webkit-border-radius: 3px 3px 0 0;
+	border-radius: 3px 3px 0 0;
+}
+.selectize-dropdown-header-close {
+	float: right;
+	color: #ddd;
+	font-size: 20px !important;
+}
+.selectize-dropdown-header-close:hover {
+	color: #aaa;
 }
 
 /* --- file: "src/plugins/optgroup_columns/plugin.css" --- */

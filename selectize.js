@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.5 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.6 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -786,6 +786,8 @@
 				self.disable();
 			}
 	
+			self.trigger('initialize');
+	
 			// preload options
 			if (settings.preload) {
 				self.onSearchChange('');
@@ -798,6 +800,7 @@
 		 */
 		setupCallbacks: function() {
 			var key, fn, callbacks = {
+				'initialize'     : 'onInitialize',
 				'change'         : 'onChange',
 				'item_add'       : 'onItemAdd',
 				'item_remove'    : 'onItemRemove',
@@ -1209,17 +1212,17 @@
 	
 			if (scroll || !isset(scroll)) {
 	
-				height_menu   = self.$dropdown.height();
+				height_menu   = self.$dropdown_content.height();
 				height_item   = self.$activeOption.outerHeight(true);
-				scroll        = self.$dropdown.scrollTop() || 0;
-				y             = self.$activeOption.offset().top - self.$dropdown.offset().top + scroll;
+				scroll        = self.$dropdown_content.scrollTop() || 0;
+				y             = self.$activeOption.offset().top - self.$dropdown_content.offset().top + scroll;
 				scroll_top    = y;
 				scroll_bottom = y - height_menu + height_item;
 	
 				if (y + height_item > height_menu - scroll) {
-					self.$dropdown.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
+					self.$dropdown_content.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
 				} else if (y < scroll) {
-					self.$dropdown.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
+					self.$dropdown_content.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
 				}
 	
 			}
@@ -2310,7 +2313,7 @@
 						html = '<div class="item">' + escape_html(label) + '</div>';
 						break;
 					case 'option_create':
-						html = '<div class="create">Create <strong>' + escape_html(data.input) + '</strong>&hellip;</div>';
+						html = '<div class="create">Add <strong>' + escape_html(data.input) + '</strong>&hellip;</div>';
 						break;
 				}
 			}
@@ -2374,9 +2377,10 @@
 		dropdownParent: null,
 	
 		/*
-		load            : null, // function(query, callback)
-		score           : null, // function(search)
-		onChange        : null, // function(value)
+		load            : null, // function(query, callback) { ... }
+		score           : null, // function(search) { ... }
+		onInitialize    : null, // function() { ... }
+		onChange        : null, // function(value) { ... }
 		onItemAdd       : null, // function(value, $item) { ... }
 		onItemRemove    : null, // function(value) { ... }
 		onClear         : null, // function() { ... }
@@ -2562,6 +2566,57 @@
 						self.setActiveItem(active);
 					}
 				});
+			};
+		})();
+	
+	});
+	
+	/* --- file: "src/plugins/dropdown_header/plugin.js" --- */
+	
+	/**
+	* Plugin: "dropdown_header" (selectize.js)
+	* Copyright (c) 2013 Brian Reavis & contributors
+	*
+	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+	* file except in compliance with the License. You may obtain a copy of the License at:
+	* http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing, software distributed under
+	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+	* ANY KIND, either express or implied. See the License for the specific language
+	* governing permissions and limitations under the License.
+	*
+	* @author Brian Reavis <brian@thirdroute.com>
+	*/
+	
+	Selectize.registerPlugin('dropdown_header', function(options) {
+		var self = this;
+	
+		options = $.extend({
+			title         : 'Untitled',
+			headerClass   : 'selectize-dropdown-header',
+			titleRowClass : 'selectize-dropdown-header-title',
+			labelClass    : 'selectize-dropdown-header-label',
+			closeClass    : 'selectize-dropdown-header-close',
+	
+			html: function(data) {
+				return (
+					'<div class="' + data.headerClass + '">' +
+						'<div class="' + data.titleRowClass + '">' +
+							'<span class="' + data.labelClass + '">' + data.title + '</span>' +
+							'<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' +
+						'</div>' +
+					'</div>'
+				);
+			}
+		}, options);
+	
+		self.setup = (function() {
+			var original = self.setup;
+			return function() {
+				original.apply(self, arguments);
+				self.$dropdown_header = $(options.html(options));
+				self.$dropdown.prepend(self.$dropdown_header);
 			};
 		})();
 	
