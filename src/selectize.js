@@ -314,7 +314,6 @@ $.extend(Selectize.prototype, {
 			case KEY_A:
 				if (self.isCmdDown) {
 					self.selectAll();
-					e.preventDefault();
 					return;
 				}
 				break;
