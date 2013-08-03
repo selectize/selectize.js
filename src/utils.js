@@ -9,6 +9,28 @@ var isset = function(object) {
 };
 
 /**
+ * Converts a scalar to its best string representation
+ * for hash keys and HTML attribute values.
+ *
+ * Transformations:
+ *   'str'     -> 'str'
+ *   null      -> ''
+ *   undefined -> ''
+ *   true      -> '1'
+ *   false     -> '0'
+ *   0         -> '0'
+ *   1         -> '1'
+ *
+ * @param {string} value
+ * @returns {string}
+ */
+var hash_key = function(value) {
+	if (typeof value === 'undefined' || value === null) return '';
+	if (typeof value === 'boolean') return value ? '1' : '0';
+	return value + '';
+};
+
+/**
  * Escapes a string for use within HTML.
  *
  * @param {string} str

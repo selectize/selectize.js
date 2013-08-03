@@ -1095,7 +1095,7 @@ $.extend(Selectize.prototype, {
 			return;
 		}
 
-		value = value || '';
+		value = hash_key(value);
 		if (self.options.hasOwnProperty(value)) return;
 
 		self.userOptions[value] = true;
@@ -1127,19 +1127,47 @@ $.extend(Selectize.prototype, {
 	updateOption: function(value, data) {
 		var self = this;
 		var $item, $item_new;
+		var value, value_new, index_item, cache_items, cache_options;
 
-		value = String(value);
-		self.options[value] = data;
-		if (isset(self.renderCache['item'])) delete self.renderCache['item'][value];
-		if (isset(self.renderCache['option'])) delete self.renderCache['option'][value];
+		value     = hash_key(value);
+		value_new = hash_key(data[self.settings.valueField]);
 
-		if (self.items.indexOf(value) !== -1) {
+		// sanity checks
+		if (!self.options.hasOwnProperty(value)) return;
+		if (!value_new) throw new Error('Value must be set in option data');
+
+		// update references
+		if (value_new !== value) {
+			delete self.options[value];
+			index_item = self.items.indexOf(value);
+			if (index_item !== -1) {
+				self.items.splice(index_item, 1, value_new);
+			}
+		}
+		self.options[value_new] = data;
+
+		// invalidate render cache
+		cache_items = self.renderCache['item'];
+		cache_options = self.renderCache['option'];
+
+		if (isset(cache_items)) {
+			delete cache_items[value];
+			delete cache_items[value_new];
+		}
+		if (isset(cache_options)) {
+			delete cache_options[value];
+			delete cache_options[value_new];
+		}
+
+		// update the item if it's selected
+		if (self.items.indexOf(value_new) !== -1) {
 			$item = self.getItem(value);
 			$item_new = $(self.render('item', data));
 			if ($item.hasClass('active')) $item_new.addClass('active');
 			$item.replaceWith($item_new);
 		}
 
+		// update dropdown contents
 		if (self.isOpen) {
 			self.refreshOptions(false);
 		}
@@ -1153,7 +1181,7 @@ $.extend(Selectize.prototype, {
 	removeOption: function(value) {
 		var self = this;
 
-		value = String(value);
+		value = hash_key(value);
 		delete self.userOptions[value];
 		delete self.options[value];
 		self.lastQuery = null;
@@ -1183,6 +1211,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getOption: function(value) {
+		value = hash_key(value);
 		return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
 	},
 
@@ -1232,7 +1261,7 @@ $.extend(Selectize.prototype, {
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, options, value_next;
-			value = String(value);
+			value = hash_key(value);
 
 			if (inputMode === 'single') self.clear();
 			if (inputMode === 'multi' && self.isFull()) return;
@@ -1293,7 +1322,7 @@ $.extend(Selectize.prototype, {
 		var $item, i, idx;
 
 		$item = (typeof value === 'object') ? value : self.getItem(value);
-		value = String($item.attr('data-value'));
+		value = hash_key($item.attr('data-value'));
 		i = self.items.indexOf(value);
 
 		if (i !== -1) {
@@ -1347,7 +1376,7 @@ $.extend(Selectize.prototype, {
 			self.unlock();
 			self.focus(false);
 
-			var value = data && data[self.settings.valueField];
+			var value = hash_key(data && data[self.settings.valueField]);
 			if (!value) return;
 
 			self.setTextboxValue('');
@@ -1741,8 +1770,8 @@ $.extend(Selectize.prototype, {
 		var regex_tag = /^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
 		if (templateName === 'option' || templateName === 'item') {
-			value = data[self.settings.valueField];
-			cache = isset(value);
+			value = hash_key(data[self.settings.valueField]);
+			cache = !!value;
 		}
 
 		// pull markup from cache if it exists
