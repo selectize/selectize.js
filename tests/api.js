@@ -71,6 +71,36 @@
 			});
 		});
 
+		describe('createItem()', function() {
+			it('should fail if non-object returned by "create" callback', function() {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input) {
+						return false;
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+				expect(test.selectize.items.length).to.be.equal(0);
+				test.teardown();
+
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input) {
+						return 'hello';
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+				expect(test.selectize.items.length).to.be.equal(0);
+				test.teardown();
+			});
+		});
+
 		describe('addOption()', function() {
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});

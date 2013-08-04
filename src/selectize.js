@@ -1376,7 +1376,8 @@ $.extend(Selectize.prototype, {
 			self.unlock();
 			self.focus(false);
 
-			var value = hash_key(data && data[self.settings.valueField]);
+			if (!data || typeof data !== 'object') return;
+			var value = hash_key(data[self.settings.valueField]);
 			if (!value) return;
 
 			self.setTextboxValue('');
