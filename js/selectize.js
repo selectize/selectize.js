@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.10 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.11 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -1956,7 +1956,8 @@
 				self.unlock();
 				self.focus(false);
 	
-				var value = hash_key(data && data[self.settings.valueField]);
+				if (!data || typeof data !== 'object') return;
+				var value = hash_key(data[self.settings.valueField]);
 				if (!value) return;
 	
 				self.setTextboxValue('');
