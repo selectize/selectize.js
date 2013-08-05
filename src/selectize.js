@@ -184,7 +184,7 @@ $.extend(Selectize.prototype, {
 			mousedown: function(e) {
 				if (self.isFocused) {
 					// prevent events on the dropdown scrollbar from causing the control to blur
-					if (e.target === self.$dropdown[0]) {
+					if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
 						var ignoreFocus = self.ignoreFocus;
 						self.ignoreFocus = true;
 						window.setTimeout(function() {
