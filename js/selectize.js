@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.11 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.12 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -764,7 +764,7 @@
 				mousedown: function(e) {
 					if (self.isFocused) {
 						// prevent events on the dropdown scrollbar from causing the control to blur
-						if (e.target === self.$dropdown[0]) {
+						if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
 							var ignoreFocus = self.ignoreFocus;
 							self.ignoreFocus = true;
 							window.setTimeout(function() {
