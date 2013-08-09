@@ -1,4 +1,4 @@
-/*! selectize.js - v0.6.12 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/*! selectize.js - v0.6.13 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
 
 (function(factory) {
 	if (typeof exports === 'object') {
@@ -293,6 +293,17 @@
 	*/
 	var escape_regex = function(str) {
 		return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
+	};
+	
+	/**
+	* Escapes quotation marks with backslashes. Useful
+	* for escaping values for use in CSS attribute selectors.
+	*
+	* @param {string} str
+	* @return {string}
+	*/
+	var escape_quotes = function(str) {
+		return str.replace(/(['"])/g, '\\$1');
 	};
 	
 	var hook = {};
@@ -782,12 +793,12 @@
 			});
 	
 			$(window).on({
-				resize: function() {
+				'scroll resize': function() {
 					if (self.isOpen) {
 						self.positionDropdown.apply(self, arguments);
 					}
 				},
-				mousemove: function() {
+				'mousemove': function() {
 					self.ignoreHover = false;
 				}
 			});
@@ -1707,7 +1718,7 @@
 		updateOption: function(value, data) {
 			var self = this;
 			var $item, $item_new;
-			var value, value_new, index_item, cache_items, cache_options;
+			var value_new, index_item, cache_items, cache_options;
 	
 			value     = hash_key(value);
 			value_new = hash_key(data[self.settings.valueField]);
@@ -1792,7 +1803,7 @@
 		 */
 		getOption: function(value) {
 			value = hash_key(value);
-			return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+			return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + escape_quotes(value) + '"]:first') : $();
 		},
 	
 		/**
@@ -1818,15 +1829,7 @@
 		 * @returns {object}
 		 */
 		getItem: function(value) {
-			var i = this.items.indexOf(value);
-			if (i !== -1) {
-				if (i >= this.caretPos) i++;
-				var $el = $(this.$control[0].childNodes[i]);
-				if ($el.attr('data-value') === value) {
-					return $el;
-				}
-			}
-			return $();
+			return this.$control.children('[data-value="' + escape_quotes(hash_key(value)) + '"]');
 		},
 	
 		/**
@@ -1859,7 +1862,7 @@
 					// update menu / remove the option
 					$option = self.getOption(value);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
-					self.refreshOptions(inputMode !== 'single');
+					self.refreshOptions(self.isFocused && inputMode !== 'single');
 					if (value_next) {
 						self.setActiveOption(self.getOption(value_next));
 					}
