@@ -1212,7 +1212,7 @@ $.extend(Selectize.prototype, {
 	 */
 	getOption: function(value) {
 		value = hash_key(value);
-		return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + value.replace(/(['"])/g, '\\$1') + '"]:first') : $();
+		return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + escape_quotes(value) + '"]:first') : $();
 	},
 
 	/**
@@ -1238,15 +1238,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getItem: function(value) {
-		var i = this.items.indexOf(value);
-		if (i !== -1) {
-			if (i >= this.caretPos) i++;
-			var $el = $(this.$control[0].childNodes[i]);
-			if ($el.attr('data-value') === value) {
-				return $el;
-			}
-		}
-		return $();
+		return this.$control.children('[data-value="' + escape_quotes(hash_key(value)) + '"]');
 	},
 
 	/**

@@ -139,6 +139,7 @@
 						{value: 'null'},
 						{value: 'a'},
 						{value: 'b'},
+						{value: 'c'},
 						{value: '\''},
 						{value: '"'},
 						{value: '\\\''},
@@ -175,11 +176,15 @@
 				test.selectize.addItem(0);
 				expect(test.selectize.items.indexOf('0')).to.not.be.equal(-1);
 			});
+			it('should update DOM', function() {
+				test.selectize.addItem('c');
+				expect(test.selectize.$control.find('[data-value=c]').length).to.be.equal(1);
+			});
 		});
 
 		describe('updateOption()', function() {
 			before(function() {
-				test = setup_test('<select>', {
+				test = setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
 					options: [
@@ -190,6 +195,7 @@
 						{value: 'c'},
 						{value: 'd'},
 						{value: 'e'},
+						{value: 'f'},
 						{value: 'null'},
 						{value: 'undefined'},
 						{value: '\''},
@@ -197,7 +203,7 @@
 						{value: '\\\''},
 						{value: '\\"'},
 					],
-					items: ['e']
+					items: ['e','f']
 				});
 			});
 			after(function() {
@@ -234,6 +240,11 @@
 				test.selectize.updateOption(null, {value: 'null', test: 'test'});
 				expect(test.selectize.options['undefined']).to.not.have.property('test');
 				expect(test.selectize.options['null']).to.not.have.property('test');
+			});
+			it('should update DOM', function() {
+				test.selectize.updateOption('f', {value: 'f_updated'});
+				expect(test.selectize.$control.find('[data-value=f]').length).to.be.equal(0);
+				expect(test.selectize.$control.find('[data-value=f_updated]').length).to.be.equal(1);
 			});
 		});
 
@@ -289,6 +300,96 @@
 				expect(test.selectize.getOption(undefined).length).to.be.equal(0);
 			});
 		});
+
+		describe('getItem()', function() {
+			before(function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0},
+						{value: 1},
+						{value: 'a'},
+						{value: 'b'},
+						{value: '\''},
+						{value: '"'},
+						{value: '\\\''},
+						{value: '\\"'},
+					],
+					items: ['0','1','a','b','\'','"','\\\'','\\"']
+				});
+			});
+			after(function() {
+				test.teardown();
+			});
+			it('should allow string values', function() {
+				expect(test.selectize.getItem('a')).to.be.ok;
+				expect(test.selectize.getItem('a').length).to.be.equal(1);
+				expect(test.selectize.getItem('b')).to.be.ok;
+				expect(test.selectize.getItem('b').length).to.be.equal(1);
+			});
+			it('should allow integer values', function() {
+				expect(test.selectize.getItem(0)).to.be.ok;
+				expect(test.selectize.getItem(0).length).to.be.equal(1);
+				expect(test.selectize.getItem(1)).to.be.ok;
+				expect(test.selectize.getItem(1).length).to.be.equal(1);
+			});
+			it('should allow values with quotation marks', function() {
+				expect(test.selectize.getItem('\'')).to.be.ok;
+				expect(test.selectize.getItem('\'').length).to.be.equal(1);
+				expect(test.selectize.getItem('"')).to.be.ok;
+				expect(test.selectize.getItem('"').length).to.be.equal(1);
+			});
+			it('should allow values with backslashes', function() {
+				expect(test.selectize.getItem('\\\'')).to.be.ok;
+				expect(test.selectize.getItem('\\\'').length).to.be.equal(1);
+				expect(test.selectize.getItem('\\"')).to.be.ok;
+				expect(test.selectize.getItem('\\"').length).to.be.equal(1);
+			});
+			it('should not allow undefined / null values', function() {
+				expect(test.selectize.getItem(null)).to.be.ok;
+				expect(test.selectize.getItem(null).length).to.be.equal(0);
+				expect(test.selectize.getItem(undefined)).to.be.ok;
+				expect(test.selectize.getItem(undefined).length).to.be.equal(0);
+			});
+		});
+
+		describe('clear()', function() {
+			before(function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0},
+						{value: 1},
+						{value: 2},
+						{value: 3},
+					],
+					items: ['1','2','3']
+				});
+			});
+			after(function() {
+				test.teardown();
+			});
+			it('should empty "items" array', function() {
+				test.selectize.clear();
+				expect(test.selectize.items.length).to.be.equal(0);
+			});
+			it('should update DOM', function() {
+				test.selectize.clear();
+				expect(test.selectize.$control.find('[data-value=1]').length).to.be.equal(0);
+				expect(test.selectize.$control.find('[data-value=2]').length).to.be.equal(0);
+				expect(test.selectize.$control.find('[data-value=3]').length).to.be.equal(0);
+			});
+			it('should not give control focus', function(done) {
+				test.selectize.clear();
+				window.setTimeout(function() {
+					expect(test.selectize.isFocused).to.be.equal(false);
+					done();
+				}, 0);
+			});
+		});
+
 	});
 
 })();

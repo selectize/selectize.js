@@ -54,6 +54,17 @@ var escape_regex = function(str) {
 	return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
 
+/**
+ * Escapes quotation marks with backslashes. Useful
+ * for escaping values for use in CSS attribute selectors.
+ *
+ * @param {string} str
+ * @return {string}
+ */
+var escape_quotes = function(str) {
+	return str.replace(/(['"])/g, '\\$1');
+};
+
 var hook = {};
 
 /**
