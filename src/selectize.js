@@ -202,12 +202,12 @@ $.extend(Selectize.prototype, {
 		});
 
 		$(window).on({
-			resize: function() {
+			'scroll resize': function() {
 				if (self.isOpen) {
 					self.positionDropdown.apply(self, arguments);
 				}
 			},
-			mousemove: function() {
+			'mousemove': function() {
 				self.ignoreHover = false;
 			}
 		});
