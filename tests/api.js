@@ -153,6 +153,13 @@
 				test.selectize.addItem('b');
 				expect(test.selectize.items.indexOf('b')).to.be.equal(0);
 			});
+			it('should not give control focus', function(done) {
+				test.selectize.addItem(0);
+				window.setTimeout(function() {
+					expect(test.selectize.isFocused).to.be.equal(false);
+					done();
+				}, 0);
+			});
 			it('should not allow duplicate entries', function() {
 				test.selectize.addItem('a');
 				test.selectize.addItem('a');

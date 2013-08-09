@@ -42,7 +42,6 @@
 
 		});
 
-
 		describe('clicking option', function() {
 
 			it('should select it', function(done) {

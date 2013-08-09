@@ -1127,7 +1127,7 @@ $.extend(Selectize.prototype, {
 	updateOption: function(value, data) {
 		var self = this;
 		var $item, $item_new;
-		var value, value_new, index_item, cache_items, cache_options;
+		var value_new, index_item, cache_items, cache_options;
 
 		value     = hash_key(value);
 		value_new = hash_key(data[self.settings.valueField]);
@@ -1279,7 +1279,7 @@ $.extend(Selectize.prototype, {
 				// update menu / remove the option
 				$option = self.getOption(value);
 				value_next = self.getAdjacentOption($option, 1).attr('data-value');
-				self.refreshOptions(inputMode !== 'single');
+				self.refreshOptions(self.isFocused && inputMode !== 'single');
 				if (value_next) {
 					self.setActiveOption(self.getOption(value_next));
 				}
