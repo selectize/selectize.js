@@ -1,10 +1,18 @@
-/*! selectize.css - v0.6.13 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
-
-/* --- file: "src/selectize.css" --- */
-
-/**********************************************************
-* THEME: "default"                                       *
-**********************************************************/
+/**
+ * selectize.css (v0.6.13)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
 
 .selectize-control.default.multi .selectize-input > div {
 	color: #3d5d18;
@@ -43,8 +51,8 @@
 }
 
 /**********************************************************
-* BASIC AESTHETIC STYLES (common)                        *
-**********************************************************/
+ * BASIC AESTHETIC STYLES (common)                        *
+ **********************************************************/
 
 .selectize-input, .selectize-control.single .selectize-input.focus {
 	background: #fff;
@@ -153,8 +161,8 @@
 }
 
 /**********************************************************
-* BASIC AESTHETIC STYLES (single)                        *
-**********************************************************/
+ * BASIC AESTHETIC STYLES (single)                        *
+ **********************************************************/
 
 .selectize-control.single .selectize-input {
 	cursor: pointer;
@@ -197,16 +205,16 @@
 }
 
 /**********************************************************
-* BASIC AESTHETIC STYLES (multi)                         *
-**********************************************************/
+ * BASIC AESTHETIC STYLES (multi)                         *
+ **********************************************************/
 
 .selectize-control.multi .selectize-input.disabled {
 	background-color: #fafafa;
 }
 
 /**********************************************************
-* LAYOUT STYLES (mandatory)                              *
-**********************************************************/
+ * LAYOUT STYLES (mandatory)                              *
+ **********************************************************/
 
 .selectize-control {
 	position: relative;
@@ -261,8 +269,6 @@
 	box-sizing: border-box;
 }
 
-/* --- file: "src/plugins/drag_drop/plugin.css" --- */
-
 .selectize-control.plugin-drag_drop.multi > .selectize-input > div.ui-sortable-placeholder {
 	visibility: visible !important;
 	background: #f2f2f2 !important;
@@ -282,8 +288,6 @@
 	box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
 }
 
-/* --- file: "src/plugins/dropdown_header/plugin.css" --- */
-
 .selectize-dropdown-header {
 	padding: 6px 9px;
 	-moz-border-radius: 3px 3px 0 0;
@@ -299,8 +303,6 @@
 	color: #aaa;
 }
 
-/* --- file: "src/plugins/optgroup_columns/plugin.css" --- */
-
 .selectize-control.plugin-optgroup_columns .optgroup {
 	border-right: 1px solid #f2f2f2;
 	float: left;
@@ -314,8 +316,6 @@
 .selectize-control.plugin-optgroup_columns .optgroup-header {
 	border-top: 0 none;
 }
-
-/* --- file: "src/plugins/remove_button/plugin.css" --- */
 
 .selectize-control.plugin-remove_button .item {
 	position: relative;

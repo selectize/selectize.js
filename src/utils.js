@@ -309,7 +309,7 @@ var autoGrow = function($input) {
 				(keyCode >= 97 && keyCode <= 122) || // a-z
 				(keyCode >= 65 && keyCode <= 90)  || // A-Z
 				(keyCode >= 48 && keyCode <= 57)  || // 0-9
-				keyCode == 32 // space
+				keyCode === 32 // space
 			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {

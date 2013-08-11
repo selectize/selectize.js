@@ -11,7 +11,7 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Features
 
-- **Smart Option Ranking**<br>As the user types, options are efficiently scored and sorted on-the-fly.
+- **Smart Option Ranking**<br>As the user types, options are efficiently scored and sorted on-the-fly (powered by [sifter.js](https://github.com/brianreavis/sifter.js)).
 - **Multi-property searching**<br>Want to search an item's title *and* description? No problem.
 - **Caret between items**<br>Order matters sometimes. Use the [left] and [right] arrow keys to move between selected items.</li>
 - **Select &amp; delete multiple items at once**<br>Hold down [option] on Mac or [ctrl] on Windows to select more than one item to delete.
@@ -25,8 +25,8 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 ### Usage
 
 If using [Bower](http://bower.io/), run `bower install selectize`. Otherwise,
-grab ["selectize.min.js"](selectize.min.js) (or ["selectize.js"](selectize.js)
-if in a development environment) and ["selectize.css"](selectize.css) and include them in your project.
+grab ["selectize.min.js"](dist/standalone/selectize.min.js) (or ["selectize.js"](dist/standalone/selectize.js)
+if in a development environment) and ["selectize.css"](dist/standalone/selectize.css) and include them in your project.
 
 ```js
 $('select').selectize(options);
@@ -44,21 +44,24 @@ To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim
 
 ### Custom Builds
 
-By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run `make` with the "plugins" setting. After this completes, grab the js and css from the project root as described above.
+By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the js and css from the ["dist/standalone"](dist/standalone) folder.
 
 ```sh
-make plugins=
-make plugins=*
-make plugins=remove_button,restore_on_backspace
+npm install -g grunt-cli
+npm install
+
+grunt --plugins=
+grunt --plugins=*
+grunt --plugins=remove_button,restore_on_backspace
 ```
 
 ### Contributing
 
-First build your copy with `make` then try out the [bundled examples](examples/).
+First build your copy then try out the [bundled examples](examples/).
 
 To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. The latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
 
-When issuing a pull request, please exclude "selectize.js" and "selectize.min.js" in the project root.
+When issuing a pull request, please exclude changes in the "dist" folder.
 
 ## License
 

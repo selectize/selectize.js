@@ -3,28 +3,18 @@
 	"keywords": ["select", "ui", "form", "input", "control", "autocomplete", "tagging", "tag"],
 	"description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
 	"version": "0.6.13",
-	"license": "Apache License, Version 2.0",
-	"readmeFilename": "README.md",
+	"author": "Brian Reavis <brian@thirdroute.com>",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/brianreavis/selectize.js.git"
 	},
-	"main": [
-		"dist/selectize.css",
-		"dist/selectize.js"
-	],
-	"ignore": [
-		"Makefile",
-		"examples",
-		"node_modules",
-		"bower_components",
-		"docs",
-		"src",
-		"test",
-		"*.sh"
-	],
-	"dependencies": {
-		"jquery": "*",
-		"sifter": "0.0.x"
-	}
+	"dependencies": {},
+	"devDependencies": {
+		"grunt": "0.4.x",
+		"grunt-bower-task": "0.3.x",
+		"grunt-replace": "0.4.x",
+		"grunt-contrib-concat": "0.3.x",
+		"grunt-contrib-uglify": "0.2.x"
+	},
+	"engines": {"node": "*"}
 }

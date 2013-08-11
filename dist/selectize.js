@@ -1,26 +1,33 @@
-/*! selectize.js - v0.6.13 | https://github.com/brianreavis/selectize.js | Apache License (v2) */
+/**
+ * selectize.js (v0.6.13)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
 
-(function(factory) {
+/*jshint curly:false */
+/*jshint browser:true */
+
+(function(root, factory) {
 	if (typeof exports === 'object') {
-		factory(require('jquery'));
+		module.exports = factory();
 	} else if (typeof define === 'function' && define.amd) {
-		define(['jquery'], factory);
+		define(factory);
 	} else {
-		factory(jQuery);
+		root.Selectize = factory();
 	}
-}(function ($) {
-	"use strict";	
-	
-	/* --- file: "src/contrib/highlight.js" --- */
-	
-	/**
-	* highlight v3 | MIT license | Johann Burkard <jb@eaio.com>
-	* Highlights arbitrary terms in a node.
-	*
-	* - Modified by Marshal <beatgates@gmail.com> 2011-6-24 (added regex)
-	* - Modified by Brian Reavis <brian@thirdroute.com> 2012-8-27 (cleanup)
-	*/
-	
+}(this, function() {
+	"use strict";
+
 	var highlight = function($element, pattern) {
 		if (typeof pattern === 'string' && !pattern.length) return;
 		var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
@@ -61,18 +68,6 @@
 		}).end();
 	};
 	
-	/* --- file: "src/contrib/microevent.js" --- */
-	
-	/**
-	* MicroEvent - to make any js object an event emitter
-	*
-	* - pure javascript - server compatible, browser compatible
-	* - dont rely on the browser doms
-	* - super simple - you get it immediatly, no mistery, no magic involved
-	*
-	* @author Jerome Etienne (https://github.com/jeromeetienne)
-	*/
-	
 	var MicroEvent = function() {};
 	MicroEvent.prototype = {
 		on: function(event, fct){
@@ -95,36 +90,18 @@
 	};
 	
 	/**
-	* Mixin will delegate all MicroEvent.js function in the destination object.
-	*
-	* - MicroEvent.mixin(Foobar) will make Foobar able to use MicroEvent
-	*
-	* @param {object} the object which will support MicroEvent
-	*/
+	 * Mixin will delegate all MicroEvent.js function in the destination object.
+	 *
+	 * - MicroEvent.mixin(Foobar) will make Foobar able to use MicroEvent
+	 *
+	 * @param {object} the object which will support MicroEvent
+	 */
 	MicroEvent.mixin = function(destObject){
 		var props = ['on', 'off', 'trigger'];
 		for (var i = 0; i < props.length; i++){
 			destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
 		}
 	};
-	
-	/* --- file: "src/constants.js" --- */
-	
-	/**
-	* selectize - A highly customizable select control with autocomplete.
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	var IS_MAC        = /Mac/.test(navigator.userAgent);
 	
@@ -158,8 +135,6 @@
 		'y': '[yŸÿý]',
 		'z': '[zŽž]'
 	};
-	
-	/* --- file: "src/plugins.js" --- */
 	
 	var Plugins = {};
 	
@@ -237,34 +212,26 @@
 		};
 	};
 	
-	/* --- file: "src/utils.js" --- */
-	
-	/**
-	* Determines if the provided value has been defined.
-	*
-	* @param {mixed} object
-	* @returns {boolean}
-	*/
 	var isset = function(object) {
 		return typeof object !== 'undefined';
 	};
 	
 	/**
-	* Converts a scalar to its best string representation
-	* for hash keys and HTML attribute values.
-	*
-	* Transformations:
-	*   'str'     -> 'str'
-	*   null      -> ''
-	*   undefined -> ''
-	*   true      -> '1'
-	*   false     -> '0'
-	*   0         -> '0'
-	*   1         -> '1'
-	*
-	* @param {string} value
-	* @returns {string}
-	*/
+	 * Converts a scalar to its best string representation
+	 * for hash keys and HTML attribute values.
+	 *
+	 * Transformations:
+	 *   'str'     -> 'str'
+	 *   null      -> ''
+	 *   undefined -> ''
+	 *   true      -> '1'
+	 *   false     -> '0'
+	 *   0         -> '0'
+	 *   1         -> '1'
+	 *
+	 * @param {string} value
+	 * @returns {string}
+	 */
 	var hash_key = function(value) {
 		if (typeof value === 'undefined' || value === null) return '';
 		if (typeof value === 'boolean') return value ? '1' : '0';
@@ -272,11 +239,11 @@
 	};
 	
 	/**
-	* Escapes a string for use within HTML.
-	*
-	* @param {string} str
-	* @returns {string}
-	*/
+	 * Escapes a string for use within HTML.
+	 *
+	 * @param {string} str
+	 * @returns {string}
+	 */
 	var escape_html = function(str) {
 		return (str + '')
 			.replace(/&/g, '&amp;')
@@ -286,22 +253,22 @@
 	};
 	
 	/**
-	* Escapes a string for use within regular expressions.
-	*
-	* @param {string} str
-	* @returns {string}
-	*/
+	 * Escapes a string for use within regular expressions.
+	 *
+	 * @param {string} str
+	 * @returns {string}
+	 */
 	var escape_regex = function(str) {
 		return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 	};
 	
 	/**
-	* Escapes quotation marks with backslashes. Useful
-	* for escaping values for use in CSS attribute selectors.
-	*
-	* @param {string} str
-	* @return {string}
-	*/
+	 * Escapes quotation marks with backslashes. Useful
+	 * for escaping values for use in CSS attribute selectors.
+	 *
+	 * @param {string} str
+	 * @return {string}
+	 */
 	var escape_quotes = function(str) {
 		return str.replace(/(['"])/g, '\\$1');
 	};
@@ -309,13 +276,13 @@
 	var hook = {};
 	
 	/**
-	* Wraps `method` on `self` so that `fn`
-	* is invoked before the original method.
-	*
-	* @param {object} self
-	* @param {string} method
-	* @param {function} fn
-	*/
+	 * Wraps `method` on `self` so that `fn`
+	 * is invoked before the original method.
+	 *
+	 * @param {object} self
+	 * @param {string} method
+	 * @param {function} fn
+	 */
 	hook.before = function(self, method, fn) {
 		var original = self[method];
 		self[method] = function() {
@@ -325,13 +292,13 @@
 	};
 	
 	/**
-	* Wraps `method` on `self` so that `fn`
-	* is invoked after the original method.
-	*
-	* @param {object} self
-	* @param {string} method
-	* @param {function} fn
-	*/
+	 * Wraps `method` on `self` so that `fn`
+	 * is invoked after the original method.
+	 *
+	 * @param {object} self
+	 * @param {string} method
+	 * @param {function} fn
+	 */
 	hook.after = function(self, method, fn) {
 		var original = self[method];
 		self[method] = function() {
@@ -342,13 +309,13 @@
 	};
 	
 	/**
-	* Builds a hash table out of an array of
-	* objects, using the specified `key` within
-	* each object.
-	*
-	* @param {string} key
-	* @param {mixed} objects
-	*/
+	 * Builds a hash table out of an array of
+	 * objects, using the specified `key` within
+	 * each object.
+	 *
+	 * @param {string} key
+	 * @param {mixed} objects
+	 */
 	var build_hash_table = function(key, objects) {
 		if (!$.isArray(objects)) return objects;
 		var i, n, table = {};
@@ -361,11 +328,11 @@
 	};
 	
 	/**
-	* Wraps `fn` so that it can only be invoked once.
-	*
-	* @param {function} fn
-	* @returns {function}
-	*/
+	 * Wraps `fn` so that it can only be invoked once.
+	 *
+	 * @param {function} fn
+	 * @returns {function}
+	 */
 	var once = function(fn) {
 		var called = false;
 		return function() {
@@ -376,13 +343,13 @@
 	};
 	
 	/**
-	* Wraps `fn` so that it can only be called once
-	* every `delay` milliseconds (invoked on the falling edge).
-	*
-	* @param {function} fn
-	* @param {int} delay
-	* @returns {function}
-	*/
+	 * Wraps `fn` so that it can only be called once
+	 * every `delay` milliseconds (invoked on the falling edge).
+	 *
+	 * @param {function} fn
+	 * @param {int} delay
+	 * @returns {function}
+	 */
 	var debounce = function(fn, delay) {
 		var timeout;
 		return function() {
@@ -396,13 +363,13 @@
 	};
 	
 	/**
-	* Debounce all fired events types listed in `types`
-	* while executing the provided `fn`.
-	*
-	* @param {object} self
-	* @param {array} types
-	* @param {function} fn
-	*/
+	 * Debounce all fired events types listed in `types`
+	 * while executing the provided `fn`.
+	 *
+	 * @param {object} self
+	 * @param {array} types
+	 * @param {function} fn
+	 */
 	var debounce_events = function(self, types, fn) {
 		var type;
 		var trigger = self.trigger;
@@ -431,13 +398,13 @@
 	};
 	
 	/**
-	* A workaround for http://bugs.jquery.com/ticket/6696
-	*
-	* @param {object} $parent - Parent element to listen on.
-	* @param {string} event - Event name.
-	* @param {string} selector - Descendant selector to filter by.
-	* @param {function} fn - Event handler.
-	*/
+	 * A workaround for http://bugs.jquery.com/ticket/6696
+	 *
+	 * @param {object} $parent - Parent element to listen on.
+	 * @param {string} event - Event name.
+	 * @param {string} selector - Descendant selector to filter by.
+	 * @param {function} fn - Event handler.
+	 */
 	var watchChildEvent = function($parent, event, selector, fn) {
 		$parent.on(event, selector, function(e) {
 			var child = e.target;
@@ -450,14 +417,14 @@
 	};
 	
 	/**
-	* Determines the current selection within a text input control.
-	* Returns an object containing:
-	*   - start
-	*   - length
-	*
-	* @param {object} input
-	* @returns {object}
-	*/
+	 * Determines the current selection within a text input control.
+	 * Returns an object containing:
+	 *   - start
+	 *   - length
+	 *
+	 * @param {object} input
+	 * @returns {object}
+	 */
 	var getSelection = function(input) {
 		var result = {};
 		if ('selectionStart' in input) {
@@ -475,12 +442,12 @@
 	};
 	
 	/**
-	* Copies CSS properties from one element to another.
-	*
-	* @param {object} $from
-	* @param {object} $to
-	* @param {array} properties
-	*/
+	 * Copies CSS properties from one element to another.
+	 *
+	 * @param {object} $from
+	 * @param {object} $to
+	 * @param {array} properties
+	 */
 	var transferStyles = function($from, $to, properties) {
 		var i, n, styles = {};
 		if (properties) {
@@ -494,13 +461,13 @@
 	};
 	
 	/**
-	* Measures the width of a string within a
-	* parent element (in pixels).
-	*
-	* @param {string} str
-	* @param {object} $parent
-	* @returns {int}
-	*/
+	 * Measures the width of a string within a
+	 * parent element (in pixels).
+	 *
+	 * @param {string} str
+	 * @param {object} $parent
+	 * @returns {int}
+	 */
 	var measureString = function(str, $parent) {
 		var $test = $('<test>').css({
 			position: 'absolute',
@@ -526,14 +493,14 @@
 	};
 	
 	/**
-	* Sets up an input to grow horizontally as the user
-	* types. If the value is changed manually, you can
-	* trigger the "update" handler to resize:
-	*
-	* $input.trigger('update');
-	*
-	* @param {object} $input
-	*/
+	 * Sets up an input to grow horizontally as the user
+	 * types. If the value is changed manually, you can
+	 * trigger the "update" handler to resize:
+	 *
+	 * $input.trigger('update');
+	 *
+	 * @param {object} $input
+	 */
 	var autoGrow = function($input) {
 		var update = function(e) {
 			var value, keyCode, printable, placeholder, width;
@@ -550,7 +517,7 @@
 					(keyCode >= 97 && keyCode <= 122) || // a-z
 					(keyCode >= 65 && keyCode <= 90)  || // A-Z
 					(keyCode >= 48 && keyCode <= 57)  || // 0-9
-					keyCode == 32 // space
+					keyCode === 32 // space
 				);
 	
 				if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
@@ -586,24 +553,6 @@
 		$input.on('keydown keyup update blur', update);
 		update();
 	};
-	
-	/* --- file: "src/selectize.js" --- */
-	
-	/**
-	* selectize.js
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	var Selectize = function($input, settings) {
 		var key, i, n, self = this;
@@ -2351,7 +2300,7 @@
 			var html = '';
 			var cache = false;
 			var self = this;
-			var regex_tag = /^[\	 ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
+			var regex_tag = /^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 	
 			if (templateName === 'option' || templateName === 'item') {
 				value = hash_key(data[self.settings.valueField]);
@@ -2479,8 +2428,6 @@
 		}
 	};
 	
-	/* --- file: "src/selectize.jquery.js" --- */
-	
 	$.fn.selectize = function(settings) {
 		settings = settings || {};
 	
@@ -2595,24 +2542,6 @@
 	
 	$.fn.selectize.defaults = Selectize.defaults;
 	
-	/* --- file: "src/plugins/drag_drop/plugin.js" --- */
-	
-	/**
-	* Plugin: "drag_drop" (selectize.js)
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
-	
 	Selectize.registerPlugin('drag_drop', function(options) {
 		if (!$.fn.sortable) throw new Error('The "drag_drop" Selectize plugin requires jQuery UI "sortable".');
 		if (this.settings.mode !== 'multi') return;
@@ -2646,24 +2575,6 @@
 	
 	});
 	
-	/* --- file: "src/plugins/dropdown_header/plugin.js" --- */
-	
-	/**
-	* Plugin: "dropdown_header" (selectize.js)
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
-	
 	Selectize.registerPlugin('dropdown_header', function(options) {
 		var self = this;
 	
@@ -2696,24 +2607,6 @@
 		})();
 	
 	});
-	
-	/* --- file: "src/plugins/optgroup_columns/plugin.js" --- */
-	
-	/**
-	* Plugin: "optgroup_columns" (selectize.js)
-	* Copyright (c) 2013 Simon Hewitt & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Simon Hewitt <si@sjhewitt.co.uk>
-	*/
 	
 	Selectize.registerPlugin('optgroup_columns', function(options) {
 		var self = this;
@@ -2792,23 +2685,6 @@
 	
 	});
 	
-	/* --- file: "src/plugins/remove_button/plugin.js" --- */
-	
-	/**
-	* Plugin: "remove_button" (selectize.js)
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	Selectize.registerPlugin('remove_button', function(options) {
 		var self = this;
@@ -2837,24 +2713,6 @@
 		})();
 	
 	});
-	
-	/* --- file: "src/plugins/restore_on_backspace/plugin.js" --- */
-	
-	/**
-	* Plugin: "restore_on_backspace" (selectize.js)
-	* Copyright (c) 2013 Brian Reavis & contributors
-	*
-	* Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
-	* file except in compliance with the License. You may obtain a copy of the License at:
-	* http://www.apache.org/licenses/LICENSE-2.0
-	*
-	* Unless required by applicable law or agreed to in writing, software distributed under
-	* the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
-	* ANY KIND, either express or implied. See the License for the specific language
-	* governing permissions and limitations under the License.
-	*
-	* @author Brian Reavis <brian@thirdroute.com>
-	*/
 	
 	Selectize.registerPlugin('restore_on_backspace', function(options) {
 		var self = this;
@@ -2885,5 +2743,4 @@
 	});
 
 	return Selectize;
-
 }));
