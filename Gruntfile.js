@@ -3,7 +3,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-replace');
-	grunt.registerTask('default', ['bower:install', 'concat', 'replace', 'uglify']);
+	grunt.registerTask('default', [
+		'bower:install',
+		'concat:js',
+		'concat:css',
+		'replace',
+		'concat:js_standalone',
+		'uglify'
+	]);
 
 	var plugins = (grunt.option('plugins') || '*').split(/\s*,\s*/).join(',');
 	if (plugins !== '*') plugins = '{' + plugins + '}';
@@ -18,16 +25,8 @@ module.exports = function(grunt) {
 		'src/plugins/' + plugins + '/*.js'
 	];
 
-	var files_js_standalone = [
-		'src/contrib/*.js',
-		'src/*.js',
-		'!src/selectize.js',
-		'!src/selectize.jquery.js',
-		'src/selectize.js',
-		'src/selectize.jquery.js',
-		//'bower_components/*/*.js',
-		//'!bower_components/jquery/*.js',
-		'src/plugins/' + plugins + '/*.js'
+	var files_js_dependencies = [
+		'bower_components/sifter/sifter.js'
 	];
 
 	var files_css = [
@@ -37,18 +36,6 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('bower.json'),
-		umd: {
-			main: {
-				objectToExport: 'Selectize',
-				src: 'dist/selectize.js',
-				dest: 'dist/selectize.js'
-			},
-			standalone: {
-				objectToExport: 'Selectize',
-				src: 'dist/standalone/selectize.js',
-				dest: 'dist/standalone/selectize.js'
-			}
-		},
 		bower: {
 			install: {
 				options: {
@@ -69,19 +56,7 @@ module.exports = function(grunt) {
 				},
 				files: [
 					{src: ['templates/wrapper.js'], dest: 'dist/selectize.js'},
-					{src: ['templates/wrapper.css'], dest: 'dist/selectize.css'}
-				]
-			},
-			standalone: {
-				options: {
-					variables: {
-						'version': '<%= pkg.version %>',
-						'js': '<%= grunt.file.read("dist/standalone/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-						'css': '<%= grunt.file.read("dist/standalone/selectize.css") %>',
-					},
-				},
-				files: [
-					{src: ['templates/wrapper.js'], dest: 'dist/standalone/selectize.js'},
+					{src: ['templates/wrapper.css'], dest: 'dist/selectize.css'},
 					{src: ['templates/wrapper.css'], dest: 'dist/standalone/selectize.css'}
 				]
 			}
@@ -94,7 +69,21 @@ module.exports = function(grunt) {
 			js: {
 				files: {
 					'dist/selectize.js': files_js,
-					'dist/standalone/selectize.js': files_js_standalone
+				}
+			},
+			js_standalone: {
+				options: {
+					stripBanners: false
+				},
+				files: {
+					'dist/standalone/selectize.js': (function() {
+						var files = [];
+						for (var i = 0, n = files_js_dependencies.length; i < n; i++) {
+							files.push(files_js_dependencies[i]);
+						}
+						files.push('dist/selectize.js');
+						return files;
+					})()
 				}
 			},
 			css: {

@@ -18,15 +18,13 @@
 /*jshint browser:true */
 
 (function(root, factory) {
-	if (typeof exports === 'object') {
-		module.exports = factory();
-	} else if (typeof define === 'function' && define.amd) {
-		define(factory);
+	if (typeof define === 'function' && define.amd) {
+		define(['sifter'], factory);
 	} else {
-		root.Selectize = factory();
+		root.Selectize = factory(root.Sifter);
 	}
-}(this, function() {
-	"use strict";
+}(this, function(Sifter) {
+	'use strict';
 
 	@@js
 

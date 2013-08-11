@@ -18,15 +18,13 @@
 /*jshint browser:true */
 
 (function(root, factory) {
-	if (typeof exports === 'object') {
-		module.exports = factory();
-	} else if (typeof define === 'function' && define.amd) {
-		define(factory);
+	if (typeof define === 'function' && define.amd) {
+		define(['sifter'], factory);
 	} else {
-		root.Selectize = factory();
+		root.Selectize = factory(root.Sifter);
 	}
-}(this, function() {
-	"use strict";
+}(this, function(Sifter) {
+	'use strict';
 
 	var highlight = function($element, pattern) {
 		if (typeof pattern === 'string' && !pattern.length) return;
@@ -122,19 +120,6 @@
 	
 	var TAG_SELECT    = 1;
 	var TAG_INPUT     = 2;
-	
-	var DIACRITICS = {
-		'a': '[aÀÁÂÃÄÅàáâãäå]',
-		'c': '[cÇç]',
-		'e': '[eÈÉÊËèéêë]',
-		'i': '[iÌÍÎÏìíîï]',
-		'n': '[nÑñ]',
-		'o': '[oÒÓÔÕÕÖØòóôõöø]',
-		's': '[sŠš]',
-		'u': '[uÙÚÛÜùúûü]',
-		'y': '[yŸÿý]',
-		'z': '[zŽž]'
-	};
 	
 	var Plugins = {};
 	
@@ -594,6 +579,9 @@
 			renderCache      : {},
 			onSearchChange   : debounce(self.onSearchChange, settings.loadThrottle)
 		});
+	
+		// search system
+		self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 	
 		// build options table
 		$.extend(self.options, build_hash_table(settings.valueField, settings.options));
@@ -1272,123 +1260,8 @@
 		},
 	
 		/**
-		 * Splits a search string into an array of
-		 * individual regexps to be used to match results.
-		 *
-		 * @param {string} query
-		 * @returns {array}
-		 */
-		parseSearchTokens: function(query) {
-			query = $.trim(String(query || '').toLowerCase());
-			if (!query || !query.length) return [];
-	
-			var i, n, regex, letter;
-			var tokens = [];
-			var words = query.split(/ +/);
-	
-			for (i = 0, n = words.length; i < n; i++) {
-				regex = escape_regex(words[i]);
-				if (this.settings.diacritics) {
-					for (letter in DIACRITICS) {
-						if (DIACRITICS.hasOwnProperty(letter)) {
-							regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
-						}
-					}
-				}
-				tokens.push({
-					string : words[i],
-					regex  : new RegExp(regex, 'i')
-				});
-			}
-	
-			return tokens;
-		},
-	
-		/**
-		 * Returns a function to be used to score individual results.
-		 * Results will be sorted by the score (descending). Scores less
-		 * than or equal to zero (no match) will not be included in the results.
-		 *
-		 * @param {object} data
-		 * @param {object} search
-		 * @returns {function}
-		 */
-		getScoreFunction: function(search) {
-			var self = this;
-			var tokens = search.tokens;
-	
-			var calculateFieldScore = (function() {
-				if (!tokens.length) {
-					return function() { return 0; };
-				} else if (tokens.length === 1) {
-					return function(value) {
-						var score, pos;
-	
-						value = String(value || '').toLowerCase();
-						pos = value.search(tokens[0].regex);
-						if (pos === -1) return 0;
-						score = tokens[0].string.length / value.length;
-						if (pos === 0) score += 0.5;
-						return score;
-					};
-				} else {
-					return function(value) {
-						var score, pos, i, j;
-	
-						value = String(value || '').toLowerCase();
-						score = 0;
-						for (i = 0, j = tokens.length; i < j; i++) {
-							pos = value.search(tokens[i].regex);
-							if (pos === -1) return 0;
-							if (pos === 0) score += 0.5;
-							score += tokens[i].string.length / value.length;
-						}
-						return score / tokens.length;
-					};
-				}
-			})();
-	
-			var calculateScore = (function() {
-				var fields = self.settings.searchField;
-				if (typeof fields === 'string') {
-					fields = [fields];
-				}
-				if (!fields || !fields.length) {
-					return function() { return 0; };
-				} else if (fields.length === 1) {
-					var field = fields[0];
-					return function(data) {
-						if (!data.hasOwnProperty(field)) return 0;
-						return calculateFieldScore(data[field]);
-					};
-				} else {
-					return function(data) {
-						var n = 0;
-						var score = 0;
-						for (var i = 0, j = fields.length; i < j; i++) {
-							if (data.hasOwnProperty(fields[i])) {
-								score += calculateFieldScore(data[fields[i]]);
-								n++;
-							}
-						}
-						return score / n;
-					};
-				}
-			})();
-	
-			return calculateScore;
-		},
-	
-		/**
 		 * Searches through available options and returns
-		 * a sorted array of matches. Includes options that
-		 * have already been selected.
-		 *
-		 * The `settings` parameter can contain:
-		 *
-		 *   - searchField
-		 *   - sortField
-		 *   - sortDirection
+		 * a sorted array of matches.
 		 *
 		 * Returns an object containing:
 		 *
@@ -1398,107 +1271,45 @@
 		 *   - items {array}
 		 *
 		 * @param {string} query
-		 * @param {object} settings
 		 * @returns {object}
 		 */
-		search: function(query, settings) {
+		search: function(query) {
 			var self = this;
-			var value, score, search, calculateScore;
+			var settings = self.settings;
+			var i, value, score, result, calculateScore;
 	
-			settings = settings || {};
-			query = $.trim(String(query || '').toLowerCase());
+			// validate user-provided result scoring function
+			if (self.settings.score) {
+				calculateScore = self.settings.score.apply(this, [search]);
+				if (typeof calculateScore !== 'function') {
+					throw new Error('Selectize "score" setting must be a function that returns a function');
+				}
+			}
 	
+			// perform search
 			if (query !== self.lastQuery) {
 				self.lastQuery = query;
-	
-				search = {
-					query  : query,
-					tokens : self.parseSearchTokens(query),
-					total  : 0,
-					items  : []
-				};
-	
-				// generate result scoring function
-				if (self.settings.score) {
-					calculateScore = self.settings.score.apply(this, [search]);
-					if (typeof calculateScore !== 'function') {
-						throw new Error('Selectize "score" setting must be a function that returns a function');
-					}
-				} else {
-					calculateScore = self.getScoreFunction(search);
-				}
-	
-				// perform search and sort
-				if (query.length) {
-					for (value in self.options) {
-						if (self.options.hasOwnProperty(value)) {
-							score = calculateScore(self.options[value]);
-							if (score > 0) {
-								search.items.push({
-									score: score,
-									value: value
-								});
-							}
-						}
-					}
-					search.items.sort(function(a, b) {
-						return b.score - a.score;
-					});
-				} else {
-					for (value in self.options) {
-						if (self.options.hasOwnProperty(value)) {
-							search.items.push({
-								score: 1,
-								value: value
-							});
-						}
-					}
-					if (self.settings.sortField) {
-						search.items.sort((function() {
-							var field = self.settings.sortField;
-							var multiplier = self.settings.sortDirection === 'desc' ? -1 : 1;
-							return function(a, b) {
-								a = a && String(self.options[a.value][field] || '').toLowerCase();
-								b = b && String(self.options[b.value][field] || '').toLowerCase();
-								if (a > b) return 1 * multiplier;
-								if (b > a) return -1 * multiplier;
-								return 0;
-							};
-						})());
-					}
-				}
-				self.currentResults = search;
+				result = self.sifter.search(query, {
+					score     : settings.score,
+					fields    : settings.searchField,
+					sort      : settings.sortField,
+					direction : settings.sortDirection,
+				});
+				self.currentResults = result;
 			} else {
-				search = $.extend(true, {}, self.currentResults);
+				result = $.extend(true, {}, self.currentResults);
 			}
 	
-			// apply limits and return
-			return self.prepareResults(search, settings);
-		},
-	
-		/**
-		 * Filters out any items that have already been selected
-		 * and applies search limits.
-		 *
-		 * @param {object} results
-		 * @param {object} settings
-		 * @returns {object}
-		 */
-		prepareResults: function(search, settings) {
-			if (this.settings.hideSelected) {
-				for (var i = search.items.length - 1; i >= 0; i--) {
-					if (this.items.indexOf(String(search.items[i].value)) !== -1) {
-						search.items.splice(i, 1);
+			// filter out selected items
+			if (settings.hideSelected) {
+				for (i = result.items.length - 1; i >= 0; i--) {
+					if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
+						result.items.splice(i, 1);
 					}
 				}
 			}
 	
-			search.total = search.items.length;
-			if (typeof settings.limit === 'number') {
-				search.items = search.items.slice(0, settings.limit);
-			}
-	
-			return search;
+			return result;
 		},
 	
 		/**
@@ -1516,7 +1327,7 @@
 			var i, n, groups, groups_order, option, optgroup, html, html_children;
 			var hasCreateOption;
 			var query = self.$control_input.val();
-			var results = self.search(query, {});
+			var results = self.search(query);
 			var $active, $create;
 			var $dropdown_content = self.$dropdown_content;
 	
@@ -1539,7 +1350,7 @@
 			}
 	
 			for (i = 0; i < n; i++) {
-				option = self.options[results.items[i].value];
+				option = self.options[results.items[i].id];
 				optgroup = option[self.settings.optgroupField] || '';
 				if (!self.optgroups.hasOwnProperty(optgroup)) {
 					optgroup = '';
