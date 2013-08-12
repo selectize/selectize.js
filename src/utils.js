@@ -45,16 +45,6 @@ var escape_html = function(str) {
 };
 
 /**
- * Escapes a string for use within regular expressions.
- *
- * @param {string} str
- * @returns {string}
- */
-var escape_regex = function(str) {
-	return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
-};
-
-/**
  * Escapes quotation marks with backslashes. Useful
  * for escaping values for use in CSS attribute selectors.
  *

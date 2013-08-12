@@ -12,17 +12,13 @@ module.exports = function(grunt) {
 		'uglify'
 	]);
 
-	var plugins = (grunt.option('plugins') || '*').split(/\s*,\s*/).join(',');
-	if (plugins !== '*') plugins = '{' + plugins + '}';
-
 	var files_js = [
 		'src/contrib/*.js',
 		'src/*.js',
 		'!src/selectize.js',
 		'!src/selectize.jquery.js',
 		'src/selectize.js',
-		'src/selectize.jquery.js',
-		'src/plugins/' + plugins + '/*.js'
+		'src/selectize.jquery.js'
 	];
 
 	var files_js_dependencies = [
@@ -30,9 +26,17 @@ module.exports = function(grunt) {
 	];
 
 	var files_css = [
-		'src/*.css',
-		'src/plugins/' + plugins + '/*.css'
+		'src/*.css'
 	];
+
+	var plugins = grunt.option('plugins');
+	if (plugins) {
+		if (plugins.indexOf(',') !== -1) {
+			plugins = '{' + plugins.split(/\s*,\s*/).join(',') + '}';
+		}
+		files_js.push('src/plugins/' + plugins + '/*.js');
+		files_css.push('src/plugins/' + plugins + '/*.css');
+	}
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('bower.json'),

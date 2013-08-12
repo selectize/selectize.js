@@ -21,6 +21,8 @@
 		"docs",
 		"src",
 		"test",
+		".travis.yml",
+		"testem.json",
 		"*.sh"
 	],
 	"dependencies": {
