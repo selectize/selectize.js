@@ -92,7 +92,8 @@ $.fn.selectize = function(settings) {
 		var $input = $(this);
 		var tag_name = $input[0].tagName.toLowerCase();
 		var settings_element = {
-			'placeholder' : $input.attr('placeholder'),
+			'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'), 
+							//if element not found .text() will return "" rather then error out so we are safe
 			'options'     : {},
 			'optgroups'   : {},
 			'items'       : []
