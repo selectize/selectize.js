@@ -179,7 +179,7 @@
 	 *
 	 * The `options` parameter can contain:
 	 *
-	 *   - fields {string}
+	 *   - fields {string|array}
 	 *   - sort {string}
 	 *   - direction {string}
 	 *   - score {function}
@@ -200,7 +200,7 @@
 	Sifter.prototype.search = function(query, options) {
 		var self = this, value, score, search, calculateScore;
 
-		options = options || {};
+		options = extend({}, options);
 		query   = String(query || '').toLowerCase();
 		search  = {
 			options : options,
@@ -211,6 +211,7 @@
 		};
 
 		// generate result scoring function
+		if (!is_array(options.fields)) options.fields = [options.fields];
 		calculateScore = options.score || self.getScoreFunction(search);
 
 		// perform search and sort
@@ -233,8 +234,8 @@
 					var field = options.sort;
 					var multiplier = options.direction === 'desc' ? -1 : 1;
 					return function(a, b) {
-						a = a && String(self.items[a.value][field] || '').toLowerCase();
-						b = b && String(self.items[b.value][field] || '').toLowerCase();
+						a = a && String(self.items[a.id][field] || '').toLowerCase();
+						b = b && String(self.items[b.id][field] || '').toLowerCase();
 						if (a > b) return 1 * multiplier;
 						if (b > a) return -1 * multiplier;
 						return 0;
@@ -254,6 +255,20 @@
 
 	// utilities
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	var extend = function(a, b) {
+		var i, n, k, object;
+		for (var i = 1, n = arguments.length; i < n; i++) {
+			object = arguments[i];
+			if (!object) continue;
+			for (k in object) {
+				if (object.hasOwnProperty(k)) {
+					a[k] = object[k];
+				}
+			}
+		}
+		return a;
+	};
 
 	var trim = function(str) {
 		return (str + '').replace(/^\s+|\s+$|/g, '');

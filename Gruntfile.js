@@ -40,7 +40,9 @@ module.exports = function(grunt) {
 			install: {
 				options: {
 					targetDir: './bower_components',
-					layout: 'byComponent'
+					layout: 'byComponent',
+					cleanBowerDir: false,
+					cleanTargetDir: true
 				}
 			}
 		},
