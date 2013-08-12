@@ -51,7 +51,7 @@ $.fn.selectize = function(settings) {
 			if (!value.length) return;
 
 			settings_element.options[value] = readData($option) || {
-				'text'     : $option.html(),
+				'text'     : $option.text(), //don't use .html() as it escapes - we leave that to the render
 				'value'    : value,
 				'optgroup' : group
 			};

@@ -1,2 +1,5 @@
 .DS_Store
 *.log
+
+# WebDAV file system cache
+.DAV/
