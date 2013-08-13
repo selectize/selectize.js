@@ -1,5 +1,5 @@
 .DS_Store
+.DAV
+node_modules
+bower_components
 *.log
-
-# WebDAV file system cache
-.DAV/

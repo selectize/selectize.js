@@ -51,7 +51,7 @@ $.fn.selectize = function(settings) {
 			if (!value.length) return;
 
 			settings_element.options[value] = readData($option) || {
-				'text'     : $option.text(), //don't use .html() as it escapes - we leave that to the render
+				'text'     : $option.text(),
 				'value'    : value,
 				'optgroup' : group
 			};
@@ -92,7 +92,7 @@ $.fn.selectize = function(settings) {
 		var $input = $(this);
 		var tag_name = $input[0].tagName.toLowerCase();
 		var settings_element = {
-			'placeholder' : $input.attr('placeholder'),
+			'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
 			'options'     : {},
 			'optgroups'   : {},
 			'items'       : []
