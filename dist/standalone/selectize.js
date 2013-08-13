@@ -1573,8 +1573,8 @@
 			var i, value, score, result, calculateScore;
 	
 			// validate user-provided result scoring function
-			if (self.settings.score) {
-				calculateScore = self.settings.score.apply(this, [search]);
+			if (settings.score) {
+				calculateScore = self.settings.score.apply(this, [query]);
 				if (typeof calculateScore !== 'function') {
 					throw new Error('Selectize "score" setting must be a function that returns a function');
 				}
@@ -1584,7 +1584,7 @@
 			if (query !== self.lastQuery) {
 				self.lastQuery = query;
 				result = self.sifter.search(query, {
-					score     : settings.score,
+					score     : calculateScore,
 					fields    : settings.searchField,
 					sort      : settings.sortField,
 					direction : settings.sortDirection,

@@ -390,6 +390,41 @@
 			});
 		});
 
+		describe('search()', function() {
+			it('should throw error if "score" setting does not return a function', function() {
+				expect(function() {
+					test = setup_test('<select multiple>', {
+						valueField: 'value',
+						labelField: 'value',
+						options: [
+							{value: 0},
+							{value: 1}
+						],
+						score: function() { }
+					});
+					test.selectize.search('hello');
+				}).to.throw(Error);
+				test.teardown();
+			});
+			it('should not throw error if "score" setting does return a function', function() {
+				expect(function() {
+					test = setup_test('<select multiple>', {
+						valueField: 'value',
+						labelField: 'value',
+						options: [
+							{value: 0},
+							{value: 1}
+						],
+						score: function(query) {
+							return function(item) { return 0; };
+						}
+					});
+					test.selectize.search('hello');
+				}).to.not.throw(Error);
+				test.teardown();
+			});
+		});
+
 	});
 
 })();
