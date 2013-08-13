@@ -15,8 +15,8 @@ var selectize = $select[0].selectize;
 
 #### Related Topics
 
-- [Event Documentation](docs/events)
-- [Developing Plugins](docs/plugins)
+- [Event Documentation](events.md)
+- [Developing Plugins](plugins.md)
 
 ### Methods
 
