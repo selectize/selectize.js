@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.6.13)
+ * selectize.js (v0.6.14)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -2282,7 +2282,7 @@
 				if (!value.length) return;
 	
 				settings_element.options[value] = readData($option) || {
-					'text'     : $option.html(),
+					'text'     : $option.text(),
 					'value'    : value,
 					'optgroup' : group
 				};
@@ -2323,7 +2323,7 @@
 			var $input = $(this);
 			var tag_name = $input[0].tagName.toLowerCase();
 			var settings_element = {
-				'placeholder' : $input.attr('placeholder'),
+				'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
 				'options'     : {},
 				'optgroups'   : {},
 				'items'       : []

@@ -27,8 +27,13 @@
 		});
 
 		describe('<select>', function() {
-			it('complete without exceptions', function() {
+			it('should complete without exceptions', function() {
 				test = setup_test('<select>', {});
+				test.teardown();
+			});
+			it('should add options in text form (no html entities)', function() {
+				test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
+				expect(test.selectize.options['a'].text).to.be.equal('<hi>');
 				test.teardown();
 			});
 			describe('getValue()', function() {
@@ -46,7 +51,7 @@
 		});
 
 		describe('<select multiple>', function() {
-			it('complete without exceptions', function() {
+			it('should complete without exceptions', function() {
 				test = setup_test('<select>', {});
 				test.teardown();
 			});
