@@ -425,6 +425,55 @@
 			});
 		});
 
+		describe('destroy()', function() {
+			var has_namespaced_event = function($el, ns) {
+				var i, n, key;
+				var data = ($._data || $.data).apply($, [$(window)[0], 'events']);
+				ns = ns.replace(/^./, '');
+				for (key in data) {
+					if (data.hasOwnProperty(key)) {
+						for (i = 0, n = data[key].length; i < n; i++) {
+							if (data[key][i].namespace.indexOf(ns) !== -1) {
+								return true;
+							}
+						}
+					}
+				}
+
+				return false;
+			};
+			it('should remove control from DOM', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect($.contains(document.documentElement, test.selectize.$wrapper[0])).to.be.equal(false);
+				test.teardown();
+			});
+			it('should delete "selectize" reference on original input element', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(test.selectize.$input[0].selectize).to.be.equal(undefined);
+				test.teardown();
+			});
+			it('should unbind events on window', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($(window), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
+			});
+			it('should unbind events on document', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($(document), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
+			});
+			it('should unbind events on <body>', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($('body'), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
+			});
+		});
+
 	});
 
 })();

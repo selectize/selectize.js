@@ -41,8 +41,8 @@
 				callback: callback,
 				selectize: instance,
 				teardown: function() {
+					instance.destroy();
 					$select.remove();
-					instance.$wrapper.remove();
 				}
 			};
 			return test;

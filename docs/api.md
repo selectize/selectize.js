@@ -148,6 +148,10 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>destroy()</code></td>
+		<td valign="top">Destroys the control and unbinds event listeners so that it can be garbage collected.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>load(fn)</code></td>
 		<td valign="top">Loads options by invoking the the provided function. The function should accept one argument (callback) and invoke the callback with the results once they are available.</td>
 	</tr>

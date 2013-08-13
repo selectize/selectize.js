@@ -8,6 +8,7 @@ var Selectize = function($input, settings) {
 		$input           : $input,
 		tagType          : $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 
+		eventNS          : '.selectize' + (++Selectize.count),
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
@@ -76,8 +77,12 @@ $.extend(Selectize.prototype, {
 	 * Creates all elements and sets up event bindings.
 	 */
 	setup: function() {
-		var self = this;
-		var settings = self.settings;
+		var self      = this;
+		var settings  = self.settings;
+		var eventNS   = self.eventNS;
+		var $window   = $(window);
+		var $document = $(document);
+
 		var $wrapper;
 		var $control;
 		var $control_input;
@@ -157,46 +162,44 @@ $.extend(Selectize.prototype, {
 			focus     : function() { return self.onFocus.apply(self, arguments); }
 		});
 
-		$(document).on({
-			keydown: function(e) {
-				self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
-				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
-				self.isShiftDown = e.shiftKey;
-			},
-			keyup: function(e) {
-				if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
-				if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
-				if (e.keyCode === KEY_CMD) self.isCmdDown = false;
-			},
-			mousedown: function(e) {
-				if (self.isFocused) {
-					// prevent events on the dropdown scrollbar from causing the control to blur
-					if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
-						var ignoreFocus = self.ignoreFocus;
-						self.ignoreFocus = true;
-						window.setTimeout(function() {
-							self.ignoreFocus = ignoreFocus;
-							self.focus(false);
-						}, 0);
-						return;
-					}
-					// blur on click outside
-					if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
-						self.blur();
-					}
+		$document.on('keydown' + eventNS, function(e) {
+			self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
+			self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
+			self.isShiftDown = e.shiftKey;
+		});
+
+		$document.on('keyup' + eventNS, function(e) {
+			if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
+			if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+			if (e.keyCode === KEY_CMD) self.isCmdDown = false;
+		});
+
+		$document.on('mousedown' + eventNS, function(e) {
+			if (self.isFocused) {
+				// prevent events on the dropdown scrollbar from causing the control to blur
+				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+					var ignoreFocus = self.ignoreFocus;
+					self.ignoreFocus = true;
+					window.setTimeout(function() {
+						self.ignoreFocus = ignoreFocus;
+						self.focus(false);
+					}, 0);
+					return;
+				}
+				// blur on click outside
+				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+					self.blur();
 				}
 			}
 		});
 
-		$(window).on({
-			'scroll resize': function() {
-				if (self.isOpen) {
-					self.positionDropdown.apply(self, arguments);
-				}
-			},
-			'mousemove': function() {
-				self.ignoreHover = false;
+		$window.on(['scroll' + eventNS, 'resize' + eventNS].join(' '), function() {
+			if (self.isOpen) {
+				self.positionDropdown.apply(self, arguments);
 			}
+		});
+		$window.on('mousemove' + eventNS, function() {
+			self.ignoreHover = false;
 		});
 
 		self.$input.attr('tabindex',-1).hide().after(self.$wrapper);
@@ -1558,6 +1561,27 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Completely destroys the control and
+	 * unbinds all event listeners so that it can
+	 * be garbage collected.
+	 */
+	destroy: function() {
+		var self = this;
+		var eventNS = self.eventNS;
+
+		self.off();
+		self.$wrapper.remove();
+		self.$dropdown.remove();
+		self.$input.show();
+
+		$(window).off(eventNS);
+		$(document).off(eventNS);
+		$(document.body).off(eventNS);
+
+		delete self.$input[0].selectize;
+	},
+
+	/**
 	 * A helper method for rendering "item" and
 	 * "option" templates, given the data.
 	 *
@@ -1634,6 +1658,7 @@ $.extend(Selectize.prototype, {
 
 });
 
+Selectize.count = 0;
 Selectize.defaults = {
 	plugins: [],
 	delimiter: ',',
