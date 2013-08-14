@@ -16,6 +16,9 @@
 			it('should set isDisabled property to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
+			it('should add "disabled" attribute on original input', function() {
+				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
+			});
 		});
 
 		describe('enable()', function() {
@@ -31,6 +34,9 @@
 			});
 			it('should set isDisabled property to false', function() {
 				expect(test.selectize.isDisabled).to.be.equal(false);
+			});
+			it('should remove "disabled" attribute on original input', function() {
+				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
 			});
 		});
 

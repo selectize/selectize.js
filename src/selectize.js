@@ -1547,8 +1547,10 @@ $.extend(Selectize.prototype, {
 	 * While disabled, it cannot receive focus.
 	 */
 	disable: function() {
-		this.isDisabled = true;
-		this.lock();
+		var self = this;
+		self.$input.prop('disabled', true);
+		self.isDisabled = true;
+		self.lock();
 	},
 
 	/**
@@ -1556,8 +1558,10 @@ $.extend(Selectize.prototype, {
 	 * to focus and user input.
 	 */
 	enable: function() {
-		this.isDisabled = false;
-		this.unlock();
+		var self = this;
+		self.$input.prop('disabled', false);
+		self.isDisabled = false;
+		self.unlock();
 	},
 
 	/**
