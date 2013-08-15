@@ -28,5 +28,9 @@
 	"dependencies": {
 		"jquery": ">=0.6.0",
 		"sifter": "0.0.x"
+	},
+	"devDependencies": {
+		"bootstrap2": "bootstrap#2",
+		"bootstrap3": "bootstrap#3"
 	}
 }

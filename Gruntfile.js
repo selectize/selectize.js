@@ -1,12 +1,13 @@
 module.exports = function(grunt) {
-	grunt.loadNpmTasks('grunt-bower-task');
+	grunt.loadNpmTasks('grunt-bower-cli');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-replace');
+	grunt.loadNpmTasks('grunt-recess');
 	grunt.registerTask('default', [
 		'bower:install',
 		'concat:js',
-		'concat:css',
+		'recess',
 		'replace',
 		'concat:js_standalone',
 		'uglify'
@@ -43,10 +44,8 @@ module.exports = function(grunt) {
 		bower: {
 			install: {
 				options: {
-					targetDir: './bower_components',
-					layout: 'byComponent',
-					cleanBowerDir: false,
-					cleanTargetDir: true
+					directory: 'bower_components',
+					action: 'install'
 				}
 			}
 		},
@@ -62,9 +61,38 @@ module.exports = function(grunt) {
 				},
 				files: [
 					{src: ['templates/wrapper.js'], dest: 'dist/selectize.js'},
-					{src: ['templates/wrapper.css'], dest: 'dist/selectize.css'},
-					{src: ['templates/wrapper.css'], dest: 'dist/standalone/selectize.css'}
+					{src: ['templates/wrapper.css'], dest: 'dist/selectize.css'}
 				]
+			},
+			css_post: {
+				options: {
+					variables: {
+						'version': '<%= pkg.version %>'
+					},
+				},
+				files: [
+					{expand: true, flatten: false, src: ['dist/*.css'], dest: ''}
+				]
+			}
+		},
+		recess: {
+			options: {
+				compile: true
+			},
+			uncompressed: {
+				files: {
+					'dist/selectize.css': ['src/css/selectize.less'],
+					'dist/selectize.default.css': ['src/css/selectize.default.less']
+				}
+			},
+			compressed: {
+				options: {
+					compress: true
+				},
+				files: {
+					'dist/selectize.min.css': ['src/css/selectize.less'],
+					'dist/selectize.default.min.css': ['src/css/selectize.default.less']
+				}
 			}
 		},
 		concat: {
@@ -90,12 +118,6 @@ module.exports = function(grunt) {
 						files.push('dist/selectize.js');
 						return files;
 					})()
-				}
-			},
-			css: {
-				files: {
-					'dist/selectize.css': files_css,
-					'dist/standalone/selectize.css': files_css
 				}
 			}
 		},

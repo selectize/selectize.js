@@ -11,8 +11,9 @@
 	"dependencies": {},
 	"devDependencies": {
 		"grunt": "0.4.x",
-		"grunt-bower-task": "0.3.x",
+		"grunt-bower-cli": "0.0.x",
 		"grunt-replace": "0.4.x",
+		"grunt-recess": "0.3.x",
 		"grunt-contrib-concat": "0.3.x",
 		"grunt-contrib-uglify": "0.2.x"
 	},
