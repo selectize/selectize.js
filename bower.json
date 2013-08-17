@@ -10,8 +10,8 @@
 		"url": "git://github.com/brianreavis/selectize.js.git"
 	},
 	"main": [
-		"dist/selectize.css",
-		"dist/selectize.js"
+		"dist/css/selectize.css",
+		"dist/js/selectize.js"
 	],
 	"ignore": [
 		"Makefile",
@@ -31,6 +31,6 @@
 	},
 	"devDependencies": {
 		"bootstrap2": "bootstrap#2",
-		"bootstrap3": "bootstrap#3"
+		"bootstrap3": "https://github.com/twbs/bootstrap/archive/3.0.0-wip.zip"
 	}
 }

@@ -2,15 +2,21 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bower-cli');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-replace');
 	grunt.loadNpmTasks('grunt-recess');
 	grunt.registerTask('default', [
+		'clean:pre',
 		'bower:install',
 		'concat:js',
+		'concat:css_theme_dependencies',
 		'recess',
 		'replace',
 		'concat:js_standalone',
-		'uglify'
+		'uglify',
+		'clean:post',
+		'copy:less'
 	]);
 
 	var files_js = [
@@ -49,19 +55,28 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		clean: {
+			pre: ['dist'],
+			post: ['src/css/*.tmp*']
+		},
+		copy: {
+			less: {
+				files: [{expand: true, flatten: true, src: ['src/css/*.less'], dest: 'dist/less'}]
+			}
+		},
 		replace: {
 			options: {prefix: '@@'},
 			main: {
 				options: {
 					variables: {
 						'version': '<%= pkg.version %>',
-						'js': '<%= grunt.file.read("dist/selectize.js").replace(/\\n/g, "\\n\\t") %>',
-						'css': '<%= grunt.file.read("dist/selectize.css") %>',
+						'js': '<%= grunt.file.read("dist/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+						'css': '<%= grunt.file.read("dist/css/selectize.css") %>',
 					},
 				},
 				files: [
-					{src: ['templates/wrapper.js'], dest: 'dist/selectize.js'},
-					{src: ['templates/wrapper.css'], dest: 'dist/selectize.css'}
+					{src: ['templates/wrapper.js'], dest: 'dist/js/selectize.js'},
+					{src: ['templates/wrapper.css'], dest: 'dist/css/selectize.css'}
 				]
 			},
 			css_post: {
@@ -71,7 +86,7 @@ module.exports = function(grunt) {
 					},
 				},
 				files: [
-					{expand: true, flatten: false, src: ['dist/*.css'], dest: ''}
+					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''}
 				]
 			}
 		},
@@ -81,8 +96,11 @@ module.exports = function(grunt) {
 			},
 			uncompressed: {
 				files: {
-					'dist/selectize.css': ['src/css/selectize.less'],
-					'dist/selectize.default.css': ['src/css/selectize.default.less']
+					'dist/css/selectize.css': ['src/css/selectize.less'],
+					'dist/css/selectize.default.css': ['src/css/selectize.default.less'],
+					'dist/css/selectize.vanilla.css': ['src/css/selectize.vanilla.less'],
+					'dist/css/selectize.bootstrap2.css': ['src/css/selectize.bootstrap2.tmp.less'],
+					'dist/css/selectize.bootstrap3.css': ['src/css/selectize.bootstrap3.tmp.less']
 				}
 			},
 			compressed: {
@@ -90,8 +108,11 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					'dist/selectize.min.css': ['src/css/selectize.less'],
-					'dist/selectize.default.min.css': ['src/css/selectize.default.less']
+					'dist/css/selectize.min.css': ['src/css/selectize.less'],
+					'dist/css/selectize.default.min.css': ['src/css/selectize.default.less'],
+					'dist/css/selectize.vanilla.min.css': ['src/css/selectize.vanilla.less'],
+					'dist/css/selectize.bootstrap2.min.css': ['src/css/selectize.bootstrap2.tmp.less'],
+					'dist/css/selectize.bootstrap3.min.css': ['src/css/selectize.bootstrap3.tmp.less']
 				}
 			}
 		},
@@ -102,7 +123,22 @@ module.exports = function(grunt) {
 			},
 			js: {
 				files: {
-					'dist/selectize.js': files_js,
+					'dist/js/selectize.js': files_js,
+				}
+			},
+			css_theme_dependencies: {
+				options: {stripBanners: false},
+				files: {
+					'src/css/selectize.bootstrap2.tmp.less': [
+						'bower_components/bootstrap2/less/variables.less',
+						'bower_components/bootstrap2/less/mixins.less',
+						'src/css/selectize.bootstrap2.less'
+					],
+					'src/css/selectize.bootstrap3.tmp.less': [
+						'bower_components/bootstrap3/less/variables.less',
+						'bower_components/bootstrap3/less/mixins.less',
+						'src/css/selectize.bootstrap3.less'
+					]
 				}
 			},
 			js_standalone: {
@@ -110,12 +146,12 @@ module.exports = function(grunt) {
 					stripBanners: false
 				},
 				files: {
-					'dist/standalone/selectize.js': (function() {
+					'dist/js/standalone/selectize.js': (function() {
 						var files = [];
 						for (var i = 0, n = files_js_dependencies.length; i < n; i++) {
 							files.push(files_js_dependencies[i]);
 						}
-						files.push('dist/selectize.js');
+						files.push('dist/js/selectize.js');
 						return files;
 					})()
 				}
@@ -129,8 +165,8 @@ module.exports = function(grunt) {
 					'ascii-only': true
 				},
 				files: {
-					'dist/selectize.min.js': ['dist/selectize.js'],
-					'dist/standalone/selectize.min.js': ['dist/standalone/selectize.js']
+					'dist/js/selectize.min.js': ['dist/js/selectize.js'],
+					'dist/js/standalone/selectize.min.js': ['dist/js/standalone/selectize.js']
 				}
 			}
 		}

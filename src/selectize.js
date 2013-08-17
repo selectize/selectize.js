@@ -95,13 +95,15 @@ $.extend(Selectize.prototype, {
 		var tab_index;
 		var classes;
 
+		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
 		classes           = self.$input.attr('class') || '';
-		$wrapper          = $('<div>').addClass(settings.theme).addClass(settings.wrapperClass).addClass(classes);
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(self.options)).appendTo($wrapper);
-		$control_input    = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
+
+		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
+		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
+		$control_input    = $('<input type="text">').appendTo($control).attr('tabindex', tab_index);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).hide().appendTo($dropdown_parent);
+		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(classes).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		$wrapper.css({
@@ -112,10 +114,6 @@ $.extend(Selectize.prototype, {
 		if (self.plugins.length) {
 			$wrapper.addClass('plugin-' + self.plugins.join(' plugin-'));
 		}
-
-		inputMode = self.settings.mode;
-		$wrapper.toggleClass('single', inputMode === 'single');
-		$wrapper.toggleClass('multi', inputMode === 'multi');
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
 			self.$input.attr('multiple', 'multiple');
@@ -211,6 +209,7 @@ $.extend(Selectize.prototype, {
 
 		self.updateOriginalInput();
 		self.refreshItems();
+		self.refreshClasses();
 		self.updatePlaceholder();
 		self.isSetup = true;
 
@@ -1228,6 +1227,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('dropdown-active', self.isOpen)
+			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
 		this.$control_input.data('grow', !isFull && !isLocked);
 	},
@@ -1691,7 +1691,6 @@ Selectize.defaults = {
 	searchField: ['text'],
 
 	mode: null,
-	theme: 'default',
 	wrapperClass: 'selectize-control',
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',

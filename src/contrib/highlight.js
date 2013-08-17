@@ -37,11 +37,3 @@ var highlight = function($element, pattern) {
 		highlight(this);
 	});
 };
-
-var unhighlight = function($element) {
-	return $element.find('span.highlight').each(function() {
-		var parent = this.parentNode;
-		parent.replaceChild(parent.firstChild, parent);
-		parent.normalize();
-	}).end();
-};
