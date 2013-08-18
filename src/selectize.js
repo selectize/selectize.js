@@ -57,7 +57,7 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
-	self.loadPlugins(self.settings.plugins);
+	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setup();
 };
@@ -66,7 +66,7 @@ var Selectize = function($input, settings) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MicroEvent.mixin(Selectize);
-Plugins.mixin(Selectize, 'Selectize');
+MicroPlugin.mixin(Selectize);
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -112,8 +112,8 @@ $.extend(Selectize.prototype, {
 			display: self.$input.css('display')
 		});
 
-		if (self.plugins.length) {
-			classes_plugins = 'plugin-' + self.plugins.join(' plugin-');
+		if (self.plugins.names.length) {
+			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 			$wrapper.addClass(classes_plugins);
 			$dropdown.addClass(classes_plugins);
 		}

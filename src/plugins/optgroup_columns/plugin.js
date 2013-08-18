@@ -14,7 +14,7 @@
  * @author Simon Hewitt <si@sjhewitt.co.uk>
  */
 
-Selectize.registerPlugin('optgroup_columns', function(options) {
+Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
 	options = $.extend({

@@ -303,6 +303,141 @@
 }));
 
 /**
+ * microplugin.js
+ * Copyright (c) 2013 Brian Reavis & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
+
+(function(root, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(factory);
+	} else if (typeof exports === 'object') {
+		module.exports = factory();
+	} else {
+		root.MicroPlugin = factory();
+	}
+}(this, function() {
+	var MicroPlugin = {};
+
+	MicroPlugin.mixin = function(Interface) {
+		Interface.plugins = {};
+
+		/**
+		 * Initializes the listed plugins (with options).
+		 * Acceptable formats:
+		 *
+		 * List (without options):
+		 *   ['a', 'b', 'c']
+		 *
+		 * List (with options):
+		 *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
+		 *
+		 * Hash (with options):
+		 *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+		 *
+		 * @param {mixed} plugins
+		 */
+		Interface.prototype.initializePlugins = function(plugins) {
+			var i, n, key;
+			var self  = this;
+			var queue = [];
+
+			self.plugins = {
+				names     : [],
+				settings  : {},
+				requested : {},
+				loaded    : {}
+			};
+
+			if (utils.isArray(plugins)) {
+				for (i = 0, n = plugins.length; i < n; i++) {
+					if (typeof plugins[i] === 'string') {
+						queue.push(plugins[i]);
+					} else {
+						self.plugins.settings[plugins[i].name] = plugins[i].options;
+						queue.push(plugins[i].name);
+					}
+				}
+			} else if (plugins) {
+				for (key in plugins) {
+					if (plugins.hasOwnProperty(key)) {
+						self.plugins.settings[key] = plugins[key];
+						queue.push(key);
+					}
+				}
+			}
+
+			while (queue.length) {
+				self.loadPlugin(queue.shift());
+			}
+		};
+
+		Interface.prototype.loadPlugin = function(name) {
+			if (!Interface.plugins.hasOwnProperty(name)) {
+				throw new Error('Unable to find "' +  name + '" plugin');
+			}
+			var self    = this;
+			var plugins = self.plugins;
+			var plugin  = Interface.plugins[name];
+
+			plugins.requested[name] = true;
+			plugins.loaded[name] = plugin.fn.apply(self, [self.plugins.settings[name] || {}]);
+			plugins.names.push(name);
+		};
+
+		/**
+		 * Initializes a plugin.
+		 *
+		 * @param {string} name
+		 */
+		Interface.prototype.require = function(name) {
+			var self = this;
+			var plugins = self.plugins;
+
+			if (!self.plugins.loaded.hasOwnProperty(name)) {
+				if (plugins.requested[name]) {
+					throw new Error('Plugin has circular dependency ("' + name + '")');
+				}
+				self.loadPlugin(name);
+			}
+
+			return plugins.loaded[name];
+		};
+
+		/**
+		 * Registers a plugin.
+		 *
+		 * @param {string} name
+		 * @param {function} fn
+		 */
+		Interface.define = function(name, fn) {
+			Interface.plugins[name] = {
+				'name' : name,
+				'fn'   : fn
+			};
+		};
+	};
+
+	var utils = {
+		isArray: Array.isArray || function() {
+			return Object.prototype.toString.call(vArg) === '[object Array]';
+		}
+	};
+
+	return MicroPlugin;
+}));
+
+/**
  * selectize.js (v0.6.14)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
@@ -323,11 +458,11 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(['sifter'], factory);
+		define(['sifter','microplugin'], factory);
 	} else {
-		root.Selectize = factory(root.Sifter);
+		root.Selectize = factory(root.Sifter, root.MicroPlugin);
 	}
-}(this, function(Sifter) {
+}(this, function(Sifter, MicroPlugin) {
 	'use strict';
 
 	var highlight = function($element, pattern) {
@@ -420,82 +555,6 @@
 	
 	var TAG_SELECT    = 1;
 	var TAG_INPUT     = 2;
-	
-	var Plugins = {};
-	
-	Plugins.mixin = function(Interface, interfaceName) {
-		Interface.plugins = {};
-	
-		/**
-		 * Initializes the provided functions.
-		 * Acceptable formats:
-		 *
-		 * List (without options):
-		 *   ['a', 'b', 'c']
-		 *
-		 * List (with options)
-		 *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
-		 *
-		 * @param {mixed} plugins
-		 */
-		Interface.prototype.loadPlugins = function(plugins) {
-			var i, n, key;
-			this.plugins = [];
-			this.pluginSettings = {};
-	
-			if ($.isArray(plugins)) {
-				for (i = 0, n = plugins.length; i < n; i++) {
-					this.loadPlugin(plugins[i]);
-				}
-			} else if (plugins) {
-				this.pluginSettings = $.extend({}, plugins);
-				for (key in plugins) {
-					if (plugins.hasOwnProperty(key)) {
-						this.loadPlugin(key);
-					}
-				}
-			}
-		};
-	
-		/**
-		 * Initializes a plugin.
-		 *
-		 * @param {string} name
-		 */
-		Interface.prototype.loadPlugin = function(name) {
-			var plugin, i, n;
-	
-			if (this.plugins.indexOf(name) !== -1) return;
-			if (!Interface.plugins.hasOwnProperty(name)) {
-				throw new Error(interfaceName + ' unable to find "' +  name + '" plugin');
-			}
-	
-			plugin = Interface.plugins[name];
-	
-			// initialize plugin and dependencies
-			this.plugins.push(name);
-			for (i = 0, n = plugin.dependencies.length; i < n; i++) {
-				this.loadPlugin(plugin.dependencies[i]);
-			}
-			plugin.fn.apply(this, [this.pluginSettings[name] || {}]);
-		};
-	
-		/**
-		 * Registers a plugin.
-		 *
-		 * @param {string} name
-		 * @param {array} dependencies (optional)
-		 * @param {function} fn
-		 */
-		Interface.registerPlugin = function(name) {
-			var args = arguments;
-			Interface.plugins[name] = {
-				'name'         : name,
-				'fn'           : args[args.length - 1],
-				'dependencies' : args.length === 3 ? args[1] : []
-			};
-		};
-	};
 	
 	var isset = function(object) {
 		return typeof object !== 'undefined';
@@ -888,7 +947,7 @@
 			self.settings.hideSelected = self.settings.mode === 'multi';
 		}
 	
-		self.loadPlugins(self.settings.plugins);
+		self.initializePlugins(self.settings.plugins);
 		self.setupCallbacks();
 		self.setup();
 	};
@@ -897,7 +956,7 @@
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	MicroEvent.mixin(Selectize);
-	Plugins.mixin(Selectize, 'Selectize');
+	MicroPlugin.mixin(Selectize);
 	
 	// methods
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -943,8 +1002,8 @@
 				display: self.$input.css('display')
 			});
 	
-			if (self.plugins.length) {
-				classes_plugins = 'plugin-' + self.plugins.join(' plugin-');
+			if (self.plugins.names.length) {
+				classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
 				$wrapper.addClass(classes_plugins);
 				$dropdown.addClass(classes_plugins);
 			}
@@ -2675,8 +2734,8 @@
 	
 	$.fn.selectize.defaults = Selectize.defaults;
 	
-	Selectize.registerPlugin('drag_drop', function(options) {
-		if (!$.fn.sortable) throw new Error('The "drag_drop" Selectize plugin requires jQuery UI "sortable".');
+	Selectize.define('drag_drop', function(options) {
+		if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 		if (this.settings.mode !== 'multi') return;
 		var self = this;
 	
@@ -2708,7 +2767,7 @@
 	
 	});
 	
-	Selectize.registerPlugin('dropdown_header', function(options) {
+	Selectize.define('dropdown_header', function(options) {
 		var self = this;
 	
 		options = $.extend({
@@ -2741,7 +2800,7 @@
 	
 	});
 	
-	Selectize.registerPlugin('optgroup_columns', function(options) {
+	Selectize.define('optgroup_columns', function(options) {
 		var self = this;
 	
 		options = $.extend({
@@ -2818,7 +2877,7 @@
 	
 	});
 	
-	Selectize.registerPlugin('remove_button', function(options) {
+	Selectize.define('remove_button', function(options) {
 		var self = this;
 	
 		// override the item rendering method to add a "x" to each
@@ -2846,7 +2905,7 @@
 	
 	});
 	
-	Selectize.registerPlugin('restore_on_backspace', function(options) {
+	Selectize.define('restore_on_backspace', function(options) {
 		var self = this;
 	
 		options.text = options.text || function(option) {

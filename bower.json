@@ -27,7 +27,8 @@
 	],
 	"dependencies": {
 		"jquery": ">=0.6.0",
-		"sifter": "0.0.x"
+		"sifter": "0.0.x",
+		"microplugin": "0.0.x"
 	},
 	"devDependencies": {
 		"bootstrap2": "bootstrap#2",

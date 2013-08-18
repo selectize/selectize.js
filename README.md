@@ -20,13 +20,13 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
-- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features.
+- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (powered by [microplugin.js](https://github.com/brianreavis/microplugin.js)).
 
 ### Usage
 
 If using [Bower](http://bower.io/), run `bower install selectize`. Otherwise,
-grab ["selectize.min.js"](dist/standalone/selectize.min.js) (or ["selectize.js"](dist/standalone/selectize.js)
-if in a development environment) and ["selectize.css"](dist/standalone/selectize.css) and include them in your project.
+grab ["selectize.min.js"](dist/js/standalone/selectize.min.js) (or ["selectize.js"](dist/js/standalone/selectize.js)
+if in a development environment) and ["selectize.css"](dist/css/selectize.css) and include them in your project.
 
 ```js
 $('select').selectize(options);
@@ -44,12 +44,15 @@ To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim
 
 ### Custom Builds
 
-By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the js and css from the ["dist/standalone"](dist/standalone) folder.
+By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the ["dist"](dist) folder.
 
 ```sh
+# dependencies
 npm install -g grunt-cli
+npm install -g bower
 npm install
 
+# build selectize
 grunt --plugins=
 grunt --plugins=*
 grunt --plugins=remove_button,restore_on_backspace

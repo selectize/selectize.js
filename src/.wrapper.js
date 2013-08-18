@@ -19,11 +19,11 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(['sifter'], factory);
+		define(['sifter','microplugin'], factory);
 	} else {
-		root.Selectize = factory(root.Sifter);
+		root.Selectize = factory(root.Sifter, root.MicroPlugin);
 	}
-}(this, function(Sifter) {
+}(this, function(Sifter, MicroPlugin) {
 	'use strict';
 
 	@@js

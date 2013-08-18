@@ -34,7 +34,8 @@ module.exports = function(grunt) {
 	];
 
 	var files_js_dependencies = [
-		'bower_components/sifter/sifter.js'
+		'bower_components/sifter/sifter.js',
+		'bower_components/microplugin/src/microplugin.js',
 	];
 
 	var less_imports = [];

@@ -18,7 +18,7 @@ complete control.
 ### Boilerplate
 
 ```js
-Selectize.registerPlugin('plugin_name', function(options) {
+Selectize.define('plugin_name', function(options) {
 	// options: plugin-specific options
 	// this: selectize instance
 });
@@ -27,8 +27,8 @@ Selectize.registerPlugin('plugin_name', function(options) {
 #### Adding Dependencies
 
 ```js
-Selectize.registerPlugin('plugin_name', ['another_plugin'], function(options) {
-	// "another_plugin" will be loaded at this point
+Selectize.define('plugin_name', function(options) {
+	this.require('another_plugin');
 });
 ```
 
@@ -57,7 +57,7 @@ invoked after the plugin initialized) events should be added by overriding the s
 like so:
 
 ```js
-Selectize.registerPlugin('plugin_name', function(options) {
+Selectize.define('plugin_name', function(options) {
 	var self = this;
 
 	// override the setup method to add an extra "click" handler
