@@ -10,7 +10,6 @@
 @selectize-color-disabled: #fafafa;
 @selectize-color-optgroup: #f8f8f8;
 @selectize-color-optgroup-text: inherit;
-@selectize-color-optgroup-border: #e8e8e8;
 @selectize-color-dropdown: #fff;
 @selectize-color-dropdown-border-top: #f0f0f0;
 @selectize-color-dropdown-item-active: #fffceb;
@@ -84,13 +83,10 @@
 
 .selectize-input, .selectize-control.single .selectize-input.focus {
 	background: @selectize-color-input;
-}
-
-.selectize-input, .selectize-control.single .selectize-input.focus {
-	background: @selectize-color-input;
 	cursor: text;
 	display: inline-block;
 }
+
 .selectize-input {
 	border: @selectize-border;
 	padding: @selectize-padding-y @selectize-padding-x;
@@ -104,14 +100,16 @@
 	.selectize-border-radius(@selectize-border-radius);
 
 	.selectize-control.multi &.has-items {
-		padding-top: @selectize-padding-y - @selectize-padding-item-y - @selectize-width-item-border !important;
-		padding-bottom: @selectize-padding-y - @selectize-padding-item-y - @selectize-margin-item-y - @selectize-width-item-border !important;
+		@padding-x: @selectize-padding-x;
+		@padding-top: @selectize-padding-y - @selectize-padding-item-y - @selectize-width-item-border;
+		@padding-bottom: @selectize-padding-y - @selectize-padding-item-y - @selectize-margin-item-y - @selectize-width-item-border;
+		padding: @padding-top @padding-x @padding-bottom;
 	}
 
 	&.full {
 		background-color: @selectize-color-input-full;
 	}
-	&.disabled {
+	&.disabled, &.disabled input {
 		cursor: default !important;
 	}
 	&.focus {
@@ -197,10 +195,6 @@
 	.optgroup-header {
 		color: @selectize-color-optgroup-text;
 		background: @selectize-color-optgroup;
-		border-bottom: 1px solid @selectize-color-optgroup-border;
-		border-top: 1px solid @selectize-color-optgroup-border;
-		font-weight: bold;
-		font-size: 0.8em;
 		cursor: default;
 	}
 	.active {
@@ -216,7 +210,8 @@
 }
 
 .selectize-control.single .selectize-input {
-	cursor: pointer;
+	&, input { cursor: pointer; }
+	&.focus, &.focus input { cursor: text; }
 
 	&:after {
 		content: ' ';

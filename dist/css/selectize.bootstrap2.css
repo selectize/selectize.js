@@ -62,11 +62,6 @@
 
 .selectize-input,
 .selectize-control.single .selectize-input.focus {
-  background: #ffffff;
-}
-
-.selectize-input,
-.selectize-control.single .selectize-input.focus {
   display: inline-block;
   cursor: text;
   background: #ffffff;
@@ -91,15 +86,15 @@
 }
 
 .selectize-control.multi .selectize-input.has-items {
-  padding-top: 5px !important;
-  padding-bottom: 2px !important;
+  padding: 5px 10px 2px;
 }
 
 .selectize-input.full {
   background-color: #ffffff;
 }
 
-.selectize-input.disabled {
+.selectize-input.disabled,
+.selectize-input.disabled input {
   cursor: default !important;
 }
 
@@ -198,7 +193,7 @@
 
 .selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup-header {
-  padding: 7px 10px;
+  padding: 3px 10px;
 }
 
 .selectize-dropdown .optgroup:first-child .optgroup-header {
@@ -206,13 +201,9 @@
 }
 
 .selectize-dropdown .optgroup-header {
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #333333;
+  color: #999999;
   cursor: default;
   background: inherit;
-  border-top: 1px solid #e5e5e5;
-  border-bottom: 1px solid #e5e5e5;
 }
 
 .selectize-dropdown .active {
@@ -228,8 +219,14 @@
   color: inherit;
 }
 
-.selectize-control.single .selectize-input {
+.selectize-control.single .selectize-input,
+.selectize-control.single .selectize-input input {
   cursor: pointer;
+}
+
+.selectize-control.single .selectize-input.focus,
+.selectize-control.single .selectize-input.focus input {
+  cursor: text;
 }
 
 .selectize-control.single .selectize-input:after {
@@ -269,12 +266,31 @@
 }
 
 .selectize-dropdown .optgroup-header {
-  display: block;
-  padding: 3px 20px;
-  color: #333333;
+  font-size: 11px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
 }
 
-.selectize-dropdown [data-selectable]:hover {
+.selectize-dropdown .optgroup:first-child:before {
+  display: none;
+}
+
+.selectize-dropdown .optgroup:before {
+  display: block;
+  *width: 100%;
+  height: 1px;
+  margin: 9px 1px;
+  *margin: -5px 0 5px;
+  margin-right: -10px;
+  margin-left: -10px;
+  overflow: hidden;
+  background-color: #e5e5e5;
+  border-bottom: 1px solid #ffffff;
+  content: ' ';
+}
+
+.selectize-dropdown [data-selectable].active {
   background-color: #0081c2;
   background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
@@ -372,6 +388,11 @@
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
+.selectize-control.multi .selectize-input.has-items {
+  padding-right: 7px;
+  padding-left: 7px;
+}
+
 .selectize-control.multi .selectize-input > div {
   color: #333333;
   text-shadow: none;
@@ -398,18 +419,18 @@
 .selectize-control.multi .selectize-input > div.active {
   color: #ffffff;
   text-shadow: none;
-  background-color: #0088cc;
+  background-color: #0081c2;
   *background-color: #0088cc;
-  background-image: -moz-linear-gradient(top, #0088cc, #0088cc);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0088cc));
-  background-image: -webkit-linear-gradient(top, #0088cc, #0088cc);
-  background-image: -o-linear-gradient(top, #0088cc, #0088cc);
-  background-image: linear-gradient(to bottom, #0088cc, #0088cc);
+  background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+  background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+  background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+  background-image: linear-gradient(to bottom, #0088cc, #0077b3);
   background-repeat: repeat-x;
   border: 1px solid #0088cc;
-  border-color: #0088cc #0088cc #005580;
+  border-color: #0077b3 #0077b3 #004466;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0088cc', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
   -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
      -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
           box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);

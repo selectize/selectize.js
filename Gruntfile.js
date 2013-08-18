@@ -98,7 +98,6 @@ module.exports = function(grunt) {
 				files: {
 					'dist/css/selectize.css': ['src/css/selectize.less'],
 					'dist/css/selectize.default.css': ['src/css/selectize.default.less'],
-					'dist/css/selectize.vanilla.css': ['src/css/selectize.vanilla.less'],
 					'dist/css/selectize.bootstrap2.css': ['src/css/selectize.bootstrap2.tmp.less'],
 					'dist/css/selectize.bootstrap3.css': ['src/css/selectize.bootstrap3.tmp.less']
 				}
@@ -110,7 +109,6 @@ module.exports = function(grunt) {
 				files: {
 					'dist/css/selectize.min.css': ['src/css/selectize.less'],
 					'dist/css/selectize.default.min.css': ['src/css/selectize.default.less'],
-					'dist/css/selectize.vanilla.min.css': ['src/css/selectize.vanilla.less'],
 					'dist/css/selectize.bootstrap2.min.css': ['src/css/selectize.bootstrap2.tmp.less'],
 					'dist/css/selectize.bootstrap3.min.css': ['src/css/selectize.bootstrap3.tmp.less']
 				}
