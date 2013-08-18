@@ -1,8 +1,11 @@
 body {
+	margin: 70px 0;
+	padding: 0;
 	font-family: Helvetica, arial, sans-serif;
 	font-size: 15px;
 	color: #454545;
-	background: #f8f8f8;
+	background: #fff url(../images/bg.png);
+	text-shadow: 0 1px 0 rgba(0,0,0,0.02);
 	-webkit-font-smoothing: antialiased;
 }
 a, a:visited {
@@ -13,8 +16,10 @@ a:hover {
 	color: #008af5;
 }
 h1 {
-	font-size: 20px;
-	margin-bottom: 30px;
+	margin: 0;
+	font-weight: 300;
+	font-size: 35px;
+	letter-spacing: -1px;
 }
 h2 {
 	font-size: 15px;
@@ -30,15 +35,15 @@ p, .control-group {
 	margin: 0 0 20px 0;
 }
 .demo {
-	background: #fff;
-	padding: 30px;
-	margin: 0 0 20px 0;
+	border-bottom: 1px solid #e8e8e8;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.demo:last-child {
+	border-bottom: 0 none;
 }
 .demo select, .demo input, .demo .selectize-control {
 	width: 100%;
@@ -56,8 +61,26 @@ p, .control-group {
 .demo .value span {
 	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
+.theme-selector {
+	margin-top: 10px;
+	font-size: 13px;
+}
+.theme-selector:before {
+	content: 'Themes: ';
+}
+.theme-selector a {
+	margin: 0 5px;
+}
+.theme-selector a.active {
+	color: #202020;
+	font-weight: bold;
+}
 #wrapper {
-	margin: 100px;
+	margin: 0;
+}
+#wrapper > * {
+	padding-left: 100px;
+	padding-right: 100px;
 }
 pre {
 	background: #f8f8f8;
