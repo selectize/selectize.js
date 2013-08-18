@@ -130,10 +130,7 @@
 .selectize-dropdown {
   position: absolute;
   z-index: 2;
-  max-height: 200px;
   margin-top: -1px;
-  overflow-x: hidden;
-  overflow-y: auto;
   background: #ffffff;
   border: 1px solid #cccccc;
   border-top: 0 none;
@@ -185,6 +182,12 @@
 
 .selectize-dropdown .create {
   color: inherit;
+}
+
+.selectize-dropdown-content {
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .selectize-control.single .selectize-input,
