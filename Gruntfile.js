@@ -24,6 +24,7 @@ module.exports = function(grunt) {
 	var files_js = [
 		'src/contrib/*.js',
 		'src/*.js',
+		'!src/.wrapper.js',
 		'!src/selectize.js',
 		'!src/selectize.jquery.js',
 		'src/selectize.js',
