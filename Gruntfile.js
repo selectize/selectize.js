@@ -74,7 +74,7 @@ module.exports = function(grunt) {
 		},
 		copy: {
 			less: {
-				files: [{expand: true, flatten: true, src: ['src/css/*.less'], dest: 'dist/less'}]
+				files: [{expand: true, flatten: true, src: ['src/less/*.less'], dest: 'dist/less'}]
 			},
 			less_plugins: {
 				files: less_plugin_files
@@ -91,8 +91,8 @@ module.exports = function(grunt) {
 					},
 				},
 				files: [
-					{src: ['templates/wrapper.js'], dest: 'dist/js/selectize.js'},
-					{src: ['templates/wrapper.css'], dest: 'dist/css/selectize.css'}
+					{src: ['src/.wrapper.js'], dest: 'dist/js/selectize.js'},
+					{src: ['src/less/.wrapper.css'], dest: 'dist/css/selectize.css'}
 				]
 			},
 			css_post: {
