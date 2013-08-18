@@ -25,10 +25,12 @@ module.exports = function(grunt) {
 		'src/contrib/*.js',
 		'src/*.js',
 		'!src/.wrapper.js',
+		'!src/defaults.js',
 		'!src/selectize.js',
 		'!src/selectize.jquery.js',
 		'src/selectize.js',
-		'src/selectize.jquery.js'
+		'src/defaults.js',
+		'src/selectize.jquery.js',
 	];
 
 	var files_js_dependencies = [
