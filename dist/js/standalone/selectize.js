@@ -925,6 +925,7 @@
 			var timeout_focus;
 			var tab_index;
 			var classes;
+			var classes_plugins;
 	
 			inputMode         = self.settings.mode;
 			tab_index         = self.$input.attr('tabindex') || '';
@@ -943,7 +944,9 @@
 			});
 	
 			if (self.plugins.length) {
-				$wrapper.addClass('plugin-' + self.plugins.join(' plugin-'));
+				classes_plugins = 'plugin-' + self.plugins.join(' plugin-');
+				$wrapper.addClass(classes_plugins);
+				$dropdown.addClass(classes_plugins);
 			}
 	
 			if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {

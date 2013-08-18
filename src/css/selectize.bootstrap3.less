@@ -1,5 +1,5 @@
 /**
- * selectize.css (v@@version) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v@@version) - Bootstrap 3 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -25,14 +25,17 @@
 @selectize-color-input: @input-bg;
 @selectize-color-input-full: @input-bg;
 @selectize-color-disabled: @input-bg;
-@selectize-color-optgroup: inherit;
+@selectize-color-item: #efefef;
+@selectize-color-item-border: rgba(0,0,0,0);
+@selectize-color-item-active: @component-active-bg;
+@selectize-color-item-active-text: #fff;
+@selectize-color-item-active-border: rgba(0,0,0,0);
 @selectize-color-optgroup-text: @dropdown-header-color;
 @selectize-color-optgroup-border: @dropdown-divider-bg;
 @selectize-color-dropdown: @dropdown-bg;
 @selectize-color-dropdown-border-top: mix(@input-border, @input-bg, 0.8);
 @selectize-color-dropdown-item-active: @dropdown-link-hover-bg;
 @selectize-color-dropdown-item-active-text: @dropdown-link-hover-color;
-@selectize-color-dropdown-item-create-text: inherit;
 @selectize-color-dropdown-item-create-active-text: @dropdown-link-hover-color;
 @selectize-opacity-disabled: 0.5;
 @selectize-shadow-input: none;
@@ -40,6 +43,7 @@
 @selectize-border: 1px solid @input-border;
 @selectize-border-radius: @input-border-radius;
 
+@selectize-width-item-border: 0;
 @selectize-padding-x: @padding-base-horizontal;
 @selectize-padding-y: @padding-base-vertical;
 @selectize-padding-dropdown-item-x: @padding-base-horizontal;
@@ -55,7 +59,6 @@
 @selectize-arrow-offset: @selectize-padding-x + 5px;
 
 .selectize-dropdown {
-	padding: 5px 0;
 	margin: 2px 0 0 0;
 	z-index: @zindex-dropdown;
 	border: 1px solid @dropdown-fallback-border;
@@ -77,6 +80,14 @@
 		margin-left: @selectize-padding-dropdown-item-x * -1;
 		margin-right: @selectize-padding-dropdown-item-x * -1;
 	}
+}
+
+.selectize-dropdown-content {
+	padding: 5px 0;
+}
+
+.selectize-dropdown-header {
+	padding: @selectize-padding-dropdown-item-y * 2 @selectize-padding-dropdown-item-x;
 }
 
 .selectize-input {
@@ -105,12 +116,6 @@
 		}
 		.selectize-input > div {
 			.selectize-border-radius(@selectize-border-radius - 1px);
-			background: #efefef;
-
-			&.active {
-				background: @component-active-bg;
-				color: #fff;
-			}
 		}
 	}
 }

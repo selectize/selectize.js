@@ -1,5 +1,5 @@
 /**
- * selectize.css (v@@version) - Default Theme
+ * selectize.default.css (v0.6.14) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -16,19 +16,21 @@
 
 @import "selectize";
 
+@selectize-color-item: #b8e76f;
+@selectize-color-item-text: #3d5d18;
+@selectize-color-item-border: #74b21e;
+@selectize-color-item-active: #92c836;
+@selectize-color-item-active-border: #6f9839;
 @selectize-width-item-border: 1px;
 
 .selectize-control {
 	&.multi {
 		.selectize-input > div {
-			color: #3d5d18;
 			text-shadow: 0 1px 0 rgba(255,255,255,0.1);
-			border: @selectize-width-item-border solid #74b21e;
 			.selectize-border-radius(3px);
 			.selectize-vertical-gradient(#b8e76f, #a9e25c);
 			.selectize-box-shadow(0 1px 1px rgba(0,0,0,0.1));
 			&.active {
-				border-color: #6f9839;
 				.selectize-vertical-gradient(#92c836, #7abc2c);
 			}
 		}

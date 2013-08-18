@@ -9,14 +9,16 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [
 		'clean:pre',
 		'bower:install',
+		'copy:less',
+		'copy:less_plugins',
+		'concat:less_theme_dependencies',
+		'concat:less_plugins',
 		'concat:js',
-		'concat:css_theme_dependencies',
 		'recess',
 		'replace',
 		'concat:js_standalone',
 		'uglify',
 		'clean:post',
-		'copy:less'
 	]);
 
 	var files_js = [
@@ -32,18 +34,29 @@ module.exports = function(grunt) {
 		'bower_components/sifter/sifter.js'
 	];
 
-	var files_css = [
-		'src/*.css'
-	];
+	var less_imports = [];
+	var less_plugin_files = [];
 
-	var plugins = grunt.option('plugins');
-	if (plugins) {
-		if (plugins.indexOf(',') !== -1) {
-			plugins = '{' + plugins.split(/\s*,\s*/).join(',') + '}';
+	// enumerate plugins
+	(function() {
+		var selector_plugins = grunt.option('plugins');
+		if (!selector_plugins) return;
+
+		if (selector_plugins.indexOf(',') !== -1) {
+			selector_plugins = '{' + plugins.split(/\s*,\s*/).join(',') + '}';
 		}
-		files_js.push('src/plugins/' + plugins + '/*.js');
-		files_css.push('src/plugins/' + plugins + '/*.css');
-	}
+
+		// javascript
+		files_js.push('src/plugins/' + selector_plugins + '/*.js');
+
+		// less (css)
+		var matched_files = grunt.file.expand(['src/plugins/' + selector_plugins + '/plugin.less']);
+		for (var i = 0, n = matched_files.length; i < n; i++) {
+			var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
+			less_imports.push('@import "plugins/' +  plugin_name + '";');
+			less_plugin_files.push({src: matched_files[i], dest: 'dist/less/plugins/' + plugin_name + '.less'});
+		}
+	})();
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('bower.json'),
@@ -57,11 +70,14 @@ module.exports = function(grunt) {
 		},
 		clean: {
 			pre: ['dist'],
-			post: ['src/css/*.tmp*']
+			post: ['**/*.tmp*']
 		},
 		copy: {
 			less: {
 				files: [{expand: true, flatten: true, src: ['src/css/*.less'], dest: 'dist/less'}]
+			},
+			less_plugins: {
+				files: less_plugin_files
 			}
 		},
 		replace: {
@@ -86,7 +102,9 @@ module.exports = function(grunt) {
 					},
 				},
 				files: [
-					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''}
+					{expand: true, flatten: false, src: ['dist/css/*.css'], dest: ''},
+					{expand: true, flatten: false, src: ['dist/less/*.less'], dest: ''},
+					{expand: true, flatten: false, src: ['dist/less/plugins/*.less'], dest: ''},
 				]
 			}
 		},
@@ -96,10 +114,10 @@ module.exports = function(grunt) {
 			},
 			uncompressed: {
 				files: {
-					'dist/css/selectize.css': ['src/css/selectize.less'],
-					'dist/css/selectize.default.css': ['src/css/selectize.default.less'],
-					'dist/css/selectize.bootstrap2.css': ['src/css/selectize.bootstrap2.tmp.less'],
-					'dist/css/selectize.bootstrap3.css': ['src/css/selectize.bootstrap3.tmp.less']
+					'dist/css/selectize.css': ['dist/less/selectize.less'],
+					'dist/css/selectize.default.css': ['dist/less/selectize.default.less'],
+					'dist/css/selectize.bootstrap2.css': ['dist/less/selectize.bootstrap2.tmp.less'],
+					'dist/css/selectize.bootstrap3.css': ['dist/less/selectize.bootstrap3.tmp.less']
 				}
 			},
 			compressed: {
@@ -107,10 +125,10 @@ module.exports = function(grunt) {
 					compress: true
 				},
 				files: {
-					'dist/css/selectize.min.css': ['src/css/selectize.less'],
-					'dist/css/selectize.default.min.css': ['src/css/selectize.default.less'],
-					'dist/css/selectize.bootstrap2.min.css': ['src/css/selectize.bootstrap2.tmp.less'],
-					'dist/css/selectize.bootstrap3.min.css': ['src/css/selectize.bootstrap3.tmp.less']
+					'dist/css/selectize.min.css': ['dist/less/selectize.less'],
+					'dist/css/selectize.default.min.css': ['dist/less/selectize.default.less'],
+					'dist/css/selectize.bootstrap2.min.css': ['dist/less/selectize.bootstrap2.tmp.less'],
+					'dist/css/selectize.bootstrap3.min.css': ['dist/less/selectize.bootstrap3.tmp.less']
 				}
 			}
 		},
@@ -124,18 +142,26 @@ module.exports = function(grunt) {
 					'dist/js/selectize.js': files_js,
 				}
 			},
-			css_theme_dependencies: {
+			less_plugins: {
+				options: {
+					banner: less_imports.join('\n') + grunt.util.linefeed + grunt.util.linefeed
+				},
+				files: {
+					'dist/less/selectize.less': ['dist/less/selectize.less']
+				}
+			},
+			less_theme_dependencies: {
 				options: {stripBanners: false},
 				files: {
-					'src/css/selectize.bootstrap2.tmp.less': [
+					'dist/less/selectize.bootstrap2.tmp.less': [
 						'bower_components/bootstrap2/less/variables.less',
 						'bower_components/bootstrap2/less/mixins.less',
-						'src/css/selectize.bootstrap2.less'
+						'dist/less/selectize.bootstrap2.less'
 					],
-					'src/css/selectize.bootstrap3.tmp.less': [
+					'dist/less/selectize.bootstrap3.tmp.less': [
 						'bower_components/bootstrap3/less/variables.less',
 						'bower_components/bootstrap3/less/mixins.less',
-						'src/css/selectize.bootstrap3.less'
+						'dist/less/selectize.bootstrap3.less'
 					]
 				}
 			},

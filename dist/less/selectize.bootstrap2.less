@@ -1,5 +1,5 @@
 /**
- * selectize.css (v@@version) - Bootstrap 2 Theme
+ * selectize.bootstrap2.css (v0.6.14) - Bootstrap 2 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -25,19 +25,25 @@
 @selectize-color-input: @inputBackground;
 @selectize-color-input-full: @inputBackground;
 @selectize-color-disabled: @inputBackground;
-@selectize-color-optgroup: inherit;
+@selectize-color-item: @btnBackgroundHighlight;
+@selectize-color-item-border: @btnBorder;
+@selectize-color-item-active: @dropdownLinkBackgroundHover;
+@selectize-color-item-active-text: @dropdownLinkColorHover;
+@selectize-color-item-active-border: darken(@selectize-color-item-active, 5%);
 @selectize-color-optgroup-text: @grayLight;
 @selectize-color-optgroup-border: @dropdownDividerTop;
 @selectize-color-dropdown: @dropdownBackground;
+@selectize-color-dropdown-border: @inputBorder;
 @selectize-color-dropdown-border-top: @dropdownDividerTop;
 @selectize-color-dropdown-item-active: @dropdownLinkBackgroundHover;
 @selectize-color-dropdown-item-active-text: @dropdownLinkColorHover;
-@selectize-color-dropdown-item-create-text: inherit;
 @selectize-color-dropdown-item-create-active-text: @dropdownLinkColorHover;
+@selectize-lighten-disabled-item: 8%;
+@selectize-lighten-disabled-item-text: 8%;
+@selectize-lighten-disabled-item-border: 8%;
 @selectize-opacity-disabled: 0.5;
 @selectize-shadow-input: none;
 @selectize-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15);
-@selectize-border: 1px solid @inputBorder;
 @selectize-border-radius: @inputBorderRadius;
 
 @selectize-padding-x: 10px;
@@ -57,7 +63,6 @@
 @selectize-width-item-border: 1px;
 
 .selectize-dropdown {
-	padding: 5px 0;
 	margin: 2px 0 0 0;
 	z-index: @zindexDropdown;
 	border: 1px solid @dropdownBorder;
@@ -84,6 +89,14 @@
 	[data-selectable].active {
 		#gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 	}
+}
+
+.selectize-dropdown-content {
+	padding: 5px 0;
+}
+
+.selectize-dropdown-header {
+	padding: @selectize-padding-dropdown-item-y * 2 @selectize-padding-dropdown-item-x;
 }
 
 .selectize-input {
@@ -131,15 +144,15 @@
 			}
 		}
 		.selectize-input > div {
-			.gradientBar(@btnBackground, @btnBackgroundHighlight, @selectize-color-text, none);
-			*background-color: @btnBackground;
-			border: @selectize-width-item-border solid @btnBorder;
+			.gradientBar(@btnBackground, @btnBackgroundHighlight, @selectize-color-item-text, none);
+			*background-color: @selectize-color-item;
+			border: @selectize-width-item-border solid @selectize-color-item-border;
 			.border-radius(@baseBorderRadius);
 			.box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
 			&.active {
 				.box-shadow(~"0 1px 2px rgba(0,0,0,.05)");
-				.gradientBar(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%), @dropdownLinkColorHover, none);
-				*background-color: @dropdownLinkBackgroundHover;
+				.gradientBar(@selectize-color-item-active, @selectize-color-item-active-border, @selectize-color-item-active-text, none);
+				*background-color: @selectize-color-item-active;
 				border: @selectize-width-item-border solid @dropdownLinkBackgroundHover;
 			}
 		}

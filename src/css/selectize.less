@@ -1,25 +1,39 @@
+// base styles
+
 @selectize-font-family: inherit;
 @selectize-font-smoothing: inherit;
 @selectize-font-size: 14px;
 @selectize-line-height: 20px;
 
 @selectize-color-text: #303030;
+@selectize-color-border: #d0d0d0;
 @selectize-color-highlight: rgba(255,237,40,0.4);
 @selectize-color-input: #fff;
 @selectize-color-input-full: #f2f2f2;
 @selectize-color-disabled: #fafafa;
+@selectize-color-item: #f2f2f2;
+@selectize-color-item-text: @selectize-color-text;
+@selectize-color-item-border: #d0d0d0;
+@selectize-color-item-active: #e8e8e8;
+@selectize-color-item-active-text: @selectize-color-text;
+@selectize-color-item-active-border: #cacaca;
 @selectize-color-optgroup: #f8f8f8;
-@selectize-color-optgroup-text: inherit;
+@selectize-color-optgroup-text: @selectize-color-text;
 @selectize-color-dropdown: #fff;
+@selectize-color-dropdown-border: @selectize-color-border;
 @selectize-color-dropdown-border-top: #f0f0f0;
 @selectize-color-dropdown-item-active: #fffceb;
-@selectize-color-dropdown-item-active-text: inherit;
+@selectize-color-dropdown-item-active-text: @selectize-color-text;
 @selectize-color-dropdown-item-create-text: #a0a0a0;
 @selectize-color-dropdown-item-create-active-text: #a0a0a0;
+@selectize-lighten-disabled-item: 30%;
+@selectize-lighten-disabled-item-text: 30%;
+@selectize-lighten-disabled-item-border: 30%;
 @selectize-opacity-disabled: 0.5;
+
 @selectize-shadow-input: inset 0 1px 1px rgba(0,0,0,0.1);
 @selectize-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15);
-@selectize-border: 1px solid #d0d0d0;
+@selectize-border: 1px solid @selectize-color-border;
 @selectize-border-radius: 3px;
 
 @selectize-width-item-border: 0;
@@ -111,7 +125,7 @@
 	&.full {
 		background-color: @selectize-color-input-full;
 	}
-	&.disabled, &.disabled input {
+	&.disabled, &.disabled * {
 		cursor: default !important;
 	}
 	&.focus {
@@ -132,6 +146,22 @@
 		cursor: pointer;
 		margin: 0 @selectize-margin-item-x @selectize-margin-item-y 0;
 		padding: @selectize-padding-item-y @selectize-padding-item-x;
+		background: @selectize-color-item;
+		color: @selectize-color-item-text;
+		border: @selectize-width-item-border solid @selectize-color-item-border;
+
+		&.active {
+			background: @selectize-color-item-active;
+			color: @selectize-color-item-active-text;
+			border: @selectize-width-item-border solid @selectize-color-item-active-border;
+		}
+	}
+	.selectize-control.multi &.disabled > div {
+		&, &.active {
+			color: lighten(desaturate(@selectize-color-item-text, 100%), @selectize-lighten-disabled-item-text);
+			background: lighten(desaturate(@selectize-color-item, 100%), @selectize-lighten-disabled-item);
+			border: @selectize-width-item-border solid lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
+		}
 	}
 	> input {
 		padding: 0 !important;

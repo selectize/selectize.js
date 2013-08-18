@@ -1,5 +1,5 @@
 /**
- * selectize.css (v0.6.14) - Default Theme
+ * selectize.default.css (v0.6.14) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -13,6 +13,102 @@
  *
  * @author Brian Reavis <brian@thirdroute.com>
  */
+
+.selectize-control.plugin-drag_drop.multi > .selectize-input > div.ui-sortable-placeholder {
+  background: #f2f2f2 !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  border: 0 none !important;
+  visibility: visible !important;
+  -webkit-box-shadow: inset 0 0 12px 4px #ffffff;
+          box-shadow: inset 0 0 12px 4px #ffffff;
+}
+
+.selectize-control.plugin-drag_drop .ui-sortable-placeholder::after {
+  content: '!';
+  visibility: hidden;
+}
+
+.selectize-control.plugin-drag_drop .ui-sortable-helper {
+  -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.selectize-dropdown-header {
+  position: relative;
+  padding: 7px 10px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #d0d0d0;
+  -webkit-border-radius: 3px 3px 0 0;
+     -moz-border-radius: 3px 3px 0 0;
+          border-radius: 3px 3px 0 0;
+}
+
+.selectize-dropdown-header-close {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin-top: -12px;
+  font-size: 20px !important;
+  line-height: 20px;
+  color: #303030;
+  opacity: 0.4;
+}
+
+.selectize-dropdown-header-close:hover {
+  color: #000000;
+}
+
+.selectize-dropdown.plugin-optgroup_columns .optgroup {
+  float: left;
+  border-right: 1px solid #f2f2f2;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.selectize-dropdown.plugin-optgroup_columns .optgroup:last-child {
+  border-right: 0 none;
+}
+
+.selectize-dropdown.plugin-optgroup_columns .optgroup-header {
+  border-top: 0 none;
+}
+
+.selectize-control.plugin-remove_button .item {
+  position: relative;
+  padding-right: 24px !important;
+}
+
+.selectize-control.plugin-remove_button .item .remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: inline-block;
+  width: 17px;
+  padding: 7px 0 0 0;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 8px;
+  color: inherit;
+  text-align: center;
+  vertical-align: middle;
+  border-left: 1px solid #74b21e;
+  -webkit-border-radius: 0 2px 2px 0;
+     -moz-border-radius: 0 2px 2px 0;
+          border-radius: 0 2px 2px 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.selectize-control.plugin-remove_button .item .remove:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.selectize-control.plugin-remove_button .item.active .remove {
+  border-left-color: #6f9839;
+}
 
 .selectize-control {
   position: relative;
@@ -62,7 +158,7 @@
 }
 
 .selectize-input.disabled,
-.selectize-input.disabled input {
+.selectize-input.disabled * {
   cursor: default !important;
 }
 
@@ -88,7 +184,23 @@
 .selectize-control.multi .selectize-input > div {
   padding: 1px 5px;
   margin: 0 5px 5px 0;
+  color: #3d5d18;
   cursor: pointer;
+  background: #b8e76f;
+  border: 1px solid #74b21e;
+}
+
+.selectize-control.multi .selectize-input > div.active {
+  color: #303030;
+  background: #92c836;
+  border: 1px solid #6f9839;
+}
+
+.selectize-control.multi .selectize-input.disabled > div,
+.selectize-control.multi .selectize-input.disabled > div.active {
+  color: #878787;
+  background: #f8f8f8;
+  border: 1px solid #b4b4b4;
 }
 
 .selectize-input > input {
@@ -166,13 +278,13 @@
 }
 
 .selectize-dropdown .optgroup-header {
-  color: inherit;
+  color: #303030;
   cursor: default;
   background: #f8f8f8;
 }
 
 .selectize-dropdown .active {
-  color: inherit;
+  color: #303030;
   background-color: #fffceb;
 }
 
@@ -226,7 +338,6 @@
 }
 
 .selectize-control.multi .selectize-input > div {
-  color: #3d5d18;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
   background-color: #b2e567;
   background-image: -moz-linear-gradient(top, #b8e76f, #a9e25c);
@@ -235,7 +346,6 @@
   background-image: -o-linear-gradient(top, #b8e76f, #a9e25c);
   background-image: linear-gradient(to bottom, #b8e76f, #a9e25c);
   background-repeat: repeat-x;
-  border: 1px solid #74b21e;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
@@ -252,7 +362,6 @@
   background-image: -o-linear-gradient(top, #92c836, #7abc2c);
   background-image: linear-gradient(to bottom, #92c836, #7abc2c);
   background-repeat: repeat-x;
-  border-color: #6f9839;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff92c836', endColorstr='#ff7abc2c', GradientType=0);
 }
 
