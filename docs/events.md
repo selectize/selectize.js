@@ -77,4 +77,9 @@ selectize.off('event_name', handler);
 		<td valign="top">data</td>
 		<td valign="top">Invoked when new options have been loaded and added to the control (via the "load" option or "load" API method).</td>
 	</tr>
+	<tr>
+		<td valign="top"><code>"destroy"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked right before the control is destroyed.</td>
+	</tr>
 </table>

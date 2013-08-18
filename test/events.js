@@ -181,6 +181,21 @@
 			});
 		});
 
+		describe('destroy', function() {
+			beforeEach(function() {
+				test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			});
+			afterEach(function() {
+				test.teardown();
+			});
+			it('should be triggered', function(done) {
+				test.selectize.on('destroy', function() {
+					done();
+				});
+				test.selectize.destroy();
+			});
+		});
+
 		describe('type', function() {
 			beforeEach(function() {
 				test = setup_test('<select></select>', {create: true});

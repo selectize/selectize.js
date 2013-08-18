@@ -1576,6 +1576,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var eventNS = self.eventNS;
 
+		self.trigger('destroy');
 		self.off();
 		self.$wrapper.remove();
 		self.$dropdown.remove();
