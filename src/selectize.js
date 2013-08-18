@@ -1012,7 +1012,7 @@ $.extend(Selectize.prototype, {
 
 		self.loadedSearches = {};
 		self.userOptions = {};
-		self.options = {};
+		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
 		self.clear();
