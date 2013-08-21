@@ -113,8 +113,11 @@
 	 * @returns {function}
 	 */
 	Sifter.prototype.getScoreFunction = function(search) {
-		var self   = this;
-		var tokens = search.tokens;
+		var self, search;
+
+		self   = this;
+		search = self.prepareSearch(search);
+		tokens = search.tokens;
 
 		var calculateFieldScore = (function() {
 			if (!tokens.length) {
@@ -175,6 +178,26 @@
 	};
 
 	/**
+	 * Parses a search query and returns an object
+	 * with tokens and fields ready to be populated
+	 * with results.
+	 *
+	 * @param {string} query
+	 * @param {object} options
+	 * @returns {object}
+	 */
+	Sifter.prototype.prepareSearch = function(query, options) {
+		if (typeof query === 'object') return query;
+		return {
+			options : extend({}, options),
+			query   : String(query || '').toLowerCase(),
+			tokens  : this.tokenize(query),
+			total   : 0,
+			items   : []
+		};
+	};
+
+	/**
 	 * Searches through all items and returns a sorted array of matches.
 	 *
 	 * The `options` parameter can contain:
@@ -200,15 +223,9 @@
 	Sifter.prototype.search = function(query, options) {
 		var self = this, value, score, search, calculateScore;
 
-		options = extend({}, options);
-		query   = String(query || '').toLowerCase();
-		search  = {
-			options : options,
-			query   : query,
-			tokens  : self.tokenize(query),
-			total   : 0,
-			items   : []
-		};
+		search  = this.prepareSearch(query, options);
+		options = search.options;
+		query   = search.query;
 
 		// generate result scoring function
 		if (!is_array(options.fields)) options.fields = [options.fields];
@@ -258,7 +275,7 @@
 
 	var extend = function(a, b) {
 		var i, n, k, object;
-		for (var i = 1, n = arguments.length; i < n; i++) {
+		for (i = 1, n = arguments.length; i < n; i++) {
 			object = arguments[i];
 			if (!object) continue;
 			for (k in object) {
@@ -1611,6 +1628,18 @@
 		 */
 		blur: function() {
 			this.$control_input.trigger('blur');
+		},
+	
+		/**
+		 * Returns a function that scores an object
+		 * to show how good of a match it is to the
+		 * provided query.
+		 *
+		 * @param {string} query
+		 * @return {function}
+		 */
+		getScoreFunction: function(query) {
+			return this.sifter.getScoreFunction(query);
 		},
 	
 		/**

@@ -1175,6 +1175,18 @@
 		},
 	
 		/**
+		 * Returns a function that scores an object
+		 * to show how good of a match it is to the
+		 * provided query.
+		 *
+		 * @param {string} query
+		 * @return {function}
+		 */
+		getScoreFunction: function(query) {
+			return this.sifter.getScoreFunction(query);
+		},
+	
+		/**
 		 * Searches through available options and returns
 		 * a sorted array of matches.
 		 *

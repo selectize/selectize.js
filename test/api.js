@@ -431,6 +431,22 @@
 			});
 		});
 
+		describe('getScoreFunction()', function() {
+			it('should return an function that returns a number', function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0},
+						{value: 1}
+					]
+				});
+				var fn = test.selectize.getScoreFunction('hello world');
+				expect(typeof fn).to.be.equal('function');
+				expect(typeof fn({value: 3})).to.be.equal('number');
+			});
+		});
+
 		describe('destroy()', function() {
 			var has_namespaced_event = function($el, ns) {
 				var i, n, key;
