@@ -102,6 +102,10 @@
   border-right: 0 none;
 }
 
+.selectize-dropdown.plugin-optgroup_columns .optgroup:before {
+  display: none;
+}
+
 .selectize-dropdown.plugin-optgroup_columns .optgroup-header {
   border-top: 0 none;
 }
