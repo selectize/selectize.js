@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-bower-cli');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -15,11 +17,19 @@ module.exports = function(grunt) {
 		'concat:less_plugins',
 		'concat:js',
 		'recess',
+		'clean_bootstrap2_css',
 		'replace',
 		'concat:js_standalone',
 		'uglify',
 		'clean:post',
 	]);
+
+	grunt.registerTask('clean_bootstrap2_css', 'Cleans CSS rules ocurring before the header comment.', function() {
+		var file = 'dist/css/selectize.bootstrap2.css';
+		var source = fs.readFileSync(file, 'utf8');
+		fs.writeFileSync(file, source.replace(/^(.|\s)+?\/\*/m, '/*'), 'utf8');
+		grunt.log.writeln('Cleaned "' + file + '".');
+	});
 
 	var files_js = [
 		'src/contrib/*.js',
