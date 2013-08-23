@@ -35,7 +35,7 @@
 
 .selectize-dropdown-header {
   position: relative;
-  padding: 7px 10px;
+  padding: 5px 8px;
   background: #f8f8f8;
   border-bottom: 1px solid #d0d0d0;
   -webkit-border-radius: 3px 3px 0 0;
@@ -46,7 +46,7 @@
 .selectize-dropdown-header-close {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 8px;
   margin-top: -12px;
   font-size: 20px !important;
   line-height: 20px;
@@ -60,6 +60,7 @@
 
 .selectize-dropdown.plugin-optgroup_columns .optgroup {
   float: left;
+  border-top: 0 none;
   border-right: 1px solid #f2f2f2;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -90,14 +91,13 @@
   bottom: 0;
   display: inline-block;
   width: 17px;
-  padding: 7px 0 0 0;
+  padding: 2px 0 0 0;
   font-size: 12px;
   font-weight: bold;
-  line-height: 8px;
   color: inherit;
   text-align: center;
   vertical-align: middle;
-  border-left: 1px solid #74b21e;
+  border-left: 1px solid #0073bb;
   -webkit-border-radius: 0 2px 2px 0;
      -moz-border-radius: 0 2px 2px 0;
           border-radius: 0 2px 2px 0;
@@ -111,7 +111,7 @@
 }
 
 .selectize-control.plugin-remove_button .item.active .remove {
-  border-left-color: #6f9839;
+  border-left-color: #00578d;
 }
 
 .selectize-control {
@@ -122,9 +122,9 @@
 .selectize-input,
 .selectize-input input {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   -webkit-font-smoothing: inherit;
-  line-height: 20px;
+  line-height: 18px;
   color: #303030;
 }
 
@@ -140,7 +140,7 @@
   z-index: 1;
   display: inline-block;
   width: 100%;
-  padding: 10px 10px;
+  padding: 8px 8px;
   overflow: hidden;
   border: 1px solid #d0d0d0;
   -webkit-border-radius: 3px;
@@ -154,11 +154,11 @@
 }
 
 .selectize-control.multi .selectize-input.has-items {
-  padding: 8px 10px 3px;
+  padding: 5px 8px 2px;
 }
 
 .selectize-input.full {
-  background-color: #f2f2f2;
+  background-color: #ffffff;
 }
 
 .selectize-input.disabled,
@@ -186,25 +186,25 @@
 }
 
 .selectize-control.multi .selectize-input > div {
-  padding: 1px 5px;
-  margin: 0 5px 5px 0;
-  color: #3d5d18;
+  padding: 2px 6px;
+  margin: 0 3px 3px 0;
+  color: #ffffff;
   cursor: pointer;
-  background: #b8e76f;
-  border: 1px solid #74b21e;
+  background: #1da7ee;
+  border: 1px solid #0073bb;
 }
 
 .selectize-control.multi .selectize-input > div.active {
-  color: #303030;
+  color: #ffffff;
   background: #92c836;
-  border: 1px solid #6f9839;
+  border: 1px solid #00578d;
 }
 
 .selectize-control.multi .selectize-input.disabled > div,
 .selectize-control.multi .selectize-input.disabled > div.active {
-  color: #878787;
-  background: #f8f8f8;
-  border: 1px solid #b4b4b4;
+  color: #ffffff;
+  background: #d2d2d2;
+  border: 1px solid #aaaaaa;
 }
 
 .selectize-input > input {
@@ -212,7 +212,7 @@
   max-height: none !important;
   min-height: 0 !important;
   padding: 0 !important;
-  margin: 0 2px 0 0 !important;
+  margin: 0 1px !important;
   line-height: inherit !important;
   text-indent: 0 !important;
   background: none !important;
@@ -266,7 +266,7 @@
 }
 
 .selectize-dropdown [data-selectable] .highlight {
-  background: rgba(255, 237, 40, 0.4);
+  background: rgba(125, 168, 208, 0.2);
   -webkit-border-radius: 1px;
      -moz-border-radius: 1px;
           border-radius: 1px;
@@ -274,7 +274,7 @@
 
 .selectize-dropdown [data-selectable],
 .selectize-dropdown .optgroup-header {
-  padding: 7px 10px;
+  padding: 5px 8px;
 }
 
 .selectize-dropdown .optgroup:first-child .optgroup-header {
@@ -284,20 +284,20 @@
 .selectize-dropdown .optgroup-header {
   color: #303030;
   cursor: default;
-  background: #f8f8f8;
+  background: #ffffff;
 }
 
 .selectize-dropdown .active {
-  color: #303030;
-  background-color: #fffceb;
+  color: #495c68;
+  background-color: #f5fafd;
 }
 
 .selectize-dropdown .active.create {
-  color: #a0a0a0;
+  color: #495c68;
 }
 
 .selectize-dropdown .create {
-  color: #a0a0a0;
+  color: rgba(48, 48, 48, 0.5);
 }
 
 .selectize-dropdown-content {
@@ -341,45 +341,59 @@
   opacity: 0.5;
 }
 
-.selectize-control.multi .selectize-input > div {
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-  background-color: #b2e567;
-  background-image: -moz-linear-gradient(top, #b8e76f, #a9e25c);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b8e76f), to(#a9e25c));
-  background-image: -webkit-linear-gradient(top, #b8e76f, #a9e25c);
-  background-image: -o-linear-gradient(top, #b8e76f, #a9e25c);
-  background-image: linear-gradient(to bottom, #b8e76f, #a9e25c);
+.selectize-control.multi .selectize-input.has-items {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.selectize-control.multi .selectize-input.disabled [data-value] {
+  color: #999;
+  text-shadow: none;
+  background: none;
+  border-color: #e6e6e6;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.selectize-control.multi .selectize-input [data-value] {
+  text-shadow: 0 1px 0 rgba(0, 51, 83, 0.3);
+  background-color: #1b9dec;
+  background-image: -moz-linear-gradient(top, #1da7ee, #178ee9);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#1da7ee), to(#178ee9));
+  background-image: -webkit-linear-gradient(top, #1da7ee, #178ee9);
+  background-image: -o-linear-gradient(top, #1da7ee, #178ee9);
+  background-image: linear-gradient(to bottom, #1da7ee, #178ee9);
   background-repeat: repeat-x;
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb8e76f', endColorstr='#ffa9e25c', GradientType=0);
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff1da7ee', endColorstr='#ff178ee9', GradientType=0);
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), inset 0 1px rgba(255, 255, 255, 0.03);
 }
 
-.selectize-control.multi .selectize-input > div.active {
-  background-color: #88c332;
-  background-image: -moz-linear-gradient(top, #92c836, #7abc2c);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#92c836), to(#7abc2c));
-  background-image: -webkit-linear-gradient(top, #92c836, #7abc2c);
-  background-image: -o-linear-gradient(top, #92c836, #7abc2c);
-  background-image: linear-gradient(to bottom, #92c836, #7abc2c);
+.selectize-control.multi .selectize-input [data-value].active {
+  background-color: #0085d4;
+  background-image: -moz-linear-gradient(top, #008fd8, #0075cf);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#008fd8), to(#0075cf));
+  background-image: -webkit-linear-gradient(top, #008fd8, #0075cf);
+  background-image: -o-linear-gradient(top, #008fd8, #0075cf);
+  background-image: linear-gradient(to bottom, #008fd8, #0075cf);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff92c836', endColorstr='#ff7abc2c', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff008fd8', endColorstr='#ff0075cf', GradientType=0);
 }
 
 .selectize-control.single .selectize-input {
-  background-color: #f3f3f3;
-  background-image: -moz-linear-gradient(top, #f5f5f5, #efefef);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f5f5f5), to(#efefef));
-  background-image: -webkit-linear-gradient(top, #f5f5f5, #efefef);
-  background-image: -o-linear-gradient(top, #f5f5f5, #efefef);
-  background-image: linear-gradient(to bottom, #f5f5f5, #efefef);
+  background-color: #f9f9f9;
+  background-image: -moz-linear-gradient(top, #fefefe, #f2f2f2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fefefe), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #fefefe, #f2f2f2);
+  background-image: -o-linear-gradient(top, #fefefe, #f2f2f2);
+  background-image: linear-gradient(to bottom, #fefefe, #f2f2f2);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff5f5f5', endColorstr='#ffefefef', GradientType=0);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 #e0e0e0, 0 3px 0 #c8c8c8, 0 4px 1px rgba(0, 0, 0, 0.1);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 2px 0 #e0e0e0, 0 3px 0 #c8c8c8, 0 4px 1px rgba(0, 0, 0, 0.1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffefefe', endColorstr='#fff2f2f2', GradientType=0);
+  -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+          box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .selectize-control.single .selectize-input,
@@ -388,8 +402,15 @@
 }
 
 .selectize-dropdown .optgroup-header {
-  font-size: 0.8em;
+  font-size: 0.85em;
   font-weight: bold;
+}
+
+.selectize-dropdown .optgroup {
+  padding-top: 4px;
   border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
+}
+
+.selectize-dropdown .optgroup:first-child {
+  border-top: 0 none;
 }

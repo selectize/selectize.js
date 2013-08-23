@@ -60,6 +60,7 @@
 
 .selectize-dropdown.plugin-optgroup_columns .optgroup {
   float: left;
+  border-top: 0 none;
   border-right: 1px solid #f2f2f2;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
@@ -90,10 +91,9 @@
   bottom: 0;
   display: inline-block;
   width: 17px;
-  padding: 7px 0 0 0;
+  padding: 1px 0 0 0;
   font-size: 12px;
   font-weight: bold;
-  line-height: 8px;
   color: inherit;
   text-align: center;
   vertical-align: middle;
@@ -297,7 +297,7 @@
 }
 
 .selectize-dropdown .create {
-  color: #a0a0a0;
+  color: rgba(51, 51, 51, 0.5);
 }
 
 .selectize-dropdown-content {
