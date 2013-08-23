@@ -1,7 +1,7 @@
 # selectize.js
 [![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
-Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~9kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Examples](examples/)
@@ -11,16 +11,15 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Features
 
-- **Smart Option Ranking**<br>As the user types, options are efficiently scored and sorted on-the-fly (powered by [sifter.js](https://github.com/brianreavis/sifter.js)).
-- **Multi-property searching**<br>Want to search an item's title *and* description? No problem.
-- **Caret between items**<br>Order matters sometimes. Use the [left] and [right] arrow keys to move between selected items.</li>
-- **Select &amp; delete multiple items at once**<br>Hold down [option] on Mac or [ctrl] on Windows to select more than one item to delete.
+- **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter.js](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
+- **Caret between items**<br>Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
+- **Select &amp; delete multiple items at once**<br>Hold down <kbd>option</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.
 - **Díåcritîçs supported**<br>Great for international environments.
 - **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
-- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (powered by [microplugin.js](https://github.com/brianreavis/microplugin.js)).
+- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin.js](https://github.com/brianreavis/microplugin.js)).
 
 ### Usage
 
