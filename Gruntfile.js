@@ -123,17 +123,6 @@ module.exports = function(grunt) {
 					'dist/css/selectize.bootstrap2.css': ['dist/less/selectize.bootstrap2.tmp.less'],
 					'dist/css/selectize.bootstrap3.css': ['dist/less/selectize.bootstrap3.tmp.less']
 				}
-			},
-			compressed: {
-				options: {
-					compress: true
-				},
-				files: {
-					'dist/css/selectize.min.css': ['dist/less/selectize.less'],
-					'dist/css/selectize.default.min.css': ['dist/less/selectize.default.less'],
-					'dist/css/selectize.bootstrap2.min.css': ['dist/less/selectize.bootstrap2.tmp.less'],
-					'dist/css/selectize.bootstrap3.min.css': ['dist/less/selectize.bootstrap3.tmp.less']
-				}
 			}
 		},
 		concat: {
