@@ -14,7 +14,7 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-Selectize.registerPlugin('restore_on_backspace', function(options) {
+Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 
 	options.text = options.text || function(option) {

@@ -1,7 +1,7 @@
 # selectize.js
 [![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
-Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~9kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Examples](examples/)
@@ -11,22 +11,41 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Features
 
-- **Smart Option Ranking**<br>As the user types, options are efficiently scored and sorted on-the-fly.
-- **Multi-property searching**<br>Want to search an item's title *and* description? No problem.
-- **Caret between items**<br>Order matters sometimes. Use the [left] and [right] arrow keys to move between selected items.</li>
-- **Select &amp; delete multiple items at once**<br>Hold down [option] on Mac or [ctrl] on Windows to select more than one item to delete.
+- **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
+- **Caret between items**<br>Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
+- **Select &amp; delete multiple items at once**<br>Hold down <kbd>option</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.
 - **Díåcritîçs supported**<br>Great for international environments.
 - **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
 - **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
 - **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
+- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
 - **Touch Support**<br> Plays nice with iOS 5+ devices.
-- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features.
+
+### Dependencies
+
+- [jquery](https://github.com/jquery/jquery)
+- [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
+- [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in "standalone" build)
+
+### Files
+
+All pre-built files needed to use Selectize can e found in the ["dist"](dist/) folder.
+
+- [**js/**](dist/js)
+	- [**standalone/**](dist/js/standalone)
+		- [selectize.js](dist/js/selectize.js) — With dependencies, minus jquery
+	- [selectize.js](dist/js/selectize.js) — Without dependencies
+- [**less/**](dist/less)
+	- [selectize.less](dist/less/selectize.less) — Core styles
+	- [selectize.default.less](dist/less/selectize.default.less) — Default theme
+	- [selectize.bootstrap2.less](dist/less/selectize.bootstrap2.less) — Bootstrap 2 theme
+	- [selectize.bootstrap3.less](dist/less/selectize.bootstrap3.less) — Bootstrap 3 theme
+	- [**plugins/**](dist/less/plugins) — Individual plugin styles
+- [**css/**](dist/css)
+	- [selectize.css](dist/css/selectize.css) — Core styles
+	- [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
 
 ### Usage
-
-If using [Bower](http://bower.io/), run `bower install selectize`. Otherwise,
-grab ["selectize.min.js"](selectize.min.js) (or ["selectize.js"](selectize.js)
-if in a development environment) and ["selectize.css"](selectize.css) and include them in your project.
 
 ```js
 $('select').selectize(options);
@@ -44,25 +63,31 @@ To support Internet Explorer 8, [es5-shim](https://github.com/kriskowal/es5-shim
 
 ### Custom Builds
 
-By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run `make` with the "plugins" setting. After this completes, grab the js and css from the project root as described above.
+By default, all [plugins](src/plugins) are included. To hand-pick what plugins (if any) to include, run [`grunt`](http://gruntjs.com/) with the "--plugins" flag. After this completes, grab the files you need from the ["dist"](dist) folder.
 
 ```sh
-make plugins=
-make plugins=*
-make plugins=remove_button,restore_on_backspace
+# dependencies
+npm install -g grunt-cli
+npm install -g bower
+npm install
+
+# build selectize
+grunt --plugins=
+grunt --plugins=*
+grunt --plugins=remove_button,restore_on_backspace
 ```
 
 ### Contributing
 
-First build your copy with `make` then try out the [bundled examples](examples/).
+First build your copy then try out the [bundled examples](examples/).
 
 To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. The latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
 
-When issuing a pull request, please exclude "selectize.js" and "selectize.min.js" in the project root.
+When issuing a pull request, please exclude changes in the "dist" folder to avoid merge conflicts.
 
 ## License
 
-Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis), & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
+Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

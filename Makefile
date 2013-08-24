@@ -5,7 +5,7 @@ all: compile
 test:
 	testem
 compile:
-	./build.sh --plugins=$(plugins)
+	grunt --plugins=$(plugins)
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
@@ -13,6 +13,7 @@ ifeq ($(strip $(version)),)
 else
 	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' selectize.jquery.json
 	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' bower.json
+	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' package.json
 	rm *.bak
 	make compile
 	cp selectize.js ../.selectize.js

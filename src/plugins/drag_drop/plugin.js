@@ -14,8 +14,8 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-Selectize.registerPlugin('drag_drop', function(options) {
-	if (!$.fn.sortable) throw new Error('The "drag_drop" Selectize plugin requires jQuery UI "sortable".');
+Selectize.define('drag_drop', function(options) {
+	if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
 	if (this.settings.mode !== 'multi') return;
 	var self = this;
 

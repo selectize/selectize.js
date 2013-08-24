@@ -1,0 +1,29 @@
+.selectize-control.plugin-remove_button {
+	.item {
+		position: relative;
+		padding-right: 24px !important;
+	}
+	.item .remove {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 17px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 12px;
+		color: inherit;
+		vertical-align: middle;
+		display: inline-block;
+		padding: @selectize-padding-item-y 0 0 0;
+		border-left: 1px solid @selectize-color-item-border;
+		.selectize-border-radius(0 2px 2px 0);
+		.selectize-box-sizing(border-box);
+	}
+	.item .remove:hover {
+		background: rgba(0,0,0,0.05);
+	}
+	.item.active .remove {
+		border-left-color: @selectize-color-item-active-border;
+	}
+}

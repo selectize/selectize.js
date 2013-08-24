@@ -14,7 +14,7 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-Selectize.registerPlugin('dropdown_header', function(options) {
+Selectize.define('dropdown_header', function(options) {
 	var self = this;
 
 	options = $.extend({

@@ -29,7 +29,7 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
-		<td valign="top"><code>addOption(value, data)</code></td>
+		<td valign="top"><code>addOption(data)</code></td>
 		<td valign="top">Adds an available option. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
 	</tr>
 	<tr>
@@ -99,17 +99,6 @@ var selectize = $select[0].selectize;
 		<td valign="top">Registers a new optgroup for options to be bucketed into. The "id" argument refers to a value of the property in option identified by the "optgroupField" setting.</td>
 	</tr>
 	<tr>
-		<th valign="top" colspan="3" align="left"><a href="#methods_search" name="methods_search">Search</a></th>
-	</tr>
-	<tr>
-		<th valign="top" width="120px" align="left">Method</th>
-		<th valign="top" align="left">Description</th>
-	</tr>
-	<tr>
-		<td valign="top"><code>getScoreFunction(search)</code></td>
-		<td valign="top">Returns a function for scoring individual options. This should only be used within the "score" callback provided in the options. Returns a float.</td>
-	</tr>
-	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
 	</tr>
 	<tr>
@@ -157,6 +146,10 @@ var selectize = $select[0].selectize;
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>destroy()</code></td>
+		<td valign="top">Destroys the control and unbinds event listeners so that it can be garbage collected.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>load(fn)</code></td>
@@ -215,6 +208,11 @@ var selectize = $select[0].selectize;
 		<th valign="top" width="60px" align="left">Type</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>options</code></td>
+		<td valign="top">Original search options.</td>
+		<td valign="top"><code>object</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>query</code></td>
 		<td valign="top">The raw user input.</td>
 		<td valign="top"><code>string</code></td>
@@ -231,7 +229,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>items</code></td>
-		<td valign="top">A list of matched results. Each result is an object containing two properties: "score" and "value".</td>
+		<td valign="top">A list of matched results. Each result is an object containing two properties: "score" and "id".</td>
 		<td valign="top"><code>array</code></td>
 	</tr>
 </table>

@@ -10,17 +10,30 @@
 		"url": "git://github.com/brianreavis/selectize.js.git"
 	},
 	"main": [
-		"selectize.css",
-		"selectize.js"
+		"dist/css/selectize.css",
+		"dist/js/selectize.js"
 	],
 	"ignore": [
-		"makefile",
+		"Makefile",
+		"Gruntfile.js",
 		"examples",
+		"node_modules",
+		"bower_components",
 		"docs",
 		"src",
+		"test",
+		".travis.yml",
+		"testem.json",
+		"selectize.jquery.json",
 		"*.sh"
 	],
 	"dependencies": {
-		"jquery": "*"
+		"jquery": ">=0.6.0",
+		"sifter": "0.0.x",
+		"microplugin": "0.0.x"
+	},
+	"devDependencies": {
+		"bootstrap2": "bootstrap#2",
+		"bootstrap3": "bootstrap#3"
 	}
 }

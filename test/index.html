@@ -6,9 +6,9 @@
 		<title>Selectize.js Tests</title>
 		<meta name="description" content="">
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-		<link rel="stylesheet" href="../examples/_normalize.css">
+		<link rel="stylesheet" href="../examples/css/normalize.css">
 		<link rel="stylesheet" href="vendor/mocha.css">
-		<link rel="stylesheet" href="../selectize.css">
+		<link rel="stylesheet" href="../dist/css/selectize.default.css">
 		<style type="text/css">
 		#fixture {
 			background: #fafafa;
@@ -18,12 +18,12 @@
 		}
 		</style>
 		<!--[if IE 8]><script src="../examples/_es5.js"></script><![endif]-->
-		<script src="../examples/_jquery.js"></script>
+		<script src="../examples/js/jquery.js"></script>
 		<script src="vendor/syn.js"></script>
 		<script src="vendor/mocha.js"></script>
 		<script src="vendor/chai.js"></script>
 		<script src="/testem.js"></script>
-		<script src="../selectize.js"></script>
+		<script src="../dist/js/standalone/selectize.js"></script>
 	</head>
     <body>
     	<script>
@@ -41,8 +41,8 @@
 				callback: callback,
 				selectize: instance,
 				teardown: function() {
+					instance.destroy();
 					$select.remove();
-					instance.$wrapper.remove();
 				}
 			};
 			return test;

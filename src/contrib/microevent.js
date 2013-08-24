@@ -16,6 +16,10 @@ MicroEvent.prototype = {
 		this._events[event].push(fct);
 	},
 	off: function(event, fct){
+		var n = arguments.length;
+		if (n === 0) return delete this._events;
+		if (n === 1) return delete this._events[event];
+
 		this._events = this._events || {};
 		if (event in this._events === false) return;
 		this._events[event].splice(this._events[event].indexOf(fct), 1);

@@ -16,6 +16,9 @@
 			it('should set isDisabled property to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
+			it('should add "disabled" attribute on original input', function() {
+				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
+			});
 		});
 
 		describe('enable()', function() {
@@ -31,6 +34,9 @@
 			});
 			it('should set isDisabled property to false', function() {
 				expect(test.selectize.isDisabled).to.be.equal(false);
+			});
+			it('should remove "disabled" attribute on original input', function() {
+				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
 			});
 		});
 
@@ -99,6 +105,37 @@
 				expect(test.selectize.items.length).to.be.equal(0);
 				test.teardown();
 			});
+			it('should add option upon completion (synchronous)', function() {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input) {
+						return {value: input};
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+				expect(test.selectize.options).to.have.property('test');
+				test.teardown();
+			});
+			it('should add option upon completion (asynchronous)', function(done) {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input, callback) {
+						window.setTimeout(function() {
+							callback({value: input});
+							expect(test.selectize.options).to.have.property('test');
+							test.teardown();
+							done();
+						}, 0);
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+			});
 		});
 
 		describe('addOption()', function() {
@@ -108,15 +145,20 @@
 			after(function() {
 				test.teardown();
 			});
+			it('should allow string values', function() {
+				test.selectize.addOption({value: 'stringtest'});
+				expect(test.selectize.options).to.have.property('stringtest');
+			});
 			it('should not allow null / undefined values', function() {
-				test.selectize.addOption(undefined, {value: undefined});
-				test.selectize.addOption(null, {value: null});
+				test.selectize.addOption({value: undefined});
+				test.selectize.addOption({value: null});
 				expect(test.selectize.options).to.not.have.property('undefined');
 				expect(test.selectize.options).to.not.have.property('null');
+				expect(test.selectize.options).to.not.have.property('');
 			});
 			it('should allow integer values', function() {
-				test.selectize.addOption(0, {value: 0});
-				test.selectize.addOption(1, {value: 1});
+				test.selectize.addOption({value: 0});
+				test.selectize.addOption({value: 1});
 				expect(test.selectize.options).to.have.property('0');
 				expect(test.selectize.options).to.have.property('1');
 			});
@@ -124,6 +166,11 @@
 				test.selectize.addOption([{value: 'a'}, {value: 'b'}]);
 				expect(test.selectize.options).to.have.property('a');
 				expect(test.selectize.options).to.have.property('b');
+			});
+			it('should not override existing options', function() {
+				test.selectize.addOption([{value: 'a'}, {value: 'b'}]);
+				test.selectize.addOption({value: 'a', test: 'hello'});
+				expect(test.selectize.options.a).to.not.have.property('test');
 			});
 		});
 
@@ -387,6 +434,105 @@
 					expect(test.selectize.isFocused).to.be.equal(false);
 					done();
 				}, 0);
+			});
+		});
+
+		describe('search()', function() {
+			it('should throw error if "score" setting does not return a function', function() {
+				expect(function() {
+					test = setup_test('<select multiple>', {
+						valueField: 'value',
+						labelField: 'value',
+						options: [
+							{value: 0},
+							{value: 1}
+						],
+						score: function() { }
+					});
+					test.selectize.search('hello');
+				}).to.throw(Error);
+				test.teardown();
+			});
+			it('should not throw error if "score" setting does return a function', function() {
+				expect(function() {
+					test = setup_test('<select multiple>', {
+						valueField: 'value',
+						labelField: 'value',
+						options: [
+							{value: 0},
+							{value: 1}
+						],
+						score: function(query) {
+							return function(item) { return 0; };
+						}
+					});
+					test.selectize.search('hello');
+				}).to.not.throw(Error);
+				test.teardown();
+			});
+		});
+
+		describe('getScoreFunction()', function() {
+			it('should return an function that returns a number', function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					searchField: 'value',
+					options: []
+				});
+				var fn = test.selectize.getScoreFunction('test');
+				expect(typeof fn).to.be.equal('function');
+				expect(typeof fn({value: 'test'})).to.be.equal('number');
+				expect(fn({value: 'test'})).to.be.above(0);
+			});
+		});
+
+		describe('destroy()', function() {
+			var has_namespaced_event = function($el, ns) {
+				var i, n, key;
+				var data = ($._data || $.data).apply($, [$(window)[0], 'events']);
+				ns = ns.replace(/^./, '');
+				for (key in data) {
+					if (data.hasOwnProperty(key)) {
+						for (i = 0, n = data[key].length; i < n; i++) {
+							if (data[key][i].namespace.indexOf(ns) !== -1) {
+								return true;
+							}
+						}
+					}
+				}
+
+				return false;
+			};
+			it('should remove control from DOM', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect($.contains(document.documentElement, test.selectize.$wrapper[0])).to.be.equal(false);
+				test.teardown();
+			});
+			it('should delete "selectize" reference on original input element', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(test.selectize.$input[0].selectize).to.be.equal(undefined);
+				test.teardown();
+			});
+			it('should unbind events on window', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($(window), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
+			});
+			it('should unbind events on document', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($(document), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
+			});
+			it('should unbind events on <body>', function() {
+				test = setup_test('<select>', {});
+				test.selectize.destroy();
+				expect(has_namespaced_event($('body'), test.selectize.eventNS)).to.be.equal(false);
+				test.teardown();
 			});
 		});
 

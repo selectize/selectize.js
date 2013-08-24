@@ -1,19 +1,3 @@
-/**
- * selectize.js
- * Copyright (c) 2013 Brian Reavis & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Brian Reavis <brian@thirdroute.com>
- */
-
 var Selectize = function($input, settings) {
 	var key, i, n, self = this;
 	$input[0].selectize = self;
@@ -24,6 +8,7 @@ var Selectize = function($input, settings) {
 		$input           : $input,
 		tagType          : $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 
+		eventNS          : '.selectize' + (++Selectize.count),
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
@@ -55,6 +40,9 @@ var Selectize = function($input, settings) {
 		onSearchChange   : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
+	// search system
+	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
+
 	// build options table
 	$.extend(self.options, build_hash_table(settings.valueField, settings.options));
 	delete self.settings.options;
@@ -69,7 +57,7 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
-	self.loadPlugins(self.settings.plugins);
+	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setup();
 };
@@ -78,7 +66,7 @@ var Selectize = function($input, settings) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MicroEvent.mixin(Selectize);
-Plugins.mixin(Selectize, 'Selectize');
+MicroPlugin.mixin(Selectize);
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -89,8 +77,12 @@ $.extend(Selectize.prototype, {
 	 * Creates all elements and sets up event bindings.
 	 */
 	setup: function() {
-		var self = this;
-		var settings = self.settings;
+		var self      = this;
+		var settings  = self.settings;
+		var eventNS   = self.eventNS;
+		var $window   = $(window);
+		var $document = $(document);
+
 		var $wrapper;
 		var $control;
 		var $control_input;
@@ -102,14 +94,17 @@ $.extend(Selectize.prototype, {
 		var timeout_focus;
 		var tab_index;
 		var classes;
+		var classes_plugins;
 
+		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
 		classes           = self.$input.attr('class') || '';
-		$wrapper          = $('<div>').addClass(settings.theme).addClass(settings.wrapperClass).addClass(classes);
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').toggleClass('has-options', !$.isEmptyObject(self.options)).appendTo($wrapper);
-		$control_input    = $('<input type="text">').appendTo($control).attr('tabindex',tab_index);
+
+		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
+		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
+		$control_input    = $('<input type="text">').appendTo($control).attr('tabindex', tab_index);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).hide().appendTo($dropdown_parent);
+		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(classes).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		$wrapper.css({
@@ -117,13 +112,11 @@ $.extend(Selectize.prototype, {
 			display: self.$input.css('display')
 		});
 
-		if (self.plugins.length) {
-			$wrapper.addClass('plugin-' + self.plugins.join(' plugin-'));
+		if (self.plugins.names.length) {
+			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
+			$wrapper.addClass(classes_plugins);
+			$dropdown.addClass(classes_plugins);
 		}
-
-		inputMode = self.settings.mode;
-		$wrapper.toggleClass('single', inputMode === 'single');
-		$wrapper.toggleClass('multi', inputMode === 'multi');
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
 			self.$input.attr('multiple', 'multiple');
@@ -170,46 +163,44 @@ $.extend(Selectize.prototype, {
 			focus     : function() { return self.onFocus.apply(self, arguments); }
 		});
 
-		$(document).on({
-			keydown: function(e) {
-				self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
-				self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
-				self.isShiftDown = e.shiftKey;
-			},
-			keyup: function(e) {
-				if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
-				if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
-				if (e.keyCode === KEY_CMD) self.isCmdDown = false;
-			},
-			mousedown: function(e) {
-				if (self.isFocused) {
-					// prevent events on the dropdown scrollbar from causing the control to blur
-					if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
-						var ignoreFocus = self.ignoreFocus;
-						self.ignoreFocus = true;
-						window.setTimeout(function() {
-							self.ignoreFocus = ignoreFocus;
-							self.focus(false);
-						}, 0);
-						return;
-					}
-					// blur on click outside
-					if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
-						self.blur();
-					}
+		$document.on('keydown' + eventNS, function(e) {
+			self.isCmdDown = e[IS_MAC ? 'metaKey' : 'ctrlKey'];
+			self.isCtrlDown = e[IS_MAC ? 'altKey' : 'ctrlKey'];
+			self.isShiftDown = e.shiftKey;
+		});
+
+		$document.on('keyup' + eventNS, function(e) {
+			if (e.keyCode === KEY_CTRL) self.isCtrlDown = false;
+			if (e.keyCode === KEY_SHIFT) self.isShiftDown = false;
+			if (e.keyCode === KEY_CMD) self.isCmdDown = false;
+		});
+
+		$document.on('mousedown' + eventNS, function(e) {
+			if (self.isFocused) {
+				// prevent events on the dropdown scrollbar from causing the control to blur
+				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+					var ignoreFocus = self.ignoreFocus;
+					self.ignoreFocus = true;
+					window.setTimeout(function() {
+						self.ignoreFocus = ignoreFocus;
+						self.focus(false);
+					}, 0);
+					return;
+				}
+				// blur on click outside
+				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+					self.blur();
 				}
 			}
 		});
 
-		$(window).on({
-			'scroll resize': function() {
-				if (self.isOpen) {
-					self.positionDropdown.apply(self, arguments);
-				}
-			},
-			'mousemove': function() {
-				self.ignoreHover = false;
+		$window.on(['scroll' + eventNS, 'resize' + eventNS].join(' '), function() {
+			if (self.isOpen) {
+				self.positionDropdown.apply(self, arguments);
 			}
+		});
+		$window.on('mousemove' + eventNS, function() {
+			self.ignoreHover = false;
 		});
 
 		self.$input.attr('tabindex',-1).hide().after(self.$wrapper);
@@ -221,6 +212,7 @@ $.extend(Selectize.prototype, {
 
 		self.updateOriginalInput();
 		self.refreshItems();
+		self.refreshClasses();
 		self.updatePlaceholder();
 		self.isSetup = true;
 
@@ -732,123 +724,39 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Splits a search string into an array of
-	 * individual regexps to be used to match results.
+	 * Returns a function that scores an object
+	 * to show how good of a match it is to the
+	 * provided query.
 	 *
 	 * @param {string} query
-	 * @returns {array}
+	 * @param {object} options
+	 * @return {function}
 	 */
-	parseSearchTokens: function(query) {
-		query = $.trim(String(query || '').toLowerCase());
-		if (!query || !query.length) return [];
-
-		var i, n, regex, letter;
-		var tokens = [];
-		var words = query.split(/ +/);
-
-		for (i = 0, n = words.length; i < n; i++) {
-			regex = escape_regex(words[i]);
-			if (this.settings.diacritics) {
-				for (letter in DIACRITICS) {
-					if (DIACRITICS.hasOwnProperty(letter)) {
-						regex = regex.replace(new RegExp(letter, 'g'), DIACRITICS[letter]);
-					}
-				}
-			}
-			tokens.push({
-				string : words[i],
-				regex  : new RegExp(regex, 'i')
-			});
-		}
-
-		return tokens;
+	getScoreFunction: function(query) {
+		return this.sifter.getScoreFunction(query, this.getSearchOptions());
 	},
 
 	/**
-	 * Returns a function to be used to score individual results.
-	 * Results will be sorted by the score (descending). Scores less
-	 * than or equal to zero (no match) will not be included in the results.
+	 * Returns search options for sifter (the system
+	 * for scoring and sorting results).
 	 *
-	 * @param {object} data
-	 * @param {object} search
-	 * @returns {function}
+	 * @see https://github.com/brianreavis/sifter.js
+	 * @return {object}
 	 */
-	getScoreFunction: function(search) {
-		var self = this;
-		var tokens = search.tokens;
+	getSearchOptions: function() {
+		var settings = this.settings;
+		var fields = settings.searchField;
 
-		var calculateFieldScore = (function() {
-			if (!tokens.length) {
-				return function() { return 0; };
-			} else if (tokens.length === 1) {
-				return function(value) {
-					var score, pos;
-
-					value = String(value || '').toLowerCase();
-					pos = value.search(tokens[0].regex);
-					if (pos === -1) return 0;
-					score = tokens[0].string.length / value.length;
-					if (pos === 0) score += 0.5;
-					return score;
-				};
-			} else {
-				return function(value) {
-					var score, pos, i, j;
-
-					value = String(value || '').toLowerCase();
-					score = 0;
-					for (i = 0, j = tokens.length; i < j; i++) {
-						pos = value.search(tokens[i].regex);
-						if (pos === -1) return 0;
-						if (pos === 0) score += 0.5;
-						score += tokens[i].string.length / value.length;
-					}
-					return score / tokens.length;
-				};
-			}
-		})();
-
-		var calculateScore = (function() {
-			var fields = self.settings.searchField;
-			if (typeof fields === 'string') {
-				fields = [fields];
-			}
-			if (!fields || !fields.length) {
-				return function() { return 0; };
-			} else if (fields.length === 1) {
-				var field = fields[0];
-				return function(data) {
-					if (!data.hasOwnProperty(field)) return 0;
-					return calculateFieldScore(data[field]);
-				};
-			} else {
-				return function(data) {
-					var n = 0;
-					var score = 0;
-					for (var i = 0, j = fields.length; i < j; i++) {
-						if (data.hasOwnProperty(fields[i])) {
-							score += calculateFieldScore(data[fields[i]]);
-							n++;
-						}
-					}
-					return score / n;
-				};
-			}
-		})();
-
-		return calculateScore;
+		return {
+			fields    : $.isArray(fields) ? fields : [fields],
+			sort      : settings.sortField,
+			direction : settings.sortDirection,
+		};
 	},
 
 	/**
 	 * Searches through available options and returns
-	 * a sorted array of matches. Includes options that
-	 * have already been selected.
-	 *
-	 * The `settings` parameter can contain:
-	 *
-	 *   - searchField
-	 *   - sortField
-	 *   - sortDirection
+	 * a sorted array of matches.
 	 *
 	 * Returns an object containing:
 	 *
@@ -858,107 +766,41 @@ $.extend(Selectize.prototype, {
 	 *   - items {array}
 	 *
 	 * @param {string} query
-	 * @param {object} settings
 	 * @returns {object}
 	 */
-	search: function(query, settings) {
-		var self = this;
-		var value, score, search, calculateScore;
+	search: function(query) {
+		var i, value, score, result, calculateScore;
+		var self     = this;
+		var settings = self.settings;
+		var options  = this.getSearchOptions();
 
-		settings = settings || {};
-		query = $.trim(String(query || '').toLowerCase());
+		// validate user-provided result scoring function
+		if (settings.score) {
+			calculateScore = self.settings.score.apply(this, [query]);
+			if (typeof calculateScore !== 'function') {
+				throw new Error('Selectize "score" setting must be a function that returns a function');
+			}
+		}
 
+		// perform search
 		if (query !== self.lastQuery) {
 			self.lastQuery = query;
-
-			search = {
-				query  : query,
-				tokens : self.parseSearchTokens(query),
-				total  : 0,
-				items  : []
-			};
-
-			// generate result scoring function
-			if (self.settings.score) {
-				calculateScore = self.settings.score.apply(this, [search]);
-				if (typeof calculateScore !== 'function') {
-					throw new Error('Selectize "score" setting must be a function that returns a function');
-				}
-			} else {
-				calculateScore = self.getScoreFunction(search);
-			}
-
-			// perform search and sort
-			if (query.length) {
-				for (value in self.options) {
-					if (self.options.hasOwnProperty(value)) {
-						score = calculateScore(self.options[value]);
-						if (score > 0) {
-							search.items.push({
-								score: score,
-								value: value
-							});
-						}
-					}
-				}
-				search.items.sort(function(a, b) {
-					return b.score - a.score;
-				});
-			} else {
-				for (value in self.options) {
-					if (self.options.hasOwnProperty(value)) {
-						search.items.push({
-							score: 1,
-							value: value
-						});
-					}
-				}
-				if (self.settings.sortField) {
-					search.items.sort((function() {
-						var field = self.settings.sortField;
-						var multiplier = self.settings.sortDirection === 'desc' ? -1 : 1;
-						return function(a, b) {
-							a = a && String(self.options[a.value][field] || '').toLowerCase();
-							b = b && String(self.options[b.value][field] || '').toLowerCase();
-							if (a > b) return 1 * multiplier;
-							if (b > a) return -1 * multiplier;
-							return 0;
-						};
-					})());
-				}
-			}
-			self.currentResults = search;
+			result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
+			self.currentResults = result;
 		} else {
-			search = $.extend(true, {}, self.currentResults);
+			result = $.extend(true, {}, self.currentResults);
 		}
 
-		// apply limits and return
-		return self.prepareResults(search, settings);
-	},
-
-	/**
-	 * Filters out any items that have already been selected
-	 * and applies search limits.
-	 *
-	 * @param {object} results
-	 * @param {object} settings
-	 * @returns {object}
-	 */
-	prepareResults: function(search, settings) {
-		if (this.settings.hideSelected) {
-			for (var i = search.items.length - 1; i >= 0; i--) {
-				if (this.items.indexOf(String(search.items[i].value)) !== -1) {
-					search.items.splice(i, 1);
+		// filter out selected items
+		if (settings.hideSelected) {
+			for (i = result.items.length - 1; i >= 0; i--) {
+				if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
+					result.items.splice(i, 1);
 				}
 			}
 		}
 
-		search.total = search.items.length;
-		if (typeof settings.limit === 'number') {
-			search.items = search.items.slice(0, settings.limit);
-		}
-
-		return search;
+		return result;
 	},
 
 	/**
@@ -976,7 +818,7 @@ $.extend(Selectize.prototype, {
 		var i, n, groups, groups_order, option, optgroup, html, html_children;
 		var hasCreateOption;
 		var query = self.$control_input.val();
-		var results = self.search(query, {});
+		var results = self.search(query);
 		var $active, $create;
 		var $dropdown_content = self.$dropdown_content;
 
@@ -999,7 +841,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		for (i = 0; i < n; i++) {
-			option = self.options[results.items[i].value];
+			option = self.options[results.items[i].id];
 			optgroup = option[self.settings.optgroupField] || '';
 			if (!self.optgroups.hasOwnProperty(optgroup)) {
 				optgroup = '';
@@ -1079,24 +921,22 @@ $.extend(Selectize.prototype, {
 	 *
 	 * Usage:
 	 *
-	 *   this.addOption(value, data)
 	 *   this.addOption(data)
 	 *
-	 * @param {string} value
 	 * @param {object} data
 	 */
-	addOption: function(value, data) {
-		var i, n, optgroup, self = this;
+	addOption: function(data) {
+		var i, n, optgroup, value, self = this;
 
-		if ($.isArray(value)) {
-			for (i = 0, n = value.length; i < n; i++) {
-				self.addOption(value[i][self.settings.valueField], value[i]);
+		if ($.isArray(data)) {
+			for (i = 0, n = data.length; i < n; i++) {
+				self.addOption(data[i]);
 			}
 			return;
 		}
 
-		value = hash_key(value);
-		if (self.options.hasOwnProperty(value)) return;
+		value = hash_key(data[self.settings.valueField]);
+		if (!value || self.options.hasOwnProperty(value)) return;
 
 		self.userOptions[value] = true;
 		self.options[value] = data;
@@ -1197,7 +1037,7 @@ $.extend(Selectize.prototype, {
 
 		self.loadedSearches = {};
 		self.userOptions = {};
-		self.options = {};
+		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
 		self.clear();
@@ -1373,7 +1213,7 @@ $.extend(Selectize.prototype, {
 			if (!value) return;
 
 			self.setTextboxValue('');
-			self.addOption(value, data);
+			self.addOption(data);
 			self.setCaret(caret);
 			self.addItem(value);
 			self.refreshOptions(self.settings.mode !== 'single');
@@ -1415,6 +1255,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('dropdown-active', self.isOpen)
+			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
 		this.$control_input.data('grow', !isFull && !isLocked);
 	},
@@ -1734,8 +1575,10 @@ $.extend(Selectize.prototype, {
 	 * While disabled, it cannot receive focus.
 	 */
 	disable: function() {
-		this.isDisabled = true;
-		this.lock();
+		var self = this;
+		self.$input.prop('disabled', true);
+		self.isDisabled = true;
+		self.lock();
 	},
 
 	/**
@@ -1743,8 +1586,32 @@ $.extend(Selectize.prototype, {
 	 * to focus and user input.
 	 */
 	enable: function() {
-		this.isDisabled = false;
-		this.unlock();
+		var self = this;
+		self.$input.prop('disabled', false);
+		self.isDisabled = false;
+		self.unlock();
+	},
+
+	/**
+	 * Completely destroys the control and
+	 * unbinds all event listeners so that it can
+	 * be garbage collected.
+	 */
+	destroy: function() {
+		var self = this;
+		var eventNS = self.eventNS;
+
+		self.trigger('destroy');
+		self.off();
+		self.$wrapper.remove();
+		self.$dropdown.remove();
+		self.$input.show();
+
+		$(window).off(eventNS);
+		$(document).off(eventNS);
+		$(document.body).off(eventNS);
+
+		delete self.$input[0].selectize;
 	},
 
 	/**
@@ -1823,67 +1690,3 @@ $.extend(Selectize.prototype, {
 	}
 
 });
-
-Selectize.defaults = {
-	plugins: [],
-	delimiter: ',',
-	persist: true,
-	diacritics: true,
-	create: false,
-	highlight: true,
-	openOnFocus: true,
-	maxOptions: 1000,
-	maxItems: null,
-	hideSelected: null,
-	preload: false,
-
-	scrollDuration: 60,
-	loadThrottle: 300,
-
-	dataAttr: 'data-data',
-	optgroupField: 'optgroup',
-	sortField: null,
-	sortDirection: 'asc',
-	valueField: 'value',
-	labelField: 'text',
-	optgroupLabelField: 'label',
-	optgroupValueField: 'value',
-	optgroupOrder: null,
-	searchField: ['text'],
-
-	mode: null,
-	theme: 'default',
-	wrapperClass: 'selectize-control',
-	inputClass: 'selectize-input',
-	dropdownClass: 'selectize-dropdown',
-	dropdownContentClass: 'selectize-dropdown-content',
-
-	dropdownParent: null,
-
-	/*
-	load            : null, // function(query, callback) { ... }
-	score           : null, // function(search) { ... }
-	onInitialize    : null, // function() { ... }
-	onChange        : null, // function(value) { ... }
-	onItemAdd       : null, // function(value, $item) { ... }
-	onItemRemove    : null, // function(value) { ... }
-	onClear         : null, // function() { ... }
-	onOptionAdd     : null, // function(value, data) { ... }
-	onOptionRemove  : null, // function(value) { ... }
-	onOptionClear   : null, // function() { ... }
-	onDropdownOpen  : null, // function($dropdown) { ... }
-	onDropdownClose : null, // function($dropdown) { ... }
-	onType          : null, // function(str) { ... }
-	onDelete        : null, // function(values) { ... }
-	*/
-
-	render: {
-		/*
-		item: null,
-		optgroup: null,
-		optgroup_header: null,
-		option: null,
-		option_create: null
-		*/
-	}
-};
