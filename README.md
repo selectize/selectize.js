@@ -29,21 +29,21 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Files
 
-All pre-built files needed to use Selectize are in the ["dist"](dist/) folder.
+All pre-built files needed to use Selectize can e found in the ["dist"](dist/) folder.
 
 - [**js/**](dist/js)
 	- [**standalone/**](dist/js/standalone)
-		- [selectize.js](dist/js/selectize.js) — With dependencies, minus jquery.
-	- [selectize.js](dist/js/selectize.js) — Without dependencies.
+		- [selectize.js](dist/js/selectize.js) — With dependencies, minus jquery
+	- [selectize.js](dist/js/selectize.js) — Without dependencies
 - [**less/**](dist/less)
-	- [selectize.less](dist/less/selectize.less) — Core styles.
-	- [selectize.default.less](dist/less/selectize.default.less) — Default theme.
-	- [selectize.bootstrap2.less](dist/less/selectize.bootstrap2.less) — Bootstrap 2 theme.
-	- [selectize.bootstrap3.less](dist/less/selectize.bootstrap3.less) — Bootstrap 3 theme.
-	- [**plugins/**](dist/less/plugins) — Individual plugin styles.
+	- [selectize.less](dist/less/selectize.less) — Core styles
+	- [selectize.default.less](dist/less/selectize.default.less) — Default theme
+	- [selectize.bootstrap2.less](dist/less/selectize.bootstrap2.less) — Bootstrap 2 theme
+	- [selectize.bootstrap3.less](dist/less/selectize.bootstrap3.less) — Bootstrap 3 theme
+	- [**plugins/**](dist/less/plugins) — Individual plugin styles
 - [**css/**](dist/css)
-	- [selectize.css](dist/css/selectize.css) — Core styles.
-	- [selectize.default.css](dist/css/selectize.default.css) — Default theme.
+	- [selectize.css](dist/css/selectize.css) — Core styles
+	- [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
 
 ### Usage
 

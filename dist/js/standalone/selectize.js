@@ -1830,24 +1830,22 @@
 		 *
 		 * Usage:
 		 *
-		 *   this.addOption(value, data)
 		 *   this.addOption(data)
 		 *
-		 * @param {string} value
 		 * @param {object} data
 		 */
-		addOption: function(value, data) {
-			var i, n, optgroup, self = this;
+		addOption: function(data) {
+			var i, n, optgroup, value, self = this;
 	
-			if ($.isArray(value)) {
-				for (i = 0, n = value.length; i < n; i++) {
-					self.addOption(value[i][self.settings.valueField], value[i]);
+			if ($.isArray(data)) {
+				for (i = 0, n = data.length; i < n; i++) {
+					self.addOption(data[i]);
 				}
 				return;
 			}
 	
-			value = hash_key(value);
-			if (self.options.hasOwnProperty(value)) return;
+			value = hash_key(data[self.settings.valueField]);
+			if (!value || self.options.hasOwnProperty(value)) return;
 	
 			self.userOptions[value] = true;
 			self.options[value] = data;
@@ -2124,7 +2122,7 @@
 				if (!value) return;
 	
 				self.setTextboxValue('');
-				self.addOption(value, data);
+				self.addOption(data);
 				self.setCaret(caret);
 				self.addItem(value);
 				self.refreshOptions(self.settings.mode !== 'single');

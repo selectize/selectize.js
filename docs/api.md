@@ -29,7 +29,7 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
-		<td valign="top"><code>addOption(value, data)</code></td>
+		<td valign="top"><code>addOption(data)</code></td>
 		<td valign="top">Adds an available option. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
 	</tr>
 	<tr>

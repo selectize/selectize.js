@@ -105,6 +105,37 @@
 				expect(test.selectize.items.length).to.be.equal(0);
 				test.teardown();
 			});
+			it('should add option upon completion (synchronous)', function() {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input) {
+						return {value: input};
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+				expect(test.selectize.options).to.have.property('test');
+				test.teardown();
+			});
+			it('should add option upon completion (asynchronous)', function(done) {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					create: function(input, callback) {
+						window.setTimeout(function() {
+							callback({value: input});
+							expect(test.selectize.options).to.have.property('test');
+							test.teardown();
+							done();
+						}, 0);
+					}
+				});
+
+				test.selectize.$control_input.val('test');
+				test.selectize.createItem();
+			});
 		});
 
 		describe('addOption()', function() {
@@ -114,15 +145,20 @@
 			after(function() {
 				test.teardown();
 			});
+			it('should allow string values', function() {
+				test.selectize.addOption({value: 'stringtest'});
+				expect(test.selectize.options).to.have.property('stringtest');
+			});
 			it('should not allow null / undefined values', function() {
-				test.selectize.addOption(undefined, {value: undefined});
-				test.selectize.addOption(null, {value: null});
+				test.selectize.addOption({value: undefined});
+				test.selectize.addOption({value: null});
 				expect(test.selectize.options).to.not.have.property('undefined');
 				expect(test.selectize.options).to.not.have.property('null');
+				expect(test.selectize.options).to.not.have.property('');
 			});
 			it('should allow integer values', function() {
-				test.selectize.addOption(0, {value: 0});
-				test.selectize.addOption(1, {value: 1});
+				test.selectize.addOption({value: 0});
+				test.selectize.addOption({value: 1});
 				expect(test.selectize.options).to.have.property('0');
 				expect(test.selectize.options).to.have.property('1');
 			});
@@ -130,6 +166,11 @@
 				test.selectize.addOption([{value: 'a'}, {value: 'b'}]);
 				expect(test.selectize.options).to.have.property('a');
 				expect(test.selectize.options).to.have.property('b');
+			});
+			it('should not override existing options', function() {
+				test.selectize.addOption([{value: 'a'}, {value: 'b'}]);
+				test.selectize.addOption({value: 'a', test: 'hello'});
+				expect(test.selectize.options.a).to.not.have.property('test');
 			});
 		});
 

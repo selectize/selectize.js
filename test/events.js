@@ -94,14 +94,14 @@
 				test.selectize.on('option_add', function() {
 					done();
 				});
-				test.selectize.addOption('e', {value: 'e'});
+				test.selectize.addOption({value: 'e'});
 			});
 			it('should contain option value', function(done) {
 				test.selectize.on('option_add', function(value, data) {
 					expect(value).to.be.equal('e');
 					done();
 				});
-				test.selectize.addOption('e', {value: 'e'});
+				test.selectize.addOption({value: 'e'});
 			});
 			it('should contain option data', function(done) {
 				var option = {value: 'e'};
@@ -109,7 +109,7 @@
 					expect(data).to.be.equal(data);
 					done();
 				});
-				test.selectize.addOption(option.value, option);
+				test.selectize.addOption(option);
 			});
 		});
 
