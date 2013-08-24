@@ -109,14 +109,15 @@
 	 * Good matches will have a higher score than poor matches.
 	 * If an item is not a match, 0 will be returned by the function.
 	 *
-	 * @param {object} search
+	 * @param {object|string} search
+	 * @param {object} options (optional)
 	 * @returns {function}
 	 */
-	Sifter.prototype.getScoreFunction = function(search) {
+	Sifter.prototype.getScoreFunction = function(search, options) {
 		var self, search;
 
 		self   = this;
-		search = self.prepareSearch(search);
+		search = self.prepareSearch(search, options);
 		tokens = search.tokens;
 
 		var calculateFieldScore = (function() {
@@ -395,17 +396,18 @@
 			}
 
 			while (queue.length) {
-				self.loadPlugin(queue.shift());
+				self.require(queue.shift());
 			}
 		};
 
 		Interface.prototype.loadPlugin = function(name) {
-			if (!Interface.plugins.hasOwnProperty(name)) {
-				throw new Error('Unable to find "' +  name + '" plugin');
-			}
 			var self    = this;
 			var plugins = self.plugins;
 			var plugin  = Interface.plugins[name];
+
+			if (!Interface.plugins.hasOwnProperty(name)) {
+				throw new Error('Unable to find "' +  name + '" plugin');
+			}
 
 			plugins.requested[name] = true;
 			plugins.loaded[name] = plugin.fn.apply(self, [self.plugins.settings[name] || {}]);
@@ -1636,10 +1638,29 @@
 		 * provided query.
 		 *
 		 * @param {string} query
+		 * @param {object} options
 		 * @return {function}
 		 */
 		getScoreFunction: function(query) {
-			return this.sifter.getScoreFunction(query);
+			return this.sifter.getScoreFunction(query, this.getSearchOptions());
+		},
+	
+		/**
+		 * Returns search options for sifter (the system
+		 * for scoring and sorting results).
+		 *
+		 * @see https://github.com/brianreavis/sifter.js
+		 * @return {object}
+		 */
+		getSearchOptions: function() {
+			var settings = this.settings;
+			var fields = settings.searchField;
+	
+			return {
+				fields    : $.isArray(fields) ? fields : [fields],
+				sort      : settings.sortField,
+				direction : settings.sortDirection,
+			};
 		},
 	
 		/**
@@ -1657,9 +1678,10 @@
 		 * @returns {object}
 		 */
 		search: function(query) {
-			var self = this;
-			var settings = self.settings;
 			var i, value, score, result, calculateScore;
+			var self     = this;
+			var settings = self.settings;
+			var options  = this.getSearchOptions();
 	
 			// validate user-provided result scoring function
 			if (settings.score) {
@@ -1672,12 +1694,7 @@
 			// perform search
 			if (query !== self.lastQuery) {
 				self.lastQuery = query;
-				result = self.sifter.search(query, {
-					score     : calculateScore,
-					fields    : settings.searchField,
-					sort      : settings.sortField,
-					direction : settings.sortDirection,
-				});
+				result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 				self.currentResults = result;
 			} else {
 				result = $.extend(true, {}, self.currentResults);

@@ -1180,10 +1180,29 @@
 		 * provided query.
 		 *
 		 * @param {string} query
+		 * @param {object} options
 		 * @return {function}
 		 */
 		getScoreFunction: function(query) {
-			return this.sifter.getScoreFunction(query);
+			return this.sifter.getScoreFunction(query, this.getSearchOptions());
+		},
+	
+		/**
+		 * Returns search options for sifter (the system
+		 * for scoring and sorting results).
+		 *
+		 * @see https://github.com/brianreavis/sifter.js
+		 * @return {object}
+		 */
+		getSearchOptions: function() {
+			var settings = this.settings;
+			var fields = settings.searchField;
+	
+			return {
+				fields    : $.isArray(fields) ? fields : [fields],
+				sort      : settings.sortField,
+				direction : settings.sortDirection,
+			};
 		},
 	
 		/**
@@ -1201,9 +1220,10 @@
 		 * @returns {object}
 		 */
 		search: function(query) {
-			var self = this;
-			var settings = self.settings;
 			var i, value, score, result, calculateScore;
+			var self     = this;
+			var settings = self.settings;
+			var options  = this.getSearchOptions();
 	
 			// validate user-provided result scoring function
 			if (settings.score) {
@@ -1216,12 +1236,7 @@
 			// perform search
 			if (query !== self.lastQuery) {
 				self.lastQuery = query;
-				result = self.sifter.search(query, {
-					score     : calculateScore,
-					fields    : settings.searchField,
-					sort      : settings.sortField,
-					direction : settings.sortDirection,
-				});
+				result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 				self.currentResults = result;
 			} else {
 				result = $.extend(true, {}, self.currentResults);

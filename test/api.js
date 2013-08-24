@@ -436,14 +436,13 @@
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
-					options: [
-						{value: 0},
-						{value: 1}
-					]
+					searchField: 'value',
+					options: []
 				});
-				var fn = test.selectize.getScoreFunction('hello world');
+				var fn = test.selectize.getScoreFunction('test');
 				expect(typeof fn).to.be.equal('function');
-				expect(typeof fn({value: 3})).to.be.equal('number');
+				expect(typeof fn({value: 'test'})).to.be.equal('number');
+				expect(fn({value: 'test'})).to.be.above(0);
 			});
 		});
 
