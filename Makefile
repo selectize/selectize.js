@@ -16,7 +16,7 @@ else
 	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' package.json
 	rm *.bak
 	make compile
-	cp selectize.js ../.selectize.js
+	cp dist/js/standalone/selectize.js ../.selectize.js
 	git add .
 	git commit -a -m "Released $(version)."
 	git tag v$(version)
