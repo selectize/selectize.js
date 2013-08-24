@@ -1,4 +1,14 @@
 $(function() {
+	// style switcher
+	var $theme_links = $('#theme-selector a');
+	$theme_links.on('click', function() {
+		var theme = $(this).attr('data-theme');
+		$theme_links.removeClass('active');
+		$(this).addClass('active');
+		$('link[data-theme]').prop('disabled', true);
+		$('link[data-theme=' + theme + ']').prop('disabled', false);
+	});
+
 	// tab navigation
 	$('#tabs').on('click', 'a', function(e) {
 		var $a = $(e.target);

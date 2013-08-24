@@ -17,6 +17,10 @@
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700">
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="css/selectize.default.css" data-theme="default">
+		<link rel="stylesheet" href="css/selectize.bootstrap2.css" data-theme="bootstrap2" disabled="disabled">
+		<link rel="stylesheet" href="css/selectize.bootstrap3.css" data-theme="bootstrap3" disabled="disabled">
+		<link rel="stylesheet" href="css/selectize.legacy.css" data-theme="legacy" disabled="disabled">
 		<!--[if IE 8]><script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script><![endif]-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -33,18 +37,25 @@
 		ga('create', 'UA-41259457-1', 'brianreavis.github.io');
 		ga('send', 'pageview');
 		</script>
+		<div id="theme-selector">
+			<span class="label">Themes:</span>
+			<a data-theme="default" class="active" href="javascript:void(0)">default</a>
+			<a data-theme="legacy" href="javascript:void(0)">legacy</a>
+			<a data-theme="bootstrap2" href="javascript:void(0)">bootstrap2</a>
+			<a data-theme="bootstrap3" href="javascript:void(0)">bootstrap3</a>
+		</div>
 		<div id="github-banner"><a href="https://github.com/brianreavis/selectize.js">Fork me on GitHub</a></div>
     	<div class="wrapper">
-			<h1><a href="http://brianreavis.github.io/selectize.js/">Selectize.js</a></h1>
+			<h1><a href="http://brianreavis.github.io/selectize.js/" id="logo">Selectize.js</a></h1>
 
 			<p class="feature">
-				Selectize is a jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on.
+				Selectize is the hybrid of a textbox and &lt;select&gt; box. It's jQuery-based and it's useful for tagging, contact lists, country selectors, and so on.
 			</p>
 
 			<p class="widgets">
 				<!-- github star -->
 				<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=brianreavis&amp;repo=selectize.js&amp;type=watch&amp;count=true"
-				allowtransparency="true" frameborder="0" scrolling="0" width="94px" height="20px"></iframe>
+				allowtransparency="true" frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
 
 				<!-- github clone -->
 				<iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=brianreavis&amp;repo=selectize.js&amp;type=fork&amp;count=true"
@@ -55,7 +66,7 @@
 			</p>
 
 			<p>
-				It clocks in at around ~8kb (gzipped). The goal is to provide a solid &amp; usable user-experience with a clean and powerful API.
+				It clocks in at around ~7kb (gzipped). The goal is to provide a solid &amp; usable user-experience with a clean and powerful API.
 			</p>
 			<p>
 				It's a lot like <a href="http://harvesthq.github.io/chosen/">Chosen</a>, <a href="http://ivaynberg.github.io/select2/">Select2</a>, and <a href="http://xoxco.com/projects/code/tagsinput/">Tags Input</a> but
@@ -66,10 +77,11 @@
 			<h2>Features</h2>
 
 			<ul>
-				<li><strong>Clean API &amp; code + extensible</strong> — Interface &amp; make addons like a boss with the plugin system. Fully documented on GitHub &amp; inline.</li>
-				<li><strong>Smart Ranking / Multi-property searching</strong> — Want to search an item's title <em>and</em> description? No problem. You can even override the scoring function used for sorting if you want to get crazy.</li>
-				<li><strong>Caret between items</strong> — Order matters sometimes. Use the [left] and [right] arrow keys to move between items.</li>
-				<li><strong>Select &amp; delete multiple items at once</strong> — Hold down [option] on Mac or [ctrl] on Windows to select more than one item to delete.</li>
+				<li><strong>Skinnable</strong> — Comes with LESS stylesheets and shims for <a href="https://github.com/brianreavis/selectize.js/blob/master/dist/less/selectize.bootstrap2.less">Bootstrap 2</a> and <a href="https://github.com/brianreavis/selectize.js/blob/master/dist/less/selectize.bootstrap3.less">Bootstrap 3</a> (+ precompiled CSS).</li>
+				<li><strong>Clean API &amp; code + extensible</strong> — Interface &amp; make addons like a boss with the <a href="https://github.com/brianreavis/microplugin.js">plugin system</a>. Fully documented on GitHub &amp; inline.</li>
+				<li><strong>Smart Ranking / Multi-property searching</strong> — Want to search an item's title <em>and</em> description? No problem. You can even override the scoring function used for sorting if you want to get crazy. Uses <a href="https://github.com/brianreavis/sifter.js">sifter.js</a>.</li>
+				<li><strong>Caret between items</strong> — Order matters sometimes. Use the <kbd>left</kbd> and <kbd>right</kbd> arrow keys to move between items.</li>
+				<li><strong>Select &amp; delete multiple items at once</strong> — Hold down <kbd>option</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.</li>
 				<li><strong>Díåcritîçs supported</strong> — Great for international environments.</li>
 				<li><strong>Item creation</strong> — Allow users to create items on the fly (and it's async friendly; the control locks until you invoke a callback).</li>
 				<li><strong>Remote data loading</strong> — For when you have thousands of options and want them provided by the server as the user types.</li>
@@ -113,250 +125,6 @@
 					</script>
 				</section>
 
-				<!-- ************** Gist Demo ************** -->
-				<style type="text/css">
-				/* common */
-				.selectize-control.demo-code-language,
-				.selectize-control.demo-code-language .selectize-input,
-				.selectize-control.demo-code-language .selectize-dropdown,
-				.selectize-control.demo-code-language input {
-					font-family: arial, sans-serif !important;
-					font-weight: bold !important;
-					font-size: 13px !important;
-				}
-				.selectize-control.demo-code-language .selectize-input {
-					color: #333 !important;
-					-webkit-border-radius: 3px !important;
-					-moz-border-radius: 3px !important;
-					border-radius: 3px !important;
-				}
-				.selectize-control.demo-code-language .selectize-input [data-value]::before {
-					content: 'Language: ';
-					font-weight: normal;
-					color: #808080;
-				}
-				.selectize-control.demo-code-language input::-webkit-input-placeholder { font-weight: normal; }
-				.selectize-control.demo-code-language input:-moz-placeholder { font-weight: normal; }
-				.selectize-control.demo-code-language input::-moz-placeholder { font-weight: normal; }
-				.selectize-control.demo-code-language input:-ms-input-placeholder { font-weight: normal; }
-
-				.selectize-control.demo-code-language .selectize-dropdown {
-					margin-top: 10px;
-					-webkit-border-radius: 4px;
-					-moz-border-radius: 4px;
-					border-radius: 4px;
-					border: 1px solid #c1c1c1;
-					-webkit-box-shadow: 0 0 13px rgba(0,0,0,0.31);
-					-moz-box-shadow: 0 0 13px rgba(0,0,0,0.31);
-					box-shadow: 0 0 13px rgba(0,0,0,0.31);
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value] {
-					border-bottom: 1px solid #eee;
-					color: #666666;
-					font-weight: normal;
-					padding-left: 30px;
-					position: relative;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].selected {
-					color: #333;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].active {
-					background: #3d84c4;
-					color: #fff;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].selected::before,
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].active::before {
-					content: ' ';
-					display: block;
-					position: absolute;
-					top: 50%;
-					left: 10px;
-					width: 12px;
-					height: 10px;
-					margin: -5px 0 0 0;
-					background: url(images/check@2x.png) 0 0;
-					background-size: 12px 20px;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].active::before,
-				.selectize-control.demo-code-language .selectize-dropdown [data-value].selected.active::before {
-					background-position: 0 -10px;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown [data-value]:last-child {
-					border-bottom: 0 none;
-				}
-
-				/* multiple language select */
-				.selectize-control.demo-code-language.multi .selectize-input [data-value] {
-					color: #333;
-					padding: 2px 7px;
-					text-shadow: 0 1px 0 rgba(255,255,255,0.9);
-					background-color: #FCFAF8;
-					background-image: -moz-linear-gradient(#FCFAF8, #F3F0ED);
-					background-image: -webkit-linear-gradient(#FCFAF8, #F3F0ED);
-					background-image: linear-gradient(#FCFAF8, #F3F0ED);
-					background-repeat: repeat-x;
-					-webkit-border-radius: 3px !important;
-					-moz-border-radius: 3px !important;
-					border-radius: 3px !important;
-					border: 1px solid #B8B7B5;
-					border-bottom-color: #C4BFB2;
-					box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-				}
-				.selectize-control.demo-code-language.multi .selectize-input [data-value].active {
-					border-color: #3775ae;
-					border-bottom-color: #316ca2;
-					background-color: #3d84c4;
-					background-image: -moz-linear-gradient(#4d98db, #3d84c4);
-					background-image: -webkit-linear-gradient(#4d98db, #3d84c4);
-					background-image: linear-gradient(#4d98db, #3d84c4);
-					color: #fff;
-					text-shadow: 0 1px 0 rgba(0,0,0,0.1);
-				}
-				.selectize-control.demo-code-language.multi .selectize-input [data-value].active::before {
-					color: #a1caf0;
-				}
-				.selectize-control.demo-code-language.multi .selectize-input {
-					padding: 9px 8px 8px;
-				}
-				.selectize-control.demo-code-language.multi .selectize-input.has-items {
-					padding-top: 6px !important;
-					padding-bottom: 0px !important;
-					padding-left: 5px !important;
-				}
-
-				/* single language select */
-				.selectize-control.demo-code-language.single {
-					width: 180px;
-				}
-				.selectize-control.demo-code-language.single .selectize-dropdown {
-					width: 400px !important;
-				}
-				.selectize-control.demo-code-language.single .selectize-input {
-					padding: 4px 10px;
-					text-shadow: 0 1px 0 rgba(255,255,255,0.9);
-					white-space: nowrap;
-					background-color: #FCFAF8;
-					background-image: -moz-linear-gradient(#FCFAF8, #F3F0ED);
-					background-image: -webkit-linear-gradient(#FCFAF8, #F3F0ED);
-					background-image: linear-gradient(#FCFAF8, #F3F0ED);
-					background-repeat: repeat-x;
-					border: 1px solid #B8B7B5;
-					border-bottom-color: #C4BFB2;
-					box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-				}
-				.selectize-control.demo-code-language.single .selectize-input:hover {
-					text-decoration: none;
-					background-color: #F0ECE8;
-					background-image: -moz-linear-gradient(#F0ECE8, #E7E4E0);
-					background-image: -webkit-linear-gradient(#F0ECE8, #E7E4E0);
-					background-image: linear-gradient(#F0ECE8, #E7E4E0);
-					background-repeat: repeat-x;
-					border-color: #C2BFBA #C2BFBA #AFADA7;
-				}
-				.selectize-control.demo-code-language.single .selectize-input::after {
-					right: 8px;
-				}
-				.selectize-control.demo-code-language.single .selectize-input::before,
-				.selectize-control.demo-code-language.single .selectize-input.dropdown-active::before {
-					content: ' ';
-					position: absolute;
-					top: 0;
-					bottom: 0;
-					left: auto;
-					width: 0;
-					right: 25px;
-					height: auto;
-					border-right: 1px solid #c2c0bd;
-					border-left: 1px solid rgba(255,255,255,0.7);
-				}
-				.selectize-control.demo-code-language.single .selectize-input.dropdown-active::before {
-					border-right: 1px solid #b5b5b5 !important;
-					border-left: 1px solid rgba(255,255,255,0.02) !important;
-				}
-				.selectize-control.demo-code-language.single .selectize-input.dropdown-active,
-				.selectize-control.demo-code-language.single .selectize-input.dropdown-active:hover {
-					background-color: #E2DFDB;
-					background-image: none;
-					border-color: #b5b5b5;
-					box-shadow: inset 0 1px 1px rgba(0,0,0,0.1);
-				}
-
-				.selectize-control.demo-code-language .selectize-dropdown-header {
-					color: #666;
-					padding: 8px 10px;
-					background-color: #fefefe;
-					background-image: -moz-linear-gradient(#fefefe, #eee);
-					background-image: -webkit-linear-gradient(#fefefe, #eee);
-					background-image: linear-gradient(#fff, #f5f4f2);
-					background-repeat: repeat-x;
-					border-bottom: 1px solid #ddd;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown-header-label {
-					font-weight: bold;
-					font-size: 13px !important;
-					color: #111;
-					text-shadow: 1px 1px 0 #fff;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown-header-close {
-					float: right;
-					font-size: 20px !important;
-					color: #ccc;
-					margin-top: 1px;
-				}
-				.selectize-control.demo-code-language .selectize-dropdown-header-close:hover {
-					color: #aaa;
-				}
-				</style>
-				<section class="demo">
-					<div class="header">
-						Gist-style Language Selector
-					</div>
-					<div class="sandbox">
-						<label for="select-code-language">Single:</label>
-						<select id="select-code-language" class="demo-code-language" placeholder="Select a language...">
-							<option value="txt">Text</option>
-							<option value="md">Markdown</option>
-							<option value="html">HTML</option>
-							<option value="php">PHP</option>
-							<option value="python">Python</option>
-							<option value="java">Java</option>
-							<option value="js" selected>JavaScript</option>
-							<option value="c#">Ruby</option>
-							<option value="c#">VHDL</option>
-							<option value="c#">Verilog</option>
-							<option value="c#">C#</option>
-							<option value="c++">C/C++</option>
-						</select>
-						<label for="select-code-languages" style="margin-top:15px">Multiple:</label>
-						<select id="select-code-languages" multiple class="demo-code-language" placeholder="Select languages...">
-							<option value="txt" selected>Text</option>
-							<option value="md">Markdown</option>
-							<option value="html">HTML</option>
-							<option value="php">PHP</option>
-							<option value="python">Python</option>
-							<option value="java">Java</option>
-							<option value="js">JavaScript</option>
-							<option value="c#">Ruby</option>
-							<option value="c#">VHDL</option>
-							<option value="c#">Verilog</option>
-							<option value="c#">C#</option>
-							<option value="c++">C/C++</option>
-						</select>
-					</div>
-					<div class="description">
-						Demonstrates how to use CSS to customize the appearance to mimic select boxes on Github / Gists.
-					</div>
-					<script class="show">
-					$('.demo-code-language').selectize({
-						sortField: 'text',
-						hideSelected: false,
-						plugins: {
-							'dropdown_header': {title: 'Language'}
-						}
-					});
-					</script>
-				</section>
-
 				<!-- ************** Email Contacts Demo ************** -->
 				<section class="demo">
 					<div class="header">
@@ -364,7 +132,7 @@
 					</div>
 					<div class="sandbox">
 						<label for="select-to">Email:</label>
-						<select id="select-to" placeholder="Pick some people..."></select>
+						<select id="select-to" class="contacts" placeholder="Pick some people..."></select>
 					</div>
 					<div class="description">
 						This demonstrates two main things: (1) custom item and option rendering, and (2) item creation on-the-fly.
@@ -375,7 +143,6 @@
 					                  '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
 					$('#select-to').selectize({
-						theme: 'contacts',
 						persist: false,
 						maxItems: null,
 						valueField: 'email',
@@ -825,7 +592,7 @@
 					</div>
 					<div class="sandbox">
 						<label for="select-repo">Repository:</label>
-						<select id="select-repo" placeholder="Pick a repository...">
+						<select id="select-repo" class="repositories" placeholder="Pick a repository...">
 							<option selected value="https://github.com/brianreavis/selectize.js" data-data="{&quot;type&quot;:&quot;repo&quot;,&quot;username&quot;:&quot;brianreavis&quot;,&quot;name&quot;:&quot;selectize.js&quot;,&quot;owner&quot;:&quot;brianreavis&quot;,&quot;homepage&quot;:null,&quot;description&quot;:&quot;A highly customizable select control with autocomplete.&quot;,&quot;language&quot;:&quot;JavaScript&quot;,&quot;watchers&quot;:6,&quot;followers&quot;:6,&quot;forks&quot;:0,&quot;size&quot;:216,&quot;open_issues&quot;:1,&quot;score&quot;:14.659029,&quot;has_downloads&quot;:true,&quot;has_issues&quot;:true,&quot;has_wiki&quot;:true,&quot;fork&quot;:false,&quot;private&quot;:false,&quot;url&quot;:&quot;https://github.com/brianreavis/selectize.js&quot;,&quot;created&quot;:&quot;2012-08-29T18:31:57Z&quot;,&quot;created_at&quot;:&quot;2012-08-29T18:31:57Z&quot;,&quot;pushed_at&quot;:&quot;2013-05-05T19:13:48Z&quot;,&quot;pushed&quot;:&quot;2013-05-05T19:13:48Z&quot;}">selectize.js</option>
 						</select>
 					</div>
@@ -834,7 +601,6 @@
 					</div>
 					<script class="show">
 					$('#select-repo').selectize({
-						theme: 'repositories',
 						valueField: 'url',
 						labelField: 'name',
 						searchField: 'name',
@@ -885,7 +651,7 @@
 					</div>
 					<div class="sandbox">
 						<label for="select-movie">Movie:</label>
-						<select id="select-movie" placeholder="Find a movie..."></select>
+						<select id="select-movie" class="movies" placeholder="Find a movie..."></select>
 					</div>
 					<div class="description">
 						This demo shows how to integrate third-party data from the Rotten Tomatoes API. Try searching for "Iron Man".
@@ -893,7 +659,6 @@
 					</div>
 					<script class="show">
 					$('#select-movie').selectize({
-						theme: 'movies',
 						valueField: 'title',
 						labelField: 'title',
 						searchField: 'title',
