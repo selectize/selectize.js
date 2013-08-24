@@ -1,16 +1,19 @@
 ## Selectize API – Plugins
 
-Features can be added to Selectize without modifying the main library.
+Via the [microplugin](https://github.com/brianreavis/microplugin.js) interface,
+features can be added to Selectize without modifying the main library.
 This is great because it protects against code bloat, allows for lean builds,
 and allows for addons to be sanely isolated. The plugin system isn't meant
 to be sexy; it's lean, makes very few assumptions, and gives the developer
 complete control.
 
+[**Example Plugins**](../src/plugins)
+
 **A few notes:**
 - All plugins live in their own folders in ["src/plugins"](../src/plugins).
 - Plugin names should be in follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
-- CSS should live in a "plugin.css" file (optional). It will be bundled at build time.
+- CSS should live in a "plugin.less" file (optional). It will be bundled at build time.
 - Plugins are initialized right before the control is setup.
   This means that if you want to listen for events on any of the control's
   elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
@@ -94,3 +97,5 @@ $('select').selectize({
 	}
 });
 ```
+
+For a more detailed description of plugin option formats and how the plugin system works, check out the [microplugin](https://github.com/brianreavis/microplugin.js) documentation.

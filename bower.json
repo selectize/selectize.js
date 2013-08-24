@@ -15,6 +15,7 @@
 	],
 	"ignore": [
 		"Makefile",
+		"Gruntfile.js",
 		"examples",
 		"node_modules",
 		"bower_components",
@@ -23,6 +24,7 @@
 		"test",
 		".travis.yml",
 		"testem.json",
+		"selectize.jquery.json",
 		"*.sh"
 	],
 	"dependencies": {
