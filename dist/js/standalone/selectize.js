@@ -470,7 +470,7 @@
 }));
 
 /**
- * selectize.js (v0.7.0)
+ * selectize.js (v0.7.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
