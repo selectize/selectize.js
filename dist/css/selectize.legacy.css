@@ -246,7 +246,7 @@
 .selectize-dropdown {
   position: absolute;
   z-index: 2;
-  margin-top: -1px;
+  margin: -1px 0 0 0;
   background: #ffffff;
   border: 1px solid #d0d0d0;
   border-top: 0 none;

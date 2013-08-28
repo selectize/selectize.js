@@ -8,9 +8,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-replace');
 	grunt.loadNpmTasks('grunt-recess');
-	grunt.registerTask('default', [
+
+	grunt.registerTask('configure', [
 		'clean:pre',
 		'bower:install',
+	]);
+
+	grunt.registerTask('compile', [
 		'copy:less',
 		'copy:less_plugins',
 		'concat:less_theme_dependencies',
@@ -22,6 +26,11 @@ module.exports = function(grunt) {
 		'concat:js_standalone',
 		'uglify',
 		'clean:post',
+	]);
+
+	grunt.registerTask('default', [
+		'configure',
+		'compile'
 	]);
 
 	grunt.registerTask('clean_bootstrap2_css', 'Cleans CSS rules ocurring before the header comment.', function() {
