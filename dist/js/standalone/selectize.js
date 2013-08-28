@@ -114,68 +114,81 @@
 	 * @returns {function}
 	 */
 	Sifter.prototype.getScoreFunction = function(search, options) {
-		var self, search;
+		var self, fields, tokens, token_count;
 
-		self   = this;
-		search = self.prepareSearch(search, options);
-		tokens = search.tokens;
+		self        = this;
+		search      = self.prepareSearch(search, options);
+		tokens      = search.tokens;
+		fields      = search.options.fields;
+		token_count = tokens.length;
 
-		var calculateFieldScore = (function() {
-			if (!tokens.length) {
+		/**
+		 * Calculates how close of a match the
+		 * given value is against a search token.
+		 *
+		 * @param {mixed} value
+		 * @param {object} token
+		 * @return {number}
+		 */
+		var scoreValue = function(value, token) {
+			var score, pos;
+
+			if (!value) return 0;
+			value = String(value || '').toLowerCase();
+			pos = value.search(token.regex);
+			if (pos === -1) return 0;
+			score = token.string.length / value.length;
+			if (pos === 0) score += 0.5;
+			return score;
+		};
+
+		/**
+		 * Calculates the score of an object
+		 * against the search query.
+		 *
+		 * @param {object} token
+		 * @param {object} data
+		 * @return {number}
+		 */
+		var scoreObject = (function() {
+			var field_count = fields.length;
+			if (!field_count) {
 				return function() { return 0; };
-			} else if (tokens.length === 1) {
-				return function(value) {
-					var score, pos;
-
-					value = String(value || '').toLowerCase();
-					pos = value.search(tokens[0].regex);
-					if (pos === -1) return 0;
-					score = tokens[0].string.length / value.length;
-					if (pos === 0) score += 0.5;
-					return score;
-				};
-			} else {
-				return function(value) {
-					var score, pos, i, j;
-					value = String(value || '').toLowerCase();
-					score = 0;
-					for (i = 0, j = tokens.length; i < j; i++) {
-						pos = value.search(tokens[i].regex);
-						if (pos === -1) continue;
-						if (pos === 0) score += 0.5;
-						score += tokens[i].string.length / value.length;
-					}
-					return score / tokens.length;
+			}
+			if (field_count === 1) {
+				return function(token, data) {
+					return scoreValue(data[fields[0]], token);
 				};
 			}
-		})();
-
-		var calculateScore = (function() {
-			var fields = search.options.fields;
-			if (!fields || !fields.length) {
-				return function() { return 0; };
-			} else if (fields.length === 1) {
-				var field = fields[0];
-				return function(data) {
-					if (!data.hasOwnProperty(field)) return 0;
-					return calculateFieldScore(data[field]);
-				};
-			} else {
-				return function(data) {
-					var n = 0;
-					var score = 0;
-					for (var i = 0, j = fields.length; i < j; i++) {
-						if (data.hasOwnProperty(fields[i])) {
-							score += calculateFieldScore(data[fields[i]]);
-							n++;
-						}
+			return function(token, data) {
+				var sum = 0;
+				var count = 0;
+				for (var i = 0, n = field_count; i < n; i++) {
+					if (data.hasOwnProperty(fields[i])) {
+						sum += scoreValue(data[fields[i]], token);
+						count++;
 					}
-					return score / n;
-				};
-			}
+				}
+				return count ? sum / count : 0;
+			};
 		})();
 
-		return calculateScore;
+		if (!token_count) {
+			return function() { return 0; };
+		}
+		if (token_count === 1) {
+			return function(data) {
+				return scoreObject(tokens[0], data);
+			};
+		}
+		return function(data) {
+			var i, n, score, sum = 0;
+			for (i = 0; i < token_count; i++) {
+				score = scoreObject(tokens[i], data);
+				sum += score;
+			}
+			return sum / token_count;
+		};
 	};
 
 	/**
