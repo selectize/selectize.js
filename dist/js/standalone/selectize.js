@@ -134,7 +134,7 @@
 			var score, pos;
 
 			if (!value) return 0;
-			value = String(value || '').toLowerCase();
+			value = String(value || '');
 			pos = value.search(token.regex);
 			if (pos === -1) return 0;
 			score = token.string.length / value.length;
@@ -161,15 +161,10 @@
 				};
 			}
 			return function(token, data) {
-				var sum = 0;
-				var count = 0;
-				for (var i = 0, n = field_count; i < n; i++) {
-					if (data.hasOwnProperty(fields[i])) {
-						sum += scoreValue(data[fields[i]], token);
-						count++;
-					}
+				for (var i = 0, sum = 0; i < field_count; i++) {
+					sum += scoreValue(data[fields[i]], token);
 				}
-				return count ? sum / count : 0;
+				return sum / field_count;
 			};
 		})();
 
@@ -182,10 +177,8 @@
 			};
 		}
 		return function(data) {
-			var i, n, score, sum = 0;
-			for (i = 0; i < token_count; i++) {
-				score = scoreObject(tokens[i], data);
-				sum += score;
+			for (var i = 0, sum = 0; i < token_count; i++) {
+				sum += scoreObject(tokens[i], data);
 			}
 			return sum / token_count;
 		};
@@ -1142,6 +1135,7 @@
 				self.disable();
 			}
 	
+			self.on('change', this.onChange);
 			self.trigger('initialize');
 	
 			// preload options
@@ -1189,6 +1183,15 @@
 				args = Array.prototype.slice.apply(arguments, [1]);
 				this.settings[event].apply(this, args);
 			}
+		},
+	
+		/**
+		 * Triggered when the value of the control has been changed.
+		 * This should propagate the event to the original DOM
+		 * input / select element.
+		 */
+		onChange: function() {
+			this.$input.trigger('change');
 		},
 	
 		/**
@@ -2212,7 +2215,6 @@
 				self.$input.val(self.getValue());
 			}
 	
-			self.$input.trigger('change');
 			if (self.isSetup) {
 				self.trigger('change', self.$input.val());
 			}

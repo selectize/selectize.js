@@ -220,6 +220,7 @@ $.extend(Selectize.prototype, {
 			self.disable();
 		}
 
+		self.on('change', this.onChange);
 		self.trigger('initialize');
 
 		// preload options
@@ -267,6 +268,15 @@ $.extend(Selectize.prototype, {
 			args = Array.prototype.slice.apply(arguments, [1]);
 			this.settings[event].apply(this, args);
 		}
+	},
+
+	/**
+	 * Triggered when the value of the control has been changed.
+	 * This should propagate the event to the original DOM
+	 * input / select element.
+	 */
+	onChange: function() {
+		this.$input.trigger('change');
 	},
 
 	/**
@@ -1290,7 +1300,6 @@ $.extend(Selectize.prototype, {
 			self.$input.val(self.getValue());
 		}
 
-		self.$input.trigger('change');
 		if (self.isSetup) {
 			self.trigger('change', self.$input.val());
 		}

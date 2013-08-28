@@ -38,6 +38,7 @@
 			var $select = $(html).appendTo('#fixture').selectize(options);
 			var instance = $select[0].selectize;
 			window.test = {
+				$select: $select,
 				callback: callback,
 				selectize: instance,
 				teardown: function() {
@@ -46,7 +47,7 @@
 				}
 			};
 			return test;
-		}
+		};
     	</script>
 		<div id="mocha"></div>
 		<div id="fixture"></div>
@@ -54,6 +55,7 @@
 		<script src="setup.js"></script>
 		<script src="api.js"></script>
 		<script src="events.js"></script>
+		<script src="events_dom.js"></script>
 		<script src="interaction.js"></script>
 		<script src="xss.js"></script>
 		<!-- end tests -->
