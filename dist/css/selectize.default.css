@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.7.2) - Default Theme
+ * selectize.default.css (v0.7.3) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -245,7 +245,7 @@
 
 .selectize-dropdown {
   position: absolute;
-  z-index: 2;
+  z-index: 10;
   margin: -1px 0 0 0;
   background: #ffffff;
   border: 1px solid #d0d0d0;

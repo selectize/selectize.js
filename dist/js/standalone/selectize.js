@@ -463,7 +463,7 @@
 }));
 
 /**
- * selectize.js (v0.7.2)
+ * selectize.js (v0.7.3)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -483,11 +483,11 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(['sifter','microplugin'], factory);
+		define(['jquery','sifter','microplugin'], factory);
 	} else {
-		root.Selectize = factory(root.Sifter, root.MicroPlugin);
+		root.Selectize = factory(root.jQuery, root.Sifter, root.MicroPlugin);
 	}
-}(this, function(Sifter, MicroPlugin) {
+}(this, function($, Sifter, MicroPlugin) {
 	'use strict';
 
 	var highlight = function($element, pattern) {
