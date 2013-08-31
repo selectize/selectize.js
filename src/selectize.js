@@ -257,20 +257,6 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggers a callback defined in the user-provided settings.
-	 * Events: onItemAdd, onOptionAdd, etc
-	 *
-	 * @param {string} event
-	 */
-	triggerCallback: function(event) {
-		var args;
-		if (typeof this.settings[event] === 'function') {
-			args = Array.prototype.slice.apply(arguments, [1]);
-			this.settings[event].apply(this, args);
-		}
-	},
-
-	/**
 	 * Triggered when the value of the control has been changed.
 	 * This should propagate the event to the original DOM
 	 * input / select element.
