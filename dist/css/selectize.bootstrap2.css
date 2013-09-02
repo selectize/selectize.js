@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap2.css (v0.7.3) - Bootstrap 2 Theme
+ * selectize.bootstrap2.css (v0.7.4) - Bootstrap 2 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -96,6 +96,7 @@
   font-weight: bold;
   color: inherit;
   text-align: center;
+  text-decoration: none;
   vertical-align: middle;
   border-left: 1px solid #cccccc;
   -webkit-border-radius: 0 2px 2px 0;
