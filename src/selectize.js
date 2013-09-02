@@ -1429,7 +1429,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// allow the callback to abort
-		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete(values) === false)) {
+		if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.apply(self, [values]) === false)) {
 			return false;
 		}
 
