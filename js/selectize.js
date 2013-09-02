@@ -463,7 +463,7 @@
 }));
 
 /**
- * selectize.js (v0.7.3)
+ * selectize.js (v0.7.4)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1168,20 +1168,6 @@
 					fn = this.settings[callbacks[key]];
 					if (fn) this.on(key, fn);
 				}
-			}
-		},
-	
-		/**
-		 * Triggers a callback defined in the user-provided settings.
-		 * Events: onItemAdd, onOptionAdd, etc
-		 *
-		 * @param {string} event
-		 */
-		triggerCallback: function(event) {
-			var args;
-			if (typeof this.settings[event] === 'function') {
-				args = Array.prototype.slice.apply(arguments, [1]);
-				this.settings[event].apply(this, args);
 			}
 		},
 	
@@ -2358,7 +2344,7 @@
 			}
 	
 			// allow the callback to abort
-			if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete(values) === false)) {
+			if (!values.length || (typeof self.settings.onDelete === 'function' && self.settings.onDelete.apply(self, [values]) === false)) {
 				return false;
 			}
 	
@@ -2938,6 +2924,10 @@
 	
 	Selectize.define('remove_button', function(options) {
 		var self = this;
+	
+		if (self.settings.mode === 'single') {
+			return;
+		}
 	
 		// override the item rendering method to add a "x" to each
 		this.settings.render.item = function(data) {
