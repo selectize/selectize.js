@@ -30,7 +30,7 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Files
 
-All pre-built files needed to use Selectize can e found in the ["dist"](dist/) folder.
+All pre-built files needed to use Selectize can be found in the ["dist"](dist/) folder.
 
 - [**js/**](dist/js)
 	- [**standalone/**](dist/js/standalone)
