@@ -109,8 +109,7 @@ $.extend(Selectize.prototype, {
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		$wrapper.css({
-			width: self.$input[0].style.width,
-			display: self.$input.css('display')
+			width: self.$input[0].style.width
 		});
 
 		if (self.plugins.names.length) {
