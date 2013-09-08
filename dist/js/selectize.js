@@ -2497,7 +2497,7 @@
 				if (options.append) {
 					var render_item = self.settings.render.item;
 					self.settings.render.item = function(data) {
-						return append(render_item.apply(this, arguments), options.html);
+						return append(render_item.apply(this, arguments), html);
 					};
 				}
 	
