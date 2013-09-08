@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.7.4) - Default Theme
+ * selectize.default.css (v0.7.5) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -79,12 +79,12 @@
   border-top: 0 none;
 }
 
-.selectize-control.plugin-remove_button .item {
+.selectize-control.plugin-remove_button [data-value] {
   position: relative;
   padding-right: 24px !important;
 }
 
-.selectize-control.plugin-remove_button .item .remove {
+.selectize-control.plugin-remove_button [data-value] .remove {
   position: absolute;
   top: 0;
   right: 0;
@@ -107,11 +107,11 @@
           box-sizing: border-box;
 }
 
-.selectize-control.plugin-remove_button .item .remove:hover {
+.selectize-control.plugin-remove_button [data-value] .remove:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.selectize-control.plugin-remove_button .item.active .remove {
+.selectize-control.plugin-remove_button [data-value].active .remove {
   border-left-color: #00578d;
 }
 
@@ -403,12 +403,12 @@
 }
 
 .selectize-dropdown .optgroup-header {
+  padding-top: 7px;
   font-size: 0.85em;
   font-weight: bold;
 }
 
 .selectize-dropdown .optgroup {
-  padding-top: 4px;
   border-top: 1px solid #f0f0f0;
 }
 
