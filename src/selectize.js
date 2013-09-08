@@ -133,6 +133,10 @@ $.extend(Selectize.prototype, {
 		self.$dropdown_content = $dropdown_content;
 
 		$control.on('mousedown', function(e) {
+			if (self.isInputFocused && $($control).hasClass('dropdown-active') && (settings.maxItems === 1 || self.tagType === TAG_INPUT)) {
+				self.close();
+				e.preventDefault();
+			}
 			if (!e.isDefaultPrevented()) {
 				window.setTimeout(function() {
 					self.focus(true);
