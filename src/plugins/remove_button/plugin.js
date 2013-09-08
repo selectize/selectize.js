@@ -15,25 +15,45 @@
  */
 
 Selectize.define('remove_button', function(options) {
+	if (this.settings.mode === 'single') return;
+
+	options = $.extend({
+		label     : '&times;',
+		title     : 'Remove',
+		className : 'remove',
+		append    : true,
+	}, options);
+
 	var self = this;
+	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
-	if (self.settings.mode === 'single') {
-		return;
-	}
-
-	// override the item rendering method to add a "x" to each
-	this.settings.render.item = function(data) {
-		var label = data[self.settings.labelField];
-		return '<div class="item">' + label + ' <a href="javascript:void(0)" class="remove" tabindex="-1" title="Remove">&times;</a></div>';
+	/**
+	 * Appends an element as a child (with raw HTML).
+	 *
+	 * @param {string} html_container
+	 * @param {string} html_element
+	 * @return {string}
+	 */
+	var append = function(html_container, html_element) {
+		var pos = html_container.search(/(<\/[^>]+>\s*)$/);
+		return html_container.substring(0, pos) + html_element + html_container.substring(pos);
 	};
 
-	// override the setup method to add an extra "click" handler
-	// that listens for mousedown events on the "x"
 	this.setup = (function() {
 		var original = self.setup;
 		return function() {
+			// override the item rendering method to add the button to each
+			if (options.append) {
+				var render_item = self.settings.render.item;
+				self.settings.render.item = function(data) {
+					return append(render_item.apply(this, arguments), options.html);
+				};
+			}
+
 			original.apply(this, arguments);
-			this.$control.on('click', '.remove', function(e) {
+
+			// add event listener
+			this.$control.on('click', '.' + options.className, function(e) {
 				e.preventDefault();
 				var $item = $(e.target).parent();
 				self.setActiveItem($item);
@@ -41,6 +61,7 @@ Selectize.define('remove_button', function(options) {
 					self.setCaret(self.items.length);
 				}
 			});
+
 		};
 	})();
 

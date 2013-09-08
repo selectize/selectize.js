@@ -1,9 +1,9 @@
 .selectize-control.plugin-remove_button {
-	.item {
+	[data-value] {
 		position: relative;
 		padding-right: 24px !important;
 	}
-	.item .remove {
+	[data-value] .remove {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -21,10 +21,10 @@
 		.selectize-border-radius(0 2px 2px 0);
 		.selectize-box-sizing(border-box);
 	}
-	.item .remove:hover {
+	[data-value] .remove:hover {
 		background: rgba(0,0,0,0.05);
 	}
-	.item.active .remove {
+	[data-value].active .remove {
 		border-left-color: @selectize-color-item-active-border;
 	}
 }
