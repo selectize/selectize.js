@@ -258,11 +258,7 @@
 					var field = options.sort;
 					var multiplier = options.direction === 'desc' ? -1 : 1;
 					return function(a, b) {
-						a = a && String(self.items[a.id][field] || '').toLowerCase();
-						b = b && String(self.items[b.id][field] || '').toLowerCase();
-						if (a > b) return 1 * multiplier;
-						if (b > a) return -1 * multiplier;
-						return 0;
+						return cmp(self.items[a.id][field], self.items[b.id][field]) * multiplier;
 					};
 				})());
 			}
@@ -279,6 +275,17 @@
 
 	// utilities
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	var cmp = function(a, b) {
+		if (typeof a === 'number' && typeof b === 'number') {
+			return a > b ? 1 : (a < b ? -1 : 0);
+		}
+		a = String(a || '').toLowerCase();
+		b = String(b || '').toLowerCase();
+		if (a > b) return 1;
+		if (b > a) return -1;
+		return 0;
+	};
 
 	var extend = function(a, b) {
 		var i, n, k, object;
@@ -454,7 +461,7 @@
 	};
 
 	var utils = {
-		isArray: Array.isArray || function() {
+		isArray: Array.isArray || function(vArg) {
 			return Object.prototype.toString.call(vArg) === '[object Array]';
 		}
 	};
@@ -463,7 +470,7 @@
 }));
 
 /**
- * selectize.js (v0.7.5)
+ * selectize.js (v0.7.6)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -2627,7 +2634,7 @@
 	
 		dataAttr: 'data-data',
 		optgroupField: 'optgroup',
-		sortField: null,
+		sortField: '$order',
 		sortDirection: 'asc',
 		valueField: 'value',
 		labelField: 'text',
@@ -2708,6 +2715,7 @@
 		var init_select = function($input, settings_element) {
 			var i, n, tagName;
 			var $children;
+			var order = 0;
 			settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
 	
 			var readData = function($el) {
@@ -2719,16 +2727,22 @@
 			};
 	
 			var addOption = function($option, group) {
+				var value, option;
+	
 				$option = $($option);
 	
-				var value = $option.attr('value') || '';
+				value = $option.attr('value') || '';
 				if (!value.length) return;
 	
-				settings_element.options[value] = readData($option) || {
+				option = readData($option) || {
 					'text'     : $option.text(),
 					'value'    : value,
 					'optgroup' : group
 				};
+	
+				option.$order = ++order;
+				settings_element.options[value] = option;
+	
 				if ($option.is(':selected')) {
 					settings_element.items.push(value);
 				}
