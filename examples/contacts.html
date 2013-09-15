@@ -77,7 +77,7 @@
 				<p>An example showing how you might go about creating contact selector like those used in Email apps.</p>
 				<div class="control-group">
 					<label for="select-to">To:</label>
-					<select id="select-to" placeholder="Pick some people..."></select>
+					<select id="select-to" class="contacts" placeholder="Pick some people..."></select>
 				</div>
 				<script>
 				// <select id="select-to"></select>
@@ -85,28 +85,37 @@
 				var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
 				                  '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 
+				var formatName = function(item) {
+					return $.trim((item.first_name || '') + ' ' + (item.last_name || ''));
+				};
+
 				$('#select-to').selectize({
-					theme: 'contacts',
 					persist: false,
 					maxItems: null,
 					valueField: 'email',
 					labelField: 'name',
-					searchField: ['name', 'email'],
+					searchField: ['first_name', 'last_name', 'email'],
+					sortField: [
+						{field: 'first_name', direction: 'asc'},
+						{field: 'last_name', direction: 'asc'}
+					],
 					options: [
-						{email: 'brian@thirdroute.com', name: 'Brian Reavis'},
-						{email: 'nikola@tesla.com', name: 'Nikola Tesla'},
+						{email: 'nikola@tesla.com', first_name: 'Nikola', last_name: 'Tesla'},
+						{email: 'brian@thirdroute.com', first_name: 'Brian', last_name: 'Reavis'},
 						{email: 'someone@gmail.com'}
 					],
 					render: {
 						item: function(item, escape) {
+							var name = formatName(item);
 							return '<div>' +
-								(item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
+								(name ? '<span class="name">' + escape(name) + '</span>' : '') +
 								(item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
 							'</div>';
 						},
 						option: function(item, escape) {
-							var label = item.name || item.email;
-							var caption = item.name ? item.email : null;
+							var name = formatName(item);
+							var label = name || item.email;
+							var caption = name ? item.email : null;
 							return '<div>' +
 								'<span class="label">' + escape(label) + '</span>' +
 								(caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
@@ -119,9 +128,15 @@
 						}
 						var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
 						if (match) {
+							var name       = $.trim(match[1]);
+							var pos_space  = name.indexOf(' ');
+							var first_name = name.substring(0, pos_space);
+							var last_name  = name.substring(pos_space + 1);
+
 							return {
-								email : match[2],
-								name  : $.trim(match[1])
+								email: match[2],
+								first_name: first_name,
+								last_name: last_name
 							};
 						}
 						alert('Invalid email address.');

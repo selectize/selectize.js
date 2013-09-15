@@ -770,12 +770,10 @@ $.extend(Selectize.prototype, {
 	 */
 	getSearchOptions: function() {
 		var settings = this.settings;
-		var fields = settings.searchField;
 
 		return {
-			fields    : $.isArray(fields) ? fields : [fields],
-			sort      : settings.sortField,
-			direction : settings.sortDirection,
+			fields : settings.searchField,
+			sort   : settings.sortField
 		};
 	},
 

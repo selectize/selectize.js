@@ -49,12 +49,16 @@
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
 						<option value="3">Nikola Tesla</option>
+						<option value="5">Arnold Schwarzenegger</option>
 					</select>
 				</div>
 				<script>
 				$('#select-beast').selectize({
 					create: true,
-					sortField: 'text',
+					sortField: {
+						field: 'text',
+						direction: 'asc'
+					},
 					dropdownParent: 'body'
 				});
 				</script>
@@ -74,7 +78,7 @@
 				<script>
 				$('#select-beast-disabled').selectize({
 					create: true,
-					sortField: 'text'
+					sortField: {field: 'text'}
 				});
 				</script>
 			</div>
