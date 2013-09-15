@@ -2163,7 +2163,7 @@
 	
 		dataAttr: 'data-data',
 		optgroupField: 'optgroup',
-		sortField: null,
+		sortField: '$order',
 		sortDirection: 'asc',
 		valueField: 'value',
 		labelField: 'text',
@@ -2244,6 +2244,7 @@
 		var init_select = function($input, settings_element) {
 			var i, n, tagName;
 			var $children;
+			var order = 0;
 			settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
 	
 			var readData = function($el) {
@@ -2255,16 +2256,22 @@
 			};
 	
 			var addOption = function($option, group) {
+				var value, option;
+	
 				$option = $($option);
 	
-				var value = $option.attr('value') || '';
+				value = $option.attr('value') || '';
 				if (!value.length) return;
 	
-				settings_element.options[value] = readData($option) || {
+				option = readData($option) || {
 					'text'     : $option.text(),
 					'value'    : value,
 					'optgroup' : group
 				};
+	
+				option.$order = ++order;
+				settings_element.options[value] = option;
+	
 				if ($option.is(':selected')) {
 					settings_element.items.push(value);
 				}
