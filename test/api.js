@@ -306,6 +306,7 @@
 						{value: 'a'},
 						{value: 'b'},
 						{value: '\''},
+						{value: '\\'},
 						{value: '"'},
 						{value: '\\\''},
 						{value: '\\"'},
@@ -335,6 +336,8 @@
 				expect(test.selectize.getOption('"').length).to.be.equal(1);
 			});
 			it('should allow values with backslashes', function() {
+				expect(test.selectize.getOption('\\')).to.be.ok;
+				expect(test.selectize.getOption('\\').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\\'')).to.be.ok;
 				expect(test.selectize.getOption('\\\'').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\"')).to.be.ok;
