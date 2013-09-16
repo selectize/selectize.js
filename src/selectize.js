@@ -978,7 +978,7 @@ $.extend(Selectize.prototype, {
 	 */
 	addOptionGroup: function(id, data) {
 		this.optgroups[id] = data;
-		this.trigger('optgroup_add', value, data);
+		this.trigger('optgroup_add', id, data);
 	},
 
 	/**

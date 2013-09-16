@@ -138,6 +138,21 @@
 			});
 		});
 
+		describe('addOptionGroup()', function() {
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			after(function() {
+				test.teardown();
+			});
+			it('should register group', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				expect(test.selectize.optgroups).to.have.property('group_id');
+				expect(test.selectize.optgroups['group_id']).to.eql(data);
+			});
+		});
+
 		describe('addOption()', function() {
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
