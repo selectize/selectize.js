@@ -96,10 +96,12 @@ $.extend(Selectize.prototype, {
 		var tab_index;
 		var classes;
 		var classes_plugins;
+		var input_id;
 
 		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
 		classes           = self.$input.attr('class') || '';
+		input_id          = self.$input.attr("id") || '';
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
@@ -111,6 +113,9 @@ $.extend(Selectize.prototype, {
 		$wrapper.css({
 			width: self.$input[0].style.width
 		});
+		
+		if (input_id)
+		        $wrapper.attr("id", "selectized_"+input_id);
 
 		if (self.plugins.names.length) {
 			classes_plugins = 'plugin-' + self.plugins.names.join(' plugin-');
