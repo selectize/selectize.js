@@ -1,12 +1,18 @@
 var Selectize = function($input, settings) {
-	var key, i, n, self = this;
-	$input[0].selectize = self;
+	var key, i, n, dir, input, self = this;
+	input = $input[0];
+	input.selectize = self;
+
+	// detect rtl environment
+	dir = window.getComputedStyle ? window.getComputedStyle(input, null).getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
+	dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 
 	// setup default state
 	$.extend(self, {
 		settings         : settings,
 		$input           : $input,
-		tagType          : $input[0].tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
+		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
+		rtl              : /rtl/i.test(dir),
 
 		eventNS          : '.selectize' + (++Selectize.count),
 		highlightedValue : null,
@@ -709,7 +715,7 @@ $.extend(Selectize.prototype, {
 
 		self.close();
 		self.setTextboxValue('');
-		self.$control_input.css({opacity: 0, position: 'absolute', left: -10000});
+		self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : -10000});
 		self.isInputHidden = true;
 	},
 
@@ -1269,9 +1275,13 @@ $.extend(Selectize.prototype, {
 	 * Updates all state-dependent CSS classes.
 	 */
 	refreshClasses: function() {
-		var self = this;
-		var isFull = self.isFull();
+		var self     = this;
+		var isFull   = self.isFull();
 		var isLocked = self.isLocked;
+
+		this.$wrapper
+			.toggleClass('rtl', self.rtl);
+
 		this.$control
 			.toggleClass('focus', self.isFocused)
 			.toggleClass('disabled', self.isDisabled)
@@ -1280,6 +1290,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('dropdown-active', self.isOpen)
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
+
 		this.$control_input.data('grow', !isFull && !isLocked);
 	},
 
@@ -1497,6 +1508,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (direction === 0) return;
+		if (self.rtl) direction *= -1;
 
 		tail = direction > 0 ? 'last' : 'first';
 		selection = getSelection(self.$control_input[0]);
@@ -1528,11 +1540,13 @@ $.extend(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 */
 	advanceCaret: function(direction, e) {
+		var self = this, fn, $adj;
+
 		if (direction === 0) return;
-		var self = this;
-		var fn = direction > 0 ? 'next' : 'prev';
+
+		fn = direction > 0 ? 'next' : 'prev';
 		if (self.isShiftDown) {
-			var $adj = self.$control_input[fn]();
+			$adj = self.$control_input[fn]();
 			if ($adj.length) {
 				self.hideInput();
 				self.setActiveItem($adj);
