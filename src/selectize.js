@@ -844,7 +844,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		var self = this;
-		var i, n, groups, groups_order, option, optgroup, html, html_children;
+		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children;
 		var hasCreateOption;
 		var query = self.$control_input.val();
 		var results = self.search(query);
@@ -870,16 +870,22 @@ $.extend(Selectize.prototype, {
 		}
 
 		for (i = 0; i < n; i++) {
-			option = self.options[results.items[i].id];
-			optgroup = option[self.settings.optgroupField] || '';
-			if (!self.optgroups.hasOwnProperty(optgroup)) {
-				optgroup = '';
+			option      = self.options[results.items[i].id];
+			option_html = self.render('option', option);
+			optgroup    = option[self.settings.optgroupField] || '';
+			optgroups   = $.isArray(optgroup) ? optgroup : [optgroup];
+
+			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
+				optgroup = optgroups[j];
+				if (!self.optgroups.hasOwnProperty(optgroup)) {
+					optgroup = '';
+				}
+				if (!groups.hasOwnProperty(optgroup)) {
+					groups[optgroup] = [];
+					groups_order.push(optgroup);
+				}
+				groups[optgroup].push(option_html);
 			}
-			if (!groups.hasOwnProperty(optgroup)) {
-				groups[optgroup] = [];
-				groups_order.push(optgroup);
-			}
-			groups[optgroup].push(self.render('option', option));
 		}
 
 		// render optgroup headers & join groups

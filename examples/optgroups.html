@@ -62,6 +62,29 @@
 			</div>
 
 			<div class="demo">
+				<h2>Optgroups (repeated options)</h2>
+				<div class="control-group">
+					<label for="select-repeated-options">Options:</label>
+					<select id="select-repeated-options" class="demo-default" multiple>
+						<option value="">Select...</option>
+						<optgroup label="Group 1">
+							<option value="a">Item A</option>
+							<option value="b">Item B</option>
+						</optgroup>
+						<optgroup label="Group 2">
+							<option value="a">Item A</option>
+							<option value="b">Item B</option>
+						</optgroup>
+					</select>
+				</div>
+				<script>
+				$('#select-repeated-options').selectize({
+					sortField: 'text'
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Optgroups (programmatic)</h2>
 				<div class="control-group">
 					<label for="select-animal">Animal:</label>

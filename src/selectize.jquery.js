@@ -35,6 +35,8 @@ $.fn.selectize = function(settings) {
 		var i, n, tagName;
 		var $children;
 		var order = 0;
+		var options = settings_element.options;
+
 		settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
 
 		var readData = function($el) {
@@ -53,6 +55,23 @@ $.fn.selectize = function(settings) {
 			value = $option.attr('value') || '';
 			if (!value.length) return;
 
+			// if the option already exists, it's probably been
+			// duplicated in another optgroup. in this case, push
+			// the current group to the "optgroup" property on the
+			// existing option so that it's rendered in both places.
+			if (options.hasOwnProperty(value)) {
+				if (group) {
+					if (!options[value].optgroup) {
+						options[value].optgroup = group;
+					} else if (!$.isArray(options[value].optgroup)) {
+						options[value].optgroup = [options[value].optgroup, group];
+					} else {
+						options[value].optgroup.push(group);
+					}
+				}
+				return;
+			}
+
 			option = readData($option) || {
 				'text'     : $option.text(),
 				'value'    : value,
@@ -60,7 +79,7 @@ $.fn.selectize = function(settings) {
 			};
 
 			option.$order = ++order;
-			settings_element.options[value] = option;
+			options[value] = option;
 
 			if ($option.is(':selected')) {
 				settings_element.items.push(value);
