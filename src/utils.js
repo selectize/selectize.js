@@ -257,7 +257,7 @@ var measureString = function(str, $parent) {
 		left: -99999,
 		width: 'auto',
 		padding: 0,
-		whiteSpace: 'nowrap'
+		whiteSpace: 'pre'
 	}).text(str).appendTo('body');
 
 	transferStyles($parent, $test, [
