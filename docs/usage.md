@@ -102,6 +102,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>addPrecedence</code></td>
+		<td valign="top">Sets if the "Add..." option should be the default selection in the dropdown.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>

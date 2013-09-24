@@ -10,6 +10,7 @@ Selectize.defaults = {
 	maxOptions: 1000,
 	maxItems: null,
 	hideSelected: null,
+	addPrecedence: false,
 	preload: false,
 
 	scrollDuration: 60,

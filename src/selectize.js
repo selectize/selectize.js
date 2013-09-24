@@ -974,10 +974,10 @@ $.extend(Selectize.prototype, {
 		self.hasOptions = results.items.length > 0 || hasCreateOption;
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
-				if ($create) {
+				if ($create && !self.settings.addPrecedence) {
 					$active = self.getAdjacentOption($create, 1);
 				} else {
-					$active = $dropdown_content.find("[data-selectable]").first();
+					$active = $dropdown_content.find('[data-selectable]:first');
 				}
 			} else {
 				$active = $create;
