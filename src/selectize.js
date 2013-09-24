@@ -20,7 +20,6 @@ var Selectize = function($input, settings) {
 		isDisabled       : false,
 		isLocked         : false,
 		isFocused        : false,
-		isInputFocused   : false,
 		isInputHidden    : false,
 		isSetup          : false,
 		isShiftDown      : false,
@@ -138,26 +137,15 @@ $.extend(Selectize.prototype, {
 		self.$dropdown         = $dropdown;
 		self.$dropdown_content = $dropdown_content;
 
-		$control.on('mousedown', function(e) {
-			if (!e.isDefaultPrevented()) {
-				window.setTimeout(function() {
-					self.focus(true);
-				}, 0);
-			}
-		});
-
-		// necessary for mobile webkit devices (manual focus triggering
-		// is ignored unless invoked within a click event)
-		$control.on('click', function(e) {
-			if (!self.isInputFocused) {
-				self.focus(true);
-			}
-		});
-
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 		autoGrow($control_input);
+
+		$control.on({
+			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
+			click     : function() { return self.onClick.apply(self, arguments); }
+		});
 
 		$control_input.on({
 			mousedown : function(e) { e.stopPropagation(); },
@@ -185,13 +173,7 @@ $.extend(Selectize.prototype, {
 			if (self.isFocused) {
 				// prevent events on the dropdown scrollbar from causing the control to blur
 				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
-					var ignoreFocus = self.ignoreFocus;
-					self.ignoreFocus = true;
-					window.setTimeout(function() {
-						self.ignoreFocus = ignoreFocus;
-						self.focus(false);
-					}, 0);
-					return;
+					return false;
 				}
 				// blur on click outside
 				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
@@ -209,7 +191,7 @@ $.extend(Selectize.prototype, {
 			self.ignoreHover = false;
 		});
 
-		self.$input.attr('tabindex',-1).hide().after(self.$wrapper);
+		self.$input.attr('tabindex', -1).hide().after(self.$wrapper);
 
 		if ($.isArray(settings.items)) {
 			self.setValue(settings.items);
@@ -287,6 +269,59 @@ $.extend(Selectize.prototype, {
 			if (callbacks.hasOwnProperty(key)) {
 				fn = this.settings[callbacks[key]];
 				if (fn) this.on(key, fn);
+			}
+		}
+	},
+
+	/**
+	 * Triggered when the main control element
+	 * has a click event.
+	 *
+	 * @param {object} e
+	 * @return {boolean}
+	 */
+	onClick: function(e) {
+		var self = this;
+
+		// necessary for mobile webkit devices (manual focus triggering
+		// is ignored unless invoked within a click event)
+		if (!self.isFocused) {
+			self.focus();
+			e.preventDefault();
+		}
+	},
+
+	/**
+	 * Triggered when the main control element
+	 * has a mouse down event.
+	 *
+	 * @param {object} e
+	 * @return {boolean}
+	 */
+	onMouseDown: function(e) {
+		var self = this;
+		var defaultPrevented = e.isDefaultPrevented();
+		var $target = $(e.target);
+
+		if (self.isFocused) {
+			// retain focus by preventing native handling. if the
+			// event target is the input it should not be modified.
+			// otherwise, text selection within the input won't work.
+			if (e.target !== self.$control_input[0]) {
+				if (self.settings.mode === 'single') {
+					// toggle dropdown
+					self.isOpen ? self.close() : self.open();
+				} else if (!defaultPrevented) {
+					self.setActiveItem(null);
+				}
+				return false;
+			}
+		} else {
+			// give control focus
+			if (!defaultPrevented) {
+				window.setTimeout(function() {
+					self.focus();
+				}, 0);
 			}
 		}
 	},
@@ -437,7 +472,6 @@ $.extend(Selectize.prototype, {
 	onFocus: function(e) {
 		var self = this;
 
-		self.isInputFocused = true;
 		self.isFocused = true;
 		if (self.isDisabled) {
 			self.blur();
@@ -448,9 +482,12 @@ $.extend(Selectize.prototype, {
 		if (self.ignoreFocus) return;
 		if (self.settings.preload === 'focus') self.onSearchChange('');
 
-		self.showInput();
-		self.setActiveItem(null);
-		self.refreshOptions(!!self.settings.openOnFocus);
+		if (!self.$activeItems.length) {
+			self.showInput();
+			self.setActiveItem(null);
+			self.refreshOptions(!!self.settings.openOnFocus);
+		}
+
 		self.refreshClasses();
 	},
 
@@ -462,7 +499,7 @@ $.extend(Selectize.prototype, {
 	 */
 	onBlur: function(e) {
 		var self = this;
-		self.isInputFocused = false;
+		self.isFocused = false;
 		if (self.ignoreFocus) return;
 
 		self.close();
@@ -470,7 +507,6 @@ $.extend(Selectize.prototype, {
 		self.setActiveItem(null);
 		self.setActiveOption(null);
 		self.setCaret(self.items.length);
-		self.isFocused = false;
 		self.refreshClasses();
 	},
 
@@ -496,9 +532,10 @@ $.extend(Selectize.prototype, {
 	onOptionSelect: function(e) {
 		var value, $target, $option, self = this;
 
-		e.preventDefault && e.preventDefault();
-		e.stopPropagation && e.stopPropagation();
-		self.focus(false);
+		if (e.preventDefault) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
 
 		$target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
@@ -528,8 +565,6 @@ $.extend(Selectize.prototype, {
 		if (self.settings.mode === 'multi') {
 			e.preventDefault();
 			self.setActiveItem(e.currentTarget, e);
-			self.focus(false);
-			self.hideInput();
 		}
 	},
 
@@ -549,8 +584,7 @@ $.extend(Selectize.prototype, {
 			self.loading = Math.max(self.loading - 1, 0);
 			if (results && results.length) {
 				self.addOption(results);
-				self.refreshOptions(false);
-				if (self.isInputFocused) self.open();
+				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
 			if (!self.loading) {
 				$wrapper.removeClass('loading');
@@ -612,13 +646,16 @@ $.extend(Selectize.prototype, {
 		var i, idx, begin, end, item, swap;
 		var $last;
 
+		if (self.settings.mode === 'single') return;
 		$item = $($item);
 
 		// clear the active selection
 		if (!$item.length) {
 			$(self.$activeItems).removeClass('active');
 			self.$activeItems = [];
-			self.isFocused = self.isInputFocused;
+			if (self.isFocused) {
+				self.showInput();
+			}
 			return;
 		}
 
@@ -655,7 +692,11 @@ $.extend(Selectize.prototype, {
 			self.$activeItems = [$item.addClass('active')[0]];
 		}
 
-		self.isFocused = !!self.$activeItems.length || self.isInputFocused;
+		// ensure control has focus
+		self.hideInput();
+		if (!this.isFocused) {
+			self.focus();
+		}
 	},
 
 	/**
@@ -702,8 +743,11 @@ $.extend(Selectize.prototype, {
 	 */
 	selectAll: function() {
 		this.$activeItems = Array.prototype.slice.apply(this.$control.children(':not(input)').addClass('active'));
-		this.isFocused = true;
-		if (this.$activeItems.length) this.hideInput();
+		if (this.$activeItems.length) {
+			this.hideInput();
+			this.close();
+		}
+		this.focus();
 	},
 
 	/**
@@ -713,7 +757,6 @@ $.extend(Selectize.prototype, {
 	hideInput: function() {
 		var self = this;
 
-		self.close();
 		self.setTextboxValue('');
 		self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : -10000});
 		self.isInputHidden = true;
@@ -734,16 +777,15 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {boolean} trigger
 	 */
-	focus: function(trigger) {
+	focus: function() {
 		var self = this;
-
 		if (self.isDisabled) return;
+
 		self.ignoreFocus = true;
 		self.$control_input[0].focus();
-		self.isInputFocused = true;
 		window.setTimeout(function() {
 			self.ignoreFocus = false;
-			if (trigger) self.onFocus();
+			self.onFocus();
 		}, 0);
 	},
 
@@ -1158,19 +1200,6 @@ $.extend(Selectize.prototype, {
 					self.positionDropdown();
 				}
 
-				// restore focus to input
-				if (self.isFocused) {
-					window.setTimeout(function() {
-						if (inputMode === 'single') {
-							self.blur();
-							self.focus(false);
-							self.hideInput();
-						} else {
-							self.focus(false);
-						}
-					}, 0);
-				}
-
 				self.updatePlaceholder();
 				self.trigger('item_add', value, $item);
 				self.updateOriginalInput();
@@ -1241,7 +1270,6 @@ $.extend(Selectize.prototype, {
 
 		var create = once(function(data) {
 			self.unlock();
-			self.focus(false);
 
 			if (!data || typeof data !== 'object') return;
 			var value = hash_key(data[self.settings.valueField]);
@@ -1252,7 +1280,6 @@ $.extend(Selectize.prototype, {
 			self.setCaret(caret);
 			self.addItem(value);
 			self.refreshOptions(self.settings.mode !== 'single');
-			self.focus(false);
 		});
 
 		var output = setup.apply(this, [input, create]);
@@ -1293,6 +1320,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('disabled', self.isDisabled)
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
+			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
 			.toggleClass('dropdown-active', self.isOpen)
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
@@ -1359,7 +1387,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
-		self.focus(true);
+		self.focus();
 		self.isOpen = true;
 		self.refreshClasses();
 		self.$dropdown.css({visibility: 'hidden', display: 'block'});
@@ -1373,13 +1401,18 @@ $.extend(Selectize.prototype, {
 	 */
 	close: function() {
 		var self = this;
+		var trigger = self.isOpen;
 
-		if (!self.isOpen) return;
+		if (self.settings.mode === 'single' && this.items.length) {
+			self.hideInput();
+		}
+
+		self.isOpen = false;
 		self.$dropdown.hide();
 		self.setActiveOption(null);
-		self.isOpen = false;
 		self.refreshClasses();
-		self.trigger('dropdown_close', self.$dropdown);
+
+		if (trigger) self.trigger('dropdown_close', self.$dropdown);
 	},
 
 	/**
@@ -1519,7 +1552,7 @@ $.extend(Selectize.prototype, {
 		tail = direction > 0 ? 'last' : 'first';
 		selection = getSelection(self.$control_input[0]);
 
-		if (self.isInputFocused && !self.isInputHidden) {
+		if (self.isFocused && !self.isInputHidden) {
 			valueLength = self.$control_input.val().length;
 			cursorAtEdge = direction < 0
 				? selection.start === 0 && selection.length === 0
@@ -1534,7 +1567,6 @@ $.extend(Selectize.prototype, {
 				idx = self.$control.children(':not(input)').index($tail);
 				self.setActiveItem(null);
 				self.setCaret(direction > 0 ? idx + 1 : idx);
-				self.showInput();
 			}
 		}
 	},

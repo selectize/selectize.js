@@ -98,7 +98,7 @@
 	-webkit-font-smoothing: @selectize-font-smoothing;
 }
 
-.selectize-input, .selectize-control.single .selectize-input.focus {
+.selectize-input, .selectize-control.single .selectize-input.input-active {
 	background: @selectize-color-input;
 	cursor: text;
 	display: inline-block;
@@ -247,7 +247,7 @@
 
 .selectize-control.single .selectize-input {
 	&, input { cursor: pointer; }
-	&.focus, &.focus input { cursor: text; }
+	&.input-active, &.input-active input { cursor: text; }
 
 	&:after {
 		content: ' ';

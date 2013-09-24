@@ -113,11 +113,15 @@ input[type=button]:hover {
 }
 
 @media only screen and (max-width : 320px) {
+	body {
+		margin: 20px 0;
+	}
 	#wrapper {
 		margin: 0;
 	}
-	h1 {
-		margin: 20px;
+	#wrapper > * {
+		padding-left: 10px;
+		padding-right: 10px;
 	}
 	.demo {
 		padding: 20px;
