@@ -12,6 +12,8 @@ var Selectize = function($input, settings) {
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
+		isRequired       : false,
+		isInvalid        : false,
 		isLocked         : false,
 		isFocused        : false,
 		isInputFocused   : false,
@@ -1298,6 +1300,8 @@ $.extend(Selectize.prototype, {
 		this.$control
 			.toggleClass('focus', self.isFocused)
 			.toggleClass('disabled', self.isDisabled)
+			.toggleClass('required', self.isRequired)
+			.toggleClass('invalid', self.isInvalid)
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('dropdown-active', self.isOpen)
