@@ -165,8 +165,13 @@
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
 				'</select>', {});
-				form = test.$select.wrap("<form>").parent();
+				test.$select.parent().children().wrapAll("<form>");
+				form = test.$select.parent();
 				form.append("<button>");
+				form.on('submit', function(event){
+					event.preventDefault();
+					assert.ok(false, 'the form was submitted');
+				});
 			});
 			it('should have isRequired property set to true', function() {
 				expect(test.selectize.isRequired).to.be.equal(true);
@@ -188,6 +193,14 @@
 				$("form button").click();
 				test.selectize.addItem('a');
 				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
+			});
+			it('should pass validation if an element is selected', function(done){
+				test.selectize.addItem('a');
+				form.off('submit').on('submit', function(event){
+					event.preventDefault();
+					done();
+				});
+				$("form button").click();
 			});
 			after(function(){
 				test.teardown();
