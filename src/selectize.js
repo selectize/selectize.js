@@ -12,6 +12,8 @@ var Selectize = function($input, settings) {
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
+		isRequired       : false,
+		isInvalid        : false,
 		isLocked         : false,
 		isFocused        : false,
 		isInputFocused   : false,
@@ -210,6 +212,22 @@ $.extend(Selectize.prototype, {
 			delete settings.items;
 		}
 
+		self.isRequired = self.$input.is(":required");
+		self.$control_input.prop('required', self.isRequired && !self.items.length);
+
+		// feature detect for the validation API
+		if(self.$input[0].validity) {
+			self.$input.on('invalid' + eventNS, function(event){
+				event.preventDefault();
+				self.isInvalid = true;
+				self.refreshClasses();
+			});
+			self.$input.on('change' + eventNS, function(event){
+				self.isInvalid = !self.$input[0].validity.valid;
+				self.refreshClasses();
+			});
+		}
+
 		self.updateOriginalInput();
 		self.refreshItems();
 		self.refreshClasses();
@@ -291,6 +309,7 @@ $.extend(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
+		this.$control_input.prop('required', this.isRequired && !this.items.length);
 		this.$input.trigger('change');
 	},
 
@@ -1298,6 +1317,8 @@ $.extend(Selectize.prototype, {
 		this.$control
 			.toggleClass('focus', self.isFocused)
 			.toggleClass('disabled', self.isDisabled)
+			.toggleClass('required', self.isRequired)
+			.toggleClass('invalid', self.isInvalid)
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('dropdown-active', self.isOpen)
