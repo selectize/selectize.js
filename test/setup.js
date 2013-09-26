@@ -158,6 +158,43 @@
 			});
 		});
 
+		describe('<select required>', function(){
+			var form;
+			before(function(){
+				test = setup_test('<select required>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {});
+				form = test.$select.wrap("<form>").parent();
+				form.append("<button>");
+			});
+			it('should have isRequired property set to true', function() {
+				expect(test.selectize.isRequired).to.be.equal(true);
+			});
+			it('should have the required class', function() {
+				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
+			});
+			it('should have the invalid class when validation fails', function() {
+				test.$select[0].checkValidity();
+				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
+				expect(test.selectize.isInputFocused).to.be.equal(false);
+			});
+			it('should gain focus when validation via a button fails', function() {
+				$("form button").click();
+				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
+				expect(test.selectize.isInputFocused).to.be.equal(true);
+			});
+			it('should clear the invalid class after an item is selected', function(){
+				$("form button").click();
+				test.selectize.addItem('a');
+				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
+			});
+			after(function(){
+				test.teardown();
+				form.remove();
+			});
+		});
+
 	});
 
 })();
