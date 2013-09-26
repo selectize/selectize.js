@@ -212,6 +212,22 @@ $.extend(Selectize.prototype, {
 			delete settings.items;
 		}
 
+		self.isRequired = self.$input.is(":required");
+		self.$control_input.prop('required', self.isRequired && !self.items.length);
+
+		// feature detect for the validation API
+		if(self.$input[0].validity) {
+			self.$input.on('invalid' + eventNS, function(event){
+				event.preventDefault();
+				self.isInvalid = true;
+				self.refreshClasses();
+			});
+			self.$input.on('change' + eventNS, function(event){
+				self.isInvalid = !self.$input[0].validity.valid;
+				self.refreshClasses();
+			});
+		}
+
 		self.updateOriginalInput();
 		self.refreshItems();
 		self.refreshClasses();
@@ -293,6 +309,7 @@ $.extend(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
+		this.$control_input.prop('required', this.isRequired && !this.items.length);
 		this.$input.trigger('change');
 	},
 
