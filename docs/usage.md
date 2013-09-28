@@ -26,7 +26,7 @@ $(function() {
 		<td valign="top"><code>delimiter</code></td>
 		<td valign="top">The string to separate items by. This option is only used when Selectize is instantiated from a &lt;input type="text"&gt; element.</td>
 		<td valign="top"><code>string</code></td>
-		<td valign="top"><code>','</code></td>
+		<td valign="top"><code>', '</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>diacritics</code></td>
