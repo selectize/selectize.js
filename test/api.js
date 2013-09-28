@@ -3,12 +3,11 @@
 	describe('API', function() {
 
 		describe('disable()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select>', {});
 				test.selectize.disable();
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should set "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
@@ -22,12 +21,11 @@
 		});
 
 		describe('enable()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select disabled>', {});
 				test.selectize.enable();
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should remove "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(false);
@@ -41,23 +39,27 @@
 		});
 
 		describe('focus()', function() {
-			before(function(done) {
-				test = setup_test('<select>', {});
+			it('should set isFocused property to true', function(done) {
+				var test = setup_test('<select>', {});
 				test.selectize.focus();
-				window.setTimeout(done, 5);
+				window.setTimeout(function() {
+					expect(test.selectize.isFocused).to.be.equal(true);
+					done();
+				}, 5);
 			});
-			after(function() {
-				test.teardown();
-			});
-			it('should set isFocused property to true', function() {
-				expect(test.selectize.isFocused).to.be.equal(true);
-			});
-			it('should give the control focus', function() {
-				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
+			it('should give the control focus', function(done) {
+				var test = setup_test('<select>', {});
+				test.selectize.focus();
+				window.setTimeout(function() {
+					expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
+					done();
+				}, 5);
 			});
 		});
 
 		describe('blur()', function() {
+			var test;
+
 			before(function(done) {
 				test = setup_test('<select>', {});
 				test.selectize.focus();
@@ -65,9 +67,6 @@
 					test.selectize.blur();
 					window.setTimeout(done, 5);
 				}, 5);
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should set isFocused property to false', function() {
 				expect(test.selectize.isFocused).to.be.equal(false);
@@ -79,7 +78,7 @@
 
 		describe('createItem()', function() {
 			it('should fail if non-object returned by "create" callback', function() {
-				test = setup_test('<select>', {
+				var test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
 					create: function(input) {
@@ -90,7 +89,6 @@
 				test.selectize.$control_input.val('test');
 				test.selectize.createItem();
 				expect(test.selectize.items.length).to.be.equal(0);
-				test.teardown();
 
 				test = setup_test('<select>', {
 					valueField: 'value',
@@ -103,10 +101,9 @@
 				test.selectize.$control_input.val('test');
 				test.selectize.createItem();
 				expect(test.selectize.items.length).to.be.equal(0);
-				test.teardown();
 			});
 			it('should add option upon completion (synchronous)', function() {
-				test = setup_test('<select>', {
+				var test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
 					create: function(input) {
@@ -117,17 +114,15 @@
 				test.selectize.$control_input.val('test');
 				test.selectize.createItem();
 				expect(test.selectize.options).to.have.property('test');
-				test.teardown();
 			});
 			it('should add option upon completion (asynchronous)', function(done) {
-				test = setup_test('<select>', {
+				var test = setup_test('<select>', {
 					valueField: 'value',
 					labelField: 'value',
 					create: function(input, callback) {
 						window.setTimeout(function() {
 							callback({value: input});
 							expect(test.selectize.options).to.have.property('test');
-							test.teardown();
 							done();
 						}, 0);
 					}
@@ -139,11 +134,10 @@
 		});
 
 		describe('addOptionGroup()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should register group', function() {
 				var data = {label: 'Group Label'};
@@ -154,11 +148,10 @@
 		});
 
 		describe('addOption()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should allow string values', function() {
 				test.selectize.addOption({value: 'stringtest'});
@@ -190,6 +183,8 @@
 		});
 
 		describe('addItem()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
@@ -208,9 +203,6 @@
 						{value: '\\"'},
 					]
 				});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should update "items" array', function() {
 				test.selectize.addItem('b');
@@ -245,6 +237,8 @@
 		});
 
 		describe('updateOption()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
@@ -267,9 +261,6 @@
 					],
 					items: ['e','f']
 				});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should update option data', function() {
 				test.selectize.updateOption('a', {value: 'a', test: 'test'});
@@ -311,6 +302,8 @@
 		});
 
 		describe('getOption()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select>', {
 					valueField: 'value',
@@ -328,9 +321,6 @@
 					]
 				});
 				test.selectize.refreshOptions(true);
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should allow string values', function() {
 				expect(test.selectize.getOption('a')).to.be.ok;
@@ -367,6 +357,8 @@
 		});
 
 		describe('getItem()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
@@ -379,13 +371,10 @@
 						{value: '\''},
 						{value: '"'},
 						{value: '\\\''},
-						{value: '\\"'},
+						{value: '\\"'}
 					],
 					items: ['0','1','a','b','\'','"','\\\'','\\"']
 				});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should allow string values', function() {
 				expect(test.selectize.getItem('a')).to.be.ok;
@@ -420,6 +409,8 @@
 		});
 
 		describe('clear()', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
@@ -432,9 +423,6 @@
 					],
 					items: ['1','2','3']
 				});
-			});
-			after(function() {
-				test.teardown();
 			});
 			it('should empty "items" array', function() {
 				test.selectize.clear();
@@ -457,6 +445,8 @@
 
 		describe('search()', function() {
 			it('should throw error if "score" setting does not return a function', function() {
+				var test;
+
 				expect(function() {
 					test = setup_test('<select multiple>', {
 						valueField: 'value',
@@ -469,9 +459,10 @@
 					});
 					test.selectize.search('hello');
 				}).to.throw(Error);
-				test.teardown();
 			});
 			it('should not throw error if "score" setting does return a function', function() {
+				var test;
+
 				expect(function() {
 					test = setup_test('<select multiple>', {
 						valueField: 'value',
@@ -486,13 +477,12 @@
 					});
 					test.selectize.search('hello');
 				}).to.not.throw(Error);
-				test.teardown();
 			});
 		});
 
 		describe('getScoreFunction()', function() {
 			it('should return an function that returns a number', function() {
-				test = setup_test('<select multiple>', {
+				var test = setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
 					searchField: 'value',
@@ -523,34 +513,29 @@
 				return false;
 			};
 			it('should remove control from DOM', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect($.contains(document.documentElement, test.selectize.$wrapper[0])).to.be.equal(false);
-				test.teardown();
 			});
 			it('should delete "selectize" reference on original input element', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect(test.selectize.$input[0].selectize).to.be.equal(undefined);
-				test.teardown();
 			});
 			it('should unbind events on window', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect(has_namespaced_event($(window), test.selectize.eventNS)).to.be.equal(false);
-				test.teardown();
 			});
 			it('should unbind events on document', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect(has_namespaced_event($(document), test.selectize.eventNS)).to.be.equal(false);
-				test.teardown();
 			});
 			it('should unbind events on <body>', function() {
-				test = setup_test('<select>', {});
+				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect(has_namespaced_event($('body'), test.selectize.eventNS)).to.be.equal(false);
-				test.teardown();
 			});
 		});
 

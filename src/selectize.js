@@ -200,7 +200,7 @@ $.extend(Selectize.prototype, {
 			delete settings.items;
 		}
 
-		self.isRequired = self.$input.is(":required");
+		self.isRequired = self.$input.is(':required');
 		self.$control_input.prop('required', self.isRequired && !self.items.length);
 
 		// feature detect for the validation API

@@ -17,7 +17,6 @@ describe('DOM Events', function() {
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);
-				test.teardown();
 				done();
 			}, 0);
 		});
@@ -38,7 +37,6 @@ describe('DOM Events', function() {
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);
-				test.teardown();
 				done();
 			}, 0);
 		});
@@ -59,7 +57,6 @@ describe('DOM Events', function() {
 
 			window.setTimeout(function() {
 				expect(counter).to.be.equal(1);
-				test.teardown();
 				done();
 			}, 0);
 		});

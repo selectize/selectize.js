@@ -1,13 +1,8 @@
 describe('Events', function() {
 
 	describe('change', function() {
-		beforeEach(function() {
-			test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
-		});
 		it('should be triggered once', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
 			var counter = 0;
 			test.selectize.on('change', function() {
 				counter++;
@@ -20,6 +15,7 @@ describe('Events', function() {
 			}, 0);
 		});
 		it('should contain current value', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
 			test.selectize.on('change', function(value) {
 				expect(value).to.be.equal('c');
 				done();
@@ -29,19 +25,15 @@ describe('Events', function() {
 	});
 
 	describe('item_add', function() {
-		beforeEach(function() {
-			test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
-		});
 		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
 			test.selectize.on('item_add', function() {
 				done();
 			});
 			test.selectize.addItem('b');
 		});
 		it('should contain item\'s value', function(done) {
+			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
 			test.selectize.on('item_add', function(value, $item) {
 				expect(value).to.be.equal('b');
 				done();
@@ -51,11 +43,10 @@ describe('Events', function() {
 	});
 
 	describe('item_remove', function() {
+		var test;
+
 		beforeEach(function() {
-			test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
+			test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('item_remove', function() {
@@ -65,21 +56,16 @@ describe('Events', function() {
 		});
 		it('should contain item\'s value', function(done) {
 			test.selectize.on('item_remove', function(value) {
-				expect(value).to.be.equal('a');
+				expect(value).to.be.equal('b');
 				done();
 			});
-			test.selectize.removeItem('a');
+			test.selectize.removeItem('b');
 		});
 	});
 
 	describe('clear', function() {
-		beforeEach(function() {
-			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
-		});
 		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
 			test.selectize.on('clear', function() {
 				done();
 			});
@@ -88,11 +74,10 @@ describe('Events', function() {
 	});
 
 	describe('optgroup_add', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('optgroup_add', function() { done(); });
@@ -116,11 +101,10 @@ describe('Events', function() {
 	});
 
 	describe('option_add', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('option_add', function() {
@@ -146,11 +130,10 @@ describe('Events', function() {
 	});
 
 	describe('option_remove', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('option_remove', function() {
@@ -168,11 +151,10 @@ describe('Events', function() {
 	});
 
 	describe('option_clear', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('option_clear', function() {
@@ -183,11 +165,10 @@ describe('Events', function() {
 	});
 
 	describe('dropdown_open', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('dropdown_open', function() {
@@ -198,11 +179,10 @@ describe('Events', function() {
 	});
 
 	describe('dropdown_close', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('dropdown_close', function() {
@@ -214,11 +194,10 @@ describe('Events', function() {
 	});
 
 	describe('destroy', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('destroy', function() {
@@ -229,11 +208,10 @@ describe('Events', function() {
 	});
 
 	describe('type', function() {
+		var test;
+
 		beforeEach(function() {
 			test = setup_test('<select></select>', {create: true});
-		});
-		afterEach(function() {
-			test.teardown();
 		});
 		it('should be triggered', function(done) {
 			test.selectize.on('type', function() {

@@ -4,40 +4,34 @@
 
 		describe('<input type="text">', function() {
 			it('complete without exceptions', function() {
-				test = setup_test('<input type="text">', {});
-				test.teardown();
+				var test = setup_test('<input type="text">', {});
 			});
 			describe('getValue()', function() {
 				it('should return value as a string', function() {
-					test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
+					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
 					expect(test.selectize.getValue()).to.be.a('string');
-					test.teardown();
 				});
 				it('should return "" when empty', function() {
-					test = setup_test('<input type="text" value="">', {delimiter: ','});
+					var test = setup_test('<input type="text" value="">', {delimiter: ','});
 					expect(test.selectize.getValue()).to.be.equal('');
-					test.teardown();
 				});
 				it('should proper value when not empty', function() {
-					test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
+					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
 					expect(test.selectize.getValue()).to.be.equal('a,b');
-					test.teardown();
 				});
 			});
 		});
 
 		describe('<select>', function() {
 			it('should complete without exceptions', function() {
-				test = setup_test('<select>', {});
-				test.teardown();
+				var test = setup_test('<select>', {});
 			});
 			it('should add options in text form (no html entities)', function() {
-				test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
+				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
 				expect(test.selectize.options['a'].text).to.be.equal('<hi>');
-				test.teardown();
 			});
 			it('should keep options in original order if no sort given', function(done) {
-				test = setup_test([
+				var test = setup_test([
 					'<select multiple>',
 						'<option value="">Select a state...</option>',
 						'<option value="AL">Alabama</option>',
@@ -106,44 +100,40 @@
 					});
 
 					expect(order_actual).to.eql(order_expected);
-					test.teardown();
 					done();
 				}, 0);
 			});
 			describe('getValue()', function() {
 				it('should return "" when empty', function() {
-					test = setup_test('<select>', {});
+					var test = setup_test('<select>', {});
 					expect(test.selectize.getValue()).to.be.equal('');
-					test.teardown();
 				});
 				it('should return proper value when not empty', function() {
-					test = setup_test('<select><option selected value="a">A</option></select>', {});
+					var test = setup_test('<select><option selected value="a">A</option></select>', {});
 					expect(test.selectize.getValue()).to.be.equal('a');
-					test.teardown();
 				});
 			});
 		});
 
 		describe('<select multiple>', function() {
 			it('should complete without exceptions', function() {
-				test = setup_test('<select>', {});
-				test.teardown();
+				var test = setup_test('<select>', {});
 			});
 			describe('getValue()', function() {
 				it('should return [] when empty', function() {
-					test = setup_test('<select multiple>', {});
+					var test = setup_test('<select multiple>', {});
 					expect(test.selectize.getValue()).to.deep.equal([]);
-					test.teardown();
 				});
 				it('should return proper value as array when not empty', function() {
-					test = setup_test('<select multiple><option selected value="a">A</option></select>', {});
+					var test = setup_test('<select multiple><option selected value="a">A</option></select>', {});
 					expect(test.selectize.getValue()).to.deep.equal(['a']);
-					test.teardown();
 				});
 			});
 		});
 
 		describe('<select disabled>', function() {
+			var test;
+
 			before(function() {
 				test = setup_test('<select disabled>', {});
 			});
@@ -153,58 +143,71 @@
 			it('should have isDisabled property set to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
-			after(function() {
-				test.teardown();
-			});
 		});
 
 		describe('<select required>', function(){
-			var form;
-			before(function(){
+			var $form, $button, test;
+
+			beforeEach(function(){
 				test = setup_test('<select required>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
 				'</select>', {});
-				test.$select.parent().children().wrapAll("<form>");
-				form = test.$select.parent();
-				form.append("<button>");
-				form.on('submit', function(event){
-					event.preventDefault();
-					assert.ok(false, 'the form was submitted');
-				});
+				$form = test.$select.parents('form');
+				$button = $('<button type="submit">').appendTo($form);
 			});
+			afterEach(function(){
+				$form.off('.test_required');
+				$button.remove();
+			});
+
 			it('should have isRequired property set to true', function() {
 				expect(test.selectize.isRequired).to.be.equal(true);
 			});
 			it('should have the required class', function() {
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
-			it('should have the invalid class when validation fails', function() {
+			it('should have the invalid class when validation fails', function(done) {
 				test.$select[0].checkValidity();
-				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-				expect(test.selectize.isInputFocused).to.be.equal(false);
+				window.setTimeout(function() {
+					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
+					expect(test.selectize.isFocused).to.be.equal(false);
+					done();
+				}, 0);
 			});
-			it('should gain focus when validation via a button fails', function() {
-				$("form button").click();
-				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-				expect(test.selectize.isInputFocused).to.be.equal(true);
+			it('should gain focus when validation via a button fails', function(done) {
+				$form.on('submit.test_required', function(e) {
+					e.preventDefault();
+					assert.ok(false, 'the form was submitted');
+				});
+
+				$('button', $form).click();
+				window.setTimeout(function() {
+					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
+					expect(test.selectize.isFocused).to.be.equal(true);
+					done();
+				}, 0);
 			});
-			it('should clear the invalid class after an item is selected', function(){
-				$("form button").click();
+			it('should clear the invalid class after an item is selected', function(done) {
+				$form.on('submit.test_required', function(e) {
+					e.preventDefault();
+					assert.ok(false, 'the form was submitted');
+				});
+
+				$('button', $form).click();
+				window.setTimeout(function() {
+					test.selectize.addItem('a');
+					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
+					done();
+				}, 0);
+			});
+			it('should pass validation if an element is selected', function(done) {
 				test.selectize.addItem('a');
-				expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
-			});
-			it('should pass validation if an element is selected', function(done){
-				test.selectize.addItem('a');
-				form.off('submit').on('submit', function(event){
-					event.preventDefault();
+				$form.one('submit.test_required', function(e){
+					e.preventDefault();
 					done();
 				});
-				$("form button").click();
-			});
-			after(function(){
-				test.teardown();
-				form.remove();
+				$('button', $form).click();
 			});
 		});
 

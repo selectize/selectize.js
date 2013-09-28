@@ -9,7 +9,6 @@
 		var test = setup_test(html, options);
 		var complete = function(err) {
 			window.xss = function() {};
-			test.teardown();
 			done(err);
 		};
 		var timeout = window.setTimeout(complete, 75);
@@ -26,7 +25,7 @@
 
 		describe('Raw HTML in optgroup label', function() {
 			it('should not trigger exploit', function(done) {
-				test = setup_xss_test('<select><optgroup label="&lt;img src=&quot;x&quot; onerror=&quot;xss()&quot;&gt;"><option>Test</option></optgroup></select>', {}, done);
+				var test = setup_xss_test('<select><optgroup label="&lt;img src=&quot;x&quot; onerror=&quot;xss()&quot;&gt;"><option>Test</option></optgroup></select>', {}, done);
 				test.selectize.refreshOptions();
 				test.selectize.open();
 			});
