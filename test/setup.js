@@ -148,7 +148,7 @@
 		describe('<select required>', function(){
 			var $form, $button, test;
 
-			beforeEach(function(){
+			beforeEach(function() {
 				test = setup_test('<select required>' +
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
@@ -156,7 +156,7 @@
 				$form = test.$select.parents('form');
 				$button = $('<button type="submit">').appendTo($form);
 			});
-			afterEach(function(){
+			afterEach(function() {
 				$form.off('.test_required');
 				$button.remove();
 			});
@@ -167,48 +167,32 @@
 			it('should have the required class', function() {
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
-			it('should have the invalid class when validation fails', function(done) {
-				test.$select[0].checkValidity();
-				window.setTimeout(function() {
-					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-					expect(test.selectize.isFocused).to.be.equal(false);
-					done();
-				}, 0);
-			});
-			it('should gain focus when validation via a button fails', function(done) {
-				$form.on('submit.test_required', function(e) {
-					e.preventDefault();
-					assert.ok(false, 'the form was submitted');
-				});
 
-				$('button', $form).click();
-				window.setTimeout(function() {
-					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-					expect(test.selectize.isFocused).to.be.equal(true);
-					done();
-				}, 0);
-			});
-			it('should clear the invalid class after an item is selected', function(done) {
-				$form.on('submit.test_required', function(e) {
-					e.preventDefault();
-					assert.ok(false, 'the form was submitted');
+			if ($('<select>')[0].validity) {
+				it('should have "invalid" class when validation fails', function(done) {
+					test.$select[0].checkValidity();
+					window.setTimeout(function() {
+						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
+						expect(test.selectize.isFocused).to.be.equal(false);
+						done();
+					}, 0);
 				});
-
-				$('button', $form).click();
-				window.setTimeout(function() {
+				it('should clear the invalid class after an item is selected', function(done) {
+					Syn.click($button).delay(0, function() {
+						test.selectize.addItem('a');
+						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
+						done();
+					});
+				});
+				it('should pass validation if an element is selected', function(done) {
 					test.selectize.addItem('a');
-					expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
-					done();
-				}, 0);
-			});
-			it('should pass validation if an element is selected', function(done) {
-				test.selectize.addItem('a');
-				$form.one('submit.test_required', function(e){
-					e.preventDefault();
-					done();
+					$form.one('submit.test_required', function(e) {
+						done();
+					});
+
+					Syn.click($button);
 				});
-				$('button', $form).click();
-			});
+			}
 		});
 
 	});

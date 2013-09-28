@@ -18,7 +18,7 @@ var Selectize = function($input, settings) {
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
-		isRequired       : false,
+		isRequired       : $input.is(':required'),
 		isInvalid        : false,
 		isLocked         : false,
 		isFocused        : false,
@@ -200,25 +200,18 @@ $.extend(Selectize.prototype, {
 			delete settings.items;
 		}
 
-		self.isRequired = self.$input.is(':required');
-		self.$control_input.prop('required', self.isRequired && !self.items.length);
-
 		// feature detect for the validation API
-		if(self.$input[0].validity) {
-			self.$input.on('invalid' + eventNS, function(event){
-				event.preventDefault();
+		if (self.$input[0].validity) {
+			self.$input.on('invalid' + eventNS, function(e) {
+				e.preventDefault();
 				self.isInvalid = true;
-				self.refreshClasses();
-			});
-			self.$input.on('change' + eventNS, function(event){
-				self.isInvalid = !self.$input[0].validity.valid;
-				self.refreshClasses();
+				self.refreshState();
 			});
 		}
 
 		self.updateOriginalInput();
 		self.refreshItems();
-		self.refreshClasses();
+		self.refreshState();
 		self.updatePlaceholder();
 		self.isSetup = true;
 
@@ -350,7 +343,6 @@ $.extend(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
-		this.$control_input.prop('required', this.isRequired && !this.items.length);
 		this.$input.trigger('change');
 	},
 
@@ -507,7 +499,7 @@ $.extend(Selectize.prototype, {
 			self.refreshOptions(!!self.settings.openOnFocus);
 		}
 
-		self.refreshClasses();
+		self.refreshState();
 	},
 
 	/**
@@ -526,7 +518,7 @@ $.extend(Selectize.prototype, {
 		self.setActiveItem(null);
 		self.setActiveOption(null);
 		self.setCaret(self.items.length);
-		self.refreshClasses();
+		self.refreshState();
 	},
 
 	/**
@@ -1220,7 +1212,7 @@ $.extend(Selectize.prototype, {
 			$item = $(self.render('item', self.options[value]));
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret($item);
-			self.refreshClasses();
+			self.refreshState();
 
 			if (self.isSetup) {
 				options = self.$dropdown_content.find('[data-selectable]');
@@ -1278,7 +1270,7 @@ $.extend(Selectize.prototype, {
 				self.setCaret(self.caretPos - 1);
 			}
 
-			self.refreshClasses();
+			self.refreshState();
 			self.updatePlaceholder();
 			self.updateOriginalInput();
 			self.positionDropdown();
@@ -1340,8 +1332,20 @@ $.extend(Selectize.prototype, {
 			}
 		}
 
-		this.refreshClasses();
+		this.refreshState();
 		this.updateOriginalInput();
+	},
+
+	/**
+	 * Updates all state-dependent attributes
+	 * and CSS classes.
+	 */
+	refreshState: function() {
+		var self = this;
+		var invalid = self.isRequired && !self.items.length;
+		if (!invalid) self.isInvalid = false;
+		self.$control_input.prop('required', invalid);
+		self.refreshClasses();
 	},
 
 	/**
@@ -1431,7 +1435,7 @@ $.extend(Selectize.prototype, {
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
 		self.focus();
 		self.isOpen = true;
-		self.refreshClasses();
+		self.refreshState();
 		self.$dropdown.css({visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
@@ -1452,7 +1456,7 @@ $.extend(Selectize.prototype, {
 		self.isOpen = false;
 		self.$dropdown.hide();
 		self.setActiveOption(null);
-		self.refreshClasses();
+		self.refreshState();
 
 		if (trigger) self.trigger('dropdown_close', self.$dropdown);
 	},
@@ -1486,7 +1490,7 @@ $.extend(Selectize.prototype, {
 		self.setCaret(0);
 		self.updatePlaceholder();
 		self.updateOriginalInput();
-		self.refreshClasses();
+		self.refreshState();
 		self.showInput();
 		self.trigger('clear');
 	},
@@ -1675,7 +1679,7 @@ $.extend(Selectize.prototype, {
 	lock: function() {
 		this.close();
 		this.isLocked = true;
-		this.refreshClasses();
+		this.refreshState();
 	},
 
 	/**
@@ -1683,7 +1687,7 @@ $.extend(Selectize.prototype, {
 	 */
 	unlock: function() {
 		this.isLocked = false;
-		this.refreshClasses();
+		this.refreshState();
 	},
 
 	/**

@@ -39,21 +39,19 @@
 		});
 
 		describe('focus()', function() {
-			it('should set isFocused property to true', function(done) {
-				var test = setup_test('<select>', {});
+			var test;
+
+			before(function(done) {
+				test = setup_test('<select>', {});
 				test.selectize.focus();
-				window.setTimeout(function() {
-					expect(test.selectize.isFocused).to.be.equal(true);
-					done();
-				}, 5);
+				window.setTimeout(function() { done(); }, 5);
 			});
-			it('should give the control focus', function(done) {
-				var test = setup_test('<select>', {});
-				test.selectize.focus();
-				window.setTimeout(function() {
-					expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
-					done();
-				}, 5);
+
+			it('should set isFocused property to true', function() {
+				expect(test.selectize.isFocused).to.be.equal(true);
+			});
+			it('should give the control focus', function() {
+				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
 			});
 		});
 

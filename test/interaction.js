@@ -17,7 +17,8 @@
 				'</select>', {});
 
 				Syn
-					.click(test.selectize.$control, function() {
+					.click(test.selectize.$control)
+					.delay(0, function() {
 						expect(test.selectize.isFocused).to.be.equal(true);
 						done();
 					});
