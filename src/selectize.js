@@ -397,7 +397,7 @@ $.extend(Selectize.prototype, {
 				e.preventDefault();
 				return;
 			case KEY_RETURN:
-				if (self.$activeOption) {
+				if (self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
 				}
 				e.preventDefault();
@@ -1030,7 +1030,7 @@ $.extend(Selectize.prototype, {
 	 */
 	addOptionGroup: function(id, data) {
 		this.optgroups[id] = data;
-		this.trigger('optgroup_add', value, data);
+		this.trigger('optgroup_add', id, data);
 	},
 
 	/**
@@ -1128,8 +1128,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getOption: function(value) {
-		value = hash_key(value);
-		return value ? this.$dropdown_content.find('[data-selectable]').filter('[data-value="' + escape_quotes(value) + '"]:first') : $();
+		return this.getElementWithValue(value, this.$dropdown_content.find('[data-selectable]'));
 	},
 
 	/**
@@ -1148,6 +1147,28 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Finds the first element with a "data-value" attribute
+	 * that matches the given value.
+	 *
+	 * @param {mixed} value
+	 * @param {object} $els
+	 * @return {object}
+	 */
+	getElementWithValue: function(value, $els) {
+		value = hash_key(value);
+
+		if (value) {
+			for (var i = 0, n = $els.length; i < n; i++) {
+				if ($els[i].getAttribute('data-value') === value) {
+					return $($els[i]);
+				}
+			}
+		}
+
+		return $();
+	},
+
+	/**
 	 * Returns the jQuery element of the item
 	 * matching the given value.
 	 *
@@ -1155,7 +1176,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {object}
 	 */
 	getItem: function(value) {
-		return this.$control.children('[data-value="' + escape_quotes(hash_key(value)) + '"]');
+		return this.getElementWithValue(value, this.$control.children());
 	},
 
 	/**

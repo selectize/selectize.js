@@ -87,6 +87,34 @@ describe('Events', function() {
 		});
 	});
 
+	describe('optgroup_add', function() {
+		beforeEach(function() {
+			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+		});
+		afterEach(function() {
+			test.teardown();
+		});
+		it('should be triggered', function(done) {
+			test.selectize.on('optgroup_add', function() { done(); });
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+		});
+		it('should contain optgroup id', function(done) {
+			test.selectize.on('optgroup_add', function(id, data) {
+				expect(id).to.be.equal('id');
+				done();
+			});
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+		});
+		it('should contain outgroup data', function(done) {
+			var optgroup = {label: 'Group'};
+			test.selectize.on('optgroup_add', function(id, data) {
+				expect(data).to.eql(optgroup);
+				done();
+			});
+			test.selectize.addOptionGroup('id', optgroup);
+		});
+	});
+
 	describe('option_add', function() {
 		beforeEach(function() {
 			test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
@@ -110,7 +138,7 @@ describe('Events', function() {
 		it('should contain option data', function(done) {
 			var option = {value: 'e'};
 			test.selectize.on('option_add', function(value, data) {
-				expect(data).to.be.equal(data);
+				expect(option).to.eql(data);
 				done();
 			});
 			test.selectize.addOption(option);

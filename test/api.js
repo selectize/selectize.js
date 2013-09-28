@@ -138,6 +138,21 @@
 			});
 		});
 
+		describe('addOptionGroup()', function() {
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			after(function() {
+				test.teardown();
+			});
+			it('should register group', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				expect(test.selectize.optgroups).to.have.property('group_id');
+				expect(test.selectize.optgroups['group_id']).to.eql(data);
+			});
+		});
+
 		describe('addOption()', function() {
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
@@ -306,6 +321,7 @@
 						{value: 'a'},
 						{value: 'b'},
 						{value: '\''},
+						{value: '\\'},
 						{value: '"'},
 						{value: '\\\''},
 						{value: '\\"'},
@@ -335,6 +351,8 @@
 				expect(test.selectize.getOption('"').length).to.be.equal(1);
 			});
 			it('should allow values with backslashes', function() {
+				expect(test.selectize.getOption('\\')).to.be.ok;
+				expect(test.selectize.getOption('\\').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\\'')).to.be.ok;
 				expect(test.selectize.getOption('\\\'').length).to.be.equal(1);
 				expect(test.selectize.getOption('\\"')).to.be.ok;
