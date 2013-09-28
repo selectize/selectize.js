@@ -1,6 +1,4 @@
 $.fn.selectize = function(settings_user) {
-	settings = settings || {};
-
 	var defaults             = $.fn.selectize.defaults;
 	var settings             = $.extend({}, defaults, settings_user);
 	var attr_data            = settings.dataAttr;
