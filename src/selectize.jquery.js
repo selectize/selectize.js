@@ -1,25 +1,32 @@
-$.fn.selectize = function(settings) {
+$.fn.selectize = function(settings_user) {
 	settings = settings || {};
 
-	var defaults = $.fn.selectize.defaults;
-	var dataAttr = settings.dataAttr || defaults.dataAttr;
+	var defaults             = $.fn.selectize.defaults;
+	var settings             = $.extend({}, defaults, settings_user);
+	var attr_data            = settings.dataAttr;
+	var field_label          = settings.labelField;
+	var field_value          = settings.valueField;
+	var field_optgroup       = settings.optgroupField;
+	var field_optgroup_label = settings.optgroupLabelField;
+	var field_optgroup_value = settings.optgroupValueField;
 
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
 	 * @param {object} $input
-	 * @param {object} settings
+	 * @param {object} settings_element
 	 */
 	var init_textbox = function($input, settings_element) {
-		var i, n, values, value = $.trim($input.val() || '');
+		var i, n, values, option, value = $.trim($input.val() || '');
 		if (!value.length) return;
 
-		values = value.split(settings.delimiter || defaults.delimiter);
+		values = value.split(settings.delimiter);
 		for (i = 0, n = values.length; i < n; i++) {
-			settings_element.options[values[i]] = {
-				'text'  : values[i],
-				'value' : values[i]
-			};
+			option = {};
+			option[field_label] = values[i];
+			option[field_value] = values[i];
+
+			settings_element.options[values[i]] = option;
 		}
 
 		settings_element.items = values;
@@ -29,18 +36,14 @@ $.fn.selectize = function(settings) {
 	 * Initializes selectize from a <select> element.
 	 *
 	 * @param {object} $input
-	 * @param {object} settings
+	 * @param {object} settings_element
 	 */
 	var init_select = function($input, settings_element) {
-		var i, n, tagName;
-		var $children;
-		var order = 0;
+		var i, n, tagName, $children, order = 0;
 		var options = settings_element.options;
 
-		settings_element.maxItems = !!$input.attr('multiple') ? null : 1;
-
 		var readData = function($el) {
-			var data = dataAttr && $el.attr(dataAttr);
+			var data = attr_data && $el.attr(attr_data);
 			if (typeof data === 'string' && data.length) {
 				return JSON.parse(data);
 			}
@@ -72,11 +75,10 @@ $.fn.selectize = function(settings) {
 				return;
 			}
 
-			option = readData($option) || {
-				'text'     : $option.text(),
-				'value'    : value,
-				'optgroup' : group
-			};
+			option                 = readData($option) || {};
+			option[field_label]    = option[field_label] || $option.text();
+			option[field_value]    = option[field_value] || value;
+			option[field_optgroup] = option[field_optgroup] || group;
 
 			option.$order = ++order;
 			options[value] = option;
@@ -87,20 +89,25 @@ $.fn.selectize = function(settings) {
 		};
 
 		var addGroup = function($optgroup) {
-			var i, n, $options = $('option', $optgroup);
-			$optgroup = $($optgroup);
+			var i, n, id, optgroup, $options;
 
-			var id = $optgroup.attr('label');
-			if (id && id.length) {
-				settings_element.optgroups[id] = readData($optgroup) || {
-					'label': id
-				};
+			$optgroup = $($optgroup);
+			id = $optgroup.attr('label');
+
+			if (id) {
+				optgroup = readData($optgroup) || {};
+				optgroup[field_optgroup_label] = id;
+				optgroup[field_optgroup_value] = id;
+				settings_element.optgroups[id] = optgroup;
 			}
 
+			$options = $('option', $optgroup);
 			for (i = 0, n = $options.length; i < n; i++) {
 				addOption($options[i], id);
 			}
 		};
+
+		settings_element.maxItems = $input.attr('multiple') ? null : 1;
 
 		$children = $input.children();
 		for (i = 0, n = $children.length; i < n; i++) {
@@ -116,7 +123,7 @@ $.fn.selectize = function(settings) {
 	return this.each(function() {
 		var instance;
 		var $input = $(this);
-		var tag_name = $input[0].tagName.toLowerCase();
+		var tag_name = this.tagName.toLowerCase();
 		var settings_element = {
 			'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
 			'options'     : {},
@@ -130,7 +137,7 @@ $.fn.selectize = function(settings) {
 			init_textbox($input, settings_element);
 		}
 
-		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings));
+		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
 		$input.data('selectize', instance);
 		$input.addClass('selectized');
 	});
