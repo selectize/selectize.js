@@ -21,7 +21,7 @@ Selectize.define('remove_button', function(options) {
 		label     : '&times;',
 		title     : 'Remove',
 		className : 'remove',
-		append    : true,
+		append    : true
 	}, options);
 
 	var self = this;
