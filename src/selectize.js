@@ -252,7 +252,7 @@ $.extend(Selectize.prototype, {
 			},
 			'option_create': function(data, escape) {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
-			},
+			}
 		};
 
 		self.settings.render = $.extend({}, templates, self.settings.render);
@@ -775,7 +775,7 @@ $.extend(Selectize.prototype, {
 		return {
 			fields    : $.isArray(fields) ? fields : [fields],
 			sort      : settings.sortField,
-			direction : settings.sortDirection,
+			direction : settings.sortDirection
 		};
 	},
 
