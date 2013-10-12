@@ -119,6 +119,8 @@ $.fn.selectize = function(settings_user) {
 	};
 
 	return this.each(function() {
+		if (this.selectize) return;
+
 		var instance;
 		var $input = $(this);
 		var tag_name = this.tagName.toLowerCase();

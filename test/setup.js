@@ -2,6 +2,17 @@
 
 	describe('Setup', function() {
 
+		it('should not allow duplicate initialization', function() {
+			var instance_before, instance_after, test;
+
+			test = setup_test('<input type="text">', {});
+			instance_before = test.$select[0].selectize;
+			test.$select.selectize();
+			instance_after = test.$select[0].selectize;
+
+			expect(instance_before).to.be.equal(instance_after);
+		});
+
 		describe('<input type="text">', function() {
 			it('complete without exceptions', function() {
 				var test = setup_test('<input type="text">', {});
