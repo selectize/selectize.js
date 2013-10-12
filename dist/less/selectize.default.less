@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.7.7) - Default Theme
+ * selectize.default.css (v0.8.0) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -37,8 +37,14 @@
 				color: #999;
 				text-shadow: none;
 				background: none;
-				border-color: #e6e6e6;
 				.selectize-box-shadow(none);
+
+				&, .remove {
+					border-color: #e6e6e6;
+				}
+				.remove {
+					background: none;
+				}
 			}
 			[data-value] {
 				text-shadow: 0 1px 0 rgba(0,51,83,0.3);

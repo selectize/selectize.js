@@ -27,4 +27,10 @@
 	[data-value].active .remove {
 		border-left-color: @selectize-color-item-active-border;
 	}
+	.disabled [data-value] .remove:hover {
+		background: none;
+	}
+	.disabled [data-value] .remove {
+		border-left-color: lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
+	}
 }

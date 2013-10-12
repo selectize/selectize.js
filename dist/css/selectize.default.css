@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.7.7) - Default Theme
+ * selectize.default.css (v0.8.0) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -115,6 +115,14 @@
   border-left-color: #00578d;
 }
 
+.selectize-control.plugin-remove_button .disabled [data-value] .remove:hover {
+  background: none;
+}
+
+.selectize-control.plugin-remove_button .disabled [data-value] .remove {
+  border-left-color: #aaaaaa;
+}
+
 .selectize-control {
   position: relative;
 }
@@ -130,7 +138,7 @@
 }
 
 .selectize-input,
-.selectize-control.single .selectize-input.focus {
+.selectize-control.single .selectize-input.input-active {
   display: inline-block;
   cursor: text;
   background: #ffffff;
@@ -312,8 +320,8 @@
   cursor: pointer;
 }
 
-.selectize-control.single .selectize-input.focus,
-.selectize-control.single .selectize-input.focus input {
+.selectize-control.single .selectize-input.input-active,
+.selectize-control.single .selectize-input.input-active input {
   cursor: text;
 }
 
@@ -337,6 +345,15 @@
   border-width: 0 5px 5px 5px;
 }
 
+.selectize-control.rtl.single .selectize-input:after {
+  right: auto;
+  left: 15px;
+}
+
+.selectize-control.rtl .selectize-input > input {
+  margin: 0 4px 0 -2px !important;
+}
+
 .selectize-control .selectize-input.disabled {
   background-color: #fafafa;
   opacity: 0.5;
@@ -351,9 +368,17 @@
   color: #999;
   text-shadow: none;
   background: none;
-  border-color: #e6e6e6;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+.selectize-control.multi .selectize-input.disabled [data-value],
+.selectize-control.multi .selectize-input.disabled [data-value] .remove {
+  border-color: #e6e6e6;
+}
+
+.selectize-control.multi .selectize-input.disabled [data-value] .remove {
+  background: none;
 }
 
 .selectize-control.multi .selectize-input [data-value] {

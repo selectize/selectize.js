@@ -1,5 +1,5 @@
 /**
- * selectize.legacy.css (v0.7.7) - Default Theme
+ * selectize.legacy.css (v0.8.0) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -115,6 +115,14 @@
   border-left-color: #6f9839;
 }
 
+.selectize-control.plugin-remove_button .disabled [data-value] .remove:hover {
+  background: none;
+}
+
+.selectize-control.plugin-remove_button .disabled [data-value] .remove {
+  border-left-color: #b4b4b4;
+}
+
 .selectize-control {
   position: relative;
 }
@@ -130,7 +138,7 @@
 }
 
 .selectize-input,
-.selectize-control.single .selectize-input.focus {
+.selectize-control.single .selectize-input.input-active {
   display: inline-block;
   cursor: text;
   background: #ffffff;
@@ -312,8 +320,8 @@
   cursor: pointer;
 }
 
-.selectize-control.single .selectize-input.focus,
-.selectize-control.single .selectize-input.focus input {
+.selectize-control.single .selectize-input.input-active,
+.selectize-control.single .selectize-input.input-active input {
   cursor: text;
 }
 
@@ -335,6 +343,15 @@
   margin-top: -4px;
   border-color: transparent transparent #808080 transparent;
   border-width: 0 5px 5px 5px;
+}
+
+.selectize-control.rtl.single .selectize-input:after {
+  right: auto;
+  left: 15px;
+}
+
+.selectize-control.rtl .selectize-input > input {
+  margin: 0 4px 0 -2px !important;
 }
 
 .selectize-control .selectize-input.disabled {
