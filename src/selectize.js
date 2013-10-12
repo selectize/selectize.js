@@ -831,8 +831,9 @@ $.extend(Selectize.prototype, {
 		var settings = this.settings;
 
 		return {
-			fields : settings.searchField,
-			sort   : settings.sortField
+			fields      : settings.searchField,
+			conjunction : settings.searchConjunction,
+			sort        : settings.sortField
 		};
 	},
 

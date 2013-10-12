@@ -171,6 +171,12 @@ $(function() {
 		<td valign="top"><code>['text']</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>searchConjunction</td>
+		<td valign="top">When searching for multiple terms (separated by a space), this is the operator used. Can be "and" or "or".</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'and'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>optgroupOrder</td>
 		<td valign="top">An array of optgroup values that indicates the order they should be listed in in the dropdown. If not provided, groups will be ordered by the ranking of the options within them.</td>
 		<td valign="top"><code>array</code></td>

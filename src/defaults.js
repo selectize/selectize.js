@@ -26,6 +26,7 @@ Selectize.defaults = {
 	optgroupValueField: 'value',
 	optgroupOrder: null,
 	searchField: ['text'],
+	searchConjunction: 'and',
 
 	mode: null,
 	wrapperClass: 'selectize-control',

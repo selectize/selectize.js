@@ -29,7 +29,7 @@
 	],
 	"dependencies": {
 		"jquery": ">=0.6.0",
-		"sifter": "0.2.x",
+		"sifter": "0.3.x",
 		"microplugin": "0.0.x"
 	},
 	"devDependencies": {
