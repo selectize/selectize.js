@@ -25,10 +25,14 @@
 				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>
-					<input type="text" id="input-tags" class="demo-default" value="awesome,neat">
+					<input type="text" id="input-tags" class="input-tags demo-default" value="awesome,neat">
+				</div>
+				<div class="control-group">
+					<label for="input-tags2">Tags:</label>
+					<input type="text" disabled id="input-tags2" class="input-tags demo-default" value="awesome,neat">
 				</div>
 				<script>
-				$('#input-tags').selectize({
+				$('.input-tags').selectize({
 					plugins: ['remove_button'],
 					delimiter: ',',
 					persist: false,
@@ -53,11 +57,11 @@
 			<div class="demo">
 				<h2>Plugin: "restore_on_backspace"</h2>
 				<div class="control-group">
-					<label for="input-tags2">Tags:</label>
-					<input type="text" id="input-tags2" class="demo-default" value="awesome,neat">
+					<label for="input-tags6">Tags:</label>
+					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
 				</div>
 				<script>
-				$('#input-tags2').selectize({
+				$('#input-tags6').selectize({
 					plugins: ['restore_on_backspace'],
 					delimiter: ',',
 					persist: false,
@@ -75,10 +79,14 @@
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
-					<input type="text" id="input-sortable" class="demo-default" value="drag,these,items,around">
+					<input type="text" id="input-sortable" class="input-sortable demo-default" value="drag,these,items,around">
+				</div>
+				<div class="control-group">
+					<label for="input-sortable2">Tags:</label>
+					<input type="text" id="input-sortable2" disabled class="input-sortable demo-default" value="drag,these,items,around">
 				</div>
 				<script>
-				$('#input-sortable').selectize({
+				$('.input-sortable').selectize({
 					plugins: ['drag_drop'],
 					delimiter: ',',
 					persist: false,

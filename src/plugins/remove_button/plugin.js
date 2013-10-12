@@ -55,6 +55,8 @@ Selectize.define('remove_button', function(options) {
 			// add event listener
 			this.$control.on('click', '.' + options.className, function(e) {
 				e.preventDefault();
+				if (self.isLocked) return;
+
 				var $item = $(e.target).parent();
 				self.setActiveItem($item);
 				if (self.deleteSelection()) {

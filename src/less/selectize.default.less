@@ -37,8 +37,14 @@
 				color: #999;
 				text-shadow: none;
 				background: none;
-				border-color: #e6e6e6;
 				.selectize-box-shadow(none);
+
+				&, .remove {
+					border-color: #e6e6e6;
+				}
+				.remove {
+					background: none;
+				}
 			}
 			[data-value] {
 				text-shadow: 0 1px 0 rgba(0,51,83,0.3);

@@ -573,6 +573,7 @@ $.extend(Selectize.prototype, {
 	onItemSelect: function(e) {
 		var self = this;
 
+		if (self.isLocked) return;
 		if (self.settings.mode === 'multi') {
 			e.preventDefault();
 			self.setActiveItem(e.currentTarget, e);
