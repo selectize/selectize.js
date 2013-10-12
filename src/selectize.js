@@ -898,17 +898,18 @@ $.extend(Selectize.prototype, {
 	 * @param {boolean} triggerDropdown
 	 */
 	refreshOptions: function(triggerDropdown) {
+		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children, has_create_option;
+		var $active, $active_before, $create;
+
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
 		}
 
-		var self = this;
-		var i, j, k, n, groups, groups_order, option, option_html, optgroup, optgroups, html, html_children;
-		var hasCreateOption;
-		var query = self.$control_input.val();
-		var results = self.search(query);
-		var $active, $create;
+		var self              = this;
+		var query             = self.$control_input.val();
+		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
+		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
 
 		// build markup
 		n = results.items.length;
@@ -981,20 +982,28 @@ $.extend(Selectize.prototype, {
 		}
 
 		// add create option
-		hasCreateOption = self.settings.create && results.query.length;
-		if (hasCreateOption) {
+		has_create_option = self.settings.create && results.query.length;
+		if (has_create_option) {
 			$dropdown_content.prepend(self.render('option_create', {input: query}));
 			$create = $($dropdown_content[0].childNodes[0]);
 		}
 
 		// activate
-		self.hasOptions = results.items.length > 0 || hasCreateOption;
+		self.hasOptions = results.items.length > 0 || has_create_option;
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
-				if ($create && !self.settings.addPrecedence) {
-					$active = self.getAdjacentOption($create, 1);
-				} else {
-					$active = $dropdown_content.find('[data-selectable]:first');
+				$active_before = active_before && self.getOption(active_before);
+				if ($active_before && $active_before.length) {
+					$active = $active_before;
+				} else if (self.settings.mode === 'single' && self.items.length) {
+					$active = self.getOption(self.items[0]);
+				}
+				if (!$active || !$active.length) {
+					if ($create && !self.settings.addPrecedence) {
+						$active = self.getAdjacentOption($create, 1);
+					} else {
+						$active = $dropdown_content.find('[data-selectable]:first');
+					}
 				}
 			} else {
 				$active = $create;
