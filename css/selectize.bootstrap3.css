@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap3.css (v0.6.14) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v0.8.0) - Bootstrap 3 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -79,12 +79,12 @@
   border-top: 0 none;
 }
 
-.selectize-control.plugin-remove_button .item {
+.selectize-control.plugin-remove_button [data-value] {
   position: relative;
   padding-right: 24px !important;
 }
 
-.selectize-control.plugin-remove_button .item .remove {
+.selectize-control.plugin-remove_button [data-value] .remove {
   position: absolute;
   top: 0;
   right: 0;
@@ -96,6 +96,7 @@
   font-weight: bold;
   color: inherit;
   text-align: center;
+  text-decoration: none;
   vertical-align: middle;
   border-left: 1px solid rgba(0, 0, 0, 0);
   -webkit-border-radius: 0 2px 2px 0;
@@ -106,12 +107,20 @@
           box-sizing: border-box;
 }
 
-.selectize-control.plugin-remove_button .item .remove:hover {
+.selectize-control.plugin-remove_button [data-value] .remove:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.selectize-control.plugin-remove_button .item.active .remove {
+.selectize-control.plugin-remove_button [data-value].active .remove {
   border-left-color: rgba(0, 0, 0, 0);
+}
+
+.selectize-control.plugin-remove_button .disabled [data-value] .remove:hover {
+  background: none;
+}
+
+.selectize-control.plugin-remove_button .disabled [data-value] .remove {
+  border-left-color: rgba(77, 77, 77, 0);
 }
 
 .selectize-control {
@@ -129,7 +138,7 @@
 }
 
 .selectize-input,
-.selectize-control.single .selectize-input.focus {
+.selectize-control.single .selectize-input.input-active {
   display: inline-block;
   cursor: text;
   background: #ffffff;
@@ -245,8 +254,8 @@
 
 .selectize-dropdown {
   position: absolute;
-  z-index: 2;
-  margin-top: -1px;
+  z-index: 10;
+  margin: -1px 0 0 0;
   background: #ffffff;
   border: 1px solid #cccccc;
   border-top: 0 none;
@@ -311,8 +320,8 @@
   cursor: pointer;
 }
 
-.selectize-control.single .selectize-input.focus,
-.selectize-control.single .selectize-input.focus input {
+.selectize-control.single .selectize-input.input-active,
+.selectize-control.single .selectize-input.input-active input {
   cursor: text;
 }
 
@@ -336,17 +345,32 @@
   border-width: 0 5px 5px 5px;
 }
 
+.selectize-control.rtl.single .selectize-input:after {
+  right: auto;
+  left: 17px;
+}
+
+.selectize-control.rtl .selectize-input > input {
+  margin: 0 4px 0 -2px !important;
+}
+
 .selectize-control .selectize-input.disabled {
   background-color: #ffffff;
   opacity: 0.5;
 }
 
-.selectize-dropdown {
+.selectize-dropdown,
+.selectize-dropdown.form-control {
   z-index: 1000;
+  height: auto;
+  padding: 0;
   margin: 2px 0 0 0;
+  background: #ffffff;
   border: 1px solid #cccccc;
   border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
@@ -409,4 +433,16 @@
   -webkit-border-radius: 3px;
      -moz-border-radius: 3px;
           border-radius: 3px;
+}
+
+.form-control.selectize-control {
+  height: auto;
+  padding: 0;
+  background: none;
+  border: none;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
