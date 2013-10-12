@@ -154,15 +154,18 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>sortField</code></td>
-		<td valign="top">The name of the property to sort by. This is only used when the score of two or more items is identical.</td>
-		<td valign="top"><code>string</code></td>
-		<td valign="top"><code>null</code></td>
-	</tr>
-	<tr>
-		<td valign="top"><code>sortDirection</code></td>
-		<td valign="top">Sort direction ("asc" or "desc").</td>
-		<td valign="top"><code>string</code></td>
-		<td valign="top"><code>'asc'</code></td>
+		<td valign="top">
+			A single field or an array of fields to sort by. Each item in the array should be an object containing at
+			least a "field" property. Optionally, "direction" can be set to "asc" or "desc". The
+			order of the array defines the sort precedence.<br><br>
+
+			Unless present, a special "$score" field will be automatically added to the beginning
+			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
+
+			For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
+		</td>
+		<td valign="top"><code>string|array</code></td>
+		<td valign="top"><code>'$order'</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>searchField</td>

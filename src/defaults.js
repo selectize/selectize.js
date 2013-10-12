@@ -18,13 +18,13 @@ Selectize.defaults = {
 
 	dataAttr: 'data-data',
 	optgroupField: 'optgroup',
-	sortField: {field: '$order'},
-	sortDirection: 'asc',
 	valueField: 'value',
 	labelField: 'text',
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
 	optgroupOrder: null,
+
+	sortField: '$order',
 	searchField: ['text'],
 	searchConjunction: 'and',
 

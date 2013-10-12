@@ -829,11 +829,15 @@ $.extend(Selectize.prototype, {
 	 */
 	getSearchOptions: function() {
 		var settings = this.settings;
+		var sort = settings.sortField;
+		if (typeof sort === 'string') {
+			sort = {field: sort};
+		}
 
 		return {
 			fields      : settings.searchField,
 			conjunction : settings.searchConjunction,
-			sort        : settings.sortField
+			sort        : sort
 		};
 	},
 
