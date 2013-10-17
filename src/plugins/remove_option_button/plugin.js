@@ -59,7 +59,11 @@ Selectize.define('remove_option_button', function(options) {
 				this.$dropdown_content.on('mousedown', '.' + options.className, function(e) {
 
 					e.preventDefault();
-					var $item = $(e.target).parent();
+					//FIXME not use this find the div.
+					var $item = $(e.target).parentsUntil("[data-selectable]").parent();
+					if ($item.size() === 0)
+						$item = $(e.target).parent();
+						
 					self.removeOption($item.data("value"));
 					self.refreshOptions(true);
 					return false;
