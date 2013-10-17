@@ -583,7 +583,7 @@
 }));
 
 /**
- * selectize.js (v0.8.0)
+ * selectize.js (v0.8.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1217,6 +1217,13 @@
 				self.ignoreHover = false;
 			});
 	
+			// store original children and tab index so that they can be
+			// restored when the destroy() method is called.
+			this.revertSettings = {
+				$children : self.$input.children().detach(),
+				tabindex  : self.$input.attr('tabindex')
+			};
+	
 			self.$input.attr('tabindex', -1).hide().after(self.$wrapper);
 	
 			if ($.isArray(settings.items)) {
@@ -1275,7 +1282,7 @@
 				},
 				'option_create': function(data, escape) {
 					return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
-				},
+				}
 			};
 	
 			self.settings.render = $.extend({}, templates, self.settings.render);
@@ -2759,12 +2766,18 @@
 		destroy: function() {
 			var self = this;
 			var eventNS = self.eventNS;
+			var revertSettings = self.revertSettings;
 	
 			self.trigger('destroy');
 			self.off();
 			self.$wrapper.remove();
 			self.$dropdown.remove();
-			self.$input.show();
+	
+			self.$input
+				.html('')
+				.append(revertSettings.$children)
+				.attr({tabindex: revertSettings.tabindex})
+				.show();
 	
 			$(window).off(eventNS);
 			$(document).off(eventNS);
@@ -3210,7 +3223,7 @@
 			label     : '&times;',
 			title     : 'Remove',
 			className : 'remove',
-			append    : true,
+			append    : true
 		}, options);
 	
 		var self = this;
