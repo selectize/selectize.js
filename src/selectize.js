@@ -193,6 +193,13 @@ $.extend(Selectize.prototype, {
 			self.ignoreHover = false;
 		});
 
+		// store original children and tab index so that they can be
+		// restored when the destroy() method is called.
+		this.revertSettings = {
+			$children : self.$input.children().detach(),
+			tabindex  : self.$input.attr('tabindex')
+		};
+
 		self.$input.attr('tabindex', -1).hide().after(self.$wrapper);
 
 		if ($.isArray(settings.items)) {
@@ -1735,12 +1742,18 @@ $.extend(Selectize.prototype, {
 	destroy: function() {
 		var self = this;
 		var eventNS = self.eventNS;
+		var revertSettings = self.revertSettings;
 
 		self.trigger('destroy');
 		self.off();
 		self.$wrapper.remove();
 		self.$dropdown.remove();
-		self.$input.show();
+
+		self.$input
+			.html('')
+			.append(revertSettings.$children)
+			.attr({tabindex: revertSettings.tabindex})
+			.show();
 
 		$(window).off(eventNS);
 		$(document).off(eventNS);

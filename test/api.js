@@ -535,6 +535,20 @@
 				test.selectize.destroy();
 				expect(has_namespaced_event($('body'), test.selectize.eventNS)).to.be.equal(false);
 			});
+			it('should restore original options and tabindex', function() {
+				var children = '<optgroup label="Swedish Cars">' +
+					'<option value="volvo">Volvo</option>' +
+					'<option value="saab">Saab</option>' +
+				'</optgroup>' +
+				'<optgroup label="German Cars">' +
+					'<option value="mercedes">Mercedes</option>' +
+					'<option value="audi">Audi</option>' +
+				'</optgroup>';
+				var test = setup_test('<select tabindex="9999">' + children + '</select>', {});
+				test.selectize.destroy();
+				expect(test.$select.html()).to.be.equal(children);
+				expect(test.$select.attr('tabindex')).to.be.equal('9999');
+			});
 		});
 
 	});
