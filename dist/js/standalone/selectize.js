@@ -1267,7 +1267,7 @@
 					e.preventDefault();
 					return;
 				case KEY_RETURN:
-					if (self.$activeOption) {
+					if (self.isOpen && self.$activeOption) {
 						self.onOptionSelect({currentTarget: self.$activeOption});
 					}
 					e.preventDefault();
@@ -3005,6 +3005,63 @@
 		})();
 	
 	});
+	
+	//plugin for remove option. it will be useful if user input something but still want change it.
+	//so delete it first.
+	Selectize.define('remove_option_button', function(options) {
+			if (this.settings.mode === 'single') return;
+		
+			options = $.extend({
+				label     : '&times;',
+				title     : 'Remove',
+				className : 'remove',
+				append    : true,
+			}, options);
+		
+			var self = this;
+			var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
+		
+			/**
+			 * Appends an element as a child (with raw HTML).
+			 *
+			 * @param {string} html_container
+			 * @param {string} html_element
+			 * @return {string}
+			 */
+			var append = function(html_container, html_element) {
+				var pos = html_container.search(/(<\/[^>]+>\s*)$/);
+				return html_container.substring(0, pos) + html_element + html_container.substring(pos);
+			};
+		
+			this.setup = (function() {
+				var original = self.setup;
+				return function() {
+					// override the item rendering method to add the button to each
+					if (options.append) {
+						var render_option = self.settings.render.option;
+						self.settings.render.option = function(data) {
+							return append(render_option.apply(this, arguments), html);
+						};
+					}
+		
+					original.apply(this, arguments);
+			
+					// add event listener
+					this.$dropdown_content.on('mousedown', '.' + options.className, function(e) {
+	
+						e.preventDefault();
+						var $item = $(e.target).parent();
+						self.removeOption($item.data("value"));
+						self.refreshOptions(true);
+						return false;
+						
+					});
+		
+				};
+			})();
+		
+	});
+	
 	
 	Selectize.define('restore_on_backspace', function(options) {
 		var self = this;
