@@ -63,8 +63,18 @@ Selectize.define('remove_option_button', function(options) {
 					var $item = $(e.target).parentsUntil("[data-selectable]").parent();
 					if ($item.size() === 0)
 						$item = $(e.target).parent();
+					
+					var value = $item.data("value");
+					var cache_items = self.renderCache['item'], cache_options = self.renderCache['option'];
+				
+					if (isset(cache_items)) {
+						delete cache_items[value];
+					}
+					if (isset(cache_options)) {
+						delete cache_options[value];
+					}
 						
-					self.removeOption($item.data("value"));
+					self.removeOption( value );
 					self.refreshOptions(true);
 					return false;
 					
