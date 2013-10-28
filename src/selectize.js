@@ -1752,7 +1752,7 @@ $.extend(Selectize.prototype, {
 		self.$input
 			.html('')
 			.append(revertSettings.$children)
-            .removeAttr('tabindex')
+			.removeAttr('tabindex')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 
