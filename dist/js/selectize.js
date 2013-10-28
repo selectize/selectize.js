@@ -2192,6 +2192,7 @@
 			self.$input
 				.html('')
 				.append(revertSettings.$children)
+                .removeAttr('tabindex')
 				.attr({tabindex: revertSettings.tabindex})
 				.show();
 	

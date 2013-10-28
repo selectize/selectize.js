@@ -549,6 +549,11 @@
 				expect(test.$select.html()).to.be.equal(children);
 				expect(test.$select.attr('tabindex')).to.be.equal('9999');
 			});
+			it('should remove tabindex if it was originally undefined', function() {
+				var test = setup_test('<select>', {});
+                test.selectize.destroy();
+                expect(test.$select.attr('tabindex')).to.be.equal(undefined);
+			});
 		});
 
 	});
