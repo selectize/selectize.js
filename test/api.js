@@ -551,8 +551,8 @@
 			});
 			it('should remove tabindex if it was originally undefined', function() {
 				var test = setup_test('<select>', {});
-                test.selectize.destroy();
-                expect(test.$select.attr('tabindex')).to.be.equal(undefined);
+				test.selectize.destroy();
+				expect(test.$select.attr('tabindex')).to.be.equal(undefined);
 			});
 		});
 
