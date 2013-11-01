@@ -493,7 +493,7 @@ $.extend(Selectize.prototype, {
 		self.isFocused = true;
 		if (self.isDisabled) {
 			self.blur();
-			e.preventDefault();
+			e && e.preventDefault();
 			return false;
 		}
 
