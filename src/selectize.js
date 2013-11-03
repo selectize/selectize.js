@@ -18,7 +18,7 @@ var Selectize = function($input, settings) {
 		highlightedValue : null,
 		isOpen           : false,
 		isDisabled       : false,
-		isRequired       : $input.is(':required'),
+		isRequired       : $input.is('[required]'),
 		isInvalid        : false,
 		isLocked         : false,
 		isFocused        : false,
