@@ -394,7 +394,7 @@ $.extend(Selectize.prototype, {
 				}
 				break;
 			case KEY_ESC:
-				self.blur();
+				self.close();
 				return;
 			case KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
@@ -1226,7 +1226,11 @@ $.extend(Selectize.prototype, {
 			var i, active, options, value_next;
 			value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) return;
+			if (self.items.indexOf(value) !== -1) {
+				if (inputMode === 'single') self.close();
+				return;
+			}
+
 			if (!self.options.hasOwnProperty(value)) return;
 			if (inputMode === 'single') self.clear();
 			if (inputMode === 'multi' && self.isFull()) return;
