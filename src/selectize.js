@@ -1378,10 +1378,10 @@ $.extend(Selectize.prototype, {
 		var isFull   = self.isFull();
 		var isLocked = self.isLocked;
 
-		this.$wrapper
+		self.$wrapper
 			.toggleClass('rtl', self.rtl);
 
-		this.$control
+		self.$control
 			.toggleClass('focus', self.isFocused)
 			.toggleClass('disabled', self.isDisabled)
 			.toggleClass('required', self.isRequired)
@@ -1393,7 +1393,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
 
-		this.$control_input.data('grow', !isFull && !isLocked);
+		self.$control_input.data('grow', !isFull && !isLocked);
 	},
 
 	/**
@@ -1461,7 +1461,7 @@ $.extend(Selectize.prototype, {
 		self.$dropdown.css({visibility: 'hidden', display: 'block'});
 		self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
-		self.trigger('dropdown_open', this.$dropdown);
+		self.trigger('dropdown_open', self.$dropdown);
 	},
 
 	/**
@@ -1471,7 +1471,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var trigger = self.isOpen;
 
-		if (self.settings.mode === 'single' && this.items.length) {
+		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
 		}
 
