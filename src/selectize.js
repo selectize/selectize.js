@@ -1802,10 +1802,10 @@ $.extend(Selectize.prototype, {
 		}
 		if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
-			html = html.replace(regex_tag, '<$1 data-group="' + escape_html(id) + '"');
+			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
 		}
 		if (templateName === 'option' || templateName === 'item') {
-			html = html.replace(regex_tag, '<$1 data-value="' + escape_html(value || '') + '"');
+			html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
 		}
 
 		// update cache
