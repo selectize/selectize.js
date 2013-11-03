@@ -583,7 +583,7 @@
 }));
 
 /**
- * selectize.js (v0.8.1)
+ * selectize.js (v0.8.2)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -739,6 +739,16 @@
 			.replace(/</g, '&lt;')
 			.replace(/>/g, '&gt;')
 			.replace(/"/g, '&quot;');
+	};
+	
+	/**
+	 * Escapes "$" characters in replacement strings.
+	 *
+	 * @param {string} str
+	 * @returns {string}
+	 */
+	var escape_replace = function(str) {
+		return (str + '').replace(/\$/g, '$$$$');
 	};
 	
 	var hook = {};
@@ -1042,7 +1052,7 @@
 			highlightedValue : null,
 			isOpen           : false,
 			isDisabled       : false,
-			isRequired       : $input.is(':required'),
+			isRequired       : $input.is('[required]'),
 			isInvalid        : false,
 			isLocked         : false,
 			isFocused        : false,
@@ -1418,7 +1428,7 @@
 					}
 					break;
 				case KEY_ESC:
-					self.blur();
+					self.close();
 					return;
 				case KEY_DOWN:
 					if (!self.isOpen && self.hasOptions) {
@@ -1517,7 +1527,7 @@
 			self.isFocused = true;
 			if (self.isDisabled) {
 				self.blur();
-				e.preventDefault();
+				e && e.preventDefault();
 				return false;
 			}
 	
@@ -1772,7 +1782,7 @@
 				scroll_top    = y;
 				scroll_bottom = y - height_menu + height_item;
 	
-				if (y + height_item > height_menu - scroll) {
+				if (y + height_item > height_menu + scroll) {
 					self.$dropdown_content.stop().animate({scrollTop: scroll_bottom}, animate ? self.settings.scrollDuration : 0);
 				} else if (y < scroll) {
 					self.$dropdown_content.stop().animate({scrollTop: scroll_top}, animate ? self.settings.scrollDuration : 0);
@@ -2250,10 +2260,14 @@
 				var i, active, options, value_next;
 				value = hash_key(value);
 	
+				if (self.items.indexOf(value) !== -1) {
+					if (inputMode === 'single') self.close();
+					return;
+				}
+	
+				if (!self.options.hasOwnProperty(value)) return;
 				if (inputMode === 'single') self.clear();
 				if (inputMode === 'multi' && self.isFull()) return;
-				if (self.items.indexOf(value) !== -1) return;
-				if (!self.options.hasOwnProperty(value)) return;
 	
 				$item = $(self.render('item', self.options[value]));
 				self.items.splice(self.caretPos, 0, value);
@@ -2402,10 +2416,10 @@
 			var isFull   = self.isFull();
 			var isLocked = self.isLocked;
 	
-			this.$wrapper
+			self.$wrapper
 				.toggleClass('rtl', self.rtl);
 	
-			this.$control
+			self.$control
 				.toggleClass('focus', self.isFocused)
 				.toggleClass('disabled', self.isDisabled)
 				.toggleClass('required', self.isRequired)
@@ -2417,7 +2431,7 @@
 				.toggleClass('has-options', !$.isEmptyObject(self.options))
 				.toggleClass('has-items', self.items.length > 0);
 	
-			this.$control_input.data('grow', !isFull && !isLocked);
+			self.$control_input.data('grow', !isFull && !isLocked);
 		},
 	
 		/**
@@ -2485,7 +2499,7 @@
 			self.$dropdown.css({visibility: 'hidden', display: 'block'});
 			self.positionDropdown();
 			self.$dropdown.css({visibility: 'visible'});
-			self.trigger('dropdown_open', this.$dropdown);
+			self.trigger('dropdown_open', self.$dropdown);
 		},
 	
 		/**
@@ -2495,7 +2509,7 @@
 			var self = this;
 			var trigger = self.isOpen;
 	
-			if (self.settings.mode === 'single' && this.items.length) {
+			if (self.settings.mode === 'single' && self.items.length) {
 				self.hideInput();
 			}
 	
@@ -2776,6 +2790,7 @@
 			self.$input
 				.html('')
 				.append(revertSettings.$children)
+				.removeAttr('tabindex')
 				.attr({tabindex: revertSettings.tabindex})
 				.show();
 	
@@ -2825,10 +2840,10 @@
 			}
 			if (templateName === 'optgroup') {
 				id = data[self.settings.optgroupValueField] || '';
-				html = html.replace(regex_tag, '<$1 data-group="' + escape_html(id) + '"');
+				html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
 			}
 			if (templateName === 'option' || templateName === 'item') {
-				html = html.replace(regex_tag, '<$1 data-value="' + escape_html(value || '') + '"');
+				html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
 			}
 	
 			// update cache
@@ -2840,6 +2855,7 @@
 		}
 	
 	});
+	
 	
 	Selectize.count = 0;
 	Selectize.defaults = {
