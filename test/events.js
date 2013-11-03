@@ -20,6 +20,21 @@ describe('Events', function() {
 			});
 			test.selectize.setValue('c');
 		});
+		it('should not be triggered when the selected item has not changed', function(done) {
+			var test = setup_test('<select><option value="a" selected="selected">a</option></select>');
+
+			var counter = 0;
+			test.$select.on('change', function() { counter++; });
+
+			Syn.click(test.selectize.$control).delay(0, function() {
+				Syn
+					.click($('[data-value="a"]', test.selectize.$dropdown))
+					.delay(0, function() {
+						expect(counter).to.be.equal(0);
+						done();
+					});
+			});
+		});
 	});
 
 	describe('item_add', function() {

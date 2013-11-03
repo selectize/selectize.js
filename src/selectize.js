@@ -1226,10 +1226,10 @@ $.extend(Selectize.prototype, {
 			var i, active, options, value_next;
 			value = hash_key(value);
 
-			if (inputMode === 'single') self.clear();
-			if (inputMode === 'multi' && self.isFull()) return;
 			if (self.items.indexOf(value) !== -1) return;
 			if (!self.options.hasOwnProperty(value)) return;
+			if (inputMode === 'single') self.clear();
+			if (inputMode === 'multi' && self.isFull()) return;
 
 			$item = $(self.render('item', self.options[value]));
 			self.items.splice(self.caretPos, 0, value);
