@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.8.2)
+ * selectize.js (v0.8.3)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1011,6 +1011,7 @@
 			} else {
 				value = $target.attr('data-value');
 				if (value) {
+					self.lastQuery = null;
 					self.setTextboxValue('');
 					self.addItem(value);
 					if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
