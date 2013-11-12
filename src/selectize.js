@@ -561,6 +561,7 @@ $.extend(Selectize.prototype, {
 		} else {
 			value = $target.attr('data-value');
 			if (value) {
+				self.lastQuery = null;
 				self.setTextboxValue('');
 				self.addItem(value);
 				if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
