@@ -583,7 +583,7 @@
 }));
 
 /**
- * selectize.js (v0.8.3)
+ * selectize.js (v0.8.4)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1461,8 +1461,7 @@
 					self.advanceSelection(1, e);
 					return;
 				case KEY_TAB:
-					if (self.settings.create && $.trim(self.$control_input.val()).length) {
-						self.createItem();
+					if (self.settings.create && self.createItem()) {
 						e.preventDefault();
 					}
 					return;
@@ -1553,6 +1552,10 @@
 			var self = this;
 			self.isFocused = false;
 			if (self.ignoreFocus) return;
+	
+			if (self.settings.create && self.settings.createOnBlur) {
+				self.createItem();
+			}
 	
 			self.close();
 			self.setTextboxValue('');
@@ -2346,12 +2349,14 @@
 		 *
 		 * Once this completes, it will be added
 		 * to the item list.
+		 *
+		 * @return {boolean}
 		 */
 		createItem: function() {
 			var self  = this;
 			var input = $.trim(self.$control_input.val() || '');
 			var caret = self.caretPos;
-			if (!input.length) return;
+			if (!input.length) return false;
 			self.lock();
 	
 			var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
@@ -2379,6 +2384,8 @@
 			if (typeof output !== 'undefined') {
 				create(output);
 			}
+	
+			return true;
 		},
 	
 		/**
@@ -2865,6 +2872,7 @@
 		persist: true,
 		diacritics: true,
 		create: false,
+		createOnBlur: false,
 		highlight: true,
 		openOnFocus: true,
 		maxOptions: 1000,
