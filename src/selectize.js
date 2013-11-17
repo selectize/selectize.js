@@ -1599,6 +1599,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		self.showInput();
+		self.positionDropdown();
 		self.refreshOptions(true);
 
 		// select previous option
