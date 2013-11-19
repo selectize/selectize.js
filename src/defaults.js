@@ -16,6 +16,7 @@ Selectize.defaults = {
 
 	scrollDuration: 60,
 	loadThrottle: 300,
+	setActiveOnFocus: false,
 
 	dataAttr: 'data-data',
 	optgroupField: 'optgroup',

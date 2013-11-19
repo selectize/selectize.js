@@ -304,7 +304,7 @@ $.extend(Selectize.prototype, {
 		// necessary for mobile webkit devices (manual focus triggering
 		// is ignored unless invoked within a click event)
 		if (!self.isFocused) {
-			self.focus();
+			self.focus(e);
 			e.preventDefault();
 		}
 	},
@@ -328,17 +328,17 @@ $.extend(Selectize.prototype, {
 			if (e.target !== self.$control_input[0]) {
 				if (self.settings.mode === 'single') {
 					// toggle dropdown
-					self.isOpen ? self.close() : self.open();
+					self.isOpen ? self.close(e) : self.open(e);
 				} else if (!defaultPrevented) {
 					self.setActiveItem(null);
 				}
-				return false;
-			}
+					return false;
+				}
 		} else {
 			// give control focus
 			if (!defaultPrevented) {
 				window.setTimeout(function() {
-					self.focus();
+					self.focus(e);
 				}, 0);
 			}
 		}
@@ -398,7 +398,7 @@ $.extend(Selectize.prototype, {
 				return;
 			case KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
-					self.open();
+					self.open(e);
 				} else if (self.$activeOption) {
 					self.ignoreHover = true;
 					var $next = self.getAdjacentOption(self.$activeOption, 1);
@@ -435,6 +435,10 @@ $.extend(Selectize.prototype, {
 			case KEY_DELETE:
 				self.deleteSelection(e);
 				return;
+			default:
+				if ( self.$activeItems.length > 0 ) {
+					self.deleteSelection();
+				}
 		}
 		if (self.isFull() || self.isInputHidden) {
 			e.preventDefault();
@@ -501,7 +505,19 @@ $.extend(Selectize.prototype, {
 
 		if (!self.$activeItems.length) {
 			self.showInput();
-			self.setActiveItem(null);
+			
+			if ( self.settings.setActiveOnFocus === true && self.settings.mode === 'single' && e && e.type == 'focus' ) {
+				var curr_value = self.getValue();
+				if (self.$control_input.val() === '' && curr_value !== '' ) {
+					self.setActiveOption(self.getOption(curr_value));
+					self.setActiveItem(self.$control.children(':not(input)'),e);
+				} else {
+					self.setActiveItem(null);
+				}
+			} else {
+				self.setActiveItem(null);
+			}
+
 			self.refreshOptions(!!self.settings.openOnFocus);
 		}
 
@@ -669,7 +685,7 @@ $.extend(Selectize.prototype, {
 		var i, idx, begin, end, item, swap;
 		var $last;
 
-		if (self.settings.mode === 'single') return;
+		if (self.settings.mode === 'single' && self.settings.setActiveOnFocus !== true) return;
 		$item = $($item);
 
 		// clear the active selection
@@ -709,8 +725,8 @@ $.extend(Selectize.prototype, {
 				$item.removeClass('active');
 			} else {
 				self.$activeItems.push($item.addClass('active')[0]);
-			}
-		} else {
+			}	
+ 		} else {
 			$(self.$activeItems).removeClass('active');
 			self.$activeItems = [$item.addClass('active')[0]];
 		}
@@ -766,9 +782,11 @@ $.extend(Selectize.prototype, {
 	 */
 	selectAll: function() {
 		var self = this;
+		
+		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
+
 		if (self.settings.mode === 'single') return;
 
-		self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
 		if (self.$activeItems.length) {
 			self.hideInput();
 			self.close();
@@ -803,7 +821,7 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {boolean} trigger
 	 */
-	focus: function() {
+	focus: function(e) {
 		var self = this;
 		if (self.isDisabled) return;
 
@@ -811,7 +829,7 @@ $.extend(Selectize.prototype, {
 		self.$control_input[0].focus();
 		window.setTimeout(function() {
 			self.ignoreFocus = false;
-			self.onFocus();
+			self.onFocus(e);
 		}, 0);
 	},
 
@@ -1233,7 +1251,7 @@ $.extend(Selectize.prototype, {
 			var i, active, options, value_next;
 			value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
+			if (self.items.indexOf(value) !== -1){
 				if (inputMode === 'single') self.close();
 				return;
 			}
@@ -1466,11 +1484,11 @@ $.extend(Selectize.prototype, {
 	 * Shows the autocomplete dropdown containing
 	 * the available options.
 	 */
-	open: function() {
+	open: function(e) {
 		var self = this;
 
 		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
-		self.focus();
+		self.focus(e);
 		self.isOpen = true;
 		self.refreshState();
 		self.$dropdown.css({visibility: 'hidden', display: 'block'});
