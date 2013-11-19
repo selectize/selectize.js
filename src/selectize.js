@@ -251,7 +251,7 @@ $.extend(Selectize.prototype, {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option">' + escape(data[field_label]) + '</div>';
+				return '<div class="option">' + ( data[field_label] === '' ? '&nbsp;' : escape(data[field_label]) ) + '</div>';
 			},
 			'item': function(data, escape) {
 				return '<div class="item">' + escape(data[field_label]) + '</div>';
@@ -586,6 +586,11 @@ $.extend(Selectize.prototype, {
 				if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
+			} else if ( self.settings.addBlankRow === true && self.settings.mode == 'single' && value === '' ) {
+				self.setTextboxValue('');
+				self.setActiveOption(null);
+				self.clear();
+				self.close();
 			}
 		}
 	},
@@ -982,6 +987,16 @@ $.extend(Selectize.prototype, {
 
 		// render optgroup headers & join groups
 		html = [];
+
+		if ( self.settings.addBlankRow === true && self.settings.mode == 'single' ) {
+			var tmp = {};
+
+			tmp[self.settings.valueField] = '';
+			tmp[self.settings.labelField] = '';
+			
+			html.push(self.render('option',tmp));
+		}
+
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].length) {
@@ -1023,12 +1038,17 @@ $.extend(Selectize.prototype, {
 		// activate
 		self.hasOptions = results.items.length > 0 || has_create_option;
 		if (self.hasOptions) {
+			var findNextOption = (self.settings.mode === 'single' && self.settings.addBlankRow === true && query !== '') ? true : false;
 			if (results.items.length > 0) {
 				$active_before = active_before && self.getOption(active_before);
-				if ($active_before && $active_before.length) {
+				if ( $active_before && $active_before.length && ( self.settings.mode !== 'single' || self.settings.addBlankRow !== true || query !== '' ) ) {
 					$active = $active_before;
+					findNextOption = false;
 				} else if (self.settings.mode === 'single' && self.items.length) {
 					$active = self.getOption(self.items[0]);
+					if ( $active && $active.length && findNextOption === true ) {
+						$active = self.getAdjacentOption($active, 1);
+					}
 				}
 				if (!$active || !$active.length) {
 					if ($create && !self.settings.addPrecedence) {
@@ -1036,6 +1056,10 @@ $.extend(Selectize.prototype, {
 					} else {
 						$active = $dropdown_content.find('[data-selectable]:first');
 					}
+				}
+
+				if ( findNextOption === true ) {
+					$active = self.getAdjacentOption($active, 1);
 				}
 			} else {
 				$active = $create;
@@ -1215,7 +1239,7 @@ $.extend(Selectize.prototype, {
 	getElementWithValue: function(value, $els) {
 		value = hash_key(value);
 
-		if (value) {
+		if (value !== undefined && value !== null) {
 			for (var i = 0, n = $els.length; i < n; i++) {
 				if ($els[i].getAttribute('data-value') === value) {
 					return $($els[i]);

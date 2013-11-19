@@ -13,7 +13,6 @@ Selectize.defaults = {
 	hideSelected: null,
 	addPrecedence: false,
 	preload: false,
-
 	scrollDuration: 60,
 	loadThrottle: 300,
 	setActiveOnFocus: false,
@@ -37,6 +36,8 @@ Selectize.defaults = {
 	dropdownContentClass: 'selectize-dropdown-content',
 
 	dropdownParent: null,
+
+	addBlankRow: false,
 
 	/*
 	load            : null, // function(query, callback) { ... }
