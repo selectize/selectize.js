@@ -184,11 +184,26 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'dist/js/standalone/selectize.js': (function() {
-						var files = [];
-						for (var i = 0, n = files_js_dependencies.length; i < n; i++) {
-							files.push(files_js_dependencies[i]);
+						var files, i, n, source, name, path;
+
+						// amd definitions must be changed to be not anonymous
+						// @see https://github.com/brianreavis/selectize.js/issues/89
+						path = 'dist/js/selectize.js';
+						source = fs.readFileSync(path, 'utf8').replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
+						fs.writeFileSync('selectize.tmp.js', source, 'utf8');
+
+						// dependencies
+						files = [];
+						for (i = 0, n = files_js_dependencies.length; i < n; i++) {
+							path = files_js_dependencies[i];
+							name = path.match(/([^\/]+?).js$/)[1];
+							source = fs.readFileSync(path, 'utf8').replace('define(factory);', 'define(\'' + name + '\', factory);');
+							fs.writeFileSync(path, source, 'utf8');
+
+							files.push(path);
 						}
-						files.push('dist/js/selectize.js');
+
+						files.push('selectize.tmp.js');
 						return files;
 					})()
 				}
