@@ -297,12 +297,12 @@
 }
 
 .selectize-dropdown .active {
-  color: #ffffff;
-  background-color: #428bca;
+  color: #262626;
+  background-color: #f5f5f5;
 }
 
 .selectize-dropdown .active.create {
-  color: #ffffff;
+  color: #262626;
 }
 
 .selectize-dropdown .create {

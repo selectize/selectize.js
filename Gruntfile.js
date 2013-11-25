@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 		'recess',
 		'clean_bootstrap2_css',
 		'replace',
-		'concat:js_standalone',
+		'build_standalone',
 		'uglify',
 		'clean:post',
 	]);
@@ -36,8 +36,31 @@ module.exports = function(grunt) {
 	grunt.registerTask('clean_bootstrap2_css', 'Cleans CSS rules ocurring before the header comment.', function() {
 		var file = 'dist/css/selectize.bootstrap2.css';
 		var source = fs.readFileSync(file, 'utf8');
-		fs.writeFileSync(file, source.replace(/^(.|\s)+?\/\*/m, '/*'), 'utf8');
+		grunt.file.write(file, source.replace(/^(.|\s)+?\/\*/m, '/*'));
 		grunt.log.writeln('Cleaned "' + file + '".');
+	});
+
+	grunt.registerTask('build_standalone', '', function() {
+		var files, i, n, source, name, path, modules = [];
+
+		// amd definitions must be changed to be not anonymous
+		// @see https://github.com/brianreavis/selectize.js/issues/89
+		files = [];
+		for (i = 0, n = files_js_dependencies.length; i < n; i++) {
+			path = files_js_dependencies[i];
+			name = path.match(/([^\/]+?).js$/)[1];
+			source = grunt.file.read(path).replace('define(factory);', 'define(\'' + name + '\', factory);');
+			modules.push(source);
+		}
+
+		path = 'dist/js/selectize.js';
+		source = grunt.file.read(path).replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
+		modules.push(source);
+
+		// write output
+		path = 'dist/js/standalone/selectize.js';
+		grunt.file.write(path, modules.join('\n\n'));
+		grunt.log.writeln('Built "' + path + '".');
 	});
 
 	var files_js = [
@@ -176,36 +199,6 @@ module.exports = function(grunt) {
 						'bower_components/bootstrap3/less/mixins.less',
 						'dist/less/selectize.bootstrap3.less'
 					]
-				}
-			},
-			js_standalone: {
-				options: {
-					stripBanners: false
-				},
-				files: {
-					'dist/js/standalone/selectize.js': (function() {
-						var files, i, n, source, name, path;
-
-						// amd definitions must be changed to be not anonymous
-						// @see https://github.com/brianreavis/selectize.js/issues/89
-						path = 'dist/js/selectize.js';
-						source = fs.readFileSync(path, 'utf8').replace(/define\((.*?)factory\);/, 'define(\'selectize\', $1factory);');
-						fs.writeFileSync('selectize.tmp.js', source, 'utf8');
-
-						// dependencies
-						files = [];
-						for (i = 0, n = files_js_dependencies.length; i < n; i++) {
-							path = files_js_dependencies[i];
-							name = path.match(/([^\/]+?).js$/)[1];
-							source = fs.readFileSync(path, 'utf8').replace('define(factory);', 'define(\'' + name + '\', factory);');
-							fs.writeFileSync(path, source, 'utf8');
-
-							files.push(path);
-						}
-
-						files.push('selectize.tmp.js');
-						return files;
-					})()
 				}
 			}
 		},
