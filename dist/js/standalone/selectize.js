@@ -16,7 +16,7 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(factory);
+		define('sifter', factory);
 	} else if (typeof exports === 'object') {
 		module.exports = factory();
 	} else {
@@ -464,7 +464,7 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(factory);
+		define('microplugin', factory);
 	} else if (typeof exports === 'object') {
 		module.exports = factory();
 	} else {
@@ -603,7 +603,7 @@
 
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
-		define(['jquery','sifter','microplugin'], factory);
+		define('selectize', ['jquery','sifter','microplugin'], factory);
 	} else {
 		root.Selectize = factory(root.jQuery, root.Sifter, root.MicroPlugin);
 	}
@@ -1799,12 +1799,15 @@
 		 * Selects all items (CTRL + A).
 		 */
 		selectAll: function() {
-			this.$activeItems = Array.prototype.slice.apply(this.$control.children(':not(input)').addClass('active'));
-			if (this.$activeItems.length) {
-				this.hideInput();
-				this.close();
+			var self = this;
+			if (self.settings.mode === 'single') return;
+	
+			self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
+			if (self.$activeItems.length) {
+				self.hideInput();
+				self.close();
 			}
-			this.focus();
+			self.focus();
 		},
 	
 		/**
@@ -2633,6 +2636,7 @@
 			}
 	
 			self.showInput();
+			self.positionDropdown();
 			self.refreshOptions(true);
 	
 			// select previous option

@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.8.4)
+ * selectize.js (v0.8.5)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1215,12 +1215,15 @@
 		 * Selects all items (CTRL + A).
 		 */
 		selectAll: function() {
-			this.$activeItems = Array.prototype.slice.apply(this.$control.children(':not(input)').addClass('active'));
-			if (this.$activeItems.length) {
-				this.hideInput();
-				this.close();
+			var self = this;
+			if (self.settings.mode === 'single') return;
+	
+			self.$activeItems = Array.prototype.slice.apply(self.$control.children(':not(input)').addClass('active'));
+			if (self.$activeItems.length) {
+				self.hideInput();
+				self.close();
 			}
-			this.focus();
+			self.focus();
 		},
 	
 		/**
@@ -2049,6 +2052,7 @@
 			}
 	
 			self.showInput();
+			self.positionDropdown();
 			self.refreshOptions(true);
 	
 			// select previous option
