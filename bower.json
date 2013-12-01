@@ -28,7 +28,7 @@
 		"*.sh"
 	],
 	"dependencies": {
-		"jquery": ">=0.6.0",
+		"jquery": ">=1.7.0",
 		"sifter": "0.3.x",
 		"microplugin": "0.0.x"
 	},

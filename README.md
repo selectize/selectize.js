@@ -24,7 +24,7 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 
 ### Dependencies
 
-- [jquery](https://github.com/jquery/jquery)
+- [jquery](https://github.com/jquery/jquery) (1.7 and greater)
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
