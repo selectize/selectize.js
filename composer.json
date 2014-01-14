@@ -1,5 +1,5 @@
 {
-    "name": "2amigos/selectize.js",
+    "name": "brianreavis/selectize.js",
     "description": "Selectize is the hybrid of a textbox and <select> box. It's jQuery based and it has autocomplete and native-feeling keyboard navigation; useful for tagging, contact lists, etc.",
     "keywords": ["plugin", "jquery", "hybrid", "autocomplete"],
     "homepage": "http://brianreavis.github.io/selectize.js/",        
