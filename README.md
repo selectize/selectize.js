@@ -45,6 +45,8 @@ All pre-built files needed to use Selectize can be found in the ["dist"](dist/) 
 - [**css/**](dist/css)
 	- [selectize.css](dist/css/selectize.css) — Core styles
 	- [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
+	- [selectize.bootstrap2.css](dist/css/selectize.bootstrap2.css) - Bootstrap 2 theme
+	- [selectize.bootstrap3.css](dist/css/selectize.bootstrap3.css) - Bootstrap 3 theme
 
 ### Usage
 
