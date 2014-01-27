@@ -6,6 +6,7 @@ Selectize.defaults = {
 	diacritics: true,
 	create: false,
 	createOnBlur: false,
+	blurOnEmptyReturn: false,
 	highlight: true,
 	openOnFocus: true,
 	maxOptions: 1000,
