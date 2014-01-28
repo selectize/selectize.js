@@ -42,6 +42,14 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+	<tr>
+		<td valign="top"><code>blurOnEmptyReturn</code></td>
+		<td valign="top">
+			If true, when user presses enter and input is empty dropdown is closed. Default behavior is to select active item from dropdown.
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>highlight</code></td>
 		<td valign="top">Toggles match highlighting within the dropdown menu.</td>
 		<td valign="top"><code>boolean</code></td>
