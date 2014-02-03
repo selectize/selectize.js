@@ -165,6 +165,41 @@
 
 		});
 
+		describe('blurring the input', function() {
+			it('should close dropdown when createOnBlur is true', function(done) {
+				var test = setup_test('<select multiple="multiple">' +
+					'<option></option>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {
+					createOnBlur: true,
+					create: function(value){
+						return {
+							value: value,
+							text: value
+						};
+					}
+				});
+
+				Syn
+					.click(test.selectize.$control)
+					.type('fooo', test.selectize.$control_input)
+					.delay(0, function() {
+						expect(test.selectize.isOpen).to.be.equal(true);
+						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+
+						Syn
+							.click($("#mocha")[0])
+							.delay(0, function() {
+								expect(test.selectize.isOpen).to.be.equal(false);
+								expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+								done();
+							});
+					});
+
+			});
+		});
+
 	});
 
 })();
