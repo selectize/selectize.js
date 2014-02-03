@@ -195,6 +195,10 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>isFull()</code></td>
 		<td valign="top">Returns whether or not the user can select more items.</td>
 	</tr>
+	<tr>
+		<td valign="top"><code>clearCache(template)</code></td>
+		<td valign="top">Clears the render cache. Takes an optional template argument (e.g. "option", "item") to clear only that cache.</td>
+	</tr>
 </table>
 
 ### Related Objects
