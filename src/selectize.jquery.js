@@ -18,7 +18,13 @@ $.fn.selectize = function(settings_user) {
 		var i, n, values, option, value = $.trim($input.val() || '');
 		if (!value.length) return;
 
-		values = value.split(settings.delimiter);
+        if ($.isArray(settings.delimiter)) {
+            values = value.split(new RegExp(settings.delimiter.join('|'), 'g'));
+        }
+        else {
+            values = value.split(settings.delimiter);
+        }
+
 		for (i = 0, n = values.length; i < n; i++) {
 			option = {};
 			option[field_label] = values[i];
