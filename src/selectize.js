@@ -362,26 +362,26 @@ $.extend(Selectize.prototype, {
 	onKeyPress: function(e) {
 		if (this.isLocked) return e && e.preventDefault();
 		var character = String.fromCharCode(e.keyCode || e.which);
-        if (this.settings.create) {
-            var matchDelimiter;
-            if ($.isArray(this.settings.delimiter)) {
-                for (var i = 0; i < this.settings.delimiter.length; i++) {
-                    if (character === this.settings.delimiter[i]) {
-                        matchDelimiter = true;
-                        break;
-                    }
-                }
-            }
-            else {
-                matchDelimiter = (character === this.settings.delimiter);
-            }
+		if (this.settings.create) {
+			var matchDelimiter;
+			if ($.isArray(this.settings.delimiter)) {
+				for (var i = 0; i < this.settings.delimiter.length; i++) {
+					if (character === this.settings.delimiter[i]) {
+						matchDelimiter = true;
+						break;
+					}
+				}
+			}
+			else {
+				matchDelimiter = (character === this.settings.delimiter);
+			}
 
-            if(matchDelimiter) {
-                this.createItem();
-                e.preventDefault();
-                return false;
-            }
-        }
+			if (matchDelimiter) {
+				this.createItem();
+				e.preventDefault();
+				return false;
+			}
+		}
 	},
 
 	/**
@@ -653,12 +653,12 @@ $.extend(Selectize.prototype, {
 		if (this.tagType === TAG_SELECT && this.$input.attr('multiple')) {
 			return this.items;
 		} else {
-            if($.isArray(this.settings.delimiter)) {
-                return this.items.join(this.settings.delimiter[0]);
-            }
-            else {
-			    return this.items.join(this.settings.delimiter);
-            }
+			if ($.isArray(this.settings.delimiter)) {
+				return this.items.join(this.settings.delimiter[0]);
+			}
+			else {
+				return this.items.join(this.settings.delimiter);
+			}
 		}
 	},
 
