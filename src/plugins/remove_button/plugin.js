@@ -57,7 +57,7 @@ Selectize.define('remove_button', function(options) {
 				e.preventDefault();
 				if (self.isLocked) return;
 
-				var $item = $(e.target).parent();
+				var $item = $(e.currentTarget).parent();
 				self.setActiveItem($item);
 				if (self.deleteSelection()) {
 					self.setCaret(self.items.length);
