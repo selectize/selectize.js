@@ -1454,7 +1454,7 @@ $.extend(Selectize.prototype, {
 		if (!this.settings.placeholder) return;
 		var $input = this.$control_input;
 
-		if (this.items.length) {
+		if (this.items.length && this.settings.hidePlaceholder) {
 			$input.removeAttr('placeholder');
 		} else {
 			$input.attr('placeholder', this.settings.placeholder);
@@ -1558,6 +1558,8 @@ $.extend(Selectize.prototype, {
 		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 		var self = this;
 
+		if (self.settings.disableDelete) return;
+
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.$control_input[0]);
 
@@ -1630,6 +1632,8 @@ $.extend(Selectize.prototype, {
 		var tail, selection, idx, valueLength, cursorAtEdge, $tail;
 		var self = this;
 
+		if (self.settings.disableCaret) return;
+
 		if (direction === 0) return;
 		if (self.rtl) direction *= -1;
 
@@ -1663,6 +1667,8 @@ $.extend(Selectize.prototype, {
 	 */
 	advanceCaret: function(direction, e) {
 		var self = this, fn, $adj;
+
+		if (self.settings.disableCaret) return;
 
 		if (direction === 0) return;
 

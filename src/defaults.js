@@ -37,6 +37,10 @@ Selectize.defaults = {
 
 	dropdownParent: null,
 
+	disableDelete: false,
+	disableCaret: false,
+	hidePlaceholder: true,
+
 	/*
 	load            : null, // function(query, callback) { ... }
 	score           : null, // function(search) { ... }
