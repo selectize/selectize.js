@@ -39,6 +39,23 @@
 					});
 			});
 
+			it('should update input width after removing the placeholder', function(done) {
+				var test = setup_test('<input type="text" placeholder="A veeeeeery looooong placeholder" value="hello" style="width:100px">', {
+					maxItems: 1,
+					addPrecedence: true,
+					createOnBlur: true,
+					create: true
+				});
+
+				Syn
+					.click(test.selectize.$control)
+					.delay(0, function() {
+						expect(parseInt(test.selectize.$control_input.css('width'))).to.be.at.most(10);
+						done();
+					});
+
+			});
+
 		});
 
 		describe('clicking option', function() {
