@@ -970,7 +970,7 @@
 			if (self.ignoreFocus) return;
 	
 			if (self.settings.create && self.settings.createOnBlur) {
-				self.createItem();
+				self.createItem(false);
 			}
 	
 			self.close();
@@ -1771,12 +1771,16 @@
 		 *
 		 * @return {boolean}
 		 */
-		createItem: function() {
+		createItem: function(triggerDropdown) {
 			var self  = this;
 			var input = $.trim(self.$control_input.val() || '');
 			var caret = self.caretPos;
 			if (!input.length) return false;
 			self.lock();
+	
+			if (typeof triggerDropdown === 'undefined') {
+				triggerDropdown = true;
+			}
 	
 			var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
 				var data = {};
@@ -1796,7 +1800,7 @@
 				self.addOption(data);
 				self.setCaret(caret);
 				self.addItem(value);
-				self.refreshOptions(self.settings.mode !== 'single');
+				self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 			});
 	
 			var output = setup.apply(this, [input, create]);
@@ -2704,7 +2708,7 @@
 					e.preventDefault();
 					if (self.isLocked) return;
 	
-					var $item = $(e.target).parent();
+					var $item = $(e.currentTarget).parent();
 					self.setActiveItem($item);
 					if (self.deleteSelection()) {
 						self.setCaret(self.items.length);
