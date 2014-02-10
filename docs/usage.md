@@ -42,6 +42,13 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>createOnBlur</code></td>
+		<td valign="top">
+			If true, when user exits the field (clicks outside of input or presses ESC) new option is created and selected (if `create`-option is enabled).
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>highlight</code></td>
 		<td valign="top">Toggles match highlighting within the dropdown menu.</td>
 		<td valign="top"><code>boolean</code></td>
