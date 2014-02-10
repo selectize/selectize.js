@@ -250,6 +250,10 @@ var transferStyles = function($from, $to, properties) {
  * @returns {int}
  */
 var measureString = function(str, $parent) {
+	if (!str) {
+		return 0;
+	}
+	
 	var $test = $('<test>').css({
 		position: 'absolute',
 		top: -99999,
@@ -283,6 +287,8 @@ var measureString = function(str, $parent) {
  * @param {object} $input
  */
 var autoGrow = function($input) {
+	var currentWidth = null;
+	
 	var update = function(e) {
 		var value, keyCode, printable, placeholder, width;
 		var shift, character, selection;
@@ -325,7 +331,8 @@ var autoGrow = function($input) {
 		}
 
 		width = measureString(value, $input) + 4;
-		if (width !== $input.width()) {
+		if (width !== currentWidth) {
+			currentWidth = width;
 			$input.width(width);
 			$input.triggerHandler('resize');
 		}
