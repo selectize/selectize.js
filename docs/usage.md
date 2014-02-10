@@ -23,6 +23,12 @@ $(function() {
 		<th valign="top" width="60px" align="left">Default</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>autogrow</code></td>
+		<td valign="top">Whether or not autogrow is enabled for selectize boxes. Disable this if autogrow gives you JS performance issues.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>delimiter</code></td>
 		<td valign="top">The string to separate items by. This option is only used when Selectize is instantiated from a &lt;input type="text"&gt; element.</td>
 		<td valign="top"><code>string</code></td>
