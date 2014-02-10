@@ -230,7 +230,7 @@ $.extend(Selectize.prototype, {
 		self.trigger('initialize');
 
 		// preload options
-		if (settings.preload) {
+		if (settings.preload === true) {
 			self.onSearchChange('');
 		}
 	},
