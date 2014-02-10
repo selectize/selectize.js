@@ -6,8 +6,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-replace');
-	grunt.loadNpmTasks('grunt-recess');
 
 	grunt.registerTask('configure', [
 		'clean:pre',
@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 		'concat:less_theme_dependencies',
 		'concat:less_plugins',
 		'concat:js',
-		'recess',
+		'less:uncompressed',
 		'clean_bootstrap2_css',
 		'replace',
 		'build_standalone',
@@ -154,10 +154,8 @@ module.exports = function(grunt) {
 				]
 			}
 		},
-		recess: {
-			options: {
-				compile: true
-			},
+		less: {
+			options: {},
 			uncompressed: {
 				files: {
 					'dist/css/selectize.css': ['dist/less/selectize.less'],
