@@ -1493,11 +1493,12 @@
 		 * @param {object} data
 		 */
 		addOption: function(data, order) {
-			var i, n, optgroup, value, self = this;
+			var i, n, optgroup, value, start_order, self = this;
 	
 			if ($.isArray(data)) {
+				start_order = Object.keys(self.options).length
 				for (i = 0, n = data.length; i < n; i++) {
-					self.addOption(data[i], i);
+					self.addOption(data[i], start_order + i);
 				}
 				return;
 			}
