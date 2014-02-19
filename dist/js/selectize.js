@@ -1492,14 +1492,18 @@
 		 *
 		 * @param {object} data
 		 */
-		addOption: function(data) {
+		addOption: function(data, order) {
 			var i, n, optgroup, value, self = this;
 	
 			if ($.isArray(data)) {
 				for (i = 0, n = data.length; i < n; i++) {
-					self.addOption(data[i]);
+					self.addOption(data[i], i);
 				}
 				return;
+			}
+
+			if (typeof order !== 'undefined') {
+			  data.$order = order;
 			}
 	
 			value = hash_key(data[self.settings.valueField]);
