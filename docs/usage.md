@@ -115,6 +115,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>tabindex</code></td>
+		<td valign="top">The tabindex to specify on the texbox.</td>
+		<td valign="top"><code>int</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>

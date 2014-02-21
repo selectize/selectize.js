@@ -133,6 +133,10 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+		if (self.settings.tabindex) {
+			$control_input.attr('tabindex', settings.tabindex);
+		}
+
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
 		self.$control_input    = $control_input;
