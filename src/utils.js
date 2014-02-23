@@ -341,3 +341,26 @@ var autoGrow = function($input) {
 	$input.on('keydown keyup update blur', update);
 	update();
 };
+
+/**
+ * Access to an object attribute based on
+ * the attribute path's in the object.
+ *
+ * @param {object} object
+ * @param {string} attributePath
+ * @returns {object}
+ */
+var accessorByString = function (object, attributePath) {
+    attributePath = attributePath.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    attributePath = attributePath.replace(/^\./, '');           // strip a leading dot
+    var a = attributePath.split('.');
+    while (a.length) {
+        var n = a.shift();
+        if (n in object) {
+            object = object[n];
+        } else {
+            return;
+        }
+    }
+    return object;
+}
