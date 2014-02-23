@@ -248,13 +248,13 @@ $.extend(Selectize.prototype, {
 				return '<div class="optgroup">' + data.html + '</div>';
 			},
 			'optgroup_header': function(data, escape) {
-				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
+				return '<div class="optgroup-header">' + escape(accessorByString(data, field_optgroup)) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option">' + escape(data[field_label]) + '</div>';
+				return '<div class="option">' + escape(accessorByString(data, field_label)) + '</div>';
 			},
 			'item': function(data, escape) {
-				return '<div class="item">' + escape(data[field_label]) + '</div>';
+				return '<div class="item">' + escape(accessorByString(data, field_label)) + '</div>';
 			},
 			'option_create': function(data, escape) {
 				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
