@@ -138,6 +138,7 @@ $.extend(Selectize.prototype, {
 		self.$control_input    = $control_input;
 		self.$dropdown         = $dropdown;
 		self.$dropdown_content = $dropdown_content;
+		self.scrollbar_width   = getScrollBarWidth();
 
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });

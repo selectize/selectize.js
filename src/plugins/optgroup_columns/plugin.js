@@ -73,7 +73,7 @@ Selectize.define('optgroup_columns', function(options) {
 		}
 
 		if (options.equalizeWidth) {
-			width_parent = self.$dropdown_content.innerWidth();
+			width_parent = self.$dropdown_content.innerWidth() - self.scrollbar_width;
 			width = Math.round(width_parent / n);
 			$optgroups.css({width: width});
 			if (n > 1) {
