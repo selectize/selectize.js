@@ -73,13 +73,7 @@ Selectize.define('optgroup_columns', function(options) {
 		}
 
 		if (options.equalizeWidth) {
-			width_parent = self.$dropdown_content.innerWidth();
-			width = Math.round(width_parent / n);
-			$optgroups.css({width: width});
-			if (n > 1) {
-				width_last = width_parent - width * (n - 1);
-				$optgroups.eq(n - 1).css({width: width_last});
-			}
+			$optgroups.css({width: Math.floor(100/$optgroups.length) + "%"});
 		}
 	};
 
