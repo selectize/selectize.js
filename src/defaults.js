@@ -13,6 +13,7 @@ Selectize.defaults = {
 	hideSelected: null,
 	addPrecedence: false,
 	preload: false,
+	duplicates: false,
 
 	scrollDuration: 60,
 	loadThrottle: 300,
