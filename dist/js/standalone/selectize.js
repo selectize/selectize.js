@@ -18,11 +18,11 @@
 	if (typeof define === 'function' && define.amd) {
 		define('sifter', factory);
 	} else if (typeof exports === 'object') {
-		module.exports = factory();
+		module.exports = factory(root);
 	} else {
 		root.Sifter = factory();
 	}
-}(this, function() {
+}(this, function(root) {
 
 	/**
 	 * Textually searches arrays and hashes of objects
@@ -440,7 +440,8 @@
 
 	// export
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+    
+    root.Sifter = Sifter;
 	return Sifter;
 }));
 
@@ -466,11 +467,11 @@
 	if (typeof define === 'function' && define.amd) {
 		define('microplugin', factory);
 	} else if (typeof exports === 'object') {
-		module.exports = factory();
+		module.exports = factory(root);
 	} else {
 		root.MicroPlugin = factory();
 	}
-}(this, function() {
+}(this, function(root) {
 	var MicroPlugin = {};
 
 	MicroPlugin.mixin = function(Interface) {
@@ -579,6 +580,7 @@
 		}
 	};
 
+    root.MicroPlugin = MicroPlugin;
 	return MicroPlugin;
 }));
 
@@ -605,7 +607,7 @@
 	if (typeof define === 'function' && define.amd) {
 		define('selectize', ['jquery','sifter','microplugin'], factory);
 	} else {
-		root.Selectize = factory(root.jQuery, root.Sifter, root.MicroPlugin);
+		root.Selectize = factory(window.jQuery, root.Sifter, root.MicroPlugin);
 	}
 }(this, function($, Sifter, MicroPlugin) {
 	'use strict';
