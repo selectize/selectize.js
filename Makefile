@@ -1,11 +1,13 @@
 .PHONY: compile release test
 plugins=*
+GRUNT=node_modules/.bin/grunt
+TESTEM=node_modules/.bin/testem
 
 all: compile
 test:
-	testem
+	$(TESTEM)
 compile:
-	grunt --plugins=$(plugins)
+	$(GRUNT) --plugins=$(plugins)
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
