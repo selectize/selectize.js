@@ -61,6 +61,12 @@ $(function() {
 		<td valign="top"><code>true</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>duplicates</code></td>
+		<td valign="top">Allows the same value to be selected multiple times. Mode must also be set to "multi" for this to work.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>openOnFocus</code></td>
 		<td valign="top">Show the dropdown immediately when the control receives focus.</td>
 		<td valign="top"><code>boolean</code></td>
