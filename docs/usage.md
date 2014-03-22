@@ -286,6 +286,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>onEnterKeypress()</code></td>
+		<td valign="top">Invoked when enter key is pressed.</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>	
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#rendering" name="rendering">Rendering</a></th>
 	</tr>
 	<tr>
