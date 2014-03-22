@@ -82,4 +82,9 @@ selectize.off('event_name', handler);
 		<td valign="top"></td>
 		<td valign="top">Invoked right before the control is destroyed.</td>
 	</tr>
+	<tr>
+		<td valign="top"><code>"enter_keypress"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked on enter keypress.</td>
+	</tr>	
 </table>
