@@ -1834,7 +1834,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render markup
-		html = self.settings.render[templateName].apply(this, [data, escape_html]);
+		html = self.settings.render[templateName].apply(this, [data, escape_html]).trim();
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
