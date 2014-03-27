@@ -415,7 +415,7 @@ $.extend(Selectize.prototype, {
 				e.preventDefault();
 				return;
 			case KEY_RETURN:
-				if (self.settings.blurOnEmptyReturn && $.trim(self.$control_input.val()).length) {
+				if (self.settings.blurOnEmptyReturn && $.trim(self.$control_input.val() || '').length === 0) {
 					self.blur();
 				} else if (self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
