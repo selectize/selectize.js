@@ -280,7 +280,10 @@ $.extend(Selectize.prototype, {
 			'option_clear'   : 'onOptionClear',
 			'dropdown_open'  : 'onDropdownOpen',
 			'dropdown_close' : 'onDropdownClose',
-			'type'           : 'onType'
+			'type'           : 'onType',
+			'focus'          : 'onFocus',
+			'blur'           : 'onBlur',
+			'enter_keypress' : 'onEnterKeypress'			
 		};
 
 		for (key in callbacks) {
@@ -360,13 +363,23 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onKeyPress: function(e) {
+		var self = this;
+		var ret = true;
 		if (this.isLocked) return e && e.preventDefault();
+
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && character === this.settings.delimiter) {
 			this.createItem();
 			e.preventDefault();
-			return false;
+			ret = false;
 		}
+
+		if (e.keyCode == KEY_RETURN) {
+			e.preventDefault();
+			self.trigger('enter_keypress');
+		}
+
+		return ret;
 	},
 
 	/**
@@ -418,6 +431,24 @@ $.extend(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
+			case KEY_PGDOWN:
+				if (!self.isOpen && self.hasOptions) {
+					self.open();
+				} else if (self.$activeOption) {
+					self.ignoreHover = true;
+					var $next = self.getAdjacentOption(self.$activeOption, 5);
+					if ($next.length) self.setActiveOption($next, true, true);
+				}
+				e.preventDefault();
+				return;
+			case KEY_PGUP:
+				if (self.$activeOption) {
+					self.ignoreHover = true;
+					var $prev = self.getAdjacentOption(self.$activeOption, -5);
+					if ($prev.length) self.setActiveOption($prev, true, true);
+				}
+				e.preventDefault();
+				return;				
 			case KEY_RETURN:
 				if (self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
@@ -496,6 +527,8 @@ $.extend(Selectize.prototype, {
 	onFocus: function(e) {
 		var self = this;
 
+		var wasFocused = self.isFocused;	
+		
 		self.isFocused = true;
 		if (self.isDisabled) {
 			self.blur();
@@ -506,6 +539,8 @@ $.extend(Selectize.prototype, {
 		if (self.ignoreFocus) return;
 		if (self.settings.preload === 'focus') self.onSearchChange('');
 
+		if (!wasFocused) self.trigger('focus');		
+		
 		if (!self.$activeItems.length) {
 			self.showInput();
 			self.setActiveItem(null);
@@ -523,9 +558,14 @@ $.extend(Selectize.prototype, {
 	 */
 	onBlur: function(e) {
 		var self = this;
+		
+		var wasFocused = self.isFocused;		
+		
 		self.isFocused = false;
 		if (self.ignoreFocus) return;
 
+		if (wasFocused) self.trigger('blur');		
+		
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(false);
 		}
