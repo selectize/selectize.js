@@ -1327,7 +1327,7 @@ $.extend(Selectize.prototype, {
 			self.updatePlaceholder();
 			self.updateOriginalInput();
 			self.positionDropdown();
-			self.trigger('item_remove', value);
+			self.trigger('item_remove', value, $item);
 		}
 	},
 

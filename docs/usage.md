@@ -227,13 +227,13 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>onItemAdd(value, $item)</code></td>
-		<td valign="top">Invoked when an item is selected.</td>
+		<td valign="top">Invoked when an item is added.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>onItemRemove(value)</code></td>
-		<td valign="top">Invoked when an item is deselected.</td>
+		<td valign="top"><code>onItemRemove(value, $item)</code></td>
+		<td valign="top">Invoked when an item is removed.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
