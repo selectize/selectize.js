@@ -1578,7 +1578,7 @@ $.extend(Selectize.prototype, {
 	 * @param {object} e (optional)
 	 * @returns {boolean}
 	 */
-	deleteSelection: function(e) {
+	deleteSelection: function(e, triggerDropdown) {
 		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 		var self = this;
 
@@ -1627,7 +1627,7 @@ $.extend(Selectize.prototype, {
 
 		self.showInput();
 		self.positionDropdown();
-		self.refreshOptions(true);
+		self.refreshOptions(triggerDropdown);
 
 		// select previous option
 		if (option_select) {

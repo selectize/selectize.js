@@ -18,10 +18,11 @@ Selectize.define('remove_button', function(options) {
 	if (this.settings.mode === 'single') return;
 
 	options = $.extend({
-		label     : '&times;',
-		title     : 'Remove',
-		className : 'remove',
-		append    : true
+		label           : '&times;',
+		title           : 'Remove',
+		className       : 'remove',
+		append          : true,
+        triggerDropdown : true
 	}, options);
 
 	var self = this;
@@ -59,7 +60,7 @@ Selectize.define('remove_button', function(options) {
 
 				var $item = $(e.currentTarget).parent();
 				self.setActiveItem($item);
-				if (self.deleteSelection()) {
+				if (self.deleteSelection(undefined, options.triggerDropdown)) {
 					self.setCaret(self.items.length);
 				}
 			});
