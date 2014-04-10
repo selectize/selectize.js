@@ -12,6 +12,7 @@ Selectize.defaults = {
 	maxItems: null,
 	hideSelected: null,
 	addPrecedence: false,
+	selectOnTab: false,
 	preload: false,
 
 	scrollDuration: 60,
