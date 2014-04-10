@@ -44,7 +44,7 @@ var Selectize = function($input, settings) {
 		userOptions      : {},
 		items            : [],
 		renderCache      : {},
-		onSearchChange   : debounce(self.onSearchChange, settings.loadThrottle)
+		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
 	// search system

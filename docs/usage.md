@@ -92,7 +92,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
-		<td valign="top">The number of milliseconds to wait before requesting options from the server.</td>
+		<td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>300</code></td>
 	</tr>
