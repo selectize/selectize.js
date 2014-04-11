@@ -280,7 +280,8 @@ $.extend(Selectize.prototype, {
 			'option_clear'   : 'onOptionClear',
 			'dropdown_open'  : 'onDropdownOpen',
 			'dropdown_close' : 'onDropdownClose',
-			'type'           : 'onType'
+			'type'           : 'onType',
+			'option_select'  : 'onOptionSelect'
 		};
 
 		for (key in callbacks) {
@@ -571,6 +572,7 @@ $.extend(Selectize.prototype, {
 		} else {
 			value = $target.attr('data-value');
 			if (value) {
+				self.trigger('option_select', value);
 				self.lastQuery = null;
 				self.setTextboxValue('');
 				self.addItem(value);
