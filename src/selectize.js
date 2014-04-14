@@ -133,6 +133,14 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+		if (self.$input.attr('autocorrect')) {
+			$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+		}
+
+		if (self.$input.attr('autocapitalize')) {
+			$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+		}
+
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
 		self.$control_input    = $control_input;
