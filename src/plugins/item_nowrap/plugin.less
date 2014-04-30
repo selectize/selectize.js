@@ -1,0 +1,38 @@
+// Calculate the total height of the control: line height + y-padding + border
+@control-height: @selectize-line-height + (2 * @selectize-padding-y) + 2;
+@right-padding-with-arrow: @selectize-padding-x + @selectize-arrow-size + @selectize-arrow-offset;
+
+.plugin-item_nowrap.selectize-control.single .selectize-input {
+	height: @control-height;
+	white-space: nowrap;
+	overflow: hidden;
+
+	&.input-active {
+		.item-wrap-inner {
+			&.long-input-value {
+				text-overflow: initial;
+				width: auto;
+				position: absolute;
+				right: 0;
+			}
+		}
+	}
+
+
+	.item-wrap-outer {
+		overflow: hidden;
+		position: absolute;
+		top: @selectize-padding-y;
+		bottom: @selectize-padding-y;
+		right: @right-padding-with-arrow;
+		left: @selectize-padding-x;
+
+		.item-wrap-inner {
+			white-space: nowrap;
+			overflow: hidden;
+			width: 100%;
+			text-overflow: ellipsis;
+		}
+	}
+}
+
