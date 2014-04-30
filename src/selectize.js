@@ -1123,11 +1123,11 @@ $.extend(Selectize.prototype, {
 		cache_items = self.renderCache['item'];
 		cache_options = self.renderCache['option'];
 
-		if (isset(cache_items)) {
+		if (cache_items) {
 			delete cache_items[value];
 			delete cache_items[value_new];
 		}
-		if (isset(cache_options)) {
+		if (cache_options) {
 			delete cache_options[value];
 			delete cache_options[value_new];
 		}
@@ -1153,8 +1153,13 @@ $.extend(Selectize.prototype, {
 	 */
 	removeOption: function(value) {
 		var self = this;
-
 		value = hash_key(value);
+
+		var cache_items = self.renderCache['item'];
+		var cache_options = self.renderCache['option'];
+		if (cache_items) delete cache_items[value];
+		if (cache_options) delete cache_options[value];
+
 		delete self.userOptions[value];
 		delete self.options[value];
 		self.lastQuery = null;
@@ -1170,6 +1175,7 @@ $.extend(Selectize.prototype, {
 
 		self.loadedSearches = {};
 		self.userOptions = {};
+		self.renderCache = {};
 		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
