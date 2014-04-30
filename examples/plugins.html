@@ -34,14 +34,8 @@
 				<script>
 				$('.input-tags').selectize({
 					plugins: ['remove_button'],
-					delimiter: ',',
 					persist: false,
-					create: function(input) {
-						return {
-							value: input,
-							text: input
-						}
-					},
+					create: true,
 					render: {
 						item: function(data, escape) {
 							return '<div>"' + escape(data.text) + '"</div>';
@@ -63,14 +57,8 @@
 				<script>
 				$('#input-tags6').selectize({
 					plugins: ['restore_on_backspace'],
-					delimiter: ',',
 					persist: false,
-					create: function(input) {
-						return {
-							value: input,
-							text: input
-						}
-					}
+					create: true
 				});
 				</script>
 			</div>
@@ -88,14 +76,8 @@
 				<script>
 				$('.input-sortable').selectize({
 					plugins: ['drag_drop'],
-					delimiter: ',',
 					persist: false,
-					create: function(input) {
-						return {
-							value: input,
-							text: input
-						}
-					}
+					create: true
 				});
 				</script>
 			</div>
