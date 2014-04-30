@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.9.0) - Default Theme
+ * selectize.default.css (v0.9.1) - Default Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -73,6 +73,8 @@
   padding-right: 24px !important;
 }
 .selectize-control.plugin-remove_button [data-value] .remove {
+  z-index: 1;
+  /* fixes ie bug (see #392) */
   position: absolute;
   top: 0;
   right: 0;
@@ -199,6 +201,9 @@
   -webkit-user-select: auto !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
+}
+.selectize-input > input::-ms-clear {
+  display: none;
 }
 .selectize-input > input:focus {
   outline: none !important;

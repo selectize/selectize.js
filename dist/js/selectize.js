@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.9.0)
+ * selectize.js (v0.9.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -371,7 +371,7 @@
 		if (!str) {
 			return 0;
 		}
-		
+	
 		var $test = $('<test>').css({
 			position: 'absolute',
 			top: -99999,
@@ -406,14 +406,15 @@
 	 */
 	var autoGrow = function($input) {
 		var currentWidth = null;
-		
-		var update = function(e) {
+	
+		var update = function(e, options) {
 			var value, keyCode, printable, placeholder, width;
 			var shift, character, selection;
 			e = e || window.event || {};
+			options = options || {};
 	
 			if (e.metaKey || e.altKey) return;
-			if ($input.data('grow') === false) return;
+			if (!options.force && $input.data('grow') === false) return;
 	
 			value = $input.val();
 			if (e.type && e.type.toLowerCase() === 'keydown') {
@@ -443,8 +444,8 @@
 				}
 			}
 	
-			placeholder = $input.attr('placeholder') || '';
-			if (!value.length && placeholder.length) {
+			placeholder = $input.attr('placeholder');
+			if (!value && placeholder) {
 				value = placeholder;
 			}
 	
@@ -506,7 +507,7 @@
 			userOptions      : {},
 			items            : [],
 			renderCache      : {},
-			onSearchChange   : debounce(self.onSearchChange, settings.loadThrottle)
+			onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 		});
 	
 		// search system
@@ -595,6 +596,14 @@
 				$control_input.attr('placeholder', settings.placeholder);
 			}
 	
+			if (self.$input.attr('autocorrect')) {
+				$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+			}
+	
+			if (self.$input.attr('autocapitalize')) {
+				$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+			}
+	
 			self.$wrapper          = $wrapper;
 			self.$control          = $control;
 			self.$control_input    = $control_input;
@@ -618,7 +627,8 @@
 				keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 				resize    : function() { self.positionDropdown.apply(self, []); },
 				blur      : function() { return self.onBlur.apply(self, arguments); },
-				focus     : function() { return self.onFocus.apply(self, arguments); }
+				focus     : function() { return self.onFocus.apply(self, arguments); },
+				paste     : function() { return self.onPaste.apply(self, arguments); }
 			});
 	
 			$document.on('keydown' + eventNS, function(e) {
@@ -815,6 +825,20 @@
 			this.$input.trigger('change');
 		},
 	
+	
+		/**
+		 * Triggered on <input> paste.
+		 *
+		 * @param {object} e
+		 * @returns {boolean}
+		 */
+		onPaste: function(e) {
+			var self = this;
+			if (self.isFull() || self.isInputHidden || self.isLocked) {
+				e.preventDefault();
+			}
+		},
+	
 		/**
 		 * Triggered on <input> keypress.
 		 *
@@ -859,7 +883,7 @@
 					self.close();
 					return;
 				case KEY_N:
-					if (!e.ctrlKey) break;
+					if (!e.ctrlKey || e.altKey) break;
 				case KEY_DOWN:
 					if (!self.isOpen && self.hasOptions) {
 						self.open();
@@ -871,7 +895,7 @@
 					e.preventDefault();
 					return;
 				case KEY_P:
-					if (!e.ctrlKey) break;
+					if (!e.ctrlKey || e.altKey) break;
 				case KEY_UP:
 					if (self.$activeOption) {
 						self.ignoreHover = true;
@@ -893,7 +917,7 @@
 					self.advanceSelection(1, e);
 					return;
 				case KEY_TAB:
-					if (self.isOpen && self.$activeOption) {
+					if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
 						self.onOptionSelect({currentTarget: self.$activeOption});
 					}
 					if (self.settings.create && self.createItem()) {
@@ -905,7 +929,8 @@
 					self.deleteSelection(e);
 					return;
 			}
-			if (self.isFull() || self.isInputHidden) {
+	
+			if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
 				e.preventDefault();
 				return;
 			}
@@ -1091,8 +1116,12 @@
 		 * @param {string} value
 		 */
 		setTextboxValue: function(value) {
-			this.$control_input.val(value).triggerHandler('update');
-			this.lastValue = value;
+			var $input = this.$control_input;
+			var changed = $input.val() !== value;
+			if (changed) {
+				$input.val(value).triggerHandler('update');
+				this.lastValue = value;
+			}
 		},
 	
 		/**
@@ -1573,11 +1602,11 @@
 			cache_items = self.renderCache['item'];
 			cache_options = self.renderCache['option'];
 	
-			if (isset(cache_items)) {
+			if (cache_items) {
 				delete cache_items[value];
 				delete cache_items[value_new];
 			}
-			if (isset(cache_options)) {
+			if (cache_options) {
 				delete cache_options[value];
 				delete cache_options[value_new];
 			}
@@ -1603,8 +1632,13 @@
 		 */
 		removeOption: function(value) {
 			var self = this;
-	
 			value = hash_key(value);
+	
+			var cache_items = self.renderCache['item'];
+			var cache_options = self.renderCache['option'];
+			if (cache_items) delete cache_items[value];
+			if (cache_options) delete cache_options[value];
+	
 			delete self.userOptions[value];
 			delete self.options[value];
 			self.lastQuery = null;
@@ -1620,6 +1654,7 @@
 	
 			self.loadedSearches = {};
 			self.userOptions = {};
+			self.renderCache = {};
 			self.options = self.sifter.items = {};
 			self.lastQuery = null;
 			self.trigger('option_clear');
@@ -1945,7 +1980,7 @@
 			} else {
 				$input.attr('placeholder', this.settings.placeholder);
 			}
-			$input.triggerHandler('update');
+			$input.triggerHandler('update', {force: true});
 		},
 	
 		/**
@@ -2335,6 +2370,7 @@
 		maxItems: null,
 		hideSelected: null,
 		addPrecedence: false,
+		selectOnTab: false,
 		preload: false,
 	
 		scrollDuration: 60,
