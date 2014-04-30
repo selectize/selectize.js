@@ -1275,7 +1275,13 @@ $.extend(Selectize.prototype, {
 			}
 
 			if (!self.options.hasOwnProperty(value)) return;
-			if (inputMode === 'single') self.clear();
+			if (inputMode === 'single') {
+				while (self.items.length) {
+					self.removeItem(self.items[0]);
+				}
+				self.$control.children(':not(input)').remove();
+				self.setCaret(0);
+			}
 			if (inputMode === 'multi' && self.isFull()) return;
 
 			$item = $(self.render('item', self.options[value]));
