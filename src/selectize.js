@@ -629,8 +629,12 @@ $.extend(Selectize.prototype, {
 	 * @param {string} value
 	 */
 	setTextboxValue: function(value) {
-		this.$control_input.val(value).triggerHandler('update');
-		this.lastValue = value;
+		var $input = this.$control_input;
+		var changed = $input.val() !== value;
+		if (changed) {
+			$input.val(value).triggerHandler('update');
+			this.lastValue = value;
+		}
 	},
 
 	/**
@@ -1483,7 +1487,7 @@ $.extend(Selectize.prototype, {
 		} else {
 			$input.attr('placeholder', this.settings.placeholder);
 		}
-		$input.triggerHandler('update');
+		$input.triggerHandler('update', {force: true});
 	},
 
 	/**

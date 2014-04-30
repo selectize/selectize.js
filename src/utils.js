@@ -253,7 +253,7 @@ var measureString = function(str, $parent) {
 	if (!str) {
 		return 0;
 	}
-	
+
 	var $test = $('<test>').css({
 		position: 'absolute',
 		top: -99999,
@@ -288,14 +288,15 @@ var measureString = function(str, $parent) {
  */
 var autoGrow = function($input) {
 	var currentWidth = null;
-	
-	var update = function(e) {
+
+	var update = function(e, options) {
 		var value, keyCode, printable, placeholder, width;
 		var shift, character, selection;
 		e = e || window.event || {};
+		options = options || {};
 
 		if (e.metaKey || e.altKey) return;
-		if ($input.data('grow') === false) return;
+		if (!options.force && $input.data('grow') === false) return;
 
 		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keydown') {
@@ -325,8 +326,8 @@ var autoGrow = function($input) {
 			}
 		}
 
-		placeholder = $input.attr('placeholder') || '';
-		if (!value.length && placeholder.length) {
+		placeholder = $input.attr('placeholder');
+		if (!value && placeholder) {
 			value = placeholder;
 		}
 
