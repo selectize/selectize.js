@@ -164,7 +164,8 @@ $.extend(Selectize.prototype, {
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
 			blur      : function() { return self.onBlur.apply(self, arguments); },
-			focus     : function() { return self.onFocus.apply(self, arguments); }
+			focus     : function() { return self.onFocus.apply(self, arguments); },
+			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
 
 		$document.on('keydown' + eventNS, function(e) {
@@ -361,6 +362,20 @@ $.extend(Selectize.prototype, {
 		this.$input.trigger('change');
 	},
 
+
+	/**
+	 * Triggered on <input> paste.
+	 *
+	 * @param {object} e
+	 * @returns {boolean}
+	 */
+	onPaste: function(e) {
+		var self = this;
+		if (self.isFull() || self.isInputHidden || self.isLocked) {
+			e.preventDefault();
+		}
+	},
+
 	/**
 	 * Triggered on <input> keypress.
 	 *
@@ -451,7 +466,8 @@ $.extend(Selectize.prototype, {
 				self.deleteSelection(e);
 				return;
 		}
-		if (self.isFull() || self.isInputHidden) {
+
+		if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
 			e.preventDefault();
 			return;
 		}
