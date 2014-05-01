@@ -1582,6 +1582,7 @@ $.extend(Selectize.prototype, {
 		if (!self.items.length) return;
 		self.$control.children(':not(input)').remove();
 		self.items = [];
+		self.renderCache = {}; // remove rendered cache
 		self.setCaret(0);
 		self.updatePlaceholder();
 		self.updateOriginalInput();
