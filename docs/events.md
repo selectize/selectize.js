@@ -86,5 +86,15 @@ selectize.off('event_name', handler);
 		<td valign="top"><code>"enter_keypress"</code></td>
 		<td valign="top"></td>
 		<td valign="top">Invoked on enter keypress.</td>
-	</tr>	
+	</tr>
+	<tr>
+		<td valign="top"><code>"focus"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked on entering the control.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>"blur"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked on exiting the control.</td>
+	</tr>
 </table>
