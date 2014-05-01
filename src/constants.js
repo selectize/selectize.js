@@ -16,6 +16,9 @@ var KEY_SHIFT     = 16;
 var KEY_CMD       = IS_MAC ? 91 : 17;
 var KEY_CTRL      = IS_MAC ? 18 : 17;
 var KEY_TAB       = 9;
+var KEY_PGUP      = 33;
+var KEY_PGDN      = 34;
+
 
 var TAG_SELECT    = 1;
 var TAG_INPUT     = 2;

@@ -454,7 +454,7 @@ $.extend(Selectize.prototype, {
 				}
 				e.preventDefault();
 				return;
-			case KEY_PGDOWN:
+			case KEY_PGDN:
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
 				} else if (self.$activeOption) {

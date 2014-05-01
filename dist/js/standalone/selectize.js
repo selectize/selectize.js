@@ -703,6 +703,9 @@
 	var KEY_CMD       = IS_MAC ? 91 : 17;
 	var KEY_CTRL      = IS_MAC ? 18 : 17;
 	var KEY_TAB       = 9;
+	var KEY_PGUP      = 33;
+	var KEY_PGDN      = 34;
+	
 	
 	var TAG_SELECT    = 1;
 	var TAG_INPUT     = 2;
@@ -1503,7 +1506,7 @@
 					}
 					e.preventDefault();
 					return;
-				case KEY_PGDOWN:
+				case KEY_PGDN:
 					if (!self.isOpen && self.hasOptions) {
 						self.open();
 					} else if (self.$activeOption) {
