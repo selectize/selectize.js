@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap3.css (v0.9.0) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v0.9.1) - Bootstrap 3 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -106,6 +106,9 @@
   -webkit-user-select: auto !important;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
+}
+.selectize-input > input::-ms-clear {
+  display: none;
 }
 .selectize-input > input:focus {
   outline: none !important;

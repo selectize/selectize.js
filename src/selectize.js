@@ -44,7 +44,7 @@ var Selectize = function($input, settings) {
 		userOptions      : {},
 		items            : [],
 		renderCache      : {},
-		onSearchChange   : debounce(self.onSearchChange, settings.loadThrottle)
+		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 	});
 
 	// search system
@@ -133,6 +133,14 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+		if (self.$input.attr('autocorrect')) {
+			$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+		}
+
+		if (self.$input.attr('autocapitalize')) {
+			$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+		}
+
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
 		self.$control_input    = $control_input;
@@ -156,7 +164,8 @@ $.extend(Selectize.prototype, {
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
 			blur      : function() { return self.onBlur.apply(self, arguments); },
-			focus     : function() { return self.onFocus.apply(self, arguments); }
+			focus     : function() { return self.onFocus.apply(self, arguments); },
+			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
 
 		$document.on('keydown' + eventNS, function(e) {
@@ -356,6 +365,20 @@ $.extend(Selectize.prototype, {
 		this.$input.trigger('change');
 	},
 
+
+	/**
+	 * Triggered on <input> paste.
+	 *
+	 * @param {object} e
+	 * @returns {boolean}
+	 */
+	onPaste: function(e) {
+		var self = this;
+		if (self.isFull() || self.isInputHidden || self.isLocked) {
+			e.preventDefault();
+		}
+	},
+
 	/**
 	 * Triggered on <input> keypress.
 	 *
@@ -410,7 +433,7 @@ $.extend(Selectize.prototype, {
 				self.close();
 				return;
 			case KEY_N:
-				if (!e.ctrlKey) break;
+				if (!e.ctrlKey || e.altKey) break;
 			case KEY_DOWN:
 				if (!self.isOpen && self.hasOptions) {
 					self.open();
@@ -422,7 +445,7 @@ $.extend(Selectize.prototype, {
 				e.preventDefault();
 				return;
 			case KEY_P:
-				if (!e.ctrlKey) break;
+				if (!e.ctrlKey || e.altKey) break;
 			case KEY_UP:
 				if (self.$activeOption) {
 					self.ignoreHover = true;
@@ -462,7 +485,7 @@ $.extend(Selectize.prototype, {
 				self.advanceSelection(1, e);
 				return;
 			case KEY_TAB:
-				if (self.isOpen && self.$activeOption) {
+				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
 				}
 				if (self.settings.create && self.createItem()) {
@@ -474,7 +497,8 @@ $.extend(Selectize.prototype, {
 				self.deleteSelection(e);
 				return;
 		}
-		if (self.isFull() || self.isInputHidden) {
+
+		if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
 			e.preventDefault();
 			return;
 		}
@@ -669,8 +693,12 @@ $.extend(Selectize.prototype, {
 	 * @param {string} value
 	 */
 	setTextboxValue: function(value) {
-		this.$control_input.val(value).triggerHandler('update');
-		this.lastValue = value;
+		var $input = this.$control_input;
+		var changed = $input.val() !== value;
+		if (changed) {
+			$input.val(value).triggerHandler('update');
+			this.lastValue = value;
+		}
 	},
 
 	/**
@@ -1151,11 +1179,11 @@ $.extend(Selectize.prototype, {
 		cache_items = self.renderCache['item'];
 		cache_options = self.renderCache['option'];
 
-		if (isset(cache_items)) {
+		if (cache_items) {
 			delete cache_items[value];
 			delete cache_items[value_new];
 		}
-		if (isset(cache_options)) {
+		if (cache_options) {
 			delete cache_options[value];
 			delete cache_options[value_new];
 		}
@@ -1181,8 +1209,13 @@ $.extend(Selectize.prototype, {
 	 */
 	removeOption: function(value) {
 		var self = this;
-
 		value = hash_key(value);
+
+		var cache_items = self.renderCache['item'];
+		var cache_options = self.renderCache['option'];
+		if (cache_items) delete cache_items[value];
+		if (cache_options) delete cache_options[value];
+
 		delete self.userOptions[value];
 		delete self.options[value];
 		self.lastQuery = null;
@@ -1198,6 +1231,7 @@ $.extend(Selectize.prototype, {
 
 		self.loadedSearches = {};
 		self.userOptions = {};
+		self.renderCache = {};
 		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
@@ -1523,7 +1557,7 @@ $.extend(Selectize.prototype, {
 		} else {
 			$input.attr('placeholder', this.settings.placeholder);
 		}
-		$input.triggerHandler('update');
+		$input.triggerHandler('update', {force: true});
 	},
 
 	/**

@@ -92,7 +92,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
-		<td valign="top">The number of milliseconds to wait before requesting options from the server.</td>
+		<td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>300</code></td>
 	</tr>
@@ -115,6 +115,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>selectOnTab</code></td>
+		<td valign="top">If true, the tab key will choose the currently selected item.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>
@@ -122,6 +128,12 @@ $(function() {
 		<th valign="top" align="left">Description</th>
 		<th valign="top" align="left">Type</th>
 		<th valign="top" align="left">Default</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>options</code></td>
+		<td valign="top">Options available to select; array of objects. If your element is &lt;select&gt; with &lt;option&gt;s specified this property gets populated accordingly. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
+		<td valign="top"><code>array</code></td>
+		<td valign="top"><code>[]</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>dataAttr</code></td>

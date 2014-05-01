@@ -28,14 +28,8 @@
 				</div>
 				<script>
 				$('#input-tags').selectize({
-					delimiter: ',',
 					persist: false,
-					create: function(input) {
-						return {
-							value: input,
-							text: input
-						}
-					}
+					create: true
 				});
 				</script>
 			</div>
