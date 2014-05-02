@@ -151,6 +151,27 @@
 					});
 			});
 
+            it('should fire keypress event when enter key is pressed', function(done) {
+                var pressed = false;
+                var test = setup_test('<select>' +
+                    '<option></option>' +
+                    '<option value="a">A</option>' +
+                    '<option value="b">B</option>' +
+                    '</select>', {
+                    onEnterKeypress: function() {
+                        pressed = true;
+                    }
+                });
+
+                Syn
+                    .click(test.selectize.$control)
+                    .type("\r", test.selectize.$control_input)
+                    .delay(0, function() {
+                        expect(pressed).to.be.equal(true);
+                        done();
+                    });
+            });
+
 			it('should move caret when [left] or [right] pressed', function(done) {
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
@@ -162,7 +183,6 @@
 						done();
 					});
 			});
-
 		});
 
 		describe('blurring the input', function() {
