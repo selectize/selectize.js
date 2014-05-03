@@ -25,7 +25,7 @@ Selectize.define('remove_button', function(options) {
 	}, options);
 
 	var self = this;
-	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
+	var html = '<button class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</button>';
 
 	/**
 	 * Appends an element as a child (with raw HTML).
