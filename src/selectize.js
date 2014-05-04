@@ -236,7 +236,8 @@ $.extend(Selectize.prototype, {
 		}
 
 		self.on('change', this.onChange);
-		self.trigger('initialize');
+		// self.trigger('initialize');
+		self.$input.trigger('initialize');
 
 		// preload options
 		if (settings.preload === true) {
