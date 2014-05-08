@@ -5,6 +5,7 @@ Selectize.defaults = {
 	persist: true,
 	diacritics: true,
 	create: false,
+	createPrompt: "Add ",
 	createOnBlur: false,
 	highlight: true,
 	openOnFocus: true,
