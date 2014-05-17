@@ -64,6 +64,16 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
+	if (self.settings.create) {
+		self.canCreate = function(input) {
+			var filter = self.settings.createFilter;
+			return input.length
+				&& (typeof filter !== 'function' || filter(input))
+				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+				&& (!(filter instanceof RegExp) || filter.test(input));
+		};
+	}
+
 	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setupTemplates();
@@ -1028,7 +1038,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// add create option
-		has_create_option = self.settings.create && results.query.length;
+		has_create_option = self.settings.create && self.canCreate(results.query);
 		if (has_create_option) {
 			$dropdown_content.prepend(self.render('option_create', {input: query}));
 			$create = $($dropdown_content[0].childNodes[0]);
@@ -1379,7 +1389,7 @@ $.extend(Selectize.prototype, {
 		var self  = this;
 		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
-		if (!input.length) return false;
+		if (!self.canCreate(input)) return false;
 		self.lock();
 
 		if (typeof triggerDropdown === 'undefined') {

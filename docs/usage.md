@@ -49,6 +49,13 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>createFilter</code></td>
+		<td valign="top">
+			Specifies a RegExp or String containing a regular expression that the current search filter must match to be allowed to be created.  May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
+		<td valign="top"><code>mixed</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>highlight</code></td>
 		<td valign="top">Toggles match highlighting within the dropdown menu.</td>
 		<td valign="top"><code>boolean</code></td>
