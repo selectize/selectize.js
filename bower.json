@@ -25,7 +25,8 @@
 		".travis.yml",
 		"testem.json",
 		"selectize.jquery.json",
-		"*.sh"
+		"*.sh",
+		"package.json"
 	],
 	"dependencies": {
 		"jquery": ">=1.7.0",
