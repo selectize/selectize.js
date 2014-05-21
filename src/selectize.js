@@ -104,6 +104,8 @@ $.extend(Selectize.prototype, {
 		var classes;
 		var classes_plugins;
 
+		self.$input.addClass('selectized');
+		
 		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
 		classes           = self.$input.attr('class') || '';
@@ -1827,6 +1829,7 @@ $.extend(Selectize.prototype, {
 			.html('')
 			.append(revertSettings.$children)
 			.removeAttr('tabindex')
+			.removeClass('selectized')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 
