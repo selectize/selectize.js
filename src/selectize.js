@@ -1282,7 +1282,7 @@ $.extend(Selectize.prototype, {
 			var $item, $option, $options;
 			var self = this;
 			var inputMode = self.settings.mode;
-			var i, active, value_next;
+			var i, active, value_next, wasFull;
 			value = hash_key(value);
 
 			if (self.items.indexOf(value) !== -1) {
@@ -1292,15 +1292,13 @@ $.extend(Selectize.prototype, {
 
 			if (!self.options.hasOwnProperty(value)) return;
 			if (inputMode === 'single') self.clear();
-			if (inputMode === 'multi' && self.isFull()) {
-				self.refreshState();
-				return;
-			}
+			if (inputMode === 'multi' && self.isFull()) return;
 
 			$item = $(self.render('item', self.options[value]));
+			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret($item);
-			if (!this.isPending) {
+			if (!this.isPending || (!wasFull && self.isFull())) {
 				self.refreshState();
 			}
 
