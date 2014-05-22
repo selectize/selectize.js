@@ -1833,6 +1833,16 @@ $.extend(Selectize.prototype, {
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 
+		// Put the selected items back into jquery and HTML elements
+		if(self.tagType === TAG_SELECT) {
+			self.getValue().each(function(i, element) {
+				self.$input.find('option[value='+element+']').attr('selected', true);
+			});
+		} else {
+			self.$input.val(self.getValue());
+			self.$input.attr('value',self.$input.val());
+		}
+
 		$(window).off(eventNS);
 		$(document).off(eventNS);
 		$(document.body).off(eventNS);
