@@ -1488,7 +1488,7 @@ $.extend(Selectize.prototype, {
 	updateOriginalInput: function() {
 		var i, n, options, self = this;
 
-		if (self.$input[0].tagName.toLowerCase() === 'select') {
+		if (self.tagType === TAG_SELECT) {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
@@ -1499,6 +1499,7 @@ $.extend(Selectize.prototype, {
 			self.$input.html(options.join(''));
 		} else {
 			self.$input.val(self.getValue());
+			self.$input.attr('value',self.$input.val());
 		}
 
 		if (self.isSetup) {
@@ -1832,16 +1833,6 @@ $.extend(Selectize.prototype, {
 			.removeClass('selectized')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
-
-		// Put the selected items back into jquery and HTML elements
-		if(self.tagType === TAG_SELECT) {
-			self.getValue().each(function(i, element) {
-				self.$input.find('option[value='+element+']').attr('selected', true);
-			});
-		} else {
-			self.$input.val(self.getValue());
-			self.$input.attr('value',self.$input.val());
-		}
 
 		$(window).off(eventNS);
 		$(document).off(eventNS);
