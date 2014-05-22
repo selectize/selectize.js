@@ -1486,7 +1486,7 @@ $.extend(Selectize.prototype, {
 	updateOriginalInput: function() {
 		var i, n, options, self = this;
 
-		if (self.$input[0].tagName.toLowerCase() === 'select') {
+		if (self.tagType === TAG_SELECT) {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
@@ -1497,6 +1497,7 @@ $.extend(Selectize.prototype, {
 			self.$input.html(options.join(''));
 		} else {
 			self.$input.val(self.getValue());
+			self.$input.attr('value',self.$input.val());
 		}
 
 		if (self.isSetup) {
