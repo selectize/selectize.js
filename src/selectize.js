@@ -1292,18 +1292,23 @@ $.extend(Selectize.prototype, {
 
 			if (!self.options.hasOwnProperty(value)) return;
 			if (inputMode === 'single') self.clear();
-			if (inputMode === 'multi' && self.isFull()) return;
+			if (inputMode === 'multi' && self.isFull()) {
+				self.refreshState();
+				return;
+			}
 
 			$item = $(self.render('item', self.options[value]));
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret($item);
-			self.refreshState();
+			if (!this.isPending) {
+				self.refreshState();
+			}
 
 			if (self.isSetup) {
 				$options = self.$dropdown_content.find('[data-selectable]');
 
 				// update menu / remove the option (if this is not one item being added as part of series)
-				if (!this.isPending) {
+				if (!self.isPending) {
 					$option = self.getOption(value);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
@@ -1751,17 +1756,19 @@ $.extend(Selectize.prototype, {
 			i = Math.max(0, Math.min(self.items.length, i));
 		}
 
-		// the input must be moved by leaving it in place and moving the
-		// siblings, due to the fact that focus cannot be restored once lost
-		// on mobile webkit devices
-		var j, n, fn, $children, $child;
-		$children = self.$control.children(':not(input)');
-		for (j = 0, n = $children.length; j < n; j++) {
-			$child = $($children[j]).detach();
-			if (j <  i) {
-				self.$control_input.before($child);
-			} else {
-				self.$control.append($child);
+		if(!self.isPending) {
+			// the input must be moved by leaving it in place and moving the
+			// siblings, due to the fact that focus cannot be restored once lost
+			// on mobile webkit devices
+			var j, n, fn, $children, $child;
+			$children = self.$control.children(':not(input)');
+			for (j = 0, n = $children.length; j < n; j++) {
+				$child = $($children[j]).detach();
+				if (j <  i) {
+					self.$control_input.before($child);
+				} else {
+					self.$control.append($child);
+				}
 			}
 		}
 
