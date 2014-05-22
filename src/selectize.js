@@ -1298,7 +1298,7 @@ $.extend(Selectize.prototype, {
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret($item);
-			if (!this.isPending || (!wasFull && self.isFull())) {
+			if (!self.isPending || (!wasFull && self.isFull())) {
 				self.refreshState();
 			}
 
@@ -1316,7 +1316,7 @@ $.extend(Selectize.prototype, {
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if (!$options.length || (self.settings.maxItems !== null && self.items.length >= self.settings.maxItems)) {
+				if (!$options.length || self.isFull()) {
 					self.close();
 				} else {
 					self.positionDropdown();
