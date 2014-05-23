@@ -37,6 +37,7 @@ Selectize.defaults = {
 	dropdownContentClass: 'selectize-dropdown-content',
 
 	dropdownParent: null,
+	dropdownDirection: 'auto',
 
 	/*
 	load            : null, // function(query, callback) { ... }

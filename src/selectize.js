@@ -1055,6 +1055,7 @@ $.extend(Selectize.prototype, {
 				$active = $create;
 			}
 			self.setActiveOption($active);
+			self.positionDropdown();
 			if (triggerDropdown && !self.isOpen) { self.open(); }
 		} else {
 			self.setActiveOption(null);
@@ -1559,11 +1560,42 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Calculates and applies the appropriate
 	 * position of the dropdown.
+	 * 
+	 * Supports dropdownDirection up, down and auto. In case menu can't be fitted it's
+	 * height is limited to don't fall out of display.
 	 */
 	positionDropdown: function() {
-		var $control = this.$control;
+		var offset, $control = this.$control, $window = $(window)
+		var controlHeight = $control.outerHeight(true), controlTop = $control.offset().top;
+
+		var aboveControl = controlTop;
+		var belowControl = $window.height() - controlTop - controlHeight;
+
+		// direction
+		var direction = this.settings.dropdownDirection;
+		if ('auto' == this.settings.dropdownDirection) {
+			direction = (aboveControl > belowControl) ? 'up' : 'down';
+		}
+
+		// position
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-		offset.top += $control.outerHeight(true);
+		var dropdownHeight = this.$dropdown.outerHeight(true);
+		switch (direction) {
+			case 'up':
+				if (dropdownHeight > offset.top) {
+					dropdownHeight = offset.top - 15;
+					this.$dropdown_content.css({ 'max-height' : dropdownHeight });
+				}
+				offset.top -= dropdownHeight; 
+				break;
+			case 'down':
+				if (dropdownHeight > belowControl) {
+					dropdownHeight = belowControl - 15;
+					this.$dropdown_content.css({ 'max-height' : dropdownHeight });
+				}
+				offset.top += controlHeight;
+				break;
+		}
 
 		this.$dropdown.css({
 			width : $control.outerWidth(),

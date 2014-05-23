@@ -109,6 +109,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>dropdownDirection</code></td>
+		<td valign="top">Direction dropdown is display. This should be either "up", "down" or "auto".</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>auto</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>addPrecedence</code></td>
 		<td valign="top">Sets if the "Add..." option should be the default selection in the dropdown.</td>
 		<td valign="top"><code>boolean</code></td>
