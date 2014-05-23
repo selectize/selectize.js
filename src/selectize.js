@@ -103,8 +103,6 @@ $.extend(Selectize.prototype, {
 		var tab_index;
 		var classes;
 		var classes_plugins;
-
-		self.$input.addClass('selectized');
 		
 		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
@@ -244,6 +242,8 @@ $.extend(Selectize.prototype, {
 		if (settings.preload === true) {
 			self.onSearchChange('');
 		}
+
+		self.$input.addClass('selectized');
 	},
 
 	/**
