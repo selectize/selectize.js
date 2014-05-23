@@ -1541,7 +1541,7 @@ $.extend(Selectize.prototype, {
 	 * Proxy method to close the dropdown when it has no option available.
 	 * This proxy exists only to facilitate a plugin override for this specific context
 	 */
-	closeEmptyDropdown: function {
+	closeEmptyDropdown: function() {
 		this.close();
 	},
 	
