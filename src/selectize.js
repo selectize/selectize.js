@@ -103,7 +103,7 @@ $.extend(Selectize.prototype, {
 		var tab_index;
 		var classes;
 		var classes_plugins;
-		
+
 		inputMode         = self.settings.mode;
 		tab_index         = self.$input.attr('tabindex') || '';
 		classes           = self.$input.attr('class') || '';
