@@ -243,7 +243,7 @@ $.extend(Selectize.prototype, {
 			self.onSearchChange('');
 		}
 
-		$input.data('selectize', self);
+		self.$input.data('selectize', self);
 	},
 
 	/**
