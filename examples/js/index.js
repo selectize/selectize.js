@@ -4,8 +4,9 @@ $(function() {
 	// theme switcher
 	var theme_match = String(window.location).match(/[?&]theme=([a-z0-9]+)/);
 	var theme = (theme_match && theme_match[1]) || 'default';
-	var themes = ['default','legacy','bootstrap2','bootstrap3'];
+	var themes = ['default','legacy','dark','bootstrap2','bootstrap3'];
 	$('head').append('<link rel="stylesheet" href="../dist/css/selectize.' + theme + '.css">');
+	$('body').addClass(theme);
 
 	var $themes = $('<div>').addClass('theme-selector').insertAfter('h1');
 	for (var i = 0; i < themes.length; i++) {

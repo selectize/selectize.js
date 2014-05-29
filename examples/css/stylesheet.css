@@ -130,3 +130,16 @@ input[type=button]:hover {
 		border-radius: 0;
 	}
 }
+
+/* DARK */
+body.dark {
+	color:#efefef;
+	background:#222;
+}
+body.dark .theme-selector a.active {
+	color:#fff;
+}
+body.dark pre {
+	background: none repeat scroll 0% 0% #111;
+	border-color: #555;
+}
