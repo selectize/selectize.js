@@ -138,8 +138,8 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -155,8 +155,8 @@
   cursor: default !important;
 }
 .selectize-input.focus {
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.5);
 }
 .selectize-input.dropdown-active {
   -webkit-border-radius: 3px 3px 0 0;
@@ -263,7 +263,7 @@
   cursor: default;
 }
 .selectize-dropdown .active {
-  background-color: #5e6670;
+  background-color: #4f5e6b;
   color: #fefefe;
 }
 .selectize-dropdown .active.create {
@@ -360,14 +360,17 @@
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff008fd8', endColorstr='#ff0075cf', GradientType=0);
 }
 .selectize-control.single .selectize-input {
-  background-color: #363636;
-  background-image: -moz-linear-gradient(top, #383838, #333333);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#383838), to(#333333));
-  background-image: -webkit-linear-gradient(top, #383838, #333333);
-  background-image: -o-linear-gradient(top, #383838, #333333);
-  background-image: linear-gradient(to bottom, #383838, #333333);
+  background-color: #343434;
+  background-image: -moz-linear-gradient(top, #363636, #303030);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#363636), to(#303030));
+  background-image: -webkit-linear-gradient(top, #363636, #303030);
+  background-image: -o-linear-gradient(top, #363636, #303030);
+  background-image: linear-gradient(to bottom, #363636, #303030);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff383838', endColorstr='#ff333333', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff363636', endColorstr='#ff303030', GradientType=0);
+}
+.selectize-input.focus {
+  background-color: #363636;
 }
 .selectize-dropdown .optgroup-header {
   padding-top: 7px;
