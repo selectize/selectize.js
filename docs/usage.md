@@ -39,7 +39,7 @@ $(function() {
 		<td valign="top">
 			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true" (default behavior), "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
 		<td valign="top"><code>mixed</code></td>
-		<td valign="top"><code>false</code></td>
+		<td valign="top"><code>true</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
