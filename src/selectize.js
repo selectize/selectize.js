@@ -1287,7 +1287,7 @@ $.extend(Selectize.prototype, {
 			var $item, $option, $options;
 			var self = this;
 			var inputMode = self.settings.mode;
-			var i, active, value_next;
+			var i, active, value_next, wasFull;
 			value = hash_key(value);
 
 			if (self.items.indexOf(value) !== -1) {
@@ -1300,15 +1300,18 @@ $.extend(Selectize.prototype, {
 			if (inputMode === 'multi' && self.isFull()) return;
 
 			$item = $(self.render('item', self.options[value]));
+			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
 			self.insertAtCaret($item);
-			self.refreshState();
+			if (!self.isPending || (!wasFull && self.isFull())) {
+				self.refreshState();
+			}
 
 			if (self.isSetup) {
 				$options = self.$dropdown_content.find('[data-selectable]');
 
 				// update menu / remove the option (if this is not one item being added as part of series)
-				if (!this.isPending) {
+				if (!self.isPending) {
 					$option = self.getOption(value);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
@@ -1318,7 +1321,7 @@ $.extend(Selectize.prototype, {
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if (!$options.length || (self.settings.maxItems !== null && self.items.length >= self.settings.maxItems)) {
+				if (!$options.length || self.isFull()) {
 					self.close();
 				} else {
 					self.positionDropdown();
@@ -1757,17 +1760,19 @@ $.extend(Selectize.prototype, {
 			i = Math.max(0, Math.min(self.items.length, i));
 		}
 
-		// the input must be moved by leaving it in place and moving the
-		// siblings, due to the fact that focus cannot be restored once lost
-		// on mobile webkit devices
-		var j, n, fn, $children, $child;
-		$children = self.$control.children(':not(input)');
-		for (j = 0, n = $children.length; j < n; j++) {
-			$child = $($children[j]).detach();
-			if (j <  i) {
-				self.$control_input.before($child);
-			} else {
-				self.$control.append($child);
+		if(!self.isPending) {
+			// the input must be moved by leaving it in place and moving the
+			// siblings, due to the fact that focus cannot be restored once lost
+			// on mobile webkit devices
+			var j, n, fn, $children, $child;
+			$children = self.$control.children(':not(input)');
+			for (j = 0, n = $children.length; j < n; j++) {
+				$child = $($children[j]).detach();
+				if (j <  i) {
+					self.$control_input.before($child);
+				} else {
+					self.$control.append($child);
+				}
 			}
 		}
 
