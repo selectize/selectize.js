@@ -90,6 +90,7 @@ $.extend(Selectize.prototype, {
 		var eventNS   = self.eventNS;
 		var $window   = $(window);
 		var $document = $(document);
+		var $input    = self.$input;
 
 		var $wrapper;
 		var $control;
@@ -105,8 +106,8 @@ $.extend(Selectize.prototype, {
 		var classes_plugins;
 
 		inputMode         = self.settings.mode;
-		tab_index         = self.$input.attr('tabindex') || '';
-		classes           = self.$input.attr('class') || '';
+		tab_index         = $input.attr('tabindex') || '';
+		classes           = $input.attr('class') || '';
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
@@ -116,7 +117,7 @@ $.extend(Selectize.prototype, {
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		$wrapper.css({
-			width: self.$input[0].style.width
+			width: $input[0].style.width
 		});
 
 		if (self.plugins.names.length) {
@@ -126,19 +127,19 @@ $.extend(Selectize.prototype, {
 		}
 
 		if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
-			self.$input.attr('multiple', 'multiple');
+			$input.attr('multiple', 'multiple');
 		}
 
 		if (self.settings.placeholder) {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
-		if (self.$input.attr('autocorrect')) {
-			$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+		if ($input.attr('autocorrect')) {
+			$control_input.attr('autocorrect', $input.attr('autocorrect'));
 		}
 
-		if (self.$input.attr('autocapitalize')) {
-			$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+		if ($input.attr('autocapitalize')) {
+			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
 
 		self.$wrapper          = $wrapper;
@@ -205,11 +206,11 @@ $.extend(Selectize.prototype, {
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
 		this.revertSettings = {
-			$children : self.$input.children().detach(),
-			tabindex  : self.$input.attr('tabindex')
+			$children : $input.children().detach(),
+			tabindex  : $input.attr('tabindex')
 		};
 
-		self.$input.attr('tabindex', -1).hide().after(self.$wrapper);
+		$input.attr('tabindex', -1).hide().after(self.$wrapper);
 
 		if ($.isArray(settings.items)) {
 			self.setValue(settings.items);
@@ -217,8 +218,8 @@ $.extend(Selectize.prototype, {
 		}
 
 		// feature detect for the validation API
-		if (self.$input[0].validity) {
-			self.$input.on('invalid' + eventNS, function(e) {
+		if ($input[0].validity) {
+			$input.on('invalid' + eventNS, function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
 				self.refreshState();
@@ -231,11 +232,14 @@ $.extend(Selectize.prototype, {
 		self.updatePlaceholder();
 		self.isSetup = true;
 
-		if (self.$input.is(':disabled')) {
+		if ($input.is(':disabled')) {
 			self.disable();
 		}
 
 		self.on('change', this.onChange);
+
+		$input.data('selectize', self);
+		$input.addClass('selectized');
 		self.trigger('initialize');
 
 		// preload options
@@ -243,7 +247,6 @@ $.extend(Selectize.prototype, {
 			self.onSearchChange('');
 		}
 
-		self.$input.data('selectize', self);
 	},
 
 	/**
@@ -1829,6 +1832,7 @@ $.extend(Selectize.prototype, {
 			.html('')
 			.append(revertSettings.$children)
 			.removeAttr('tabindex')
+			.removeClass('selectized')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
 
