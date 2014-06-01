@@ -68,7 +68,7 @@
 .selectize-dropdown.plugin-optgroup_columns .optgroup-header {
   border-top: 0 none;
 }
-.selectize-control.plugin-remove_button [data-value] {
+.selectize-control.multi.plugin-remove_button [data-value] {
   position: relative;
   padding-right: 24px !important;
 }
