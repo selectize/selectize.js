@@ -1447,7 +1447,9 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var invalid = self.isRequired && !self.items.length;
 		if (!invalid) self.isInvalid = false;
-		self.$control_input.prop('required', invalid);
+		if (self.isRequired) {
+			self.$control_input.prop('required', invalid);
+		};
 		self.refreshClasses();
 	},
 
