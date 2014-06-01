@@ -1913,6 +1913,23 @@ $.extend(Selectize.prototype, {
 		}
 
 		return html;
+	}, 
+
+	/**
+	 * Clears the render cache for a template. If
+	 * no template is given, clears all render
+	 * caches.
+	 *
+	 * @param {string} templateName
+	 */
+	clearCache: function(templateName) {
+		var self = this;
+		if (typeof templateName === 'undefined') {
+			self.renderCache = {};
+		} else {
+			delete self.renderCache[templateName];
+		}
 	}
+
 
 });

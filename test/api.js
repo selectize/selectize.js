@@ -567,6 +567,41 @@
 			});
 		});
 
+		describe('clearCache()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0},
+						{value: 1},
+						{value: 2},
+						{value: 3},
+					],
+					items: ['1','2','3']
+				});
+				test.selectize.advanceSelection(1);
+				test.selectize.refreshOptions(true);
+				test.selectize.refreshItems();
+			});
+			it('should clear the whole renderCache', function () {
+				expect($.isEmptyObject(test.selectize.renderCache)).to.be.equal(false);
+				test.selectize.clearCache();
+				expect($.isEmptyObject(test.selectize.renderCache)).to.be.equal(true);
+			});
+			it('should allow clearing just one template type from the renderCache', function () {
+				test.selectize.render('item', test.selectize.options[0]);
+				test.selectize.refreshOptions();
+				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(false);
+				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
+				test.selectize.clearCache('option');
+				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(true);
+				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
+			});
+		});
+
 	});
 
 })();
