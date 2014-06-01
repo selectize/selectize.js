@@ -242,6 +242,8 @@ $.extend(Selectize.prototype, {
 		if (settings.preload === true) {
 			self.onSearchChange('');
 		}
+
+		self.$input.data('selectize', self);
 	},
 
 	/**
@@ -1829,6 +1831,9 @@ $.extend(Selectize.prototype, {
 			.removeAttr('tabindex')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
+
+		self.$control_input.removeData('grow');
+		self.$input.removeData('selectize');
 
 		$(window).off(eventNS);
 		$(document).off(eventNS);
