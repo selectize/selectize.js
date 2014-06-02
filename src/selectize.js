@@ -69,7 +69,7 @@ var Selectize = function($input, settings) {
 		self.canCreate = function(input) {
 			var filter = self.settings.createFilter;
 			return input.length
-				&& (typeof filter !== 'function' || filter(input))
+				&& (typeof filter !== 'function' || filter.apply(self, [input]))
 				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
 				&& (!(filter instanceof RegExp) || filter.test(input));
 		};
