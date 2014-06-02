@@ -1283,19 +1283,23 @@ $.extend(Selectize.prototype, {
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, value_next;
-			value = hash_key(value);
+			var value_keyed = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
+			if (self.items.indexOf(value_keyed) !== -1) {
 				if (inputMode === 'single') self.close();
 				return;
 			}
 
-			if (!self.options.hasOwnProperty(value)) return;
+			if (!self.options.hasOwnProperty(value_keyed)) return;
 			if (inputMode === 'single') self.clear();
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			$item = $(self.render('item', self.options[value]));
-			self.items.splice(self.caretPos, 0, value);
+			if(!self.isSetup && self.settings.create && !self.options.hasOwnProperty(value_keyed)) {
+				self.addOption({self.settings.valueField : {text : value, value : value} });
+			}
+			
+			$item = $(self.render('item', self.options[value_keyed]));
+			self.items.splice(self.caretPos, 0, value_keyed);
 			self.insertAtCaret($item);
 			self.refreshState();
 
@@ -1304,7 +1308,7 @@ $.extend(Selectize.prototype, {
 
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!this.isPending) {
-					$option = self.getOption(value);
+					$option = self.getOption(value_keyed);
 					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
 					if (value_next) {
@@ -1320,7 +1324,7 @@ $.extend(Selectize.prototype, {
 				}
 
 				self.updatePlaceholder();
-				self.trigger('item_add', value, $item);
+				self.trigger('item_add', value_keyed, $item);
 				self.updateOriginalInput();
 			}
 		});
