@@ -1295,9 +1295,7 @@ $.extend(Selectize.prototype, {
 			if (inputMode === 'multi' && self.isFull()) return;
 
 			if(!self.isSetup && self.settings.create && !self.options.hasOwnProperty(value_keyed)) {
-				var data = {text : value};
-				data[self.settings.valueField] = value;
-				self.options[value_keyed] = data;
+				self.createItemBase(value, false);
 			}
 			
 			$item = $(self.render('item', self.options[value_keyed]));
@@ -1382,6 +1380,21 @@ $.extend(Selectize.prototype, {
 	 * @return {boolean}
 	 */
 	createItem: function(triggerDropdown) {
+		var self = this;
+		return self.createItemBase($.trim(self.$control_input.val() || ''), triggerDropdown);
+	},
+	
+	/**
+	 * Invokes the `create` method provided in the
+	 * selectize options that should provide the data
+	 * for the new item, given the user input.
+	 *
+	 * Once this completes, it will be added
+	 * to the item list.
+	 *
+	 * @return {boolean}
+	 */
+	createItemBase: function(input, triggerDropdown) {
 		var self  = this;
 		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
