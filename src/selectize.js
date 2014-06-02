@@ -1290,13 +1290,15 @@ $.extend(Selectize.prototype, {
 				return;
 			}
 
-			if (!self.options.hasOwnProperty(value_keyed)) return;
+			if (!self.options.hasOwnProperty(value_keyed)) {
+				if(!self.isSetup && self.settings.create) {
+					self.createItemBase(value, false);	
+				} else {
+					return;
+				}
+			}
 			if (inputMode === 'single') self.clear();
 			if (inputMode === 'multi' && self.isFull()) return;
-
-			if(!self.isSetup && self.settings.create && !self.options.hasOwnProperty(value_keyed)) {
-				self.createItemBase(value, false);
-			}
 			
 			$item = $(self.render('item', self.options[value_keyed]));
 			self.items.splice(self.caretPos, 0, value_keyed);
