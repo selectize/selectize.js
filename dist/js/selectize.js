@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.9.1)
+ * selectize.js (v0.10.0)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -491,6 +491,7 @@
 			isCmdDown        : false,
 			isCtrlDown       : false,
 			ignoreFocus      : false,
+			ignoreBlur       : false,
 			ignoreHover      : false,
 			hasOptions       : false,
 			currentResults   : null,
@@ -527,6 +528,16 @@
 			self.settings.hideSelected = self.settings.mode === 'multi';
 		}
 	
+		if (self.settings.create) {
+			self.canCreate = function(input) {
+				var filter = self.settings.createFilter;
+				return input.length
+					&& (typeof filter !== 'function' || filter(input))
+					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+					&& (!(filter instanceof RegExp) || filter.test(input));
+			};
+		}
+	
 		self.initializePlugins(self.settings.plugins);
 		self.setupCallbacks();
 		self.setupTemplates();
@@ -553,6 +564,7 @@
 			var eventNS   = self.eventNS;
 			var $window   = $(window);
 			var $document = $(document);
+			var $input    = self.$input;
 	
 			var $wrapper;
 			var $control;
@@ -568,8 +580,8 @@
 			var classes_plugins;
 	
 			inputMode         = self.settings.mode;
-			tab_index         = self.$input.attr('tabindex') || '';
-			classes           = self.$input.attr('class') || '';
+			tab_index         = $input.attr('tabindex') || '';
+			classes           = $input.attr('class') || '';
 	
 			$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 			$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
@@ -579,7 +591,7 @@
 			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 	
 			$wrapper.css({
-				width: self.$input[0].style.width
+				width: $input[0].style.width
 			});
 	
 			if (self.plugins.names.length) {
@@ -589,19 +601,19 @@
 			}
 	
 			if ((settings.maxItems === null || settings.maxItems > 1) && self.tagType === TAG_SELECT) {
-				self.$input.attr('multiple', 'multiple');
+				$input.attr('multiple', 'multiple');
 			}
 	
 			if (self.settings.placeholder) {
 				$control_input.attr('placeholder', settings.placeholder);
 			}
 	
-			if (self.$input.attr('autocorrect')) {
-				$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+			if ($input.attr('autocorrect')) {
+				$control_input.attr('autocorrect', $input.attr('autocorrect'));
 			}
 	
-			if (self.$input.attr('autocapitalize')) {
-				$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+			if ($input.attr('autocapitalize')) {
+				$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 			}
 	
 			self.$wrapper          = $wrapper;
@@ -627,7 +639,7 @@
 				keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 				resize    : function() { self.positionDropdown.apply(self, []); },
 				blur      : function() { return self.onBlur.apply(self, arguments); },
-				focus     : function() { return self.onFocus.apply(self, arguments); },
+				focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 				paste     : function() { return self.onPaste.apply(self, arguments); }
 			});
 	
@@ -668,11 +680,11 @@
 			// store original children and tab index so that they can be
 			// restored when the destroy() method is called.
 			this.revertSettings = {
-				$children : self.$input.children().detach(),
-				tabindex  : self.$input.attr('tabindex')
+				$children : $input.children().detach(),
+				tabindex  : $input.attr('tabindex')
 			};
 	
-			self.$input.attr('tabindex', -1).hide().after(self.$wrapper);
+			$input.attr('tabindex', -1).hide().after(self.$wrapper);
 	
 			if ($.isArray(settings.items)) {
 				self.setValue(settings.items);
@@ -680,8 +692,8 @@
 			}
 	
 			// feature detect for the validation API
-			if (self.$input[0].validity) {
-				self.$input.on('invalid' + eventNS, function(e) {
+			if ($input[0].validity) {
+				$input.on('invalid' + eventNS, function(e) {
 					e.preventDefault();
 					self.isInvalid = true;
 					self.refreshState();
@@ -694,17 +706,21 @@
 			self.updatePlaceholder();
 			self.isSetup = true;
 	
-			if (self.$input.is(':disabled')) {
+			if ($input.is(':disabled')) {
 				self.disable();
 			}
 	
 			self.on('change', this.onChange);
+	
+			$input.data('selectize', self);
+			$input.addClass('selectized');
 			self.trigger('initialize');
 	
 			// preload options
 			if (settings.preload === true) {
 				self.onSearchChange('');
 			}
+	
 		},
 	
 		/**
@@ -919,6 +935,7 @@
 				case KEY_TAB:
 					if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
 						self.onOptionSelect({currentTarget: self.$activeOption});
+						e.preventDefault();
 					}
 					if (self.settings.create && self.createItem()) {
 						e.preventDefault();
@@ -1012,6 +1029,14 @@
 			var self = this;
 			self.isFocused = false;
 			if (self.ignoreFocus) return;
+	
+			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
+			if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+				self.ignoreBlur = true;
+				self.onFocus(e);
+	
+				return;
+			}
 	
 			if (self.settings.create && self.settings.createOnBlur) {
 				self.createItem(false);
@@ -1491,7 +1516,7 @@
 			}
 	
 			// add create option
-			has_create_option = self.settings.create && results.query.length;
+			has_create_option = self.settings.create && self.canCreate(results.query);
 			if (has_create_option) {
 				$dropdown_content.prepend(self.render('option_create', {input: query}));
 				$create = $($dropdown_content[0].childNodes[0]);
@@ -1745,7 +1770,7 @@
 				var $item, $option, $options;
 				var self = this;
 				var inputMode = self.settings.mode;
-				var i, active, value_next;
+				var i, active, value_next, wasFull;
 				value = hash_key(value);
 	
 				if (self.items.indexOf(value) !== -1) {
@@ -1758,15 +1783,18 @@
 				if (inputMode === 'multi' && self.isFull()) return;
 	
 				$item = $(self.render('item', self.options[value]));
+				wasFull = self.isFull();
 				self.items.splice(self.caretPos, 0, value);
 				self.insertAtCaret($item);
-				self.refreshState();
+				if (!self.isPending || (!wasFull && self.isFull())) {
+					self.refreshState();
+				}
 	
 				if (self.isSetup) {
 					$options = self.$dropdown_content.find('[data-selectable]');
 	
 					// update menu / remove the option (if this is not one item being added as part of series)
-					if (!this.isPending) {
+					if (!self.isPending) {
 						$option = self.getOption(value);
 						value_next = self.getAdjacentOption($option, 1).attr('data-value');
 						self.refreshOptions(self.isFocused && inputMode !== 'single');
@@ -1776,7 +1804,7 @@
 					}
 	
 					// hide the menu if the maximum number of items have been selected or no options are left
-					if (!$options.length || (self.settings.maxItems !== null && self.items.length >= self.settings.maxItems)) {
+					if (!$options.length || self.isFull()) {
 						self.close();
 					} else {
 						self.positionDropdown();
@@ -1842,7 +1870,7 @@
 			var self  = this;
 			var input = $.trim(self.$control_input.val() || '');
 			var caret = self.caretPos;
-			if (!input.length) return false;
+			if (!self.canCreate(input)) return false;
 			self.lock();
 	
 			if (typeof triggerDropdown === 'undefined') {
@@ -1899,10 +1927,11 @@
 		 * and CSS classes.
 		 */
 		refreshState: function() {
-			var self = this;
-			var invalid = self.isRequired && !self.items.length;
-			if (!invalid) self.isInvalid = false;
-			self.$control_input.prop('required', invalid);
+			var invalid, self = this;
+			if (self.isRequired) {
+				if (self.items.length) self.isInvalid = false;
+				self.$control_input.prop('required', invalid);
+			}
 			self.refreshClasses();
 		},
 	
@@ -1949,7 +1978,7 @@
 		updateOriginalInput: function() {
 			var i, n, options, self = this;
 	
-			if (self.$input[0].tagName.toLowerCase() === 'select') {
+			if (self.tagType === TAG_SELECT) {
 				options = [];
 				for (i = 0, n = self.items.length; i < n; i++) {
 					options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
@@ -1960,6 +1989,7 @@
 				self.$input.html(options.join(''));
 			} else {
 				self.$input.val(self.getValue());
+				self.$input.attr('value',self.$input.val());
 			}
 	
 			if (self.isSetup) {
@@ -2045,7 +2075,9 @@
 			if (!self.items.length) return;
 			self.$control.children(':not(input)').remove();
 			self.items = [];
+			self.lastQuery = null;
 			self.setCaret(0);
+			self.setActiveItem(null);
 			self.updatePlaceholder();
 			self.updateOriginalInput();
 			self.refreshState();
@@ -2214,17 +2246,19 @@
 				i = Math.max(0, Math.min(self.items.length, i));
 			}
 	
-			// the input must be moved by leaving it in place and moving the
-			// siblings, due to the fact that focus cannot be restored once lost
-			// on mobile webkit devices
-			var j, n, fn, $children, $child;
-			$children = self.$control.children(':not(input)');
-			for (j = 0, n = $children.length; j < n; j++) {
-				$child = $($children[j]).detach();
-				if (j <  i) {
-					self.$control_input.before($child);
-				} else {
-					self.$control.append($child);
+			if(!self.isPending) {
+				// the input must be moved by leaving it in place and moving the
+				// siblings, due to the fact that focus cannot be restored once lost
+				// on mobile webkit devices
+				var j, n, fn, $children, $child;
+				$children = self.$control.children(':not(input)');
+				for (j = 0, n = $children.length; j < n; j++) {
+					$child = $($children[j]).detach();
+					if (j <  i) {
+						self.$control_input.before($child);
+					} else {
+						self.$control.append($child);
+					}
 				}
 			}
 	
@@ -2290,8 +2324,12 @@
 				.html('')
 				.append(revertSettings.$children)
 				.removeAttr('tabindex')
+				.removeClass('selectized')
 				.attr({tabindex: revertSettings.tabindex})
 				.show();
+	
+			self.$control_input.removeData('grow');
+			self.$input.removeData('selectize');
 	
 			$(window).off(eventNS);
 			$(document).off(eventNS);
@@ -2351,7 +2389,24 @@
 			}
 	
 			return html;
+		},
+	
+		/**
+		 * Clears the render cache for a template. If
+		 * no template is given, clears all render
+		 * caches.
+		 *
+		 * @param {string} templateName
+		 */
+		clearCache: function(templateName) {
+			var self = this;
+			if (typeof templateName === 'undefined') {
+				self.renderCache = {};
+			} else {
+				delete self.renderCache[templateName];
+			}
 		}
+	
 	
 	});
 	
@@ -2364,6 +2419,7 @@
 		diacritics: true,
 		create: false,
 		createOnBlur: false,
+		createFilter: null,
 		highlight: true,
 		openOnFocus: true,
 		maxOptions: 1000,
@@ -2564,12 +2620,11 @@
 			}
 	
 			instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
-			$input.data('selectize', instance);
-			$input.addClass('selectized');
 		});
 	};
 	
 	$.fn.selectize.defaults = Selectize.defaults;
+	
 	
 	Selectize.define('drag_drop', function(options) {
 		if (!$.fn.sortable) throw new Error('The "drag_drop" plugin requires jQuery UI "sortable".');
@@ -2699,6 +2754,22 @@
 			};
 		})();
 	
+		var getScrollbarWidth = function() {
+			var div;
+			var width = getScrollbarWidth.width;
+			var doc = document;
+	
+			if (typeof width === 'undefined') {
+				div = doc.createElement('div');
+				div.innerHTML = '<div style="width:50px;height:50px;position:absolute;left:-50px;top:-50px;overflow:auto;"><div style="width:1px;height:100px;"></div></div>';
+				div = div.firstChild;
+				doc.body.appendChild(div);
+				width = getScrollbarWidth.width = div.offsetWidth - div.clientWidth;
+				doc.body.removeChild(div);
+			}
+			return width;
+		};
+	
 		var equalizeSizes = function() {
 			var i, n, height_max, width, width_last, width_parent, $optgroups;
 	
@@ -2715,7 +2786,7 @@
 			}
 	
 			if (options.equalizeWidth) {
-				width_parent = self.$dropdown_content.innerWidth();
+				width_parent = self.$dropdown_content.innerWidth() - getScrollbarWidth();
 				width = Math.round(width_parent / n);
 				$optgroups.css({width: width});
 				if (n > 1) {
