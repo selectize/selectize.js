@@ -11,7 +11,7 @@
     "tag"
   ],
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "author": "Brian Reavis <brian@thirdroute.com>",
   "repository": {
     "type": "git",

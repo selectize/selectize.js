@@ -585,7 +585,7 @@
 }));
 
 /**
- * selectize.js (v0.10.0)
+ * selectize.js (v0.10.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1118,7 +1118,7 @@
 			self.canCreate = function(input) {
 				var filter = self.settings.createFilter;
 				return input.length
-					&& (typeof filter !== 'function' || filter(input))
+					&& (typeof filter !== 'function' || filter.apply(self, [input]))
 					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
 					&& (!(filter instanceof RegExp) || filter.test(input));
 			};
