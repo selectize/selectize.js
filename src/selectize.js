@@ -1292,7 +1292,7 @@ $.extend(Selectize.prototype, {
 
 			if (!self.options.hasOwnProperty(value_keyed)) {
 				if(!self.isSetup && self.settings.create) {
-					self.createItemBase(value, false);	
+					self.createItemBase(value, false, false);	
 				} else {
 					return;
 				}
@@ -1383,7 +1383,7 @@ $.extend(Selectize.prototype, {
 	 */
 	createItem: function(triggerDropdown) {
 		var self = this;
-		return self.createItemBase($.trim(self.$control_input.val() || ''), triggerDropdown);
+		return self.createItemBase($.trim(self.$control_input.val() || ''), true, triggerDropdown);
 	},
 	
 	/**
@@ -1396,7 +1396,7 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @return {boolean}
 	 */
-	createItemBase: function(input, triggerDropdown) {
+	createItemBase: function(input, updateItemAndCaret, triggerDropdown) {
 		var self  = this;
 		var caret = self.caretPos;
 		if (!input.length) return false;
@@ -1422,8 +1422,10 @@ $.extend(Selectize.prototype, {
 
 			self.setTextboxValue('');
 			self.addOption(data);
-			self.setCaret(caret);
-			self.addItem(value);
+			if(updateItemAndCaret) {
+				self.setCaret(caret);
+				self.addItem(value);
+			}
 			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 		});
 
