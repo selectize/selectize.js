@@ -462,6 +462,7 @@ $.extend(Selectize.prototype, {
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
+					e.preventDefault();
 				}
 				if (self.settings.create && self.createItem()) {
 					e.preventDefault();
