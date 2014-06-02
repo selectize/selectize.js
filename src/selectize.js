@@ -1396,7 +1396,6 @@ $.extend(Selectize.prototype, {
 	 */
 	createItemBase: function(input, triggerDropdown) {
 		var self  = this;
-		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
 		if (!input.length) return false;
 		self.lock();
