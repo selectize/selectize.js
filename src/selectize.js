@@ -1382,14 +1382,13 @@ $.extend(Selectize.prototype, {
 	 * @return {boolean}
 	 */
 	createItem: function(triggerDropdown) {
-		var self = this;
-		return self.createItemBase($.trim(self.$control_input.val() || ''), true, triggerDropdown);
+		return this.createItemBase($.trim(this.$control_input.val() || ''), true, triggerDropdown);
 	},
 	
 	/**
 	 * Invokes the `create` method provided in the
 	 * selectize options that should provide the data
-	 * for the new item, given the user input.
+	 * for the new item, given the input parameter.
 	 *
 	 * Once this completes, it will be added
 	 * to the item list.
