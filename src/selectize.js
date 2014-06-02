@@ -1295,7 +1295,9 @@ $.extend(Selectize.prototype, {
 			if (inputMode === 'multi' && self.isFull()) return;
 
 			if(!self.isSetup && self.settings.create && !self.options.hasOwnProperty(value_keyed)) {
-				self.addOption({self.settings.valueField : {text : value, value : value} });
+				var data = {text : value};
+				data[self.settings.valueField] = value;
+				self.options[value_keyed] = data;
 			}
 			
 			$item = $(self.render('item', self.options[value_keyed]));
