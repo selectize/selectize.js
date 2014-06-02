@@ -1612,7 +1612,9 @@ $.extend(Selectize.prototype, {
 		if (!self.items.length) return;
 		self.$control.children(':not(input)').remove();
 		self.items = [];
+		self.lastQuery = null;
 		self.setCaret(0);
+		self.setActiveItem(null);
 		self.updatePlaceholder();
 		self.updateOriginalInput();
 		self.refreshState();
@@ -1924,7 +1926,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		return html;
-	}, 
+	},
 
 	/**
 	 * Clears the render cache for a template. If
