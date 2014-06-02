@@ -169,6 +169,21 @@
 								'</div>';
 							}
 						},
+						createFilter: function(input) {
+							var match, regex;
+
+							// email@address.com
+							regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+							match = input.match(regex);
+							if (match) return !this.options.hasOwnProperty(match[0]);
+
+							// name <email@address.com>
+							regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+							match = input.match(regex);
+							if (match) return !this.options.hasOwnProperty(match[2]);
+
+							return false;
+						},
 						create: function(input) {
 							if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
 								return {email: input};
