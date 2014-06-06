@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+		<script src="js/jquery.js"></script>
+		<script src="../dist/js/standalone/selectize.js"></script>
+		<script src="js/index.js"></script>
+		<style type="text/css">
+		.selectize-control.movies .selectize-dropdown [data-selectable] {
+			border-bottom: 1px solid rgba(0,0,0,0.05);
+			height: 60px;
+			position: relative;
+			-webkit-box-sizing: content-box;
+			box-sizing: content-box;
+			padding: 10px 10px 10px 60px;
+		}
+		.selectize-control.movies .selectize-dropdown [data-selectable]:last-child {
+			border-bottom: 0 none;
+		}
+		.selectize-control.movies .selectize-dropdown .by {
+			font-size: 11px;
+			opacity: 0.8;
+		}
+		.selectize-control.movies .selectize-dropdown .by::before {
+			content: 'by ';
+		}
+		.selectize-control.movies .selectize-dropdown .name {
+			font-weight: bold;
+			margin-right: 5px;
+		}
+		.selectize-control.movies .selectize-dropdown .description {
+			font-size: 12px;
+			color: #a0a0a0;
+		}
+		.selectize-control.movies .selectize-dropdown .actors,
+		.selectize-control.movies .selectize-dropdown .description,
+		.selectize-control.movies .selectize-dropdown .title {
+			display: block;
+			white-space: nowrap;
+			width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.selectize-control.movies .selectize-dropdown .actors {
+			font-size: 10px;
+			color: #a0a0a0;
+		}
+		.selectize-control.movies .selectize-dropdown .actors span {
+			color: #606060;
+		}
+		.selectize-control.movies .selectize-dropdown img {
+			height: 60px;
+			left: 10px;
+			position: absolute;
+			border-radius: 3px;
+			background: rgba(0,0,0,0.04);
+		}
+		.selectize-control.movies .selectize-dropdown .meta {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			font-size: 10px;
+		}
+		.selectize-control.movies .selectize-dropdown .meta li {
+			margin: 0;
+			padding: 0;
+			display: inline;
+			margin-right: 10px;
+		}
+		.selectize-control.movies .selectize-dropdown .meta li span {
+			font-weight: bold;
+		}
+		.selectize-control.movies::before {
+			-moz-transition: opacity 0.2s;
+			-webkit-transition: opacity 0.2s;
+			transition: opacity 0.2s;
+			content: ' ';
+			z-index: 2;
+			position: absolute;
+			display: block;
+			top: 12px;
+			right: 34px;
+			width: 16px;
+			height: 16px;
+			background: url(images/spinner.gif);
+			background-size: 16px 16px;
+			opacity: 0;
+		}
+		.selectize-control.movies.loading::before {
+			opacity: 0.4;
+		}
+		</style>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize.js</h1>
+			<div class="demo">
+				<h2>Loading from API</h2>
+				<p>This demo shows how to integrate third-party data, loaded asynchronously.</p>
+				<div class="control-group">
+					<label for="select-movie">Movie:</label>
+					<select id="select-movie" placeholder="Find a movie..."></select>
+				</div>
+				<script>
+				// <select id="select-movie"></select>
+				$('#select-movie').selectize({
+					theme: 'movies',
+					valueField: 'title',
+					labelField: 'title',
+					searchField: 'title',
+					options: [],
+					create: false,
+					render: {
+						option: function(item, escape) {
+							var actors = [];
+							for (var i = 0, n = item.abridged_cast.length; i < n; i++) {
+								actors.push('<span>' + escape(item.abridged_cast[i].name) + '</span>');
+							}
+
+							return '<div>' +
+								'<img src="' + escape(item.posters.thumbnail) + '" alt="">' +
+								'<span class="title">' +
+									'<span class="name">' + escape(item.title) + '</span>' +
+								'</span>' +
+								'<span class="description">' + escape(item.synopsis || 'No synopsis available at this time.') + '</span>' +
+								'<span class="actors">' + (actors.length ? 'Starring ' + actors.join(', ') : 'Actors unavailable') + '</span>' +
+							'</div>';
+						}
+					},
+					load: function(query, callback) {
+						if (!query.length) return callback();
+						$.ajax({
+							url: 'http://api.rottentomatoes.com/api/public/v1.0/movies.json',
+							type: 'GET',
+							dataType: 'jsonp',
+							data: {
+								q: query,
+								page_limit: 10,
+								apikey: '3qqmdwbuswut94jv4eua3j85'
+							},
+							error: function() {
+								callback();
+							},
+							success: function(res) {
+								console.log(res.movies);
+								callback(res.movies);
+							}
+						});
+					}
+				});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

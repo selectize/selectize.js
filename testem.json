@@ -1,0 +1,6 @@
+{
+	"framework": "mocha",
+	"test_page": "test/index.html",
+	"launch_in_ci": ["PhantomJS"],
+	"launch_in_dev": ["PhantomJS", "Chrome"]
+}

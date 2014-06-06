@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+		<script src="js/jquery.js"></script>
+		<script src="js/jqueryui.js"></script>
+		<script src="../dist/js/standalone/selectize.js"></script>
+		<script src="js/index.js"></script>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize.js</h1>
+
+			<div class="demo">
+				<h2>Plugin: "remove_button"</h2>
+				<div class="control-group">
+					<label for="input-tags">Tags:</label>
+					<input type="text" id="input-tags" class="input-tags demo-default" value="awesome,neat">
+				</div>
+				<div class="control-group">
+					<label for="input-tags2">Tags:</label>
+					<input type="text" disabled id="input-tags2" class="input-tags demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('.input-tags').selectize({
+					plugins: ['remove_button'],
+					persist: false,
+					create: true,
+					render: {
+						item: function(data, escape) {
+							return '<div>"' + escape(data.text) + '"</div>';
+						}
+					},
+					onDelete: function(values) {
+						return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
+					}
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "restore_on_backspace"</h2>
+				<div class="control-group">
+					<label for="input-tags6">Tags:</label>
+					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('#input-tags6').selectize({
+					plugins: ['restore_on_backspace'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "drag_drop"</h2>
+				<div class="control-group">
+					<label for="input-sortable">Tags:</label>
+					<input type="text" id="input-sortable" class="input-sortable demo-default" value="drag,these,items,around">
+				</div>
+				<div class="control-group">
+					<label for="input-sortable2">Tags:</label>
+					<input type="text" id="input-sortable2" disabled class="input-sortable demo-default" value="drag,these,items,around">
+				</div>
+				<script>
+				$('.input-sortable').selectize({
+					plugins: ['drag_drop'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "dropdown_header"</h2>
+				<div class="control-group">
+					<label for="select-code-language">Single:</label>
+					<select id="select-code-language" class="demo-code-language" placeholder="Select a language...">
+						<option value="txt">Text</option>
+						<option value="md">Markdown</option>
+						<option value="html">HTML</option>
+						<option value="php">PHP</option>
+						<option value="python">Python</option>
+						<option value="java">Java</option>
+						<option value="js" selected>JavaScript</option>
+						<option value="c#">Ruby</option>
+						<option value="c#">VHDL</option>
+						<option value="c#">Verilog</option>
+						<option value="c#">C#</option>
+						<option value="c++">C/C++</option>
+					</select>
+				</div>
+				<script>
+				$('.demo-code-language').selectize({
+					sortField: 'text',
+					hideSelected: false,
+					plugins: {
+						'dropdown_header': {
+							title: 'Language'
+						}
+					}
+				})
+				</script>
+			</div>
+		</div>
+	</body>
+</html>
