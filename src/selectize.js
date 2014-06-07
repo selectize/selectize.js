@@ -1558,43 +1558,50 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Calculates and applies the appropriate
-	 * position of the dropdown.
+	 * Calculates and applies the appropriate position of the dropdown.
 	 * 
 	 * Supports dropdownDirection up, down and auto. In case menu can't be fitted it's
 	 * height is limited to don't fall out of display.
 	 */
 	positionDropdown: function() {
-		var offset, $control = this.$control, $window = $(window)
-		var controlHeight = $control.outerHeight(true), controlTop = $control.offset().top;
-
-		var aboveControl = controlTop;
-		var belowControl = $window.height() - controlTop - controlHeight;
+		var $control = this.$control;
+		var $dropdown = this.$dropdown;
+		var p = this.getPositions();
 
 		// direction
-		var direction = this.settings.dropdownDirection;
-		if ('auto' == this.settings.dropdownDirection) {
-			direction = (aboveControl > belowControl) ? 'up' : 'down';
+		var direction = this.getDropdownDirection(p);
+		if (direction === 'up') {
+			$dropdown.addClass('direction-up');
+			$dropdown.removeClass('direction-down');
+		} else {
+			$dropdown.removeClass('direction-up');
+			$dropdown.addClass('direction-down');
 		}
+		$control.attr('data-dropdown-direction', direction);
 
 		// position
-		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-		var dropdownHeight = this.$dropdown.outerHeight(true);
+		var isParentBody = this.settings.dropdownParent === 'body';
+		var offset = isParentBody ? $control.offset() : $control.position();
+		var fittedHeight;
+
 		switch (direction) {
 			case 'up':
-				if (dropdownHeight > offset.top) {
-					dropdownHeight = offset.top - 15;
-					this.$dropdown_content.css({ 'max-height' : dropdownHeight });
+				offset.top -= p.dropdown.height;
+				if (p.dropdown.height > p.control.above) {
+					fittedHeight = controlPos.above - 5;
 				}
-				offset.top -= dropdownHeight; 
 				break;
+
 			case 'down':
-				if (dropdownHeight > belowControl) {
-					dropdownHeight = belowControl - 15;
-					this.$dropdown_content.css({ 'max-height' : dropdownHeight });
+				offset.top += p.control.height;
+				if (p.dropdown.height > p.control.below) {
+					fittedHeight = p.control.below - 5;
 				}
-				offset.top += controlHeight;
 				break;
+		}
+
+		if (fittedHeight) {
+			this.$dropdown_content.css({ 'max-height' : fittedHeight });
 		}
 
 		this.$dropdown.css({
@@ -1602,6 +1609,51 @@ $.extend(Selectize.prototype, {
 			top   : offset.top,
 			left  : offset.left
 		});
+	},
+
+	/**
+	 * Gets direction to display dropdown in. Either up or down.
+	 */
+	getDropdownDirection : function(positions) {
+		var direction = this.settings.dropdownDirection;
+
+		if (direction === 'auto') {
+			// down if dropdown fits
+			if (positions.control.below > positions.dropdown.height) {
+				direction = 'down';
+			}
+			// otherwise direction with most space
+			else {
+				direction = (positions.control.above > positions.control.below) ? 'up' : 'down';
+			}
+		}
+
+		return direction;
+	},
+
+	/**
+	 * Get position information for the control and dropdown element.
+	 */
+	getPositions: function() {
+		var $control = this.$control;
+		var $window = $(window);
+		
+		var control_height = $control.outerHeight(false);
+		var control_above = $control.offset().top - $window.scrollTop();
+		var control_below = $window.height() - control_above - control_height;
+
+		var dropdown_height = this.$dropdown.outerHeight(false);
+
+		return {
+			control : {
+				height : control_height,
+				above : control_above,
+				below : control_below
+			},
+			dropdown : {
+				height : dropdown_height
+			}
+		};
 	},
 
 	/**
