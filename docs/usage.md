@@ -187,8 +187,9 @@ $(function() {
 
 			Unless present, a special "$score" field will be automatically added to the beginning
 			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
+			
 
-			For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
+			You can overwrite the "$score" function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
 		</td>
 		<td valign="top"><code>string|array</code></td>
 		<td valign="top"><code>'$order'</code></td>
