@@ -19,3 +19,8 @@ var KEY_TAB       = 9;
 
 var TAG_SELECT    = 1;
 var TAG_INPUT     = 2;
+
+var KEY_PAGEUP    = 33;
+var KEY_PAGEDOWN  = 34;
+var KEY_HOME      = 36;
+var KEY_END       = 35;

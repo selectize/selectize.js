@@ -482,6 +482,40 @@ $.extend(Selectize.prototype, {
 			case KEY_DELETE:
 				self.deleteSelection(e);
 				return;
+			case KEY_PAGEUP:
+				if (self.$activeOption) {
+					self.ignoreHover = true;
+					var pageSize = Math.round(self.$dropdown_content.innerHeight() / self.$activeOption.outerHeight()) - 1;
+					var $prev = self.getAdjacentOption(self.$activeOption, -pageSize);
+					if ($prev.length) self.setActiveOption($prev, true, true);
+				}
+				e.preventDefault();
+				return;
+			case KEY_PAGEDOWN:
+				if (self.$activeOption) {
+					self.ignoreHover = true;
+					var pageSize = Math.round(self.$dropdown_content.innerHeight() / self.$activeOption.outerHeight()) - 1;
+					var $next = self.getAdjacentOption(self.$activeOption, pageSize);
+					if ($next.length) self.setActiveOption($next, true, true);
+				}
+				e.preventDefault();
+				return;
+			case KEY_HOME:
+				if (self.$activeOption) {
+					self.ignoreHover = true;
+					var $home = this.$dropdown.find('[data-selectable]:first');
+					if ($home.length) self.setActiveOption($home, true, true);
+				    e.preventDefault();
+				}
+				return;
+			case KEY_END:
+				if (self.$activeOption) {
+					self.ignoreHover = true;
+					var $end = this.$dropdown.find('[data-selectable]:last');
+					if ($end.length) self.setActiveOption($end, true, true);
+					e.preventDefault();
+				}
+				return;
 		}
 
 		if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
