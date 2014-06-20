@@ -11,6 +11,7 @@
 @selectize-color-input: #fff;
 @selectize-color-input-full: @selectize-color-input;
 @selectize-color-disabled: #fafafa;
+@selectize-color-item-disabled: #808080;
 @selectize-color-item: #f2f2f2;
 @selectize-color-item-text: @selectize-color-text;
 @selectize-color-item-border: #d0d0d0;
@@ -219,7 +220,7 @@
 			.selectize-border-radius(1px);
 		}
 	}
-	[data-selectable], .optgroup-header {
+	[data-selectable], .optgroup-header, [data-disabled] {
 		padding: @selectize-padding-dropdown-item-y @selectize-padding-dropdown-item-x;
 	}
 	.optgroup:first-child .optgroup-header {
@@ -239,6 +240,9 @@
 	}
 	.create {
 		color: @selectize-color-dropdown-item-create-text;
+	}
+	[data-disabled] {
+	    color: @selectize-color-item-disabled
 	}
 }
 

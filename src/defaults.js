@@ -26,6 +26,7 @@ Selectize.defaults = {
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
 	optgroupOrder: null,
+	optDisabled: 'disabled',
 
 	sortField: '$order',
 	searchField: ['text'],

@@ -7,6 +7,7 @@ $.fn.selectize = function(settings_user) {
 	var field_optgroup       = settings.optgroupField;
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
+	var field_disabled       = settings.optDisabled;
 
 	/**
 	 * Initializes selectize from a <input type="text"> element.
@@ -77,6 +78,7 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
+			option[field_disabled] = option[field_disabled] || $option.is(':disabled');
 
 			option.$order = ++order;
 			options[value] = option;
