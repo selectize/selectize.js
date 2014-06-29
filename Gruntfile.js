@@ -194,7 +194,7 @@ module.exports = function(grunt) {
 					],
 					'dist/less/selectize.bootstrap3.tmp.less': [
 						'bower_components/bootstrap3/less/variables.less',
-						'bower_components/bootstrap3/less/mixins.less',
+						'bower_components/bootstrap3/less/mixins/nav-divider.less',
 						'dist/less/selectize.bootstrap3.less'
 					]
 				}

@@ -35,6 +35,6 @@
 	},
 	"devDependencies": {
 		"bootstrap2": "bootstrap#2",
-		"bootstrap3": "bootstrap#3"
+		"bootstrap3": "bootstrap#3.2"
 	}
 }
