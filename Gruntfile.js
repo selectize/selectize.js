@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 		if (!selector_plugins) return;
 
 		if (selector_plugins.indexOf(',') !== -1) {
-			selector_plugins = '{' + plugins.split(/\s*,\s*/).join(',') + '}';
+			selector_plugins = '{' + selector_plugins.split(/\s*,\s*/).join(',') + '}';
 		}
 
 		// javascript
