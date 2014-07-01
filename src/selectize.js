@@ -1485,7 +1485,7 @@ $.extend(Selectize.prototype, {
 
 		if (this.isSetup) {
 			for (var i = 0; i < this.items.length; i++) {
-				this.addItem(this.items);
+				this.addItem(this.items[i]);
 			}
 		}
 
@@ -1554,10 +1554,10 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
 			}
-			if (!options.length && !this.$input.attr('multiple')) {
+			if (!options.length) {
 				options.push('<option value="" selected="selected"></option>');
 			}
-			self.$input.html(options.join(''));
+			self.$input.empty().html(options.join(''));
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
