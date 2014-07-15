@@ -26,13 +26,11 @@ Selectize.define('infinite_scroll', function (options) {
         onPageChange: options.loadThrottle === null ? self.onPageChange : debounce(self.onPageChange, options.loadThrottle)
     });
 
-    this.loadedPages = {};
-
     this.onPageChange = function () {
         var fn = self.settings.load;
         var query = self.lastQuery;
         if (!fn || self.loadedPages[query] === false) return;
-        var page = self.loadedPages[query] = self.loadedPages[query] + 1;
+        var page = self.loadedPages[query] = (self.loadedPages[query] || 1) + 1;
         self.load(function (callback) {
             function middleware(res) {
                 if (!res || res.length === 0) {
