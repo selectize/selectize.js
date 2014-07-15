@@ -1,5 +1,5 @@
 /**
- * Plugin: "optgroup_columns" (selectize.js)
+ * Plugin: "infinite_scroll" (selectize.js)
  * Copyright (c) 2013 Simon Hewitt & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
