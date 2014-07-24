@@ -707,10 +707,12 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {mixed} value
 	 */
-	setValue: function(value) {
-		debounce_events(this, ['change'], function() {
+	setValue: function(value, isSilent) {
+		var events = isSilent ? [] : ['change'];
+
+		debounce_events(this, events, function() {
 			this.clear();
-			this.addItems(value);
+			this.addItems(value, isSilent);
 		});
 	},
 
@@ -1288,11 +1290,11 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {string} value
 	 */
-	addItems: function(values) {
+	addItems: function(values, isSilent) {
 		var items = $.isArray(values) ? values : [values];
 		for (var i = 0, n = items.length; i < n; i++) {
 			this.isPending = (i < n - 1);
-			this.addItem(items[i]);
+			this.addItem(items[i], isSilent);
 		}
 	},
 
@@ -1302,8 +1304,10 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {string} value
 	 */
-	addItem: function(value) {
-		debounce_events(this, ['change'], function() {
+	addItem: function(value, isSilent) {
+		var events = isSilent ? [] : ['change'];
+
+		debounce_events(this, events, function() {
 			var $item, $option, $options;
 			var self = this;
 			var inputMode = self.settings.mode;
@@ -1349,7 +1353,7 @@ $.extend(Selectize.prototype, {
 
 				self.updatePlaceholder();
 				self.trigger('item_add', value, $item);
-				self.updateOriginalInput();
+				self.updateOriginalInput({isSilent: isSilent});
 			}
 		});
 	},
@@ -1512,7 +1516,7 @@ $.extend(Selectize.prototype, {
 	 * Refreshes the original <select> or <input>
 	 * element to reflect the current state.
 	 */
-	updateOriginalInput: function() {
+	updateOriginalInput: function(opts) {
 		var i, n, options, self = this;
 
 		if (self.tagType === TAG_SELECT) {
@@ -1530,7 +1534,9 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.isSetup) {
-			self.trigger('change', self.$input.val());
+			if (!opts.isSilent) {
+				self.trigger('change', self.$input.val());
+			}
 		}
 	},
 
