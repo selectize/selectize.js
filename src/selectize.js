@@ -1518,6 +1518,7 @@ $.extend(Selectize.prototype, {
 	 */
 	updateOriginalInput: function(opts) {
 		var i, n, options, self = this;
+		opts = opts || {};
 
 		if (self.tagType === TAG_SELECT) {
 			options = [];
