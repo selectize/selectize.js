@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.10.1)
+ * selectize.js (v0.11.0)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -140,10 +140,10 @@
 	 *   1         -> '1'
 	 *
 	 * @param {string} value
-	 * @returns {string}
+	 * @returns {string|null}
 	 */
 	var hash_key = function(value) {
-		if (typeof value === 'undefined' || value === null) return '';
+		if (typeof value === 'undefined' || value === null) return null;
 		if (typeof value === 'boolean') return value ? '1' : '0';
 		return value + '';
 	};
@@ -1082,7 +1082,7 @@
 				self.createItem();
 			} else {
 				value = $target.attr('data-value');
-				if (value) {
+				if (typeof value !== 'undefined') {
 					self.lastQuery = null;
 					self.setTextboxValue('');
 					self.addItem(value);
@@ -1573,7 +1573,7 @@
 			}
 	
 			value = hash_key(data[self.settings.valueField]);
-			if (!value || self.options.hasOwnProperty(value)) return;
+			if (typeof value !== 'string' || self.options.hasOwnProperty(value)) return;
 	
 			self.userOptions[value] = true;
 			self.options[value] = data;
@@ -1610,8 +1610,9 @@
 			value_new = hash_key(data[self.settings.valueField]);
 	
 			// sanity checks
+			if (value === null) return;
 			if (!self.options.hasOwnProperty(value)) return;
-			if (!value_new) throw new Error('Value must be set in option data');
+			if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 	
 			// update references
 			if (value_new !== value) {
@@ -1723,7 +1724,7 @@
 		getElementWithValue: function(value, $els) {
 			value = hash_key(value);
 	
-			if (value) {
+			if (typeof value !== 'undefined' && value !== null) {
 				for (var i = 0, n = $els.length; i < n; i++) {
 					if ($els[i].getAttribute('data-value') === value) {
 						return $($els[i]);
@@ -1889,7 +1890,7 @@
 	
 				if (!data || typeof data !== 'object') return;
 				var value = hash_key(data[self.settings.valueField]);
-				if (!value) return;
+				if (typeof value !== 'string') return;
 	
 				self.setTextboxValue('');
 				self.addOption(data);
@@ -2428,6 +2429,7 @@
 		addPrecedence: false,
 		selectOnTab: false,
 		preload: false,
+		allowEmptyOption: false,
 	
 		scrollDuration: 60,
 		loadThrottle: 300,
@@ -2498,7 +2500,7 @@
 		 */
 		var init_textbox = function($input, settings_element) {
 			var i, n, values, option, value = $.trim($input.val() || '');
-			if (!value.length) return;
+			if (!settings.allowEmptyOption && !value.length) return;
 	
 			values = value.split(settings.delimiter);
 			for (i = 0, n = values.length; i < n; i++) {
@@ -2536,7 +2538,7 @@
 				$option = $($option);
 	
 				value = $option.attr('value') || '';
-				if (!value.length) return;
+				if (!value.length && !settings.allowEmptyOption) return;
 	
 				// if the option already exists, it's probably been
 				// duplicated in another optgroup. in this case, push
@@ -2606,8 +2608,13 @@
 			var instance;
 			var $input = $(this);
 			var tag_name = this.tagName.toLowerCase();
+			var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+			if (!placeholder && !settings.allowEmptyOption) {
+				placeholder = $input.children('option[value=""]').text();
+			}
+	
 			var settings_element = {
-				'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
+				'placeholder' : placeholder,
 				'options'     : {},
 				'optgroups'   : {},
 				'items'       : []
