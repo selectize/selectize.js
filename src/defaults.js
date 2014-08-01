@@ -15,6 +15,7 @@ Selectize.defaults = {
 	addPrecedence: false,
 	selectOnTab: false,
 	preload: false,
+	allowEmptyOption: false,
 
 	scrollDuration: 60,
 	loadThrottle: 300,

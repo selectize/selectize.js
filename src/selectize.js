@@ -619,7 +619,7 @@ $.extend(Selectize.prototype, {
 			self.createItem();
 		} else {
 			value = $target.attr('data-value');
-			if (value) {
+			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
 				self.addItem(value);
@@ -1110,7 +1110,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		value = hash_key(data[self.settings.valueField]);
-		if (!value || self.options.hasOwnProperty(value)) return;
+		if (typeof value !== 'string' || self.options.hasOwnProperty(value)) return;
 
 		self.userOptions[value] = true;
 		self.options[value] = data;
@@ -1147,8 +1147,9 @@ $.extend(Selectize.prototype, {
 		value_new = hash_key(data[self.settings.valueField]);
 
 		// sanity checks
+		if (value === null) return;
 		if (!self.options.hasOwnProperty(value)) return;
-		if (!value_new) throw new Error('Value must be set in option data');
+		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
 		// update references
 		if (value_new !== value) {
@@ -1260,7 +1261,7 @@ $.extend(Selectize.prototype, {
 	getElementWithValue: function(value, $els) {
 		value = hash_key(value);
 
-		if (value) {
+		if (typeof value !== 'undefined' && value !== null) {
 			for (var i = 0, n = $els.length; i < n; i++) {
 				if ($els[i].getAttribute('data-value') === value) {
 					return $($els[i]);
@@ -1426,7 +1427,7 @@ $.extend(Selectize.prototype, {
 
 			if (!data || typeof data !== 'object') return;
 			var value = hash_key(data[self.settings.valueField]);
-			if (!value) return;
+			if (typeof value !== 'string') return;
 
 			self.setTextboxValue('');
 			self.addOption(data);
