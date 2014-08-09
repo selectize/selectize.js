@@ -1342,7 +1342,7 @@ $.extend(Selectize.prototype, {
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if (!$options.length || self.isFull()) {
+				if (!$options.length || self.isFull() || self.tagType == TAG_INPUT) {
 					self.close();
 				} else {
 					self.positionDropdown();
