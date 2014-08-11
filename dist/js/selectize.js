@@ -528,15 +528,13 @@
 			self.settings.hideSelected = self.settings.mode === 'multi';
 		}
 	
-		if (self.settings.create) {
-			self.canCreate = function(input) {
-				var filter = self.settings.createFilter;
-				return input.length
-					&& (typeof filter !== 'function' || filter.apply(self, [input]))
-					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-					&& (!(filter instanceof RegExp) || filter.test(input));
-			};
-		}
+		self.canCreate = function(input) {
+                    var filter = self.settings.createFilter;
+                    return input.length
+                        && (typeof filter !== 'function' || filter.apply(self, [input]))
+                        && (typeof filter !== 'string' || new RegExp(filter).test(input))
+                        && (!(filter instanceof RegExp) || filter.test(input));
+                };
 	
 		self.initializePlugins(self.settings.plugins);
 		self.setupCallbacks();
