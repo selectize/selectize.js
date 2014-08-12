@@ -141,6 +141,11 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
 		}
 
+		if (!self.options.splitOn) {
+		   var delimiter_escaped = self.options.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+		   self.options.splitOn = new RegExp('\s*' + delimiter_escaped + '+\s*');
+		}
+
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
 		self.$control_input    = $control_input;
@@ -376,12 +381,12 @@ $.extend(Selectize.prototype, {
 		} else {
 			// If a regex or string is included, this will split the pasted input and create Items for each separate value
 			if (self.settings.splitOn) {
-				setTimeout($.proxy(function() {
+				setTimeout(function() {
 					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
 					splitInput.forEach($.proxy(function(input) {
 						self.createItem(input);
 					}, self));
-				}, self), 0);
+				}, 0);
 			}
 		}
 	},

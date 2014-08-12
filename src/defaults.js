@@ -2,7 +2,7 @@ Selectize.count = 0;
 Selectize.defaults = {
 	plugins: [],
 	delimiter: ',',
-	splitOn: /[,]+/, // Regex or string for splitting up values from a paste command
+	splitOn: null, // Regex or string for splitting up values from a paste command
 	persist: true,
 	diacritics: true,
 	create: false,
