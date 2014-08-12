@@ -133,17 +133,18 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
+		if (!self.settings.splitOn && self.settings.delimiter) {
+			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+		}
+
 		if (self.$input.attr('autocorrect')) {
 			$control_input.attr('autocorrect', self.$input.attr('autocorrect'));
 		}
 
 		if (self.$input.attr('autocapitalize')) {
 			$control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
-		}
-
-		if (!self.options.splitOn) {
-		   var delimiter_escaped = self.options.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-		   self.options.splitOn = new RegExp('\s*' + delimiter_escaped + '+\s*');
 		}
 
 		self.$wrapper          = $wrapper;
