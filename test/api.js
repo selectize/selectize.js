@@ -420,7 +420,7 @@
 		describe('clear()', function() {
 			var test;
 
-			before(function() {
+			beforeEach(function() {
 				test = setup_test('<select multiple>', {
 					valueField: 'value',
 					labelField: 'value',
@@ -432,6 +432,37 @@
 					],
 					items: ['1','2','3']
 				});
+			});
+			it('should empty "$activeItems" array', function() {
+				test.selectize.setActiveItem(test.selectize.getItem('1'));
+				expect(test.selectize.$activeItems.length).to.be.equal(1);
+				test.selectize.clear();
+				expect(test.selectize.$activeItems.length).to.be.equal(0);
+			});
+			it('should refresh option list (dropdown)', function(done) {
+				// test = setup_test('<select multiple>', {
+				// 	valueField: 'value',
+				// 	labelField: 'value',
+				// 	options: [
+				// 		{value: 0},
+				// 		{value: 1},
+				// 		{value: 2},
+				// 		{value: 3},
+				// 	],
+				// 	items: ['1','2','3']
+				// });
+
+				test.selectize.focus();
+				window.setTimeout(function() {
+					test.selectize.clear();
+					test.selectize.focus();
+					window.setTimeout(function() {
+						expect(test.selectize.$dropdown_content.find('[data-value=1]').length).to.be.equal(1);
+						expect(test.selectize.$dropdown_content.find('[data-value=2]').length).to.be.equal(1);
+						expect(test.selectize.$dropdown_content.find('[data-value=3]').length).to.be.equal(1);
+						done();
+					}, 0);
+				}, 0);
 			});
 			it('should empty "items" array', function() {
 				test.selectize.clear();
@@ -449,6 +480,10 @@
 					expect(test.selectize.isFocused).to.be.equal(false);
 					done();
 				}, 0);
+			});
+			it('should empty "items" array', function() {
+				test.selectize.clear();
+				expect(test.selectize.items.length).to.be.equal(0);
 			});
 		});
 
@@ -564,6 +599,41 @@
 				var test = setup_test('<select>', {});
 				test.selectize.destroy();
 				expect(test.$select.attr('tabindex')).to.be.equal(undefined);
+			});
+		});
+
+		describe('clearCache()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0},
+						{value: 1},
+						{value: 2},
+						{value: 3},
+					],
+					items: ['1','2','3']
+				});
+				test.selectize.advanceSelection(1);
+				test.selectize.refreshOptions(true);
+				test.selectize.refreshItems();
+			});
+			it('should clear the whole renderCache', function () {
+				expect($.isEmptyObject(test.selectize.renderCache)).to.be.equal(false);
+				test.selectize.clearCache();
+				expect($.isEmptyObject(test.selectize.renderCache)).to.be.equal(true);
+			});
+			it('should allow clearing just one template type from the renderCache', function () {
+				test.selectize.render('item', test.selectize.options[0]);
+				test.selectize.refreshOptions();
+				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(false);
+				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
+				test.selectize.clearCache('option');
+				expect($.isEmptyObject(test.selectize.renderCache['option'])).to.be.equal(true);
+				expect($.isEmptyObject(test.selectize.renderCache['item'])).to.be.equal(false);
 			});
 		});
 

@@ -7,6 +7,7 @@ Selectize.defaults = {
 	diacritics: true,
 	create: false,
 	createOnBlur: false,
+	createFilter: null,
 	highlight: true,
 	openOnFocus: true,
 	maxOptions: 1000,
@@ -15,6 +16,7 @@ Selectize.defaults = {
 	addPrecedence: false,
 	selectOnTab: false,
 	preload: false,
+	allowEmptyOption: false,
 
 	scrollDuration: 60,
 	loadThrottle: 300,
