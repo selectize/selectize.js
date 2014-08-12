@@ -400,9 +400,9 @@ $.extend(Selectize.prototype, {
 			if (self.settings.splitOn) {
 				setTimeout(function() {
 					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
-					splitInput.forEach($.proxy(function(input) {
+					splitInput.forEach(function(input) {
 						self.createItem(input);
-					}, self));
+					});
 				}, 0);
 			}
 		}
@@ -1425,9 +1425,6 @@ $.extend(Selectize.prototype, {
 		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
 
-		if (!self.canCreate(input)) return false;
-		self.lock();
-
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
 
@@ -1437,6 +1434,9 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (!input.length) return false;
+
+		if (!self.canCreate(input)) return false;
+
 		self.lock();
 
 		var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
