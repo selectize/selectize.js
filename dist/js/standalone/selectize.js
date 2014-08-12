@@ -1422,16 +1422,6 @@
 			var self = this;
 			if (self.isFull() || self.isInputHidden || self.isLocked) {
 				e.preventDefault();
-			} else {
-				// If a regex or string is included, this will split the pasted input and create Items for each separate value
-				if (self.settings.splitOn) {
-					setTimeout($.proxy(function() {
-						var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
-						splitInput.forEach($.proxy(function(input) {
-							self.createItem(input);
-						}, self));
-					}, self), 0);
-				}
 			}
 		},
 	
@@ -2438,17 +2428,12 @@
 			var self  = this;
 			var input = $.trim(self.$control_input.val() || '');
 			var caret = self.caretPos;
+			if (!input.length) return false;
+			self.lock();
 	
 			if (typeof triggerDropdown === 'undefined') {
 				triggerDropdown = true;
-	
-			// allow a string to be passed in, like the API docs say
-			} else if (typeof triggerDropdown === 'string') {
-				input = triggerDropdown;
 			}
-	
-			if (!input.length) return false;
-			self.lock();
 	
 			var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
 				var data = {};
@@ -2961,7 +2946,6 @@
 	Selectize.defaults = {
 		plugins: [],
 		delimiter: ',',
-		splitOn: /[,]+/, // Regex or string for splitting up values from a paste command
 		persist: true,
 		diacritics: true,
 		create: false,
