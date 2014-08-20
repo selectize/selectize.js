@@ -45,7 +45,8 @@ var Selectize = function($input, settings) {
 		userOptions      : {},
 		items            : [],
 		renderCache      : {},
-		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
+		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle),
+                enableDuplicate  : false
 	});
 
 	// search system
@@ -1309,7 +1310,7 @@ $.extend(Selectize.prototype, {
 			var i, active, value_next, wasFull;
 			value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
+			if (!self.settings.enableDuplicate && self.items.indexOf(value) !== -1) {
 				if (inputMode === 'single') self.close();
 				return;
 			}
