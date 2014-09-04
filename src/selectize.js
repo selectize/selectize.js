@@ -153,6 +153,10 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
 
+    if (settings.readonly) {
+      $control_input.attr('readonly', settings.readonly);
+    }
+
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
 		self.$control_input    = $control_input;
