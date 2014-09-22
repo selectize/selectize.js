@@ -3437,6 +3437,7 @@
 				// add event listener
 				this.$control.on('click', '.' + options.className, function(e) {
 					e.preventDefault();
+                                        e.stopPropagation();
 					if (self.isLocked) return;
 	
 					var $item = $(e.currentTarget).parent();
