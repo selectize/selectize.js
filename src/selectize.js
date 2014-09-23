@@ -424,6 +424,7 @@ $.extend(Selectize.prototype, {
 
 		switch (e.keyCode) {
 			case KEY_A:
+				if (!e.ctrlKey || e.altKey) break;
 				if (self.isCmdDown) {
 					self.selectAll();
 					return;
