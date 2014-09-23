@@ -45,7 +45,8 @@ var Selectize = function($input, settings) {
 		userOptions      : {},
 		items            : [],
 		renderCache      : {},
-		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
+		onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle),
+                enableDuplicate  : false
 	});
 
 	// search system
@@ -65,15 +66,13 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
-	if (self.settings.create) {
-		self.canCreate = function(input) {
-			var filter = self.settings.createFilter;
-			return input.length
-				&& (typeof filter !== 'function' || filter.apply(self, [input]))
-				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-				&& (!(filter instanceof RegExp) || filter.test(input));
-		};
-	}
+	self.canCreate = function(input) {
+            var filter = self.settings.createFilter;
+            return input.length
+                && (typeof filter !== 'function' || filter.apply(self, [input]))
+                && (typeof filter !== 'string' || new RegExp(filter).test(input))
+                && (!(filter instanceof RegExp) || filter.test(input));
+        };
 
 	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
@@ -1312,7 +1311,7 @@ $.extend(Selectize.prototype, {
 			var i, active, value_next, wasFull;
 			value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
+			if (!self.settings.enableDuplicate && self.items.indexOf(value) !== -1) {
 				if (inputMode === 'single') self.close();
 				return;
 			}

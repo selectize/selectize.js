@@ -508,7 +508,8 @@
 			userOptions      : {},
 			items            : [],
 			renderCache      : {},
-			onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
+			onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle),
+                        enableDuplicate  : false
 		});
 	
 		// search system
@@ -528,15 +529,13 @@
 			self.settings.hideSelected = self.settings.mode === 'multi';
 		}
 	
-		if (self.settings.create) {
-			self.canCreate = function(input) {
-				var filter = self.settings.createFilter;
-				return input.length
-					&& (typeof filter !== 'function' || filter.apply(self, [input]))
-					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-					&& (!(filter instanceof RegExp) || filter.test(input));
-			};
-		}
+		self.canCreate = function(input) {
+                    var filter = self.settings.createFilter;
+                    return input.length
+                        && (typeof filter !== 'function' || filter.apply(self, [input]))
+                        && (typeof filter !== 'string' || new RegExp(filter).test(input))
+                        && (!(filter instanceof RegExp) || filter.test(input));
+                };
 	
 		self.initializePlugins(self.settings.plugins);
 		self.setupCallbacks();
@@ -1774,7 +1773,7 @@
 				var i, active, value_next, wasFull;
 				value = hash_key(value);
 	
-				if (self.items.indexOf(value) !== -1) {
+				if (!self.settings.enableDuplicate && self.items.indexOf(value) !== -1) {
 					if (inputMode === 'single') self.close();
 					return;
 				}
@@ -2852,6 +2851,7 @@
 				// add event listener
 				this.$control.on('click', '.' + options.className, function(e) {
 					e.preventDefault();
+                                        e.stopPropagation();
 					if (self.isLocked) return;
 	
 					var $item = $(e.currentTarget).parent();
