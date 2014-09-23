@@ -173,6 +173,7 @@
 		&::-ms-clear {
 			display: none;
 		}
+		display: inline-block !important;
 		padding: 0 !important;
 		min-height: 0 !important;
 		max-height: none !important;
@@ -263,7 +264,7 @@
 		position: absolute;
 		top: 50%;
 		right: @selectize-arrow-offset;
-		margin-top: round(-@selectize-arrow-size / 2);
+		margin-top: round(-1 * @selectize-arrow-size / 2);
 		width: 0;
 		height: 0;
 		border-style: solid;

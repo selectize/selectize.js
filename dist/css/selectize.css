@@ -1,5 +1,5 @@
 /**
- * selectize.css (v0.11.0)
+ * selectize.css (v0.11.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -190,6 +190,7 @@
   border: 0 solid #ffffff;
 }
 .selectize-input > input {
+  display: inline-block !important;
   padding: 0 !important;
   min-height: 0 !important;
   max-height: none !important;
