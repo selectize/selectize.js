@@ -40,6 +40,8 @@ Selectize.defaults = {
 
 	dropdownParent: null,
 
+	copyClassesToDropdown: true,
+
 	/*
 	load            : null, // function(query, callback) { ... }
 	score           : null, // function(search) { ... }

@@ -218,6 +218,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>copyClassesToDropdown</code></td>
+		<td valign="top">Copy the original input classes to the Dropdown element.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
 	</tr>
 	<tr>
