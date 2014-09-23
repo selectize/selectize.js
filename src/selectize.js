@@ -305,7 +305,8 @@ $.extend(Selectize.prototype, {
 			'option_clear'   : 'onOptionClear',
 			'dropdown_open'  : 'onDropdownOpen',
 			'dropdown_close' : 'onDropdownClose',
-			'type'           : 'onType'
+			'type'           : 'onType',
+			'load'           : 'onLoad'
 		};
 
 		for (key in callbacks) {
