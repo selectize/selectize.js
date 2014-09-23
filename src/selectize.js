@@ -1179,6 +1179,9 @@ $.extend(Selectize.prototype, {
 			$item.replaceWith($item_new);
 		}
 
+		//invalidate last query because we might have updated the sortField
+		self.lastQuery = null;
+
 		// update dropdown contents
 		if (self.isOpen) {
 			self.refreshOptions(false);
