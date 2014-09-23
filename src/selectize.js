@@ -4,7 +4,8 @@ var Selectize = function($input, settings) {
 	input.selectize = self;
 
 	// detect rtl environment
-	dir = window.getComputedStyle ? window.getComputedStyle(input, null).getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
+	var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
+	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
 	dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 
 	// setup default state
