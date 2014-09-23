@@ -65,16 +65,6 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
-	if (self.settings.create) {
-		self.canCreate = function(input) {
-			var filter = self.settings.createFilter;
-			return input.length
-				&& (typeof filter !== 'function' || filter.apply(self, [input]))
-				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-				&& (!(filter instanceof RegExp) || filter.test(input));
-		};
-	}
-
 	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setupTemplates();
@@ -1054,7 +1044,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// add create option
-		has_create_option = self.settings.create && self.canCreate(results.query);
+		has_create_option = self.canCreate(results.query);
 		if (has_create_option) {
 			$dropdown_content.prepend(self.render('option_create', {input: query}));
 			$create = $($dropdown_content[0].childNodes[0]);
@@ -1944,7 +1934,23 @@ $.extend(Selectize.prototype, {
 		} else {
 			delete self.renderCache[templateName];
 		}
-	}
+	},
 
+	/**
+	 * Determines whether or not to display the
+	 * create item prompt, given a user input.
+	 *
+	 * @param {string} input
+	 * @return {boolean}
+	 */
+	canCreate: function(input) {
+		var self = this;
+		if (!self.settings.create) return false;
+		var filter = self.settings.createFilter;
+		return input.length
+			&& (typeof filter !== 'function' || filter.apply(self, [input]))
+			&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+			&& (!(filter instanceof RegExp) || filter.test(input));
+	}
 
 });
