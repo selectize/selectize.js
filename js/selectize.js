@@ -585,7 +585,7 @@
 }));
 
 /**
- * selectize.js (v0.11.0)
+ * selectize.js (v0.11.1)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1053,7 +1053,8 @@
 		input.selectize = self;
 	
 		// detect rtl environment
-		dir = window.getComputedStyle ? window.getComputedStyle(input, null).getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
+		var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
+		dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
 		dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 	
 		// setup default state
@@ -1114,16 +1115,6 @@
 			self.settings.hideSelected = self.settings.mode === 'multi';
 		}
 	
-		if (self.settings.create) {
-			self.canCreate = function(input) {
-				var filter = self.settings.createFilter;
-				return input.length
-					&& (typeof filter !== 'function' || filter.apply(self, [input]))
-					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-					&& (!(filter instanceof RegExp) || filter.test(input));
-			};
-		}
-	
 		self.initializePlugins(self.settings.plugins);
 		self.setupCallbacks();
 		self.setupTemplates();
@@ -1173,8 +1164,13 @@
 			$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
 			$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', tab_index);
 			$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-			$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(classes).addClass(inputMode).hide().appendTo($dropdown_parent);
+			$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+	
+			if(self.settings.copyClassesToDropdown) {
+				debugger;
+				$dropdown.addClass(classes);
+			}
 	
 			$wrapper.css({
 				width: $input[0].style.width
@@ -1354,7 +1350,8 @@
 				'option_clear'   : 'onOptionClear',
 				'dropdown_open'  : 'onDropdownOpen',
 				'dropdown_close' : 'onDropdownClose',
-				'type'           : 'onType'
+				'type'           : 'onType',
+				'load'           : 'onLoad'
 			};
 	
 			for (key in callbacks) {
@@ -2026,7 +2023,7 @@
 			}
 	
 			var self              = this;
-			var query             = self.$control_input.val();
+			var query             = $.trim(self.$control_input.val());
 			var results           = self.search(query);
 			var $dropdown_content = self.$dropdown_content;
 			var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
@@ -2102,7 +2099,7 @@
 			}
 	
 			// add create option
-			has_create_option = self.settings.create && self.canCreate(results.query);
+			has_create_option = self.canCreate(query);
 			if (has_create_option) {
 				$dropdown_content.prepend(self.render('option_create', {input: query}));
 				$create = $($dropdown_content[0].childNodes[0]);
@@ -2230,6 +2227,9 @@
 				if ($item.hasClass('active')) $item_new.addClass('active');
 				$item.replaceWith($item_new);
 			}
+	
+			//invalidate last query because we might have updated the sortField
+			self.lastQuery = null;
 	
 			// update dropdown contents
 			if (self.isOpen) {
@@ -2992,8 +2992,24 @@
 			} else {
 				delete self.renderCache[templateName];
 			}
-		}
+		},
 	
+		/**
+		 * Determines whether or not to display the
+		 * create item prompt, given a user input.
+		 *
+		 * @param {string} input
+		 * @return {boolean}
+		 */
+		canCreate: function(input) {
+			var self = this;
+			if (!self.settings.create) return false;
+			var filter = self.settings.createFilter;
+			return input.length
+				&& (typeof filter !== 'function' || filter.apply(self, [input]))
+				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+				&& (!(filter instanceof RegExp) || filter.test(input));
+		}
 	
 	});
 	
@@ -3040,6 +3056,8 @@
 	
 		dropdownParent: null,
 	
+		copyClassesToDropdown: true,
+	
 		/*
 		load            : null, // function(query, callback) { ... }
 		score           : null, // function(search) { ... }
@@ -3067,6 +3085,7 @@
 			*/
 		}
 	};
+	
 	
 	$.fn.selectize = function(settings_user) {
 		var defaults             = $.fn.selectize.defaults;
