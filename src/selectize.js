@@ -968,7 +968,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		var self              = this;
-		var query             = self.$control_input.val();
+		var query             = $.trim(self.$control_input.val());
 		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
 		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
@@ -1044,7 +1044,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// add create option
-		has_create_option = self.canCreate(results.query);
+		has_create_option = self.canCreate(query);
 		if (has_create_option) {
 			$dropdown_content.prepend(self.render('option_create', {input: query}));
 			$create = $($dropdown_content[0].childNodes[0]);
