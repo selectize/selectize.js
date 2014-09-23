@@ -316,10 +316,10 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			Custom rendering functions. Each function should accept two arguments: "data" and "escape".
+			Custom rendering functions. Each function should accept two arguments: "data" and "escape" and return HTML (string) with a single root element.
 			The "escape" argument is a function that takes a string and escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
-			<table width="100%">
+            <table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
 					<td valign="top">An option in the dropdown list of available options.</td>
