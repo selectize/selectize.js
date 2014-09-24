@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.11.1)
+ * selectize.js (v0.11.2)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -582,7 +582,6 @@
 			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 	
 			if(self.settings.copyClassesToDropdown) {
-				debugger;
 				$dropdown.addClass(classes);
 			}
 	
