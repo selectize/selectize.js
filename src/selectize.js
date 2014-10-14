@@ -1220,7 +1220,6 @@ $.extend(Selectize.prototype, {
 		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
-		self.clear();
 	},
 
 	/**
