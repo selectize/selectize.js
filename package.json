@@ -33,5 +33,14 @@
   },
   "engines": {
     "node": "*"
+  },
+  "spm": {
+    "main": "dist/js/standalone/selectize.js",
+    "ignore": [
+      "docs",
+      "examples",
+      "src",
+      "test"
+    ]
   }
 }
