@@ -618,10 +618,15 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				self.addItem(value);
-				if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
-					self.setActiveOption(self.getOption(value));
-				}
+				if(self.settings.mode === 'multi' && self.items.indexOf(value) >= 0) {
+					self.removeItem(value);
+					self.refreshOptions(true);
+				}else{
+					self.addItem(value);
+					if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+						self.setActiveOption(self.getOption(value));
+					}
+				} 
 			}
 		}
 	},
