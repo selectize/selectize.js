@@ -467,9 +467,7 @@
 		input.selectize = self;
 	
 		// detect rtl environment
-		var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
-		dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
-		dir = dir || $input.parents('[dir]:first').attr('dir') || '';
+		dir = $('body').css('direction') == 'rtl' ? "rtl" : "";
 	
 		// setup default state
 		$.extend(self, {
@@ -1308,7 +1306,11 @@
 		 * Restores input visibility.
 		 */
 		showInput: function() {
-			this.$control_input.css({opacity: 1, position: 'relative', left: 0});
+			if(this.rtl)
+				this.$control_input.css({opacity: 1, position: 'relative', right: 0});
+			else
+				this.$control_input.css({opacity: 1, position: 'relative', left: 0});
+			
 			this.isInputHidden = false;
 		},
 	
