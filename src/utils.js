@@ -342,3 +342,11 @@ var autoGrow = function($input) {
 	$input.on('keydown keyup update blur', update);
 	update();
 };
+
+var domToString = function(d) {
+	var tmp = document.createElement('div');
+
+	tmp.appendChild(d);
+
+	return tmp.innerHTML;
+};

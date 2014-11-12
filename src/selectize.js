@@ -1008,31 +1008,34 @@ $.extend(Selectize.prototype, {
 					optgroup = '';
 				}
 				if (!groups.hasOwnProperty(optgroup)) {
-					groups[optgroup] = [];
+					groups[optgroup] = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
-				groups[optgroup].push(option_html);
+				groups[optgroup].appendChild(option_html);
 			}
 		}
 
 		// render optgroup headers & join groups
-		html = [];
+		html = document.createDocumentFragment();
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
 			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].length) {
 				// render the optgroup header and options within it,
 				// then pass it to the wrapper template
-				html_children = self.render('optgroup_header', self.optgroups[optgroup]) || '';
-				html_children += groups[optgroup].join('');
-				html.push(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
-					html: html_children
+				html_children = document.createDocumentFragment();
+				html_children.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
+				html_children.appendChild(groups[optgroup]);
+
+				html.appendChild(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
+					html: domToString(html_children),
+					dom:  html_children
 				})));
 			} else {
-				html.push(groups[optgroup].join(''));
+				html.appendChild(groups[optgroup]);
 			}
 		}
 
-		$dropdown_content.html(html.join(''));
+		$dropdown_content.html(html);
 
 		// highlight matching terms inline
 		if (self.settings.highlight && results.query.length && results.tokens.length) {
@@ -1906,26 +1909,26 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render markup
-		html = self.settings.render[templateName].apply(this, [data, escape_html]);
+		html = $(self.settings.render[templateName].apply(this, [data, escape_html]));
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
-			html = html.replace(regex_tag, '<$1 data-selectable');
+			html.attr('data-selectable', '');
 		}
-		if (templateName === 'optgroup') {
+		else if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
-			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
+			html.attr('data-group', id);
 		}
 		if (templateName === 'option' || templateName === 'item') {
-			html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
+			html.attr('data-value', value || '');
 		}
 
 		// update cache
 		if (cache) {
-			self.renderCache[templateName][value] = html;
+			self.renderCache[templateName][value] = html[0];
 		}
 
-		return html;
+		return html[0];
 	},
 
 	/**
