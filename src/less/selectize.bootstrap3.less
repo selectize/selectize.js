@@ -26,6 +26,8 @@
 @selectize-color-input-full: @input-bg;
 @selectize-color-input-error: @state-danger-text;
 @selectize-color-input-error-focus: darken(@selectize-color-input-error, 10%);
+@selectize-color-input-success: @state-success-text;
+@selectize-color-input-success-focus: darken(@selectize-color-input-success, 10%);
 @selectize-color-disabled: @input-bg;
 @selectize-color-item: #efefef;
 @selectize-color-item-border: rgba(0,0,0,0);
@@ -45,6 +47,8 @@
 @selectize-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15);
 @selectize-shadow-input-error: inset 0 1px 1px rgba(0, 0, 0, .075);
 @selectize-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten(@selectize-color-input-error, 20%);
+@selectize-shadow-input-success: inset 0 1px 1px rgba(0, 0, 0, .075);
+@selectize-shadow-input-success-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten(@selectize-color-input-success, 20%);
 @selectize-border: 1px solid @input-border;
 @selectize-border-radius: @input-border-radius;
 
@@ -122,9 +126,19 @@
     border-color: @selectize-color-input-error;
     .selectize-box-shadow(@selectize-shadow-input-error);
 
-    &:focus {
+    &.focus {
         border-color: @selectize-color-input-error-focus;
         .selectize-box-shadow(@selectize-shadow-input-error-focus);
+    }
+}
+
+.has-success .selectize-input {
+    border-color: @selectize-color-input-success;
+    .selectize-box-shadow(@selectize-shadow-input-success);
+
+    &.focus {
+        border-color: @selectize-color-input-success-focus;
+        .selectize-box-shadow(@selectize-shadow-input-success-focus);
     }
 }
 
