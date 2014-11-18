@@ -1027,8 +1027,9 @@
 			if (self.ignoreFocus) return;
 	
 			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
-			if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
-				self.ignoreBlur = true;
+      // necessary to prevent IE8 closing the dropdown when the selected option clicked
+			if (!self.ignoreBlur && ((document.activeElement === self.$dropdown_content[0])) || ($(document.activeElement).parents('.selectize-dropdown-content')[0] == self.$dropdown_content[0])) {
+      	self.ignoreBlur = true;
 				self.onFocus(e);
 	
 				return;
