@@ -717,7 +717,7 @@ $.extend(Selectize.prototype, {
 		var ret = fn.call(self, done);
 		var ran = false;
 
-		if (typeof ret.then === 'function') {
+		if (ret && typeof ret.then === 'function') {
 			ret.then(done);
 		}
 
