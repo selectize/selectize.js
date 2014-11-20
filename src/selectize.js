@@ -558,7 +558,7 @@ $.extend(Selectize.prototype, {
 		if (self.loadedSearches.hasOwnProperty(value)) return;
 		self.loadedSearches[value] = true;
 		self.load(function(callback) {
-			fn.apply(self, [value, callback]);
+			return fn.apply(self, [value, callback]);
 		});
 	},
 
@@ -714,7 +714,17 @@ $.extend(Selectize.prototype, {
 		var $wrapper = self.$wrapper.addClass(self.settings.loadingClass);
 
 		self.loading++;
-		fn.apply(self, [function(results) {
+		var ret = fn.call(self, done);
+		var ran = false;
+
+		if (typeof ret.then === 'function') {
+			ret.then(done);
+		}
+
+		function done(results) {
+			if (ran) return;
+			ran = true;
+
 			self.loading = Math.max(self.loading - 1, 0);
 			if (results && results.length) {
 				self.addOption(results);
@@ -724,7 +734,7 @@ $.extend(Selectize.prototype, {
 				$wrapper.removeClass(self.settings.loadingClass);
 			}
 			self.trigger('load', results);
-		}]);
+		}
 	},
 
 	/**
