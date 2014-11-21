@@ -346,7 +346,7 @@ var autoGrow = function($input) {
 var domToString = function(d) {
 	var tmp = document.createElement('div');
 
-	tmp.appendChild(d.cloneNode());
+	tmp.appendChild(d.cloneNode(true));
 
 	return tmp.innerHTML;
 };
