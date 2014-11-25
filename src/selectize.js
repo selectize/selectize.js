@@ -468,7 +468,12 @@ $.extend(Selectize.prototype, {
 			case KEY_TAB:
 				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
 					self.onOptionSelect({currentTarget: self.$activeOption});
-					e.preventDefault();
+
+					// Default behaviour is to jump to the next field, we only want this
+					// if the current field doesn't accept any more entries
+					if (!self.isFull()) {
+						e.preventDefault();
+					}
 				}
 				if (self.settings.create && self.createItem()) {
 					e.preventDefault();
