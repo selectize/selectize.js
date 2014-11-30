@@ -37,7 +37,7 @@ $(function() {
 	<tr>
 		<td valign="top"><code>create</code></td>
 		<td valign="top">
-			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true" (default behavior), "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
+			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true", "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
 		<td valign="top"><code>mixed</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -47,6 +47,13 @@ $(function() {
 			If true, when user exits the field (clicks outside of input or presses ESC) new option is created and selected (if `create`-option is enabled).
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>createFilter</code></td>
+		<td valign="top">
+			Specifies a RegExp or String containing a regular expression that the current search filter must match to be allowed to be created.  May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
+		<td valign="top"><code>mixed</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>highlight</code></td>
@@ -81,6 +88,12 @@ $(function() {
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
 		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>allowEmptyOption</code></td>
+		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option act as a placeholder.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -205,6 +218,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>copyClassesToDropdown</code></td>
+		<td valign="top">Copy the original input classes to the Dropdown element.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
 	</tr>
 	<tr>
@@ -303,10 +322,10 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			Custom rendering functions. Each function should accept two arguments: "data" and "escape".
+			Custom rendering functions. Each function should accept two arguments: "data" and "escape" and return HTML (string) with a single root element.
 			The "escape" argument is a function that takes a string and escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
-			<table width="100%">
+            <table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
 					<td valign="top">An option in the dropdown list of available options.</td>

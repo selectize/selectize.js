@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap3.css (v0.9.1) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v0.11.2) - Bootstrap 3 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -189,6 +189,7 @@
   border: 0 solid rgba(77, 77, 77, 0);
 }
 .selectize-input > input {
+  display: inline-block !important;
   padding: 0 !important;
   min-height: 0 !important;
   max-height: none !important;
@@ -257,7 +258,7 @@
   border-top: 0 none;
 }
 .selectize-dropdown .optgroup-header {
-  color: #999999;
+  color: #777777;
   background: #ffffff;
   cursor: default;
 }
@@ -367,6 +368,16 @@
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+.has-error .selectize-input {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.has-error .selectize-input:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
 }
 .selectize-control.multi .selectize-input.has-items {
   padding-left: 9px;

@@ -89,7 +89,7 @@ module.exports = function(grunt) {
 		if (!selector_plugins) return;
 
 		if (selector_plugins.indexOf(',') !== -1) {
-			selector_plugins = '{' + plugins.split(/\s*,\s*/).join(',') + '}';
+			selector_plugins = '{' + selector_plugins.split(/\s*,\s*/).join(',') + '}';
 		}
 
 		// javascript
@@ -195,7 +195,7 @@ module.exports = function(grunt) {
 					],
 					'dist/less/selectize.bootstrap3.tmp.less': [
 						'bower_components/bootstrap3/less/variables.less',
-						'bower_components/bootstrap3/less/mixins.less',
+						'bower_components/bootstrap3/less/mixins/nav-divider.less',
 						'dist/less/selectize.bootstrap3.less'
 					]
 				}

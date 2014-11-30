@@ -57,6 +57,22 @@ Selectize.define('optgroup_columns', function(options) {
 		};
 	})();
 
+	var getScrollbarWidth = function() {
+		var div;
+		var width = getScrollbarWidth.width;
+		var doc = document;
+
+		if (typeof width === 'undefined') {
+			div = doc.createElement('div');
+			div.innerHTML = '<div style="width:50px;height:50px;position:absolute;left:-50px;top:-50px;overflow:auto;"><div style="width:1px;height:100px;"></div></div>';
+			div = div.firstChild;
+			doc.body.appendChild(div);
+			width = getScrollbarWidth.width = div.offsetWidth - div.clientWidth;
+			doc.body.removeChild(div);
+		}
+		return width;
+	};
+
 	var equalizeSizes = function() {
 		var i, n, height_max, width, width_last, width_parent, $optgroups;
 
@@ -73,7 +89,7 @@ Selectize.define('optgroup_columns', function(options) {
 		}
 
 		if (options.equalizeWidth) {
-			width_parent = self.$dropdown_content.innerWidth();
+			width_parent = self.$dropdown_content.innerWidth() - getScrollbarWidth();
 			width = Math.round(width_parent / n);
 			$optgroups.css({width: width});
 			if (n > 1) {
