@@ -301,9 +301,7 @@ $.extend(Selectize.prototype, {
 			'dropdown_open'  : 'onDropdownOpen',
 			'dropdown_close' : 'onDropdownClose',
 			'type'           : 'onType',
-			'load'           : 'onLoad'
-
-			'type'           : 'onType',
+			'load'           : 'onLoad',
 			'focus'          : 'onFocus',
 			'blur'           : 'onBlur',
 			'enter_keypress' : 'onEnterKeypress'			
