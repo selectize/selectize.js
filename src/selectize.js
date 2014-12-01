@@ -300,6 +300,8 @@ $.extend(Selectize.prototype, {
 			'option_clear'   : 'onOptionClear',
 			'dropdown_open'  : 'onDropdownOpen',
 			'dropdown_close' : 'onDropdownClose',
+			'type'           : 'onType',
+			'load'           : 'onLoad'
 
 			'type'           : 'onType',
 			'focus'          : 'onFocus',
@@ -600,6 +602,14 @@ $.extend(Selectize.prototype, {
 		
 		self.isFocused = false;
 		if (self.ignoreFocus) return;
+
+		// necessary to prevent IE closing the dropdown when the scrollbar is clicked
+		if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+			self.ignoreBlur = true;
+			self.onFocus(e);
+
+			return;
+		}
 
 		// necessary to prevent IE closing the dropdown when the scrollbar is clicked
 		if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
