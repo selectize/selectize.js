@@ -16,7 +16,7 @@ $.fn.selectize = function(settings_user) {
 	 */
 	var init_textbox = function($input, settings_element) {
 		var i, n, values, option, value = $.trim($input.val() || '');
-		if (!value.length) return;
+		if (!settings.allowEmptyOption && !value.length) return;
 
 		values = value.split(settings.delimiter);
 		for (i = 0, n = values.length; i < n; i++) {
@@ -54,7 +54,7 @@ $.fn.selectize = function(settings_user) {
 			$option = $($option);
 
 			value = $option.attr('value') || '';
-			if (!value.length) return;
+			if (!value.length && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
 			// duplicated in another optgroup. in this case, push
@@ -124,8 +124,13 @@ $.fn.selectize = function(settings_user) {
 		var instance;
 		var $input = $(this);
 		var tag_name = this.tagName.toLowerCase();
+		var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+		if (!placeholder && !settings.allowEmptyOption) {
+			placeholder = $input.children('option[value=""]').text();
+		}
+
 		var settings_element = {
-			'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
+			'placeholder' : placeholder,
 			'options'     : {},
 			'optgroups'   : {},
 			'items'       : []
@@ -138,8 +143,6 @@ $.fn.selectize = function(settings_user) {
 		}
 
 		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
-		$input.data('selectize', instance);
-		$input.addClass('selectized');
 	});
 };
 

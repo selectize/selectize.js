@@ -22,10 +22,10 @@ var isset = function(object) {
  *   1         -> '1'
  *
  * @param {string} value
- * @returns {string}
+ * @returns {string|null}
  */
 var hash_key = function(value) {
-	if (typeof value === 'undefined' || value === null) return '';
+	if (typeof value === 'undefined' || value === null) return null;
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
 };

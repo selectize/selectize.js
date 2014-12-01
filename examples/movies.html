@@ -109,12 +109,11 @@
 				<p>This demo shows how to integrate third-party data, loaded asynchronously.</p>
 				<div class="control-group">
 					<label for="select-movie">Movie:</label>
-					<select id="select-movie" placeholder="Find a movie..."></select>
+					<select id="select-movie" class="movies" placeholder="Find a movie..."></select>
 				</div>
 				<script>
 				// <select id="select-movie"></select>
 				$('#select-movie').selectize({
-					theme: 'movies',
 					valueField: 'title',
 					labelField: 'title',
 					searchField: 'title',

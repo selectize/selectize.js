@@ -1,5 +1,32 @@
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
 /**
- * selectize.bootstrap2.css (v0.9.1) - Bootstrap 2 Theme
+ * selectize.bootstrap2.css (v@@version) - Bootstrap 2 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -94,6 +121,7 @@
   border: 1px solid #e0e0e0;
 }
 .selectize-input > input {
+  display: inline-block !important;
   padding: 0 !important;
   min-height: 0 !important;
   max-height: none !important;

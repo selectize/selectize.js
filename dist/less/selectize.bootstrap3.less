@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap3.css (v0.9.1) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v@@version) - Bootstrap 3 Theme
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -24,6 +24,8 @@
 @selectize-color-highlight: rgba(255,237,40,0.4);
 @selectize-color-input: @input-bg;
 @selectize-color-input-full: @input-bg;
+@selectize-color-input-error: @state-danger-text;
+@selectize-color-input-error-focus: darken(@selectize-color-input-error, 10%);
 @selectize-color-disabled: @input-bg;
 @selectize-color-item: #efefef;
 @selectize-color-item-border: rgba(0,0,0,0);
@@ -41,6 +43,8 @@
 @selectize-opacity-disabled: 0.5;
 @selectize-shadow-input: none;
 @selectize-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15);
+@selectize-shadow-input-error: inset 0 1px 1px rgba(0, 0, 0, .075);
+@selectize-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten(@selectize-color-input-error, 20%);
 @selectize-border: 1px solid @input-border;
 @selectize-border-radius: @input-border-radius;
 
@@ -112,6 +116,16 @@
 		outline: 0;
 		.selectize-box-shadow(~"inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px @{color-rgba}");
 	}
+}
+
+.has-error .selectize-input {
+    border-color: @selectize-color-input-error;
+    .selectize-box-shadow(@selectize-shadow-input-error);
+
+    &:focus {
+        border-color: @selectize-color-input-error-focus;
+        .selectize-box-shadow(@selectize-shadow-input-error-focus);
+    }
 }
 
 .selectize-control {
