@@ -113,6 +113,26 @@
 				})
 				</script>
 			</div>
+
+			<div class="demo">
+				<h2>Plugin: "tag_container"</h2>
+				<div class="control-group">
+					<label for="input-tags">Tags:</label>
+					<input type="text" id="demo-tag-container" class="input-tags demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('#demo-tag-container').selectize({
+					plugins: ['tag_container', 'remove_button'],
+					persist: false,
+					create: true,
+					render: {
+						item: function(data, escape) {
+							return '<div>"' + escape(data.text) + '"</div>';
+						}
+					}
+				});
+				</script>
+			</div>
 		</div>
 	</body>
 </html>

@@ -1,0 +1,67 @@
+.selectize-tag-container {
+	color: @selectize-color-text;
+	font-family: @selectize-font-family;
+	font-size: @selectize-font-size;
+	line-height: @selectize-line-height;
+	-webkit-font-smoothing: @selectize-font-smoothing;
+	margin-bottom: 10px;
+
+	> div {
+		cursor: default;
+		display: inline-block;
+		margin: 0 @selectize-margin-item-x @selectize-margin-item-y 0;
+		padding: @selectize-padding-item-y @selectize-padding-item-x;
+		background: @selectize-color-item;
+		color: @selectize-color-item-text;
+		border: @selectize-width-item-border solid @selectize-color-item-border;
+	}
+
+	[data-value] {
+		text-shadow: 0 1px 0 rgba(0,51,83,0.3);
+		.selectize-border-radius(3px);
+		.selectize-vertical-gradient(#1da7ee, #178ee9);
+		.selectize-box-shadow(~"0 1px 0 rgba(0,0,0,0.2),inset 0 1px rgba(255,255,255,0.03)");
+		&.active {
+			.selectize-vertical-gradient(#008fd8, #0075cf);
+		}
+		position: relative;
+		padding-right: 24px !important;
+	}
+
+	[data-value] .remove {
+		cursor: pointer;
+		z-index: 1; /* fixes ie bug (see #392) */
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 17px;
+		text-align: center;
+		font-weight: bold;
+		font-size: 12px;
+		color: inherit;
+		text-decoration: none;
+		vertical-align: middle;
+		display: inline-block;
+		padding: @selectize-padding-item-y 0 0 0;
+		border-left: 1px solid @selectize-color-item-border;
+		.selectize-border-radius(0 2px 2px 0);
+		.selectize-box-sizing(border-box);
+	}
+	[data-value] .remove:hover {
+		background: rgba(0,0,0,0.05);
+	}
+	[data-value].active .remove {
+		border-left-color: @selectize-color-item-active-border;
+	}
+	.disabled [data-value] .remove:hover {
+		background: none;
+	}
+	.disabled [data-value] .remove {
+		border-left-color: lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
+	}
+}
+
+.selectize-control.multi.plugin-tag_container .selectize-input.has-items {
+	padding: @selectize-padding-y @selectize-padding-x;
+}
