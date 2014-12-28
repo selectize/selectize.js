@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+		<script src="js/jquery.js"></script>
+		<script src="../dist/js/standalone/selectize.js"></script>
+		<script src="js/index.js"></script>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize.js</h1>
+			<div class="demo">
+				<h2>Create Filter</h2>
+				<p>Examples of how to filter created results.</p>
+				<div class="control-group">
+					<label for="regex">Pattern</label>
+					<input type="text" id="regex" value="^a+$"><br><br>
+					<label for="select-words-regex">Words:</label>
+					<select id="select-words-regex" multiple placeholder="Enter a word matching the pattern..."></select>
+				</div>
+				<div class="control-group" style="margin-top:40px">
+					<label for="length">Minimum Length</label>
+					<input type="text" id="length" value="2"><br><br>
+					<label for="select-words-length">Words:</label>
+					<select id="select-words-length" multiple placeholder="Enter a word longer than the minimum number of characters..."></select>
+				</div>
+				<div class="control-group" style="margin-top:40px">
+					<label for="select-words-unique">Words:</label>
+					<select id="select-words-unique" multiple placeholder="Enter unique words (case-insensitive)..."></select>
+				</div>
+				<script>
+				$('#select-words-regex').selectize({
+					create: true,
+					createFilter: $('#regex').val()
+				});
+
+				$('#select-words-length').selectize({
+					create: true,
+					createFilter: function(input) { return input.length >= parseInt($('#length').val(), 10); }
+				});
+
+				var unique = $('#select-words-unique').selectize({
+					create: true,
+					createFilter: function(input) {
+						input = input.toLowerCase();
+						return $.grep(unique.getValue(), function(value) {
+							return value.toLowerCase() === input;
+						}).length == 0;
+					}
+				})[0].selectize;
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

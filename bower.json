@@ -2,7 +2,7 @@
 	"name": "selectize",
 	"keywords": ["select", "ui", "form", "input", "control", "autocomplete", "tagging", "tag"],
 	"description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-	"version": "0.9.1",
+	"version": "0.11.2",
 	"license": "Apache License, Version 2.0",
 	"readmeFilename": "README.md",
 	"repository": {
@@ -25,7 +25,8 @@
 		".travis.yml",
 		"testem.json",
 		"selectize.jquery.json",
-		"*.sh"
+		"*.sh",
+		"package.json"
 	],
 	"dependencies": {
 		"jquery": ">=1.7.0",
@@ -34,6 +35,6 @@
 	},
 	"devDependencies": {
 		"bootstrap2": "bootstrap#2",
-		"bootstrap3": "bootstrap#3"
+		"bootstrap3": "bootstrap#3.2"
 	}
 }

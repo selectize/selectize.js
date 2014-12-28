@@ -218,6 +218,30 @@
 			}
 		});
 
+		describe('<select> (not required)', function(){
+			var $form, $button, test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {});
+				$form = test.$select.parents('form');
+				$button = $('<button type="submit">').appendTo($form);
+			});
+			afterEach(function() {
+				$form.off('.test_required');
+				$button.remove();
+			});
+
+			it('should have isRequired property set to false', function() {
+				expect(test.selectize.isRequired).to.be.equal(false);
+			});
+			it('should not have the required class', function() {
+				expect(test.selectize.$control.hasClass('required')).to.be.equal(false);
+			});
+		});
+
 	});
 
 })();
