@@ -49,7 +49,7 @@ $(function() {
 	<tr>
 		<td valign="top"><code>create</code></td>
 		<td valign="top">
-			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true", "false" (disabled), or a function to process input. This function should take a single argument consisting of the search text and return an object in the same format as your list. For example: <code>create: function(input) { return { 'id': 0, 'name': input.toUppercase() } }</code> would create the option with all uppercase letters.</td>
+			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true", "false" (disabled), or a function to process input. The function can take one of two forms: synchronous (with signature <code>function(input){}</code> or asynchronous (with signature <code>function(input, callback)</code>. In the synchronous case, the function should <code>return</code> an object for the options (eg, with defaults: <code>return { 'value': value, 'text': text };</code>). The asynchronous version should invoke the callback with the result in the same format as the object above (eg, <code>callback( { 'value': value, 'text': text});</code>)</td>
 		<td valign="top"><code>mixed</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
