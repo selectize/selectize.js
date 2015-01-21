@@ -110,6 +110,12 @@ $(function() {
 		<td valign="top"><code>300</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>loadingClass</code></td>
+		<td valign="top">The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'loading'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>preload</code></td>
 		<td valign="top">If true, the "load" function will be called upon control initialization (with an empty search). Alternatively it can be set to "focus" to call the "load" function when control receives focus.</td>
 		<td valign="top"><code>boolean/string</code></td>
