@@ -353,7 +353,6 @@ $.extend(Selectize.prototype, {
 				} else if (!defaultPrevented) {
 					self.setActiveItem(null);
 				}
-				return false;
 			}
 		} else {
 			// give control focus
