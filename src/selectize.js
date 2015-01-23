@@ -1954,6 +1954,12 @@ $.extend(Selectize.prototype, {
 	canCreate: function(input) {
 		var self = this;
 		if (!self.settings.create) return false;
+
+		var suppressAddDuplicate = self.settings.suppressAddDuplicate;
+		if (suppressAddDuplicate && this.options[input]) {
+			return false;
+		}
+
 		var filter = self.settings.createFilter;
 		return input.length
 			&& (typeof filter !== 'function' || filter.apply(self, [input]))
