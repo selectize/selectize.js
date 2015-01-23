@@ -140,6 +140,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>suppressSingle</code></td>
+		<td valign="top">Hides the selection dropdown when only a single item is selectable.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>selectOnTab</code></td>
 		<td valign="top">If true, the tab key will choose the currently selected item.</td>
 		<td valign="top"><code>boolean</code></td>

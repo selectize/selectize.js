@@ -499,13 +499,17 @@ $.extend(Selectize.prototype, {
 				self.advanceSelection(1, e);
 				return;
 			case KEY_TAB:
-				if (self.settings.selectOnTab && self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
+				if (self.settings.selectOnTab) {
+					if (self.isOpen && self.$activeOption) {
+						self.onOptionSelect({currentTarget: self.$activeOption});
 
-					// Default behaviour is to jump to the next field, we only want this
-					// if the current field doesn't accept any more entries
-					if (!self.isFull()) {
-						e.preventDefault();
+						// Default behaviour is to jump to the next field, we only want this
+						// if the current field doesn't accept any more entries
+						if (!self.isFull()) {
+							e.preventDefault();
+						}
+					} else if (self.settings.suppressSingle) {
+						this.addItem(this.lastValue);
 					}
 				}
 				if (self.settings.create && self.createItem()) {
@@ -630,7 +634,11 @@ $.extend(Selectize.prototype, {
 
 		self.ignoreFocus = true;
 		if (self.settings.create && self.settings.createOnBlur) {
-			self.createItem(null, false, deactivate);
+			var createResult = self.createItem(this.lastValue, false, true, deactivate);
+
+			if (self.settings.suppressSingle && !createResult) {
+				self.addItem(self.lastValue);
+			}
 		} else {
 			deactivate();
 		}
@@ -1117,7 +1125,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// activate
-		self.hasOptions = results.items.length > 0 || has_create_option;
+		self.hasOptions = (results.items.length + (has_create_option ? 1 : 0)) > (self.settings.suppressSingle ? 1 : 0);
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
 				$active_before = active_before && self.getOption(active_before);
@@ -1526,7 +1534,7 @@ $.extend(Selectize.prototype, {
 	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
-	createItem: function(input, triggerDropdown) {
+	createItem: function(input, triggerDropdown, isDeactivating) {
 		var self  = this;
 		var caret = self.caretPos;
 		input = input || $.trim(self.$control_input.val() || '');
@@ -1538,7 +1546,7 @@ $.extend(Selectize.prototype, {
 			triggerDropdown = true;
 		}
 
-		if (!self.canCreate(input)) {
+		if (!self.canCreate(input, triggerDropdown, isDeactivating)) {
 			callback();
 			return false;
 		}
