@@ -397,7 +397,7 @@ $.extend(Selectize.prototype, {
 	onKeyPress: function(e) {
 		if (this.isLocked) return e && e.preventDefault();
 		var character = String.fromCharCode(e.keyCode || e.which);
-		if (this.settings.create && character === this.settings.delimiter) {
+		if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
 			this.createItem();
 			e.preventDefault();
 			return false;
