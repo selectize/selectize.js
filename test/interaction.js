@@ -163,6 +163,23 @@
 					});
 			});
 
+			it('should not create input if comma entered in single select mode', function(done) {
+				var test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {create: true});
+
+				Syn
+					.click(test.selectize.$control)
+					.type('asdf,asdf', test.selectize.$control_input)
+					.delay(0, function() {
+						expect(test.selectize.isOpen).to.be.equal(true);
+						expect(test.selectize.options).to.not.have.property('asdf');
+						done();
+					});
+			});
+
 		});
 
 		describe('blurring the input', function() {
@@ -237,7 +254,7 @@
 				expect(selectize.getItem(text).length).to.be.equal(0);
 				expect($(selectize.$dropdown_content).filter('.create').length).to.be.equal(0);
 			});
- 		});
+		});
 
 	});
 
