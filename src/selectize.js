@@ -595,7 +595,6 @@ $.extend(Selectize.prototype, {
 		if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
 			self.ignoreBlur = true;
 			self.onFocus(e);
-
 			return;
 		}
 
@@ -1515,9 +1514,7 @@ $.extend(Selectize.prototype, {
 		this.lastQuery = null;
 
 		if (this.isSetup) {
-			for (var i = 0; i < this.items.length; i++) {
-				this.addItem(this.items);
-			}
+			this.addItem(this.items);
 		}
 
 		this.refreshState();
