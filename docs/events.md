@@ -15,7 +15,6 @@ selectize.off('event_name', handler);
 
 ### List of Events
 
-
 <table width="100%">
 	<tr>
 		<th valign="top" width="200px" align="left">Event</th>

@@ -380,7 +380,6 @@ $.extend(Selectize.prototype, {
 		this.$input.trigger('change');
 	},
 
-
 	/**
 	 * Triggered on <input> paste.
 	 *
@@ -392,13 +391,14 @@ $.extend(Selectize.prototype, {
 		if (self.isFull() || self.isInputHidden || self.isLocked) {
 			e.preventDefault();
 		} else {
-			// If a regex or string is included, this will split the pasted input and create Items for each separate value
+			// If a regex or string is included, this will split the pasted
+			// input and create Items for each separate value
 			if (self.settings.splitOn) {
 				setTimeout(function() {
 					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
-					splitInput.forEach(function(input) {
-						self.createItem(input);
-					});
+					for (var i = 0, n = splitInput.length; i < n; i++) {
+						self.createItem(splitInput[i]);
+					}
 				}, 0);
 			}
 		}
@@ -448,8 +448,8 @@ $.extend(Selectize.prototype, {
 				if (self.isOpen) {
 					e.preventDefault();
 					e.stopPropagation();
+					self.close();
 				}
-				self.close();
 				return;
 			case KEY_N:
 				if (!e.ctrlKey || e.altKey) break;
@@ -728,12 +728,12 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {mixed} value
 	 */
-	setValue: function(value, isSilent) {
-		var events = isSilent ? [] : ['change'];
+	setValue: function(value, silent) {
+		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
 			this.clear();
-			this.addItems(value, isSilent);
+			this.addItems(value, silent);
 		});
 	},
 
@@ -1218,8 +1218,9 @@ $.extend(Selectize.prototype, {
 	 * Removes a single option.
 	 *
 	 * @param {string} value
+	 * @param {boolean} silent
 	 */
-	removeOption: function(value) {
+	removeOption: function(value, silent) {
 		var self = this;
 		value = hash_key(value);
 
@@ -1232,7 +1233,7 @@ $.extend(Selectize.prototype, {
 		delete self.options[value];
 		self.lastQuery = null;
 		self.trigger('option_remove', value);
-		self.removeItem(value);
+		self.removeItem(value, silent);
 	},
 
 	/**
@@ -1314,12 +1315,13 @@ $.extend(Selectize.prototype, {
 	 * at the current caret position.
 	 *
 	 * @param {string} value
+	 * @param {boolean} silent
 	 */
-	addItems: function(values, isSilent) {
+	addItems: function(values, silent) {
 		var items = $.isArray(values) ? values : [values];
 		for (var i = 0, n = items.length; i < n; i++) {
 			this.isPending = (i < n - 1);
-			this.addItem(items[i], isSilent);
+			this.addItem(items[i], silent);
 		}
 	},
 
@@ -1328,9 +1330,10 @@ $.extend(Selectize.prototype, {
 	 * at the current caret position.
 	 *
 	 * @param {string} value
+	 * @param {boolean} silent
 	 */
-	addItem: function(value, isSilent) {
-		var events = isSilent ? [] : ['change'];
+	addItem: function(value, silent) {
+		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
 			var $item, $option, $options;
@@ -1378,7 +1381,7 @@ $.extend(Selectize.prototype, {
 
 				self.updatePlaceholder();
 				self.trigger('item_add', value, $item);
-				self.updateOriginalInput({isSilent: isSilent});
+				self.updateOriginalInput({silent: silent});
 			}
 		});
 	},
@@ -1389,7 +1392,7 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {string} value
 	 */
-	removeItem: function(value) {
+	removeItem: function(value, silent) {
 		var self = this;
 		var $item, i, idx;
 
@@ -1407,7 +1410,7 @@ $.extend(Selectize.prototype, {
 			self.items.splice(i, 1);
 			self.lastQuery = null;
 			if (!self.settings.persist && self.userOptions.hasOwnProperty(value)) {
-				self.removeOption(value);
+				self.removeOption(value, silent);
 			}
 
 			if (i < self.caretPos) {
@@ -1416,7 +1419,7 @@ $.extend(Selectize.prototype, {
 
 			self.refreshState();
 			self.updatePlaceholder();
-			self.updateOriginalInput();
+			self.updateOriginalInput({silent: silent});
 			self.positionDropdown();
 			self.trigger('item_remove', value);
 		}
@@ -1445,9 +1448,9 @@ $.extend(Selectize.prototype, {
 			input = triggerDropdown;
 		}
 
-		if (!input.length) return false;
-
-		if (!self.canCreate(input)) return false;
+		if (!self.canCreate(input)) {
+			return false;
+		}
 
 		self.lock();
 
@@ -1568,7 +1571,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.isSetup) {
-			if (!opts.isSilent) {
+			if (!opts.silent) {
 				self.trigger('change', self.$input.val());
 			}
 		}
@@ -1645,8 +1648,10 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Resets / clears all selected items
 	 * from the control.
+	 *
+	 * @param {boolean} silent
 	 */
-	clear: function() {
+	clear: function(silent) {
 		var self = this;
 
 		if (!self.items.length) return;
@@ -1656,7 +1661,7 @@ $.extend(Selectize.prototype, {
 		self.setCaret(0);
 		self.setActiveItem(null);
 		self.updatePlaceholder();
-		self.updateOriginalInput();
+		self.updateOriginalInput({silent: silent});
 		self.refreshState();
 		self.showInput();
 		self.trigger('clear');

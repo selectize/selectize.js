@@ -195,6 +195,7 @@
 						{value: 'a'},
 						{value: 'b'},
 						{value: 'c'},
+						{value: 'x'},
 						{value: '$1'},
 						{value: '\''},
 						{value: '"'},
@@ -228,6 +229,16 @@
 			it('should allow integer values', function() {
 				test.selectize.addItem(0);
 				expect(test.selectize.items.indexOf('0')).to.not.be.equal(-1);
+			});
+			it('should not fire "change" if silent is truthy', function(done) {
+				var watcher = function(e) { throw new Error('Change fired'); };
+				test.$select.on('change', watcher);
+				test.selectize.addItem('x', true);
+				expect(test.selectize.items.indexOf('x')).to.not.be.equal(-1);
+				window.setTimeout(function() {
+					test.$select.off('change', watcher);
+					done();
+				}, 0);
 			});
 			it('should update DOM', function() {
 				test.selectize.addItem('c');
@@ -473,6 +484,15 @@
 				expect(test.selectize.$control.find('[data-value=1]').length).to.be.equal(0);
 				expect(test.selectize.$control.find('[data-value=2]').length).to.be.equal(0);
 				expect(test.selectize.$control.find('[data-value=3]').length).to.be.equal(0);
+			});
+			it('should not fire "change" if silent is truthy', function(done) {
+				var watcher = function(e) { throw new Error('Change fired'); };
+				test.$select.on('change', watcher);
+				test.selectize.clear(true);
+				window.setTimeout(function() {
+					test.$select.off('change', watcher);
+					done();
+				}, 0);
 			});
 			it('should not give control focus', function(done) {
 				test.selectize.clear();

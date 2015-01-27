@@ -64,20 +64,20 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
-		<td valign="top"><code>clear()</code></td>
-		<td valign="top">Resets / clears all selected items from the control.</td>
+		<td valign="top"><code>clear(silent)</code></td>
+		<td valign="top">Resets / clears all selected items from the control. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>getItem(value)</code></td>
 		<td valign="top">Returns the jQuery element of the item matching the given value.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>addItem(value)</code></td>
-		<td valign="top">"Selects" an item. Adds it to the list at the current caret position.</td>
+		<td valign="top"><code>addItem(value, silent)</code></td>
+		<td valign="top">"Selects" an item. Adds it to the list at the current caret position. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>removeItem(value)</code></td>
-		<td valign="top">Removes the selected item matching the provided value.</td>
+		<td valign="top"><code>removeItem(value, silent)</code></td>
+		<td valign="top">Removes the selected item matching the provided value. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>createItem(value)</code></td>
@@ -184,7 +184,7 @@ var selectize = $select[0].selectize;
 		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. &lt;select multiple&gt;), this returns an array. If only one item can be selected, this returns a string.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>setValue(value)</code></td>
+		<td valign="top"><code>setValue(value, silent)</code></td>
 		<td valign="top">Resets the selected items to the given value.</td>
 	</tr>
 	<tr>
