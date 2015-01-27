@@ -140,6 +140,12 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
+		if (!self.settings.splitOn && self.settings.delimiter) {
+			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
+		}
+
 		if ($input.attr('autocorrect')) {
 			$control_input.attr('autocorrect', $input.attr('autocorrect'));
 		}
@@ -385,6 +391,16 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		if (self.isFull() || self.isInputHidden || self.isLocked) {
 			e.preventDefault();
+		} else {
+			// If a regex or string is included, this will split the pasted input and create Items for each separate value
+			if (self.settings.splitOn) {
+				setTimeout(function() {
+					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
+					splitInput.forEach(function(input) {
+						self.createItem(input);
+					});
+				}, 0);
+			}
 		}
 	},
 
@@ -1420,12 +1436,20 @@ $.extend(Selectize.prototype, {
 		var self  = this;
 		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
-		if (!self.canCreate(input)) return false;
-		self.lock();
 
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
+
+		// allow a string to be passed in, like the API docs say
+		} else if (typeof triggerDropdown === 'string') {
+			input = triggerDropdown;
 		}
+
+		if (!input.length) return false;
+
+		if (!self.canCreate(input)) return false;
+
+		self.lock();
 
 		var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
 			var data = {};
