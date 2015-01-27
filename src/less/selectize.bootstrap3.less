@@ -18,6 +18,8 @@
 
 @selectize-font-family: @font-family-base;
 @selectize-font-size: @font-size-base;
+@selectize-font-size-small: @font-size-small;
+@selectize-font-size-large: @font-size-large;
 @selectize-line-height: @line-height-computed;
 
 @selectize-color-text: @text-color;
@@ -47,10 +49,16 @@
 @selectize-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten(@selectize-color-input-error, 20%);
 @selectize-border: 1px solid @input-border;
 @selectize-border-radius: @input-border-radius;
+@selectize-border-radius-small: @border-radius-small;
+@selectize-border-radius-large: @border-radius-large;
 
 @selectize-width-item-border: 0;
 @selectize-padding-x: @padding-base-horizontal;
 @selectize-padding-y: @padding-base-vertical;
+@selectize-padding-x-small: @padding-small-horizontal;
+@selectize-padding-y-small: @padding-small-vertical;
+@selectize-padding-x-large: @padding-large-horizontal;
+@selectize-padding-y-large: @padding-large-vertical;
 @selectize-padding-dropdown-item-x: @padding-base-horizontal;
 @selectize-padding-dropdown-item-y: 3px;
 @selectize-padding-item-x: 3px;
@@ -147,4 +155,58 @@
 	background: none;
 	.selectize-box-shadow(none);
 	.selectize-border-radius(0);
+}
+
+
+.form-group-sm, .input-sm {
+  .selectize-input {
+    min-height: @input-height-small;
+    height: @input-height-small;
+    padding: @selectize-padding-y-small @selectize-padding-x-small;
+    font-size: @selectize-font-size-small;
+    line-height: @line-height-small;
+    border-radius: @selectize-border-radius-small;
+    &.dropdown-active {
+      .selectize-border-radius(@selectize-border-radius-small @selectize-border-radius-small 0 0);
+    }
+  }
+  .selectize-dropdown {
+    font-size: @selectize-font-size-small;
+  }
+}
+
+.form-group-sm .selectize-control,
+.selectize-control.input-sm {
+  height: @input-height-small;
+}
+
+.selectize-control.input-sm {
+  padding: 0;
+}
+
+
+.form-group-lg, .input-lg {
+  .selectize-input {
+    min-height: @input-height-large;
+    height: @input-height-large;
+    padding: @selectize-padding-y-large @selectize-padding-x-large;
+    font-size: @selectize-font-size-large;
+    line-height: @line-height-large;
+    border-radius: @selectize-border-radius-large;
+    &.dropdown-active {
+      .selectize-border-radius(@selectize-border-radius-large @selectize-border-radius-large 0 0);
+    }
+  }
+  .selectize-dropdown {
+    font-size: @selectize-font-size-large;
+  }
+}
+
+.form-group-lg .selectize-control,
+.selectize-control.input-lg {
+  height: @input-height-large;
+}
+
+.selectize-control.input-lg {
+  padding: 0;
 }
