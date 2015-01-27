@@ -79,11 +79,11 @@ $(function() {
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>1000</code></td>
 	</tr>
-	<tr>
+	<tr name="maxItems">
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>∞</code></td>
+		<td valign="top"><code>1</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>

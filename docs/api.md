@@ -189,7 +189,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>getValue()</code></td>
-		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. &lt;select multiple&gt;), this returns an array. If only one item can be selected, this returns a string.</td>
+		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. <a href="usage.md#maxItems">&lt;select multiple&gt;</a>, this returns an array. If only one item can be selected, this returns a string.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>setValue(value, silent)</code></td>
