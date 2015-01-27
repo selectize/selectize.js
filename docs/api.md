@@ -98,6 +98,14 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>addOptionGroup(id, data)</code></td>
 		<td valign="top">Registers a new optgroup for options to be bucketed into. The "id" argument refers to a value of the property in option identified by the "optgroupField" setting.</td>
 	</tr>
+    <tr>
+        <td valign="top"><code>removeOptionGroup(id)</code></td>
+        <td valign="top">Removes a single option group.</td>
+    </tr>
+    <tr>
+        <td valign="top"><code>clearOptionGroups()</code></td>
+        <td valign="top">Removes all existing option groups.</td>
+    </tr>
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
 	</tr>

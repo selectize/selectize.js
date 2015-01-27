@@ -56,6 +56,26 @@ selectize.off('event_name', handler);
 		<td valign="top">value</td>
 		<td valign="top">Invoked when an option is removed from the available options.</td>
 	</tr>
+    <tr>
+        <td valign="top"><code>"option_clear"</code></td>
+        <td valign="top"></td>
+        <td valign="top">Invoked when all options are removed from the control.</td>
+    </tr>
+    <tr>
+        <td valign="top"><code>"optgroup_add"</code></td>
+        <td valign="top">id, data</td>
+        <td valign="top">Invoked when a new option is added to the available options list.</td>
+    </tr>
+    <tr>
+        <td valign="top"><code>"optgroup_remove"</code></td>
+        <td valign="top">id</td>
+        <td valign="top">Invoked when an option group is removed.</td>
+    </tr>
+    <tr>
+        <td valign="top"><code>"optgroup_clear"</code></td>
+        <td valign="top"></td>
+        <td valign="top">Invoked when all option groups are removed.</td>
+    </tr>
 	<tr>
 		<td valign="top"><code>"dropdown_open"</code></td>
 		<td valign="top">$dropdown</td>

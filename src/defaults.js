@@ -44,20 +44,23 @@ Selectize.defaults = {
 	copyClassesToDropdown: true,
 
 	/*
-	load            : null, // function(query, callback) { ... }
-	score           : null, // function(search) { ... }
-	onInitialize    : null, // function() { ... }
-	onChange        : null, // function(value) { ... }
-	onItemAdd       : null, // function(value, $item) { ... }
-	onItemRemove    : null, // function(value) { ... }
-	onClear         : null, // function() { ... }
-	onOptionAdd     : null, // function(value, data) { ... }
-	onOptionRemove  : null, // function(value) { ... }
-	onOptionClear   : null, // function() { ... }
-	onDropdownOpen  : null, // function($dropdown) { ... }
-	onDropdownClose : null, // function($dropdown) { ... }
-	onType          : null, // function(str) { ... }
-	onDelete        : null, // function(values) { ... }
+	load                 : null, // function(query, callback) { ... }
+	score                : null, // function(search) { ... }
+	onInitialize         : null, // function() { ... }
+	onChange             : null, // function(value) { ... }
+	onItemAdd            : null, // function(value, $item) { ... }
+	onItemRemove         : null, // function(value) { ... }
+	onClear              : null, // function() { ... }
+	onOptionAdd          : null, // function(value, data) { ... }
+	onOptionRemove       : null, // function(value) { ... }
+	onOptionClear        : null, // function() { ... }
+	onOptionGroupAdd     : null, // function(id, data) { ... }
+	onOptionGroupRemove  : null, // function(id) { ... }
+	onOptionGroupClear   : null, // function() { ... }
+	onDropdownOpen       : null, // function($dropdown) { ... }
+	onDropdownClose      : null, // function($dropdown) { ... }
+	onType               : null, // function(str) { ... }
+	onDelete             : null, // function(values) { ... }
 	*/
 
 	render: {

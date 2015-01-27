@@ -108,6 +108,29 @@ describe('Events', function() {
 		});
 	});
 
+	describe('optgroup_remove', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('optgroup_remove', function(id) {
+				expect(id).to.be.equal('id');
+				done();
+			});
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+			test.selectize.removeOptionGroup('id');
+		});
+	});
+
+	describe('optgroup_clear', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('optgroup_clear', function() {
+				done();
+			});
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+			test.selectize.clearOptionGroups();
+		});
+	});
+
 	describe('option_add', function() {
 		it('should be triggered', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});

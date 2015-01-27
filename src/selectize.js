@@ -296,18 +296,21 @@ $.extend(Selectize.prototype, {
 	 */
 	setupCallbacks: function() {
 		var key, fn, callbacks = {
-			'initialize'     : 'onInitialize',
-			'change'         : 'onChange',
-			'item_add'       : 'onItemAdd',
-			'item_remove'    : 'onItemRemove',
-			'clear'          : 'onClear',
-			'option_add'     : 'onOptionAdd',
-			'option_remove'  : 'onOptionRemove',
-			'option_clear'   : 'onOptionClear',
-			'dropdown_open'  : 'onDropdownOpen',
-			'dropdown_close' : 'onDropdownClose',
-			'type'           : 'onType',
-			'load'           : 'onLoad'
+			'initialize'      : 'onInitialize',
+			'change'          : 'onChange',
+			'item_add'        : 'onItemAdd',
+			'item_remove'     : 'onItemRemove',
+			'clear'           : 'onClear',
+			'option_add'      : 'onOptionAdd',
+			'option_remove'   : 'onOptionRemove',
+			'option_clear'    : 'onOptionClear',
+			'optgroup_add'    : 'onOptionGroupAdd',
+			'optgroup_remove' : 'onOptionGroupRemove',
+			'optgroup_clear'  : 'onOptionGroupClear',
+			'dropdown_open'   : 'onDropdownOpen',
+			'dropdown_close'  : 'onDropdownClose',
+			'type'            : 'onType',
+			'load'            : 'onLoad'
 		};
 
 		for (key in callbacks) {
@@ -1151,6 +1154,28 @@ $.extend(Selectize.prototype, {
 	addOptionGroup: function(id, data) {
 		this.optgroups[id] = data;
 		this.trigger('optgroup_add', id, data);
+	},
+
+	/**
+	 * Removes an existing option group.
+	 *
+	 * @param {string} id
+	 */
+	removeOptionGroup: function(id) {
+		if (this.optgroups.hasOwnProperty(id)) {
+			delete this.optgroups[id];
+			this.renderCache = {};
+			this.trigger('optgroup_remove', id);
+		}
+	},
+
+	/**
+	 * Clears all existing option groups.
+	 */
+	clearOptionGroups: function() {
+		this.optgroups = {};
+		this.renderCache = {};
+		this.trigger('optgroup_clear');
 	},
 
 	/**

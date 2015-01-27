@@ -145,6 +145,35 @@
 			});
 		});
 
+		describe('removeOptionGroup()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			it('should remove group', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				test.selectize.removeOptionGroup('group_id');
+				expect(test.selectize.optgroups).to.not.have.property('group_id');
+			});
+		});
+
+		describe('clearOptionGroups()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			it('should clear all groups', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				test.selectize.addOptionGroup('group_id2', data);
+				test.selectize.clearOptionGroups();
+				expect(test.selectize.optgroups).to.deep.equal({});
+			});
+		});
+
 		describe('addOption()', function() {
 			var test;
 
