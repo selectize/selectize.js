@@ -429,6 +429,10 @@ $.extend(Selectize.prototype, {
 				}
 				break;
 			case KEY_ESC:
+				if (self.isOpen) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
 				self.close();
 				return;
 			case KEY_N:
