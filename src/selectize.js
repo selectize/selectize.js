@@ -1888,7 +1888,7 @@ $.extend(Selectize.prototype, {
 		var html = '';
 		var cache = false;
 		var self = this;
-		var regex_tag = /^[\t ]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
+		var regex_tag = /^[\t \r\n]*<([a-z][a-z0-9\-_]*(?:\:[a-z][a-z0-9\-_]*)?)/i;
 
 		if (templateName === 'option' || templateName === 'item') {
 			value = hash_key(data[self.settings.valueField]);
