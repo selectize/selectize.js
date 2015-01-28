@@ -63,8 +63,8 @@
 				test.selectize.focus();
 				window.setTimeout(function() {
 					test.selectize.blur();
-					window.setTimeout(done, 5);
-				}, 5);
+					window.setTimeout(done, 100);
+				}, 50);
 			});
 			it('should set isFocused property to false', function() {
 				expect(test.selectize.isFocused).to.be.equal(false);
