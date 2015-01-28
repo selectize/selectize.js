@@ -909,7 +909,7 @@ $.extend(Selectize.prototype, {
 	 * Forces the control out of focus.
 	 */
 	blur: function() {
-		this.$control_input.trigger('blur');
+		this.$control_input.blur();
 	},
 
 	/**
