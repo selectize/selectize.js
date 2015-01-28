@@ -8,7 +8,6 @@ env:
 node_js:
   - '0.10'
 before_script:
-  - COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   - npm install grunt-saucelabs@8.5.x
   - npm install grunt-contrib-connect@0.9.x
   - npm install -g bower
@@ -18,4 +17,5 @@ before_script:
   - make
 script:
   - testem ci || exit 1
+  - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   - grunt sauce
