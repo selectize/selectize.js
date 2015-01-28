@@ -238,7 +238,7 @@ module.exports = function(grunt) {
 				options: {
 					urls: ['localhost:8080/test/index.html'],
 					build: process.env.CI_BUILD_NUMBER,
-					testname: 'Selectize Tests',
+					testname: process.env.COMMIT_MESSAGE || 'Selectize Tests',
 					sauceConfig: {'public': 'public'},
 					browsers: [
 						// mobile
