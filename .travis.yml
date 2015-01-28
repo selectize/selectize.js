@@ -16,5 +16,5 @@ before_script:
   - npm install
   - make
 script:
-  - testem ci
+  - testem ci || exit 1
   - grunt sauce

@@ -229,14 +229,14 @@ module.exports = function(grunt) {
 					port: 8080,
 					protocol: 'http',
 					hostname: '*',
-					base: 'test'
+					base: '.'
 				}
 			}
 		},
 		'saucelabs-mocha': {
 			all: {
 				options: {
-					urls: ['localhost:8080/index.html'],
+					urls: ['localhost:8080/test/index.html'],
 					build: process.env.CI_BUILD_NUMBER,
 					testname: 'Selectize Tests',
 					browsers: [
