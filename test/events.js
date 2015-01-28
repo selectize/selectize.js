@@ -1,5 +1,39 @@
 describe('Events', function() {
 
+	describe('focus', function() {
+		it('should work as expected', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var counter = 0;
+			test.selectize.on('focus', function() { counter++; });
+			test.selectize.focus();
+
+			Syn.click(test.selectize.$control).delay(0, function() {
+				window.setTimeout(function() {
+					expect(counter).to.be.equal(1);
+					done();
+				}, 0);
+			});
+		});
+	});
+
+	describe('blur', function() {
+		it('should work as expected', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var counter = 0;
+			test.selectize.on('blur', function() { counter++; });
+			test.selectize.focus();
+
+			Syn.click(test.selectize.$control).delay(0, function() {
+				Syn.click(document.body).delay(0, function() {
+					window.setTimeout(function() {
+						expect(counter).to.be.equal(1);
+						done();
+					}, 0);
+				});
+			});
+		});
+	});
+
 	describe('change', function() {
 		it('should be triggered once', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});

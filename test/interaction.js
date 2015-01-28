@@ -156,11 +156,13 @@
 
 				Syn
 					.click(test.selectize.$control)
-					.type('[left][left]whatt', test.selectize.$control_input)
 					.delay(0, function() {
-						expect(test.selectize.caretPos).to.be.equal(2);
-						done();
-					});
+						Syn.type('[left][left]whatt', test.selectize.$control_input)
+						.delay(0, function() {
+							expect(test.selectize.caretPos).to.be.equal(2);
+							done();
+						});
+					})
 			});
 
 			it('should not create input if comma entered in single select mode', function(done) {
