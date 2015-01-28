@@ -1,7 +1,6 @@
 # selectize.js
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/selectize.svg)](https://saucelabs.com/u/selectize)
 
-Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Changelog](https://github.com/brianreavis/selectize.js/releases)
@@ -9,6 +8,10 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
 - [Plugin Documentation](docs/plugins.md)
+
+### Browser Support
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/selectize.svg)](https://saucelabs.com/u/selectize)
 
 ### Features
 
