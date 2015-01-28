@@ -613,10 +613,10 @@ $.extend(Selectize.prototype, {
 			self.setCaret(self.items.length);
 			self.refreshState();
 
-			// IE11 bug: element regains focus in above process
-			self.$control_input[0].blur();
-			self.ignoreFocus = false;
+			// IE11 bug: element still marked as active
+			document.body.focus();
 
+			self.ignoreFocus = false;
 			if (wasFocused) self.trigger('blur');
 		};
 
