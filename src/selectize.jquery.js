@@ -147,3 +147,6 @@ $.fn.selectize = function(settings_user) {
 };
 
 $.fn.selectize.defaults = Selectize.defaults;
+$.fn.selectize.support = {
+	validity: SUPPORTS_VALIDITY_API
+};

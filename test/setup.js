@@ -191,7 +191,7 @@
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
 
-			if ($('<select>')[0].validity) {
+			if ($.fn.selectize.support.validity) {
 				it('should have "invalid" class when validation fails', function(done) {
 					test.$select[0].checkValidity();
 					window.setTimeout(function() {

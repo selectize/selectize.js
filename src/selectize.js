@@ -230,7 +230,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// feature detect for the validation API
-		if ($input[0].validity) {
+		if (SUPPORTS_VALIDITY_API) {
 			$input.on('invalid' + eventNS, function(e) {
 				e.preventDefault();
 				self.isInvalid = true;
