@@ -196,9 +196,8 @@
 					test.$select[0].checkValidity();
 					window.setTimeout(function() {
 						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-						expect(test.selectize.isFocused).to.be.equal(false);
 						done();
-					}, 0);
+					}, 250);
 				});
 				it('should clear the invalid class after an item is selected', function(done) {
 					syn.click($button).delay(0, function() {
