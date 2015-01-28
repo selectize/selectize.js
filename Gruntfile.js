@@ -241,6 +241,7 @@ module.exports = function(grunt) {
 					testname: process.env.COMMIT_MESSAGE || 'Selectize Tests',
 					tags: ['selectize', 'test'],
 					sauceConfig: {'public': 'public'},
+					maxRetries: 2,
 					browsers: [
 						// mobile
 						{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
