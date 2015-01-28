@@ -241,12 +241,25 @@ module.exports = function(grunt) {
 					testname: 'Selectize Tests',
 					sauceConfig: {'public': 'public'},
 					browsers: [
-						['OS X 10.10', 'safari', 8],
-						['OS X 10.10', 'chrome', 39],
-						['Windows 8', 'iexplore', 10],
-						['Windows 8.1', 'iexplore', 11],
-						['Windows 7', 'iexplore', 9],
-						['Windows 7', 'firefox', 35]
+						// mobile
+						{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
+						{platform: 'OS X 10.10', browserName: 'iPhone', version: '7.0'},
+						{platform: 'OS X 10.10', browserName: 'iPhone', version: '6.0'},
+						{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
+						{platform: 'OS X 10.10', browserName: 'iPad', version: '7.0'},
+						{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
+						{platform: 'Linux', deviceName: 'Samsung Galaxy S3 Emulator', version: '4.4'},
+						{platform: 'Linux', deviceName: 'Samsung Galaxy S3 Emulator', version: '4.3'},
+						// desktop (safari)
+						{platform: 'OS X 10.10', browserName: 'safari', version: 8},
+						// desktop (chrome)
+						{platform: 'OS X 10.10', browserName: 'chrome', version: 39},
+						// desktop (firefox)
+						{platform: 'Windows 7', browserName: 'firefox', version: 35},
+						// desktop (internet explorer)
+						{platform: 'Windows 8', browserName: 'iexplore', version: 10},
+						{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
+						{platform: 'Windows 7', browserName: 'iexplore', version: 9}
 					]
 				}
 			}
