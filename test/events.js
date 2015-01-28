@@ -24,7 +24,7 @@ describe('Events', function() {
 			test.selectize.focus();
 
 			Syn.click(test.selectize.$control).delay(0, function() {
-				Syn.click(document.body).delay(0, function() {
+				Syn.click($('body')).delay(0, function() {
 					window.setTimeout(function() {
 						expect(counter).to.be.equal(1);
 						done();

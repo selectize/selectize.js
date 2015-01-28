@@ -239,6 +239,7 @@ module.exports = function(grunt) {
 					urls: ['localhost:8080/test/index.html'],
 					build: process.env.CI_BUILD_NUMBER,
 					testname: 'Selectize Tests',
+					sauceConfig: {'public': 'public'},
 					browsers: [
 						['OS X 10.10', 'safari', 8],
 						['OS X 10.10', 'chrome', 39],
