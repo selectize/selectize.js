@@ -29,7 +29,7 @@
 		<div id="mocha"></div>
 		<form id="fixture"></form>
 		<script>
-    	mocha.setup({ui: 'bdd', ignoreLeaks: true});
+    	mocha.setup({ui: 'bdd', timeout: 8000, ignoreLeaks: true});
 		window.expect = chai.expect;
 		window.assert = chai.assert;
 		window.has_focus = function(elem) {
@@ -92,7 +92,7 @@
 					return titles.reverse();
 				};
 
-				failedTests.push({name: test.title, result: false, message: err.message, stack: err.stack, titles: flattenTitles(test) });
+				failed.push({name: test.title, result: false, message: err.message, stack: err.stack, titles: flattenTitles(test) });
 			});
 		}
 		</script>
