@@ -599,7 +599,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		if (self.settings.create && self.settings.createOnBlur) {
-			self.createItem(false);
+			self.createItem(null, false);
 		}
 
 		self.close();
@@ -1457,19 +1457,17 @@ $.extend(Selectize.prototype, {
 	 * Once this completes, it will be added
 	 * to the item list.
 	 *
+	 * @param {string} value
+	 * @param {boolean} triggerDropdown
 	 * @return {boolean}
 	 */
-	createItem: function(triggerDropdown) {
+	createItem: function(input, triggerDropdown) {
 		var self  = this;
-		var input = $.trim(self.$control_input.val() || '');
 		var caret = self.caretPos;
+		input = input || $.trim(self.$control_input.val() || '');
 
 		if (typeof triggerDropdown === 'undefined') {
 			triggerDropdown = true;
-
-		// allow a string to be passed in, like the API docs say
-		} else if (typeof triggerDropdown === 'string') {
-			input = triggerDropdown;
 		}
 
 		if (!self.canCreate(input)) {
