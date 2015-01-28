@@ -687,7 +687,7 @@ $.extend(Selectize.prototype, {
 	 */
 	load: function(fn) {
 		var self = this;
-		var $wrapper = self.$wrapper.addClass('loading');
+		var $wrapper = self.$wrapper.addClass(self.settings.loadingClass);
 
 		self.loading++;
 		fn.apply(self, [function(results) {
@@ -697,7 +697,7 @@ $.extend(Selectize.prototype, {
 				self.refreshOptions(self.isFocused && !self.isInputHidden);
 			}
 			if (!self.loading) {
-				$wrapper.removeClass('loading');
+				$wrapper.removeClass(self.settings.loadingClass);
 			}
 			self.trigger('load', results);
 		}]);

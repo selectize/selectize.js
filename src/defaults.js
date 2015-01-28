@@ -20,6 +20,7 @@ Selectize.defaults = {
 
 	scrollDuration: 60,
 	loadThrottle: 300,
+	loadingClass: 'loading',
 
 	dataAttr: 'data-data',
 	optgroupField: 'optgroup',
