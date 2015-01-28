@@ -244,19 +244,28 @@ module.exports = function(grunt) {
 					browsers: [
 						// mobile
 						{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
-						{platform: 'OS X 10.10', browserName: 'iPhone', version: '7.0'},
 						{platform: 'OS X 10.10', browserName: 'iPhone', version: '6.0'},
 						{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
-						{platform: 'OS X 10.10', browserName: 'iPad', version: '7.0'},
 						{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
-						{platform: 'Linux', deviceName: 'Samsung Galaxy S3 Emulator', version: '4.4'},
-						{platform: 'Linux', deviceName: 'Samsung Galaxy S3 Emulator', version: '4.3'},
+						{platform: 'Linux', browserName: 'android', version: '4.4'},
+						{platform: 'Linux', browserName: 'android', version: '4.3'},
 						// desktop (safari)
+						{platform: 'OS X 10.8', browserName: 'safari', version: 6},
+						{platform: 'OS X 10.9', browserName: 'safari', version: 7},
 						{platform: 'OS X 10.10', browserName: 'safari', version: 8},
 						// desktop (chrome)
 						{platform: 'OS X 10.10', browserName: 'chrome', version: 39},
+						{platform: 'OS X 10.10', browserName: 'chrome', version: 38},
+						{platform: 'OS X 10.10', browserName: 'chrome', version: 37},
+						{platform: 'Windows 7', browserName: 'chrome', version: 39},
+						{platform: 'Windows 7', browserName: 'chrome', version: 38},
+						{platform: 'Windows 7', browserName: 'chrome', version: 37},
 						// desktop (firefox)
 						{platform: 'Windows 7', browserName: 'firefox', version: 35},
+						{platform: 'Windows 8', browserName: 'firefox', version: 35},
+						{platform: 'OS X 10.10', browserName: 'firefox', version: 34},
+						{platform: 'OS X 10.10', browserName: 'firefox', version: 33},
+						{platform: 'OS X 10.10', browserName: 'firefox', version: 32},
 						// desktop (internet explorer)
 						{platform: 'Windows 8', browserName: 'iexplore', version: 10},
 						{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
