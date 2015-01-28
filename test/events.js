@@ -7,7 +7,7 @@ describe('Events', function() {
 			test.selectize.on('focus', function() { counter++; });
 			test.selectize.focus();
 
-			Syn.click(test.selectize.$control).delay(0, function() {
+			syn.click(test.selectize.$control).delay(0, function() {
 				window.setTimeout(function() {
 					expect(counter).to.be.equal(1);
 					done();
@@ -23,8 +23,8 @@ describe('Events', function() {
 			test.selectize.on('blur', function() { counter++; });
 			test.selectize.focus();
 
-			Syn.click(test.selectize.$control).delay(0, function() {
-				Syn.click($('body')).delay(0, function() {
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn.click($('body')).delay(0, function() {
 					window.setTimeout(function() {
 						expect(counter).to.be.equal(1);
 						done();
@@ -60,8 +60,8 @@ describe('Events', function() {
 			var counter = 0;
 			test.$select.on('change', function() { counter++; });
 
-			Syn.click(test.selectize.$control).delay(0, function() {
-				Syn
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn
 					.click($('[data-value="a"]', test.selectize.$dropdown))
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
@@ -257,7 +257,7 @@ describe('Events', function() {
 			test.selectize.on('type', function() {
 				done();
 			});
-			Syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
+			syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
 		});
 		it('should contain current value', function(done) {
 			var test = setup_test('<select></select>', {create: true});
@@ -265,7 +265,7 @@ describe('Events', function() {
 				expect(value).to.be.equal('a');
 				done();
 			});
-			Syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
+			syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
 		});
 	});
 

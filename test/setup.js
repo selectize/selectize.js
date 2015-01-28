@@ -201,7 +201,7 @@
 					}, 0);
 				});
 				it('should clear the invalid class after an item is selected', function(done) {
-					Syn.click($button).delay(0, function() {
+					syn.click($button).delay(0, function() {
 						test.selectize.addItem('a');
 						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
 						done();
@@ -213,7 +213,7 @@
 						done();
 					});
 
-					Syn.click($button);
+					syn.click($button);
 				});
 			}
 		});

@@ -3,7 +3,7 @@
 	// These tests are functional simulations of
 	// user interaction, using syn.js. For more information:
 	//
-	// @see http://v3.javascriptmvc.com/docs.html#&who=Syn
+	// @see http://v3.javascriptmvc.com/docs.html#&who=syn
 	// @see http://bitovi.com/blog/2010/07/syn-a-standalone-synthetic-event-library.html
 
 	describe('Interaction', function() {
@@ -16,7 +16,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.delay(0, function() {
 						expect(test.selectize.isFocused).to.be.equal(true);
@@ -30,7 +30,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
@@ -50,8 +50,8 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn.click(test.selectize.$control).delay(0, function() {
-					Syn
+				syn.click(test.selectize.$control).delay(0, function() {
+					syn
 						.click($('[data-value="b"]', test.selectize.$dropdown))
 						.delay(0, function() {
 							expect(test.selectize.$input.val()).to.be.equal('b');
@@ -67,8 +67,8 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn.click(test.selectize.$control).delay(0, function() {
-					Syn
+				syn.click(test.selectize.$control).delay(0, function() {
+					syn
 						.click($('[data-value="b"]', test.selectize.$dropdown))
 						.delay(0, function() {
 							expect(test.selectize.isOpen).to.be.equal(false);
@@ -89,7 +89,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('a', test.selectize.$control_input)
 					.delay(0, function() {
@@ -106,7 +106,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('awaw', test.selectize.$control_input)
 					.delay(0, function() {
@@ -123,7 +123,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {create: true});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('awaw', test.selectize.$control_input)
 					.delay(0, function() {
@@ -140,7 +140,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('awf', test.selectize.$control_input)
 					.type('\b\b\b', test.selectize.$control_input)
@@ -154,10 +154,10 @@
 			it('should move caret when [left] or [right] pressed', function(done) {
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.delay(0, function() {
-						Syn.type('[left][left]whatt', test.selectize.$control_input)
+						syn.type('[left][left]whatt', test.selectize.$control_input)
 						.delay(0, function() {
 							expect(test.selectize.caretPos).to.be.equal(2);
 							done();
@@ -172,7 +172,7 @@
 					'<option value="b">B</option>' +
 				'</select>', {create: true});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('asdf,asdf', test.selectize.$control_input)
 					.delay(0, function() {
@@ -200,16 +200,16 @@
 					}
 				});
 
-				Syn
+				syn
 					.click(test.selectize.$control)
 					.type('fooo', test.selectize.$control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 
-						Syn
+						syn
 							.click($("#mocha")[0])
-							.delay(0, function() {
+							.delay(5, function() {
 								expect(test.selectize.isOpen).to.be.equal(false);
 								expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
 								done();
@@ -228,7 +228,7 @@
 
 			function execFilterTest(test, done, expectation) {
 				var selectize = test.selectize;
-				Syn.click(selectize.$control).type(text, selectize.$control_input).type(selectize.settings.delimiter, selectize.$control_input).delay(0, function() {
+				syn.click(selectize.$control).type(text, selectize.$control_input).type(selectize.settings.delimiter, selectize.$control_input).delay(0, function() {
 					expectation(selectize);
 					done();
 				});

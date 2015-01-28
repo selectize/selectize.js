@@ -589,33 +589,44 @@ $.extend(Selectize.prototype, {
 	 * Triggered on <input> blur.
 	 *
 	 * @param {object} e
-	 * @returns {boolean}
 	 */
 	onBlur: function(e) {
 		var self = this;
 		var wasFocused = self.isFocused;
 
-		self.isFocused = false;
-		if (self.ignoreFocus) return;
-
-		// necessary to prevent IE closing the dropdown when the scrollbar is clicked
-		if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+		if (self.ignoreFocus) {
+			self.isFocused = false;
+			return;
+		} else if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
+			self.isFocused = false;
 			self.ignoreBlur = true;
 			self.onFocus(e);
 			return;
 		}
 
-		if (self.settings.create && self.settings.createOnBlur) {
-			self.createItem(null, false);
-		}
+		var deactivate = function() {
+			self.close();
+			self.setTextboxValue('');
+			self.setActiveItem(null);
+			self.setActiveOption(null);
+			self.setCaret(self.items.length);
+			self.refreshState();
 
-		self.close();
-		self.setTextboxValue('');
-		self.setActiveItem(null);
-		self.setActiveOption(null);
-		self.setCaret(self.items.length);
-		self.refreshState();
-		if (wasFocused) self.trigger('blur');
+			// IE11 bug: element regains focus in above process
+			self.$control_input[0].blur();
+			self.ignoreFocus = false;
+
+			if (wasFocused) self.trigger('blur');
+		};
+
+		self.ignoreFocus = true;
+		self.isFocused = false;
+		if (self.settings.create && self.settings.createOnBlur) {
+			self.createItem(null, false, deactivate);
+		} else {
+			deactivate();
+		}
 	},
 
 	/**
@@ -887,11 +898,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Gives the control focus. If "trigger" is falsy,
-	 * focus handlers won't be fired--causing the focus
-	 * to happen silently in the background.
-	 *
-	 * @param {boolean} trigger
+	 * Gives the control focus.
 	 */
 	focus: function() {
 		var self = this;
@@ -1466,7 +1473,8 @@ $.extend(Selectize.prototype, {
 	 * to the item list.
 	 *
 	 * @param {string} value
-	 * @param {boolean} triggerDropdown
+	 * @param {boolean} [triggerDropdown]
+	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
 	createItem: function(input, triggerDropdown) {
@@ -1474,11 +1482,15 @@ $.extend(Selectize.prototype, {
 		var caret = self.caretPos;
 		input = input || $.trim(self.$control_input.val() || '');
 
-		if (typeof triggerDropdown === 'undefined') {
+		var callback = arguments[arguments.length - 1];
+		if (typeof callback !== 'function') callback = function() {};
+
+		if (typeof triggerDropdown !== 'boolean') {
 			triggerDropdown = true;
 		}
 
 		if (!self.canCreate(input)) {
+			callback();
 			return false;
 		}
 
@@ -1494,15 +1506,16 @@ $.extend(Selectize.prototype, {
 		var create = once(function(data) {
 			self.unlock();
 
-			if (!data || typeof data !== 'object') return;
+			if (!data || typeof data !== 'object') return callback();
 			var value = hash_key(data[self.settings.valueField]);
-			if (typeof value !== 'string') return;
+			if (typeof value !== 'string') return callback();
 
 			self.setTextboxValue('');
 			self.addOption(data);
 			self.setCaret(caret);
 			self.addItem(value);
 			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
+			callback(data);
 		});
 
 		var output = setup.apply(this, [input, create]);
