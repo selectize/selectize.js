@@ -226,7 +226,7 @@ module.exports = function(grunt) {
 		connect: {
 			all: {
 				options: {
-					port: 8080,
+					port: 8888,
 					protocol: 'http',
 					hostname: '*',
 					base: '.'
@@ -236,16 +236,16 @@ module.exports = function(grunt) {
 		'saucelabs-mocha': {
 			all: {
 				options: {
-					urls: ['localhost:8080/test/index.html'],
+					urls: ['localhost:8888/test/index.html'],
 					build: process.env.TRAVIS_BUILD_NUMBER,
 					testname: process.env.COMMIT_MESSAGE || 'Selectize Tests',
 					tags: ['selectize', 'test'],
 					sauceConfig: {'public': 'public'},
-					maxRetries: 2,
+					maxRetries: 5,
 					browsers: [
 						// mobile
 						{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
-						{platform: 'OS X 10.10', browserName: 'iPhone', version: '6.0'},
+						{platform: 'OS X 10.10 ', browserName: 'iPhone', version: '6.0'},
 						{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
 						{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
 						{platform: 'Linux', browserName: 'android', version: '4.4'},
