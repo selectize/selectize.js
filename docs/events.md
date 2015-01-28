@@ -32,6 +32,16 @@ selectize.off('event_name', handler);
 		<td valign="top">Invoked when the value of the control changes.</td>
 	</tr>
 	<tr>
+		<td valign="top"><code>"focus"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked when the control gains focus.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>"blur"</code></td>
+		<td valign="top"></td>
+		<td valign="top">Invoked when the control loses focus.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>"item_add"</code></td>
 		<td valign="top">value, $item</td>
 		<td valign="top">Invoked when an item is selected.</td>

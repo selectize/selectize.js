@@ -310,7 +310,9 @@ $.extend(Selectize.prototype, {
 			'dropdown_open'   : 'onDropdownOpen',
 			'dropdown_close'  : 'onDropdownClose',
 			'type'            : 'onType',
-			'load'            : 'onLoad'
+			'load'            : 'onLoad',
+			'focus'           : 'onFocus',
+			'blur'            : 'onBlur'
 		};
 
 		for (key in callbacks) {
@@ -560,6 +562,7 @@ $.extend(Selectize.prototype, {
 	 */
 	onFocus: function(e) {
 		var self = this;
+		var wasFocused = self.isFocused;
 
 		self.isFocused = true;
 		if (self.isDisabled) {
@@ -570,6 +573,8 @@ $.extend(Selectize.prototype, {
 
 		if (self.ignoreFocus) return;
 		if (self.settings.preload === 'focus') self.onSearchChange('');
+
+		if (!wasFocused) self.trigger('focus');
 
 		if (!self.$activeItems.length) {
 			self.showInput();
@@ -588,6 +593,8 @@ $.extend(Selectize.prototype, {
 	 */
 	onBlur: function(e) {
 		var self = this;
+		var wasFocused = self.isFocused;
+
 		self.isFocused = false;
 		if (self.ignoreFocus) return;
 
@@ -601,6 +608,8 @@ $.extend(Selectize.prototype, {
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, false);
 		}
+
+		if (wasFocused) self.trigger('blur');
 
 		self.close();
 		self.setTextboxValue('');
