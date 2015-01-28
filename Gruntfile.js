@@ -9,6 +9,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-replace');
 
+	// only available in travisci environment
+	try {
+		grunt.loadNpmTasks('grunt-contrib-connect');
+		grunt.loadNpmTasks('grunt-saucelabs');
+	} catch (e) {}
+
 	grunt.registerTask('configure', [
 		'clean:pre',
 		'bower:install',
@@ -31,6 +37,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', [
 		'configure',
 		'compile'
+	]);
+	grunt.registerTask('sauce', [
+		'connect',
+		'saucelabs-mocha'
 	]);
 
 	grunt.registerTask('clean_bootstrap2_css', 'Cleans CSS rules ocurring before the header comment.', function() {
@@ -210,6 +220,33 @@ module.exports = function(grunt) {
 				files: {
 					'dist/js/selectize.min.js': ['dist/js/selectize.js'],
 					'dist/js/standalone/selectize.min.js': ['dist/js/standalone/selectize.js']
+				}
+			}
+		},
+		connect: {
+			all: {
+				options: {
+					port: 8080,
+					protocol: 'http',
+					hostname: '*',
+					base: 'test'
+				}
+			}
+		},
+		'saucelabs-mocha': {
+			all: {
+				options: {
+					urls: ['localhost:8080/index.html'],
+					build: process.env.CI_BUILD_NUMBER,
+					testname: 'Selectize Tests',
+					browsers: [
+						['OS X 10.10', 'safari', 8],
+						['OS X 10.10', 'chrome', 39],
+						['Windows 8', 'iexplore', 10],
+						['Windows 8.1', 'iexplore', 11],
+						['Windows 7', 'iexplore', 9],
+						['Windows 7', 'firefox', 35]
+					]
 				}
 			}
 		}
