@@ -251,6 +251,18 @@ $(function() {
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>onFocus()</code></td>
+        <td valign="top">Invoked when the control gains focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
+    <tr>
+        <td valign="top"><code>onBlur()</code></td>
+        <td valign="top">Invoked when the control loses focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>onChange(value)</code></td>
 		<td valign="top">Invoked when the value of the control changes.</td>
