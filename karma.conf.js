@@ -1,7 +1,7 @@
 module.exports = function(config) {
 	// workaround for https://github.com/karma-runner/karma-sauce-launcher/issues/40
 	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH) - 1;
-	var saucelabsConcurrency = 3;
+	var saucelabsConcurrency = 4;
 	var saucelabsBrowsers = [
 		// mobile
 		{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
@@ -79,7 +79,7 @@ module.exports = function(config) {
 			dir: 'coverage/'
 		},
 		sauceLabs: {
-			recordVideo: true,
+			recordVideo: false,
 			startConnect: true,
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
