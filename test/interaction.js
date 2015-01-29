@@ -208,7 +208,7 @@
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 
 						syn
-							.click($("#mocha")[0])
+							.click($("body"))
 							.delay(5, function() {
 								expect(test.selectize.isOpen).to.be.equal(false);
 								expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);

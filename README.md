@@ -84,11 +84,11 @@ grunt --plugins=remove_button,restore_on_backspace
 
 ### Contributing
 
-First build your copy then try out the [bundled examples](examples/).
+When issuing a pull request, *please exclude changes in the "dist" folder to avoid merge conflicts*. Also, please ensure all the tests pass:
 
-To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. The latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
-
-When issuing a pull request, please exclude changes in the "dist" folder to avoid merge conflicts.
+```sh
+$ npm test
+```
 
 ## License
 

@@ -3,25 +3,21 @@ addons:
   sauce_connect: true
 env:
   matrix:
-    - TARGET=PHANTOMJS
-    - TARGET=SAUCELABS
+    - TARGET=phantomjs
+    - TARGET=saucelabs
   global:
     - secure: df9eTd6JkMOgdF3J3UInb0ouaDEbF4Y0sklmvwgBUs38yRvGQ3mucrzH13dCU0GYW8mM/H9euF7yG4/leWQHoUYdRJTDRy/sWXGvs6qg7DTkUXsmGyzv/5XxS86WTD5B9LbzB1hvRs5nzWeA1sFP6rpzGG6HwogM/+37ijRjKQQ=
     - secure: FI6ATM3Pngx0bowuYi5WHIDCe0R5ORlJWNsFxJyZLEusie+wZrRy9QbZsVvJGVYZJKAR9MFT3Ks494ou85lyfUnfvEnn+lX2DQ3Hsyz0xyBNoSvNkQbhZEsUr0TV+UGpCvSwYr6lYqXsBy6VxqyAkXDkqdVTAzMydq5ttGxszPU=
 matrix:
   allow_failures:
-    - env: TARGET=SAUCELABS
+    - env: TARGET=saucelabs
 node_js:
   - '0.10'
 before_script:
-  - if [[ "${TARGET}" == "SAUCELABS" ]]; then npm install grunt-saucelabs@8.5.x; fi
-  - if [[ "${TARGET}" == "SAUCELABS" ]]; then npm install grunt-contrib-connect@0.9.x; fi
-  - if [[ "${TARGET}" == "PHANTOMJS" ]]; then npm install -g testem; fi
   - npm install -g bower
   - npm install -g grunt-cli
   - npm install
   - make
 script:
-  - if [[ "${TARGET}" == "PHANTOMJS" ]]; then testem ci || exit 1; fi
   - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-  - if [[ "${TARGET}" == "SAUCELABS" ]]; then grunt sauce || exit 1; fi
+  - npm test

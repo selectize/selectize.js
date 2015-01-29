@@ -1,11 +1,10 @@
 .PHONY: compile release test
 plugins=*
 GRUNT=node_modules/.bin/grunt
-TESTEM=node_modules/.bin/testem
 
 all: compile
 test:
-	$(TESTEM)
+	npm test
 compile:
 	$(GRUNT) --plugins=$(plugins)
 release:
