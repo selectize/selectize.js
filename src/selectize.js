@@ -1600,7 +1600,7 @@ $.extend(Selectize.prototype, {
 		if (self.tagType === TAG_SELECT) {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
+				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + self.options[self.items[i]].text + '</option>');
 			}
 			if (!options.length && !this.$input.attr('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
