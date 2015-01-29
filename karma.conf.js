@@ -5,9 +5,9 @@ module.exports = function(config) {
 	var saucelabsBrowsers = [
 		// mobile
 		{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
-		{platform: 'OS X 10.10 ', browserName: 'iPhone', version: '6.0'},
+		//{platform: 'OS X 10.10 ', browserName: 'iPhone', version: '6.0'},
 		{platform: 'OS X 10.10', browserName: 'iPad', version: '8.1'},
-		{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
+		//{platform: 'OS X 10.10', browserName: 'iPad', version: '6.0'},
 		{platform: 'Linux', browserName: 'android', version: '4.4'},
 		{platform: 'Linux', browserName: 'android', version: '4.3'},
 		// desktop (safari)
