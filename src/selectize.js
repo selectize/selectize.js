@@ -161,8 +161,7 @@ $.extend(Selectize.prototype, {
 		self.$dropdown_content = $dropdown_content;
 
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
-		$dropdown.on('mousedown', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
-		$dropdown.on('click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
+		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 		autoGrow($control_input);
 
@@ -202,7 +201,7 @@ $.extend(Selectize.prototype, {
 				}
 				// blur on click outside
 				if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
-					self.blur();
+					self.blur(e.target);
 				}
 			}
 		});
@@ -590,17 +589,17 @@ $.extend(Selectize.prototype, {
 	 * Triggered on <input> blur.
 	 *
 	 * @param {object} e
+	 * @param {Element} dest
 	 */
-	onBlur: function(e) {
+	onBlur: function(e, dest) {
 		var self = this;
-		var wasFocused = self.isFocused;
+		if (!self.isFocused) return;
+		self.isFocused = false;
 
 		if (self.ignoreFocus) {
-			self.isFocused = false;
 			return;
 		} else if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
 			// necessary to prevent IE closing the dropdown when the scrollbar is clicked
-			self.isFocused = false;
 			self.ignoreBlur = true;
 			self.onFocus(e);
 			return;
@@ -615,14 +614,13 @@ $.extend(Selectize.prototype, {
 			self.refreshState();
 
 			// IE11 bug: element still marked as active
-			document.body.focus();
+			(dest || document.body).focus();
 
 			self.ignoreFocus = false;
-			if (wasFocused) self.trigger('blur');
+			self.trigger('blur');
 		};
 
 		self.ignoreFocus = true;
-		self.isFocused = false;
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, false, deactivate);
 		} else {
@@ -915,9 +913,12 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Forces the control out of focus.
+	 *
+	 * @param {Element} dest
 	 */
-	blur: function() {
-		this.$control_input.blur();
+	blur: function(dest) {
+		this.$control_input[0].blur();
+		this.onBlur(null, dest);
 	},
 
 	/**

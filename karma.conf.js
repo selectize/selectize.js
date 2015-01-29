@@ -64,6 +64,7 @@ module.exports = function(config) {
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
+			'dist/css/selectize.default.css',
 			'bower_components/jquery/jquery.js',
 			'bower_components/microplugin/src/microplugin.js',
 			'bower_components/sifter/sifter.js',
@@ -77,7 +78,7 @@ module.exports = function(config) {
 			'test/*.js'
 		],
 		preprocessors: {
-			'src/**/*.js': ['coverage']
+			'src/*.js': ['coverage']
 		},
 		coverageReporter: {
 			type: process.env.TRAVIS_CI && process.env.TARGET === 'phantomjs' ? 'lcov' : 'text-summary',
