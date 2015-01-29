@@ -1,5 +1,9 @@
 (function() {
 
+	var click = function(el, cb) {
+		syn.click(el).delay(350, cb);
+	};
+
 	// These tests are functional simulations of
 	// user interaction, using syn.js. For more information:
 	//
@@ -16,12 +20,10 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn
-					.click(test.selectize.$control)
-					.delay(0, function() {
-						expect(test.selectize.isFocused).to.be.equal(true);
-						done();
-					});
+				click(test.selectize.$control, function() {
+					expect(test.selectize.isFocused).to.be.equal(true);
+					done();
+				});
 			});
 
 			it('should open dropdown menu', function(done) {
@@ -30,13 +32,11 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn
-					.click(test.selectize.$control)
-					.delay(0, function() {
-						expect(test.selectize.isOpen).to.be.equal(true);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
-						done();
-					});
+				click(test.selectize.$control, function() {
+					expect(test.selectize.isOpen).to.be.equal(true);
+					expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+					done();
+				});
 			});
 
 		});
@@ -50,13 +50,11 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn.click(test.selectize.$control).delay(0, function() {
-					syn
-						.click($('[data-value="b"]', test.selectize.$dropdown))
-						.delay(0, function() {
-							expect(test.selectize.$input.val()).to.be.equal('b');
-							done();
-						});
+				click(test.selectize.$control, function() {
+					click($('[data-value="b"]', test.selectize.$dropdown), function() {
+						expect(test.selectize.$input.val()).to.be.equal('b');
+						done();
+					});
 				});
 			});
 
@@ -67,14 +65,12 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn.click(test.selectize.$control).delay(0, function() {
-					syn
-						.click($('[data-value="b"]', test.selectize.$dropdown))
-						.delay(0, function() {
-							expect(test.selectize.isOpen).to.be.equal(false);
-							expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
-							done();
-						});
+				click(test.selectize.$control, function() {
+					click($('[data-value="b"]', test.selectize.$dropdown), function() {
+						expect(test.selectize.isOpen).to.be.equal(false);
+						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+						done();
+					});
 				});
 			});
 
@@ -89,14 +85,14 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn
-					.click(test.selectize.$control)
-					.type('a', test.selectize.$control_input)
+				click(test.selectize.$control, function() {
+					syn.type('a', test.selectize.$control_input)
 					.delay(0, function() {
 						expect($('[data-value="a"]', test.selectize.$dropdown).length).to.be.equal(1);
 						expect($('[data-value="b"]', test.selectize.$dropdown).length).to.be.equal(0);
 						done();
 					});
+				});
 			});
 
 			it('should hide dropdown if no results present', function(done) {
@@ -106,14 +102,14 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn
-					.click(test.selectize.$control)
-					.type('awaw', test.selectize.$control_input)
+				click(test.selectize.$control, function() {
+					syn.type('awaw', test.selectize.$control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(false);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
 						done();
 					});
+				});
 			});
 
 			it('should not hide dropdown if "create" option enabled and no results present', function(done) {
@@ -123,14 +119,14 @@
 					'<option value="b">B</option>' +
 				'</select>', {create: true});
 
-				syn
-					.click(test.selectize.$control)
-					.type('awaw', test.selectize.$control_input)
+				click(test.selectize.$control, function() {
+					syn.type('awaw', test.selectize.$control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 						done();
 					});
+				});
 			});
 
 			it('should restore dropdown visibility when backing out of a query without results (backspace)', function(done) {
@@ -140,29 +136,27 @@
 					'<option value="b">B</option>' +
 				'</select>', {});
 
-				syn
-					.click(test.selectize.$control)
-					.type('awf', test.selectize.$control_input)
+				click(test.selectize.$control, function() {
+					syn.type('awf', test.selectize.$control_input)
 					.type('\b\b\b', test.selectize.$control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 						done();
 					});
+				});
 			});
 
 			it('should move caret when [left] or [right] pressed', function(done) {
 				var test = setup_test('<input type="text" value="a,b,c,d">', {create: true});
 
-				syn
-					.click(test.selectize.$control)
+				click(test.selectize.$control, function() {
+					syn.type('[left][left]whatt', test.selectize.$control_input)
 					.delay(0, function() {
-						syn.type('[left][left]whatt', test.selectize.$control_input)
-						.delay(0, function() {
-							expect(test.selectize.caretPos).to.be.equal(2);
-							done();
-						});
-					})
+						expect(test.selectize.caretPos).to.be.equal(2);
+						done();
+					});
+				});
 			});
 
 			it('should not create input if comma entered in single select mode', function(done) {
@@ -172,14 +166,14 @@
 					'<option value="b">B</option>' +
 				'</select>', {create: true});
 
-				syn
-					.click(test.selectize.$control)
-					.type('asdf,asdf', test.selectize.$control_input)
+				click(test.selectize.$control, function() {
+					syn.type('asdf,asdf', test.selectize.$control_input)
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.options).to.not.have.property('asdf');
 						done();
 					});
+				});
 			});
 
 		});
@@ -200,21 +194,22 @@
 					}
 				});
 
-				syn
-					.click(test.selectize.$control)
-					.type('fooo', test.selectize.$control_input)
-					.delay(0, function() {
-						expect(test.selectize.isOpen).to.be.equal(true);
-						expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
+				click(test.selectize.$control, function() {
+					syn
+						.type('fooo', test.selectize.$control_input)
+						.delay(0, function() {
+							expect(test.selectize.isOpen).to.be.equal(true);
+							expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 
-						syn
-							.click($("body"))
-							.delay(5, function() {
-								expect(test.selectize.isOpen).to.be.equal(false);
-								expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
-								done();
-							});
-					});
+							syn
+								.click($("body"))
+								.delay(5, function() {
+									expect(test.selectize.isOpen).to.be.equal(false);
+									expect(test.selectize.$dropdown.is(':visible')).to.be.equal(false);
+									done();
+								});
+						});
+				});
 
 			});
 		});
@@ -228,9 +223,14 @@
 
 			function execFilterTest(test, done, expectation) {
 				var selectize = test.selectize;
-				syn.click(selectize.$control).type(text, selectize.$control_input).type(selectize.settings.delimiter, selectize.$control_input).delay(0, function() {
-					expectation(selectize);
-					done();
+				click(selectize.$control, function() {
+					syn
+						.type(text, selectize.$control_input)
+						.type(selectize.settings.delimiter, selectize.$control_input)
+						.delay(0, function() {
+							expectation(selectize);
+							done();
+						})
 				});
 			}
 
