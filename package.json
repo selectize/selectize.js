@@ -32,6 +32,7 @@
     "karma": "^0.12.31",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^0.2.7",
+    "karma-coveralls": "^0.1.5",
     "karma-mocha": "^0.1.10",
     "karma-mocha-reporter": "^0.3.1",
     "karma-phantomjs-launcher": "^0.1.4",

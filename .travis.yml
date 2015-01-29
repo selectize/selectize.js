@@ -6,6 +6,7 @@ env:
   global:
     - secure: df9eTd6JkMOgdF3J3UInb0ouaDEbF4Y0sklmvwgBUs38yRvGQ3mucrzH13dCU0GYW8mM/H9euF7yG4/leWQHoUYdRJTDRy/sWXGvs6qg7DTkUXsmGyzv/5XxS86WTD5B9LbzB1hvRs5nzWeA1sFP6rpzGG6HwogM/+37ijRjKQQ=
     - secure: FI6ATM3Pngx0bowuYi5WHIDCe0R5ORlJWNsFxJyZLEusie+wZrRy9QbZsVvJGVYZJKAR9MFT3Ks494ou85lyfUnfvEnn+lX2DQ3Hsyz0xyBNoSvNkQbhZEsUr0TV+UGpCvSwYr6lYqXsBy6VxqyAkXDkqdVTAzMydq5ttGxszPU=
+    - secure: "ctyTk+LdMsch1jTRLLTboJW2TsJCIRtXktEQ86JdGteg0YSvsqDj/LndUaaGZ2ZSR3sSJ1Q/YV1X0M0VizrzX5I7/3WnKViyeKygJ5sSbTuqkjwFa2sAAmrnmBv9JWofIc2XuRG3tfZv2fX6QMDy5PA72KGPBmGAw4S8WTxGkHQ="
 matrix:
   allow_failures:
     - env: TARGET=saucelabs
@@ -18,4 +19,4 @@ before_script:
   - make
 script:
   - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-  - npm test
+  - TRAVIS_CI=1 npm test
