@@ -20,7 +20,7 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "0.4.x",
-    "grunt-bower-cli": "0.0.x",
+    "grunt-bower-task": "^0.4.0",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "0.5.x",
     "grunt-contrib-concat": "0.3.x",
