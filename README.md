@@ -91,7 +91,10 @@ grunt --plugins=remove_button,restore_on_backspace
 When issuing a pull request, *please exclude changes in the "dist" folder to avoid merge conflicts*. Also, please ensure all the tests pass:
 
 ```sh
-$ npm test
+$ npm test # phantomjs
+$ BROWSERS=Firefox npm test
+$ BROWSERS=Firefox,Chrome npm test
+$ BROWSERS=Firefox,Chrome,Safari npm test
 ```
 
 ## License

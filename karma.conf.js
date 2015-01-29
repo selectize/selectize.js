@@ -56,6 +56,11 @@ module.exports = function(config) {
 			: ['mocha', 'coverage', 'coveralls']
 	}
 
+	var browsers = targets[process.env.TARGET || 'phantomjs'];
+	if (process.env.BROWSERS) {
+		browsers = process.env.BROWSERS.split(',');
+	}
+
 	config.set({
 		frameworks: ['mocha', 'chai'],
 		files: [
@@ -92,7 +97,7 @@ module.exports = function(config) {
 		colors: true,
 		captureTimeout: 0,
 		logLevel: config.LOG_INFO,
-		browsers: targets[process.env.TARGET || 'phantomjs'],
+		browsers: browsers,
 		browserDisconnectTolerance: 2,
 		browserDisconnectTimeout: 10000,
 		browserNoActivityTimeout: 120000,
