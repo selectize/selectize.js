@@ -21,4 +21,4 @@ script:
   - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   - export TRAVIS_CI=1
   - if [[ "${TARGET}" == "phantomjs" ]]; then npm test || exit 1; fi
-  - if [[ "${TARGET}" == "saucelabs" ]]; then (for x in 1 .. 15; do export SAUCELABS_BATCH=$x; npm test || true; done); fi
+  - if [[ "${TARGET}" == "saucelabs" ]]; then (for x in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15; do export SAUCELABS_BATCH=$x; echo "Starting batch $x of 15"; npm test || true; done); fi
