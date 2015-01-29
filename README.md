@@ -1,5 +1,9 @@
 # selectize.js
 
+![Bower version](http://img.shields.io/bower/v/selectize.svg?style=flat)
+[![Build Status](http://img.shields.io/travis/brianreavis/selectize.js/master.svg?style=flat)](https://travis-ci.org/brianreavis/selectize.js)
+[![Coverage Status](http://img.shields.io/coveralls/brianreavis/selectize.js/master.svg?style=flat)](https://coveralls.io/r/brianreavis/selectize.js)
+
 Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
