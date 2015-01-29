@@ -75,7 +75,10 @@ module.exports = function(config) {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
 			testName: process.env.COMMIT_MESSAGE,
-			tags: ['selectize', 'test']
+			tags: ['selectize', 'test'],
+			options: {
+				'selenium-version': '2.41.0'
+			}
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
