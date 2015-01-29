@@ -241,6 +241,8 @@ module.exports = function(grunt) {
 					testname: process.env.COMMIT_MESSAGE || 'Selectize Tests',
 					tags: ['selectize', 'test'],
 					sauceConfig: {'public': 'public'},
+					tunnelArgs: ['--debug'],
+					throttled: 3,
 					maxRetries: 5,
 					browsers: [
 						// mobile
