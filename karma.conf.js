@@ -1,4 +1,7 @@
 module.exports = function(config) {
+	// workaround for https://github.com/karma-runner/karma-sauce-launcher/issues/40
+	var saucelabsBatchID = Number(process.env.SAUCELABS_BATCH) - 1;
+	var saucelabsConcurrency = 3;
 	var saucelabsBrowsers = [
 		// mobile
 		{platform: 'OS X 10.10', browserName: 'iPhone', version: '8.1'},
@@ -29,6 +32,11 @@ module.exports = function(config) {
 		{platform: 'Windows 8.1', browserName: 'iexplore', version: 11},
 		{platform: 'Windows 7', browserName: 'iexplore', version: 9}
 	];
+
+	if (process.env.TARGET === 'saucelabs') {
+		saucelabsBrowsers = saucelabsBrowsers.slice(saucelabsBatchID * saucelabsConcurrency, saucelabsBatchID * saucelabsConcurrency + saucelabsConcurrency);
+		if (!saucelabsBrowsers.length) process.exit(0);
+	}
 
 	var customLaunchers = {};
 	saucelabsBrowsers.forEach(function(browser, i) {
@@ -76,10 +84,7 @@ module.exports = function(config) {
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,
 			testName: process.env.COMMIT_MESSAGE,
-			tags: ['selectize', 'test'],
-			options: {
-				'selenium-version': '2.41.0'
-			}
+			tags: ['selectize', 'test']
 		},
 		customLaunchers: customLaunchers,
 		reporters: reporters,
