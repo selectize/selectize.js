@@ -33,7 +33,7 @@ module.exports = function(config) {
 	var customLaunchers = {};
 	saucelabsBrowsers.forEach(function(browser, i) {
 		browser.base = 'SauceLabs';
-		customLaunchers['sl' + i] = browser;
+		customLaunchers['SL_' + i] = browser;
 	});
 
 	var targets = {
@@ -44,7 +44,7 @@ module.exports = function(config) {
 	var reporters = ['mocha'];
 	if (process.env.TRAVIS_CI) {
 		reporters = process.env.TARGET === 'saucelabs'
-			? ['progress', 'saucelabs']
+			? ['saucelabs', 'mocha']
 			: ['mocha', 'coverage', 'coveralls']
 	}
 
@@ -67,10 +67,11 @@ module.exports = function(config) {
 			'src/**/*.js': ['coverage']
 		},
 		coverageReporter: {
-			type: process.env.TRAVIS_CI ? 'lcov' : 'text-summary',
+			type: process.env.TRAVIS_CI && process.env.TARGET === 'phantomjs' ? 'lcov' : 'text-summary',
 			dir: 'coverage/'
 		},
 		sauceLabs: {
+			recordVideo: true,
 			startConnect: true,
 			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
 			build: process.env.TRAVIS_BUILD_NUMBER,

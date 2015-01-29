@@ -19,4 +19,5 @@ before_script:
   - make
 script:
   - export COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-  - TRAVIS_CI=1 npm test
+  - export TRAVIS_CI=1
+  - npm test
