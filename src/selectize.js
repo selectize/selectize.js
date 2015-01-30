@@ -13,6 +13,7 @@ var Selectize = function($input, settings) {
 		order            : 0,
 		settings         : settings,
 		$input           : $input,
+		tabIndex         : $input.attr('tabindex') || '',
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
 
@@ -112,17 +113,15 @@ $.extend(Selectize.prototype, {
 		var inputMode;
 		var timeout_blur;
 		var timeout_focus;
-		var tab_index;
 		var classes;
 		var classes_plugins;
 
 		inputMode         = self.settings.mode;
-		tab_index         = $input.attr('tabindex') || '';
 		classes           = $input.attr('class') || '';
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', tab_index);
+		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
@@ -1964,6 +1963,7 @@ $.extend(Selectize.prototype, {
 	disable: function() {
 		var self = this;
 		self.$input.prop('disabled', true);
+		self.$control_input.prop('disabled', true).prop('tabindex', -1);
 		self.isDisabled = true;
 		self.lock();
 	},
@@ -1975,6 +1975,7 @@ $.extend(Selectize.prototype, {
 	enable: function() {
 		var self = this;
 		self.$input.prop('disabled', false);
+		self.$control_input.prop('disabled', false).prop('tabindex', self.tabIndex);
 		self.isDisabled = false;
 		self.unlock();
 	},

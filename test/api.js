@@ -6,8 +6,12 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select>', {});
+				test = setup_test('<select tabindex="4">', {});
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('4');
 				test.selectize.disable();
+			});
+			it('should set "tabindex" prop to -1', function() {
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
 			});
 			it('should set "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
@@ -15,8 +19,9 @@
 			it('should set isDisabled property to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
-			it('should add "disabled" attribute on original input', function() {
+			it('should add "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
+				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(true);
 			});
 		});
 
@@ -24,8 +29,12 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select disabled>', {});
+				test = setup_test('<select disabled tabindex="2">', {});
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
 				test.selectize.enable();
+			});
+			it('should restore original "tabindex" prop', function() {
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('2');
 			});
 			it('should remove "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(false);
@@ -33,8 +42,9 @@
 			it('should set isDisabled property to false', function() {
 				expect(test.selectize.isDisabled).to.be.equal(false);
 			});
-			it('should remove "disabled" attribute on original input', function() {
+			it('should remove "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
+				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(false);
 			});
 		});
 
