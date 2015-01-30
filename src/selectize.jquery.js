@@ -61,12 +61,13 @@ $.fn.selectize = function(settings_user) {
 			// existing option so that it's rendered in both places.
 			if (optionsMap.hasOwnProperty(value)) {
 				if (group) {
-					if (!optionsMap[value].optgroup) {
-						optionsMap[value][field_optgroup_value] = group;
-					} else if (!$.isArray(optionsMap[value].optgroup)) {
-						optionsMap[value][field_optgroup_value] = [optionsMap[value][field_optgroup_value], group];
+					var arr = optionsMap[value][field_optgroup];
+					if (!arr) {
+						optionsMap[value][field_optgroup] = group;
+					} else if (!$.isArray(arr)) {
+						optionsMap[value][field_optgroup] = [arr, group];
 					} else {
-						optionsMap[value][field_optgroup_value].push(group);
+						arr.push(group);
 					}
 				}
 				return;

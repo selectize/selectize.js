@@ -1068,7 +1068,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// sort optgroups
-		if (this.options.lockOptgroupOrder) {
+		if (this.settings.lockOptgroupOrder) {
 			groups_order.sort(function(a, b) {
 				var a_order = self.optgroups[a].$order || 0;
 				var b_order = self.optgroups[b].$order || 0;
