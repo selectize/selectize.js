@@ -10,6 +10,7 @@
     "tagging",
     "tag"
   ],
+  "main": "dist/js/selectize.js",
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
   "version": "0.11.2",
   "author": "Brian Reavis <brian@thirdroute.com>",
@@ -17,7 +18,10 @@
     "type": "git",
     "url": "git://github.com/brianreavis/selectize.js.git"
   },
-  "dependencies": {},
+  "dependencies": {
+    "microplugin": "0.0.3",
+    "sifter": "^0.4.0"
+  },
   "devDependencies": {
     "grunt": "0.4.x",
     "grunt-bower-task": "^0.4.0",
