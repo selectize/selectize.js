@@ -56,6 +56,35 @@
 				});
 			});
 
+			it('should start loading results if preload:"focus"', function(done) {
+				var calls_focus = 0;
+				var calls_load = 0;
+				var test = setup_test('<select>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {
+					preload: 'focus',
+					load: function(query, done) {
+						calls_load++;
+						assert.equal(query, '');
+						setTimeout(function() {
+							done([{value: 'c', text: 'C'}]);
+						});
+					}
+				});
+
+				test.selectize.on('focus', function() {
+					calls_focus++;
+				});
+				click(test.selectize.$control, function() {
+					setTimeout(function() {
+						assert.equal(calls_focus, 1);
+						assert.equal(calls_load, 1);
+						done();
+					}, 300);
+				});
+			});
+
 			it('should open dropdown menu', function(done) {
 				var test = setup_test('<select>' +
 					'<option value="a">A</option>' +
