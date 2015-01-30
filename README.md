@@ -75,7 +75,6 @@ By default, all [plugins](src/plugins) are included. To hand-pick what plugins (
 
 ```sh
 # dependencies
-npm install -g bower
 npm install
 
 # build selectize
