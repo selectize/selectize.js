@@ -666,14 +666,20 @@ $.extend(Selectize.prototype, {
 
 		$target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
-			self.createItem();
+			self.createItem(null, function() {
+				if (self.settings.closeAfterSelect) {
+					self.close();
+				}
+			});
 		} else {
 			value = $target.attr('data-value');
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
 				self.addItem(value);
-				if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+				if (self.settings.closeAfterSelect) {
+					self.close();
+				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
 			}

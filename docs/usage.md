@@ -91,6 +91,12 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>closeAfterSelect</code></td>
+        <td valign="top">If true, the dropdown will be closed after a selection is made.</td>
+        <td valign="top"><code>boolean</code></td>
+        <td valign="top"><code>false</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>allowEmptyOption</code></td>
 		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option act as a placeholder.</td>

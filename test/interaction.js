@@ -12,6 +12,36 @@
 
 	describe('Interaction', function() {
 
+		it('should keep dropdown open after selection made if closeAfterSelect: false', function(done) {
+			var test = setup_test('<select multiple>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {});
+
+				click(test.selectize.$control, function() {
+					click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+						expect(test.selectize.isOpen).to.be.equal(true);
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+				});
+		});
+
+		it('should close dropdown after selection made if closeAfterSelect: true', function(done) {
+			var test = setup_test('<select multiple>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {closeAfterSelect: true});
+
+				click(test.selectize.$control, function() {
+					click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+						expect(test.selectize.isOpen).to.be.equal(false);
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+				});
+		});
+
 		describe('clicking control', function() {
 
 			it('should give it focus', function(done) {
