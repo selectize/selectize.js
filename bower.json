@@ -30,7 +30,7 @@
 	],
 	"dependencies": {
 		"jquery": ">=1.7.0",
-		"sifter": "0.3.x",
+		"sifter": "0.4.x",
 		"microplugin": "0.0.x"
 	},
 	"devDependencies": {
