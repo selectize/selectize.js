@@ -79,10 +79,11 @@ describe('Events', function() {
 			});
 			test.selectize.addItem('b');
 		});
-		it('should contain item\'s value', function(done) {
+		it('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
 			test.selectize.on('item_add', function(value, $item) {
 				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
 				done();
 			});
 			test.selectize.addItem('b');
@@ -97,10 +98,11 @@ describe('Events', function() {
 			});
 			test.selectize.removeItem('a');
 		});
-		it('should contain item\'s value', function(done) {
+		it('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.selectize.on('item_remove', function(value) {
+			test.selectize.on('item_remove', function(value, $item) {
 				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
 				done();
 			});
 			test.selectize.removeItem('b');
