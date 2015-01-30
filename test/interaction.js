@@ -53,6 +53,7 @@
 				click(test.selectize.$control, function() {
 					click($('[data-value="b"]', test.selectize.$dropdown), function() {
 						expect(test.selectize.$input.val()).to.be.equal('b');
+						expect(test.selectize.$input.text()).to.be.equal('B');
 						done();
 					});
 				});

@@ -1638,13 +1638,14 @@ $.extend(Selectize.prototype, {
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {
-		var i, n, options, self = this;
+		var i, n, options, label, self = this;
 		opts = opts || {};
 
 		if (self.tagType === TAG_SELECT) {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected"></option>');
+				label = self.options[self.items[i]][self.settings.labelField] || '';
+				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
 			}
 			if (!options.length && !this.$input.attr('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
