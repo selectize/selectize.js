@@ -12,7 +12,7 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
 - [Plugin Documentation](docs/plugins.md)
-- [Browser Text Matrix](https://saucelabs.com/u/selectize)
+- [Browser Test Matrix](https://saucelabs.com/u/selectize)
 
 ### Features
 
