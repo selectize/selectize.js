@@ -1,5 +1,8 @@
 Selectize.count = 0;
 Selectize.defaults = {
+	options: [],
+	optgroups: [],
+
 	plugins: [],
 	delimiter: ',',
 	splitOn: null, // regexp or string for splitting up values from a paste command
@@ -28,7 +31,7 @@ Selectize.defaults = {
 	labelField: 'text',
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
-	optgroupOrder: null,
+	lockOptgroupOrder: false,
 
 	sortField: '$order',
 	searchField: ['text'],

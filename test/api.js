@@ -135,13 +135,18 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value', optgroupValueField: 'grpval'});
 			});
 			it('should register group', function() {
 				var data = {label: 'Group Label'};
 				test.selectize.addOptionGroup('group_id', data);
 				expect(test.selectize.optgroups).to.have.property('group_id');
-				expect(test.selectize.optgroups['group_id']).to.eql(data);
+			});
+			it('should add implicit $order property', function() {
+				test.selectize.addOptionGroup('group1', {});
+				test.selectize.addOptionGroup('group2', {});
+				assert.equal(test.selectize.optgroups['group1'].$order, 2);
+				assert.equal(test.selectize.optgroups['group2'].$order, 3);
 			});
 		});
 
@@ -176,9 +181,19 @@
 
 		describe('addOption()', function() {
 			var test;
-
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+
+			it('should add implicit $order property', function() {
+				var opt1 = {value: 'hello'};
+				var opt2 = {value: 'world'};
+				test.selectize.addOption(opt1);
+				test.selectize.addOption(opt2);
+				assert.deepEqual(test.selectize.options, {
+					'hello': {value: 'hello', $order: 1},
+					'world': {value: 'world', $order: 2}
+				});
 			});
 			it('should allow string values', function() {
 				test.selectize.addOption({value: 'stringtest'});
@@ -301,6 +316,7 @@
 						{value: 'd'},
 						{value: 'e'},
 						{value: 'f'},
+						{value: 'x'},
 						{value: 'null'},
 						{value: 'undefined'},
 						{value: '\''},
@@ -322,6 +338,12 @@
 				expect(test.selectize.options).to.have.property('e_updated');
 				expect(test.selectize.items.indexOf('e')).to.be.equal(-1);
 				expect(test.selectize.items.indexOf('e_updated')).to.be.equal(0);
+			});
+			it('should maintain implicit $order property', function() {
+				var order_orig = test.selectize.options['x'].$order;
+				assert.isNumber(order_orig);
+				test.selectize.updateOption('x', {value: 'x', something: 'x'});
+				assert.equal(test.selectize.options['x'].$order, order_orig);
 			});
 			it('should allow integer values', function() {
 				test.selectize.updateOption(0, {value: '0_updated'});

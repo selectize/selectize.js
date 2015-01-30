@@ -10,6 +10,7 @@ var Selectize = function($input, settings) {
 
 	// setup default state
 	$.extend(self, {
+		order            : 0,
 		settings         : settings,
 		$input           : $input,
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
@@ -53,12 +54,20 @@ var Selectize = function($input, settings) {
 	self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 
 	// build options table
-	$.extend(self.options, build_hash_table(settings.valueField, settings.options));
-	delete self.settings.options;
+	if (self.settings.options) {
+		for (i = 0, n = self.settings.options.length; i < n; i++) {
+			self.registerOption(self.settings.options[i]);
+		}
+		delete self.settings.options;
+	}
 
 	// build optgroup table
-	$.extend(self.optgroups, build_hash_table(settings.optgroupValueField, settings.optgroups));
-	delete self.settings.optgroups;
+	if (self.settings.optgroups) {
+		for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
+			self.registerOptionGroup(self.settings.optgroups[i]);
+		}
+		delete self.settings.optgroups;
+	}
 
 	// option-dependent defaults
 	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
@@ -945,7 +954,7 @@ $.extend(Selectize.prototype, {
 		var settings = this.settings;
 		var sort = settings.sortField;
 		if (typeof sort === 'string') {
-			sort = {field: sort};
+			sort = [{field: sort}];
 		}
 
 		return {
@@ -1032,15 +1041,7 @@ $.extend(Selectize.prototype, {
 
 		// render and group available options individually
 		groups = {};
-
-		if (self.settings.optgroupOrder) {
-			groups_order = self.settings.optgroupOrder;
-			for (i = 0; i < groups_order.length; i++) {
-				groups[groups_order[i]] = [];
-			}
-		} else {
-			groups_order = [];
-		}
+		groups_order = [];
 
 		for (i = 0; i < n; i++) {
 			option      = self.options[results.items[i].id];
@@ -1059,6 +1060,15 @@ $.extend(Selectize.prototype, {
 				}
 				groups[optgroup].push(option_html);
 			}
+		}
+
+		// sort optgroups
+		if (this.options.lockOptgroupOrder) {
+			groups_order.sort(function(a, b) {
+				var a_order = self.optgroups[a].$order || 0;
+				var b_order = self.optgroups[b].$order || 0;
+				return a_order - b_order;
+			});
 		}
 
 		// render optgroup headers & join groups
@@ -1139,10 +1149,10 @@ $.extend(Selectize.prototype, {
 	 *
 	 *   this.addOption(data)
 	 *
-	 * @param {object} data
+	 * @param {object|array} data
 	 */
 	addOption: function(data) {
-		var i, n, optgroup, value, self = this;
+		var i, n, value, self = this;
 
 		if ($.isArray(data)) {
 			for (i = 0, n = data.length; i < n; i++) {
@@ -1151,13 +1161,40 @@ $.extend(Selectize.prototype, {
 			return;
 		}
 
-		value = hash_key(data[self.settings.valueField]);
-		if (typeof value !== 'string' || self.options.hasOwnProperty(value)) return;
+		if (value = self.registerOption(data)) {
+			self.userOptions[value] = true;
+			self.lastQuery = null;
+			self.trigger('option_add', value, data);
+		}
+	},
 
-		self.userOptions[value] = true;
-		self.options[value] = data;
-		self.lastQuery = null;
-		self.trigger('option_add', value, data);
+	/**
+	 * Registers an option to the pool of options.
+	 *
+	 * @param {object} data
+	 * @return {boolean|string}
+	 */
+	registerOption: function(data) {
+		var key = hash_key(data[this.settings.valueField]);
+		if (!key || this.options.hasOwnProperty(key)) return false;
+		data.$order = data.$order || ++this.order;
+		this.options[key] = data;
+		return key;
+	},
+
+	/**
+	 * Registers an option group to the pool of option groups.
+	 *
+	 * @param {object} data
+	 * @return {boolean|string}
+	 */
+	registerOptionGroup: function(data) {
+		var key = hash_key(data[this.settings.optgroupValueField]);
+		if (!key) return false;
+
+		data.$order = data.$order || ++this.order;
+		this.optgroups[key] = data;
+		return key;
 	},
 
 	/**
@@ -1168,8 +1205,10 @@ $.extend(Selectize.prototype, {
 	 * @param {object} data
 	 */
 	addOptionGroup: function(id, data) {
-		this.optgroups[id] = data;
-		this.trigger('optgroup_add', id, data);
+		data[this.settings.optgroupValueField] = id;
+		if (id = this.registerOptionGroup(data)) {
+			this.trigger('optgroup_add', id, data);
+		}
 	},
 
 	/**
@@ -1205,7 +1244,7 @@ $.extend(Selectize.prototype, {
 	updateOption: function(value, data) {
 		var self = this;
 		var $item, $item_new;
-		var value_new, index_item, cache_items, cache_options;
+		var value_new, index_item, cache_items, cache_options, order_old;
 
 		value     = hash_key(value);
 		value_new = hash_key(data[self.settings.valueField]);
@@ -1215,6 +1254,8 @@ $.extend(Selectize.prototype, {
 		if (!self.options.hasOwnProperty(value)) return;
 		if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
+		order_old = self.options[value].$order;
+
 		// update references
 		if (value_new !== value) {
 			delete self.options[value];
@@ -1223,6 +1264,7 @@ $.extend(Selectize.prototype, {
 				self.items.splice(index_item, 1, value_new);
 			}
 		}
+		data.$order = data.$order || order_old;
 		self.options[value_new] = data;
 
 		// invalidate render cache
@@ -1246,7 +1288,7 @@ $.extend(Selectize.prototype, {
 			$item.replaceWith($item_new);
 		}
 
-		//invalidate last query because we might have updated the sortField
+		// invalidate last query because we might have updated the sortField
 		self.lastQuery = null;
 
 		// update dropdown contents

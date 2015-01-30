@@ -150,10 +150,16 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>options</code></td>
-		<td valign="top">Options available to select; array of objects. If your element is &lt;select&gt; with &lt;option&gt;s specified this property gets populated accordingly. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
+		<td valign="top">Options available to select; array of objects. If your element i as &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>optgroups</code></td>
+        <td valign="top">Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever "optgroupValueField" is set to.</td>
+        <td valign="top"><code>array</code></td>
+        <td valign="top"><code>[]</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>dataAttr</code></td>
 		<td valign="top">The &lt;option&gt; attribute from which to read JSON data about the option.</td>
@@ -219,10 +225,10 @@ $(function() {
 		<td valign="top"><code>'and'</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>optgroupOrder</td>
-		<td valign="top">An array of optgroup values that indicates the order they should be listed in in the dropdown. If not provided, groups will be ordered by the ranking of the options within them.</td>
-		<td valign="top"><code>array</code></td>
-		<td valign="top"><code>null</code></td>
+		<td valign="top"><code>lockOptgroupOrder</td>
+		<td valign="top">If truthy, selectize will make all optgroups be in the same order as they were added (by the "$order" property). Otherwise, it will order based on the score of the results in each.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>copyClassesToDropdown</code></td>

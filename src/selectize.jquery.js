@@ -8,6 +8,8 @@ $.fn.selectize = function(settings_user) {
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
 
+	var optionsMap = {};
+
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
@@ -23,8 +25,7 @@ $.fn.selectize = function(settings_user) {
 			option = {};
 			option[field_label] = values[i];
 			option[field_value] = values[i];
-
-			settings_element.options[values[i]] = option;
+			settings_element.options.push(option);
 		}
 
 		settings_element.items = values;
@@ -49,37 +50,35 @@ $.fn.selectize = function(settings_user) {
 		};
 
 		var addOption = function($option, group) {
-			var value, option;
-
 			$option = $($option);
 
-			value = $option.attr('value') || '';
-			if (!value.length && !settings.allowEmptyOption) return;
+			var value = hash_key($option.attr('value'));
+			if (!value && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
 			// duplicated in another optgroup. in this case, push
 			// the current group to the "optgroup" property on the
 			// existing option so that it's rendered in both places.
-			if (options.hasOwnProperty(value)) {
+			if (optionsMap.hasOwnProperty(value)) {
 				if (group) {
-					if (!options[value].optgroup) {
-						options[value].optgroup = group;
-					} else if (!$.isArray(options[value].optgroup)) {
-						options[value].optgroup = [options[value].optgroup, group];
+					if (!optionsMap[value].optgroup) {
+						optionsMap[value][field_optgroup_value] = group;
+					} else if (!$.isArray(optionsMap[value].optgroup)) {
+						optionsMap[value][field_optgroup_value] = [optionsMap[value][field_optgroup_value], group];
 					} else {
-						options[value].optgroup.push(group);
+						optionsMap[value][field_optgroup_value].push(group);
 					}
 				}
 				return;
 			}
 
-			option                 = readData($option) || {};
+			var option             = readData($option) || {};
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
 
-			option.$order = ++order;
-			options[value] = option;
+			optionsMap[value] = option;
+			options.push(option);
 
 			if ($option.is(':selected')) {
 				settings_element.items.push(value);
@@ -96,7 +95,7 @@ $.fn.selectize = function(settings_user) {
 				optgroup = readData($optgroup) || {};
 				optgroup[field_optgroup_label] = id;
 				optgroup[field_optgroup_value] = id;
-				settings_element.optgroups[id] = optgroup;
+				settings_element.optgroups.push(optgroup);
 			}
 
 			$options = $('option', $optgroup);
@@ -131,8 +130,8 @@ $.fn.selectize = function(settings_user) {
 
 		var settings_element = {
 			'placeholder' : placeholder,
-			'options'     : {},
-			'optgroups'   : {},
+			'options'     : [],
+			'optgroups'   : [],
 			'items'       : []
 		};
 
