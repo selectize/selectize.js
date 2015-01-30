@@ -17,6 +17,20 @@
 			it('should complete without exceptions', function() {
 				var test = setup_test('<input type="text">', {});
 			});
+			it('should populate items,options from "dataAttr" if available', function() {
+				var data = [{val: 'a', lbl: 'Hello'}, {val: 'b', lbl: 'World'}];
+				var test = setup_test('<input type="text" value="c,d,e" data-hydrate="' + JSON.stringify(data).replace(/"/g,'&quot;') + '">', {
+					dataAttr: 'data-hydrate',
+					valueField: 'val',
+					labelField: 'lbl'
+				});
+				expect(test.selectize.getValue()).to.be.equal('a,b');
+				assert.deepEqual(test.selectize.items, ['a','b']);
+				assert.deepEqual(test.selectize.options, {
+					'a': {val: 'a', lbl: 'Hello', $order: 1},
+					'b': {val: 'b', lbl: 'World', $order: 2}
+				});
+			});
 			describe('getValue()', function() {
 				it('should return value as a string', function() {
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
