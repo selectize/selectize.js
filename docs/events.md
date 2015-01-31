@@ -18,7 +18,7 @@ selectize.off('event_name', handler);
 <table width="100%">
 	<tr>
 		<th valign="top" width="200px" align="left">Event</th>
-		<th valign="top" width="100px" align="left">Params</th>
+		<th valign="top" width="150px" align="left">Params</th>
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
@@ -28,7 +28,7 @@ selectize.off('event_name', handler);
 	</tr>
 	<tr>
 		<td valign="top"><code>"change"</code></td>
-		<td valign="top">value</td>
+		<td valign="top"><code>value</code></td>
 		<td valign="top">Invoked when the value of the control changes.</td>
 	</tr>
 	<tr>
@@ -43,12 +43,12 @@ selectize.off('event_name', handler);
 	</tr>
 	<tr>
 		<td valign="top"><code>"item_add"</code></td>
-		<td valign="top">value, $item</td>
+		<td valign="top"><code>value</code>, <code>$item</code></td>
 		<td valign="top">Invoked when an item is selected.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"item_remove"</code></td>
-		<td valign="top">value</td>
+		<td valign="top"><code>value</code>, <code>$item</code></td>
 		<td valign="top">Invoked when an item is deselected.</td>
 	</tr>
 	<tr>
@@ -58,12 +58,12 @@ selectize.off('event_name', handler);
 	</tr>
 	<tr>
 		<td valign="top"><code>"option_add"</code></td>
-		<td valign="top">value, data</td>
+		<td valign="top"><code>value</code>, <code>data</code></td>
 		<td valign="top">Invoked when a new option is added to the available options list.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"option_remove"</code></td>
-		<td valign="top">value</td>
+		<td valign="top"><code>value</code></td>
 		<td valign="top">Invoked when an option is removed from the available options.</td>
 	</tr>
     <tr>
@@ -73,12 +73,12 @@ selectize.off('event_name', handler);
     </tr>
     <tr>
         <td valign="top"><code>"optgroup_add"</code></td>
-        <td valign="top">id, data</td>
+        <td valign="top"><code>id</code>, <code>data</code></td>
         <td valign="top">Invoked when a new option is added to the available options list.</td>
     </tr>
     <tr>
         <td valign="top"><code>"optgroup_remove"</code></td>
-        <td valign="top">id</td>
+        <td valign="top"><code>id</code></td>
         <td valign="top">Invoked when an option group is removed.</td>
     </tr>
     <tr>
@@ -88,22 +88,22 @@ selectize.off('event_name', handler);
     </tr>
 	<tr>
 		<td valign="top"><code>"dropdown_open"</code></td>
-		<td valign="top">$dropdown</td>
+		<td valign="top"><code>$dropdown</code></td>
 		<td valign="top">Invoked when the dropdown opens.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"dropdown_close"</code></td>
-		<td valign="top">$dropdown</td>
+		<td valign="top"><code>$dropdown</code></td>
 		<td valign="top">Invoked when the dropdown closes.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"type"</code></td>
-		<td valign="top">str</td>
+		<td valign="top"><code>str</code></td>
 		<td valign="top">Invoked when the user types while filtering options.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"load"</code></td>
-		<td valign="top">data</td>
+		<td valign="top"><code>data</code></td>
 		<td valign="top">Invoked when new options have been loaded and added to the control (via the "load" option or "load" API method).</td>
 	</tr>
 	<tr>
