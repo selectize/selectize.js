@@ -41,13 +41,13 @@ Methods should be extended by [wrapping them](http://coreymaynard.com/blog/exten
 
 ```js
 var self = this;
-this.someMethod = function() {
+this.someMethod = (function() {
 	var original = self.someMethod;
 	return function() {
 		// do your logic
 		return original.apply(this, arguments);
 	};
-});
+})();
 ```
 
 **Important:** If the method you're overriding returns a value, make sure the

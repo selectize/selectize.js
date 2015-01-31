@@ -24,7 +24,7 @@
 				<p>Check out the console for more details about each event.</p>
 				<div class="control-group">
 					<label for="select-state">States:</label>
-					<select id="select-state" name="state[]" class="demo-default" style="width:50%" placeholder="Select a state...">
+					<select id="select-state" multiple name="state[]" class="demo-default" style="width:50%">
 						<option value="">Select a state...</option>
 						<option value="AL">Alabama</option>
 						<option value="AK">Alaska</option>
@@ -98,6 +98,8 @@
 					onOptionRemove  : eventHandler('onOptionRemove'),
 					onDropdownOpen  : eventHandler('onDropdownOpen'),
 					onDropdownClose : eventHandler('onDropdownClose'),
+					onFocus         : eventHandler('onFocus'),
+					onBlur          : eventHandler('onBlur'),
 					onInitialize    : eventHandler('onInitialize'),
 				});
 				</script>

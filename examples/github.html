@@ -100,12 +100,11 @@
 				<p>This demo shows how to integrate third-party data and override the scoring method.</p>
 				<div class="control-group">
 					<label for="select-repo">Repository:</label>
-					<select id="select-repo" placeholder="Pick a repository..."></select>
+					<select id="select-repo" class="repositories" placeholder="Pick a repository..."></select>
 				</div>
 				<script>
 				// <select id="select-repo"></select>
 				$('#select-repo').selectize({
-					theme: 'repositories',
 					valueField: 'url',
 					labelField: 'name',
 					searchField: 'name',

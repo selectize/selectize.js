@@ -3,7 +3,7 @@
 ```html
 <script type="text/javascript" src="selectize.js"></script>
 <link rel="stylesheet" type="text/css" href="selectize.css" />
-<script type="text/javascript">
+<script>
 $(function() {
 	$('select').selectize(options);
 });
@@ -37,7 +37,7 @@ $(function() {
 	<tr>
 		<td valign="top"><code>create</code></td>
 		<td valign="top">
-			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true" (default behavior), "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
+			Allows the user to create a new items that aren't in the list of options. This option can be any of the following: "true", "false" (disabled), or a function that accepts two arguments: "input" and "callback". The callback should be invoked with the final data for the option.</td>
 		<td valign="top"><code>mixed</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -47,6 +47,13 @@ $(function() {
 			If true, when user exits the field (clicks outside of input or presses ESC) new option is created and selected (if `create`-option is enabled).
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>createFilter</code></td>
+		<td valign="top">
+			Specifies a RegExp or String containing a regular expression that the current search filter must match to be allowed to be created.  May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
+		<td valign="top"><code>mixed</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>highlight</code></td>
@@ -72,15 +79,27 @@ $(function() {
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>1000</code></td>
 	</tr>
-	<tr>
+	<tr name="maxItems">
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>∞</code></td>
+		<td valign="top"><code>1</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
 		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+    <tr>
+        <td valign="top"><code>closeAfterSelect</code></td>
+        <td valign="top">If true, the dropdown will be closed after a selection is made.</td>
+        <td valign="top"><code>boolean</code></td>
+        <td valign="top"><code>false</code></td>
+    </tr>
+	<tr>
+		<td valign="top"><code>allowEmptyOption</code></td>
+		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option act as a placeholder.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -95,6 +114,12 @@ $(function() {
 		<td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>300</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>loadingClass</code></td>
+		<td valign="top">The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'loading'</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>preload</code></td>
@@ -137,10 +162,16 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>options</code></td>
-		<td valign="top">Options available to select; array of objects. If your element is &lt;select&gt; with &lt;option&gt;s specified this property gets populated accordingly. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
+		<td valign="top">Options available to select; array of objects. If your element i as &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>optgroups</code></td>
+        <td valign="top">Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever "optgroupValueField" is set to.</td>
+        <td valign="top"><code>array</code></td>
+        <td valign="top"><code>[]</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>dataAttr</code></td>
 		<td valign="top">The &lt;option&gt; attribute from which to read JSON data about the option.</td>
@@ -186,8 +217,9 @@ $(function() {
 
 			Unless present, a special "$score" field will be automatically added to the beginning
 			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
+			
 
-			For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
+			You can override the "$score" function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
 		</td>
 		<td valign="top"><code>string|array</code></td>
 		<td valign="top"><code>'$order'</code></td>
@@ -205,10 +237,16 @@ $(function() {
 		<td valign="top"><code>'and'</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>optgroupOrder</td>
-		<td valign="top">An array of optgroup values that indicates the order they should be listed in in the dropdown. If not provided, groups will be ordered by the ranking of the options within them.</td>
-		<td valign="top"><code>array</code></td>
-		<td valign="top"><code>null</code></td>
+		<td valign="top"><code>lockOptgroupOrder</td>
+		<td valign="top">If truthy, selectize will make all optgroups be in the same order as they were added (by the "$order" property). Otherwise, it will order based on the score of the results in each.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>copyClassesToDropdown</code></td>
+		<td valign="top">Copy the original input classes to the Dropdown element.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
 	</tr>
 	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#callbacks" name="callbacks">Callbacks</a></th>
@@ -237,6 +275,18 @@ $(function() {
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>onFocus()</code></td>
+        <td valign="top">Invoked when the control gains focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
+    <tr>
+        <td valign="top"><code>onBlur()</code></td>
+        <td valign="top">Invoked when the control loses focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>onChange(value)</code></td>
 		<td valign="top">Invoked when the value of the control changes.</td>
@@ -309,10 +359,10 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			Custom rendering functions. Each function should accept two arguments: "data" and "escape".
+			Custom rendering functions. Each function should accept two arguments: "data" and "escape" and return HTML (string) with a single root element.
 			The "escape" argument is a function that takes a string and escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
-			<table width="100%">
+            <table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
 					<td valign="top">An option in the dropdown list of available options.</td>

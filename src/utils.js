@@ -22,10 +22,10 @@ var isset = function(object) {
  *   1         -> '1'
  *
  * @param {string} value
- * @returns {string}
+ * @returns {string|null}
  */
 var hash_key = function(value) {
-	if (typeof value === 'undefined' || value === null) return '';
+	if (typeof value === 'undefined' || value === null) return null;
 	if (typeof value === 'boolean') return value ? '1' : '0';
 	return value + '';
 };
@@ -87,25 +87,6 @@ hook.after = function(self, method, fn) {
 		fn.apply(self, arguments);
 		return result;
 	};
-};
-
-/**
- * Builds a hash table out of an array of
- * objects, using the specified `key` within
- * each object.
- *
- * @param {string} key
- * @param {mixed} objects
- */
-var build_hash_table = function(key, objects) {
-	if (!$.isArray(objects)) return objects;
-	var i, n, table = {};
-	for (i = 0, n = objects.length; i < n; i++) {
-		if (objects[i].hasOwnProperty(key)) {
-			table[objects[i][key]] = objects[i];
-		}
-	}
-	return table;
 };
 
 /**

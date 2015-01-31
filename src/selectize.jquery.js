@@ -8,6 +8,8 @@ $.fn.selectize = function(settings_user) {
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
 
+	var optionsMap = {};
+
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
@@ -15,19 +17,27 @@ $.fn.selectize = function(settings_user) {
 	 * @param {object} settings_element
 	 */
 	var init_textbox = function($input, settings_element) {
-		var i, n, values, option, value = $.trim($input.val() || '');
-		if (!value.length) return;
+		var i, n, values, option;
 
-		values = value.split(settings.delimiter);
-		for (i = 0, n = values.length; i < n; i++) {
-			option = {};
-			option[field_label] = values[i];
-			option[field_value] = values[i];
+		var data_raw = $input.attr(attr_data);
 
-			settings_element.options[values[i]] = option;
+		if (!data_raw) {
+			var value = $.trim($input.val() || '');
+			if (!settings.allowEmptyOption && !value.length) return;
+			values = value.split(settings.delimiter);
+			for (i = 0, n = values.length; i < n; i++) {
+				option = {};
+				option[field_label] = values[i];
+				option[field_value] = values[i];
+				settings_element.options.push(option);
+			}
+			settings_element.items = values;
+		} else {
+			settings_element.options = JSON.parse(data_raw);
+			for (i = 0, n = settings_element.options.length; i < n; i++) {
+				settings_element.items.push(settings_element.options[i][field_value]);
+			}
 		}
-
-		settings_element.items = values;
 	};
 
 	/**
@@ -49,37 +59,36 @@ $.fn.selectize = function(settings_user) {
 		};
 
 		var addOption = function($option, group) {
-			var value, option;
-
 			$option = $($option);
 
-			value = $option.attr('value') || '';
-			if (!value.length) return;
+			var value = hash_key($option.attr('value'));
+			if (!value && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
 			// duplicated in another optgroup. in this case, push
 			// the current group to the "optgroup" property on the
 			// existing option so that it's rendered in both places.
-			if (options.hasOwnProperty(value)) {
+			if (optionsMap.hasOwnProperty(value)) {
 				if (group) {
-					if (!options[value].optgroup) {
-						options[value].optgroup = group;
-					} else if (!$.isArray(options[value].optgroup)) {
-						options[value].optgroup = [options[value].optgroup, group];
+					var arr = optionsMap[value][field_optgroup];
+					if (!arr) {
+						optionsMap[value][field_optgroup] = group;
+					} else if (!$.isArray(arr)) {
+						optionsMap[value][field_optgroup] = [arr, group];
 					} else {
-						options[value].optgroup.push(group);
+						arr.push(group);
 					}
 				}
 				return;
 			}
 
-			option                 = readData($option) || {};
+			var option             = readData($option) || {};
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
 
-			option.$order = ++order;
-			options[value] = option;
+			optionsMap[value] = option;
+			options.push(option);
 
 			if ($option.is(':selected')) {
 				settings_element.items.push(value);
@@ -96,7 +105,7 @@ $.fn.selectize = function(settings_user) {
 				optgroup = readData($optgroup) || {};
 				optgroup[field_optgroup_label] = id;
 				optgroup[field_optgroup_value] = id;
-				settings_element.optgroups[id] = optgroup;
+				settings_element.optgroups.push(optgroup);
 			}
 
 			$options = $('option', $optgroup);
@@ -124,10 +133,15 @@ $.fn.selectize = function(settings_user) {
 		var instance;
 		var $input = $(this);
 		var tag_name = this.tagName.toLowerCase();
+		var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+		if (!placeholder && !settings.allowEmptyOption) {
+			placeholder = $input.children('option[value=""]').text();
+		}
+
 		var settings_element = {
-			'placeholder' : $input.children('option[value=""]').text() || $input.attr('placeholder'),
-			'options'     : {},
-			'optgroups'   : {},
+			'placeholder' : placeholder,
+			'options'     : [],
+			'optgroups'   : [],
 			'items'       : []
 		};
 
@@ -138,9 +152,10 @@ $.fn.selectize = function(settings_user) {
 		}
 
 		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
-		$input.data('selectize', instance);
-		$input.addClass('selectized');
 	});
 };
 
 $.fn.selectize.defaults = Selectize.defaults;
+$.fn.selectize.support = {
+	validity: SUPPORTS_VALIDITY_API
+};

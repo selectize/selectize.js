@@ -17,6 +17,20 @@
 			it('should complete without exceptions', function() {
 				var test = setup_test('<input type="text">', {});
 			});
+			it('should populate items,options from "dataAttr" if available', function() {
+				var data = [{val: 'a', lbl: 'Hello'}, {val: 'b', lbl: 'World'}];
+				var test = setup_test('<input type="text" value="c,d,e" data-hydrate="' + JSON.stringify(data).replace(/"/g,'&quot;') + '">', {
+					dataAttr: 'data-hydrate',
+					valueField: 'val',
+					labelField: 'lbl'
+				});
+				expect(test.selectize.getValue()).to.be.equal('a,b');
+				assert.deepEqual(test.selectize.items, ['a','b']);
+				assert.deepEqual(test.selectize.options, {
+					'a': {val: 'a', lbl: 'Hello', $order: 1},
+					'b': {val: 'b', lbl: 'World', $order: 2}
+				});
+			});
 			describe('getValue()', function() {
 				it('should return value as a string', function() {
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
@@ -47,7 +61,30 @@
 
 		describe('<select>', function() {
 			it('should complete without exceptions', function() {
-				var test = setup_test('<select>', {});
+				var test = setup_test('<select></select>', {});
+			});
+			it('should allow for values optgroups with duplicated options', function() {
+				var test = setup_test(['<select>',
+					'<optgroup label="Group 1">',
+						'<option value="a">Item A</option>',
+						'<option value="b">Item B</option>',
+					'</optgroup>',
+					'<optgroup label="Group 2">',
+						'<option value="a">Item A</option>',
+						'<option value="b">Item B</option>',
+					'</optgroup>',
+				'</select>'].join(''), {
+					optgroupValueField: 'val',
+					optgroupField: 'grp'
+				});
+				assert.deepEqual(test.selectize.options, {
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2}
+				});
+				assert.deepEqual(test.selectize.optgroups, {
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4}
+				});
 			});
 			it('should add options in text form (no html entities)', function() {
 				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
@@ -191,17 +228,16 @@
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
 
-			if ($('<select>')[0].validity) {
+			if ($.fn.selectize.support.validity) {
 				it('should have "invalid" class when validation fails', function(done) {
 					test.$select[0].checkValidity();
 					window.setTimeout(function() {
 						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-						expect(test.selectize.isFocused).to.be.equal(false);
 						done();
-					}, 0);
+					}, 250);
 				});
 				it('should clear the invalid class after an item is selected', function(done) {
-					Syn.click($button).delay(0, function() {
+					syn.click($button).delay(0, function() {
 						test.selectize.addItem('a');
 						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
 						done();
@@ -213,9 +249,33 @@
 						done();
 					});
 
-					Syn.click($button);
+					syn.click($button);
 				});
 			}
+		});
+
+		describe('<select> (not required)', function(){
+			var $form, $button, test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {});
+				$form = test.$select.parents('form');
+				$button = $('<button type="submit">').appendTo($form);
+			});
+			afterEach(function() {
+				$form.off('.test_required');
+				$button.remove();
+			});
+
+			it('should have isRequired property set to false', function() {
+				expect(test.selectize.isRequired).to.be.equal(false);
+			});
+			it('should not have the required class', function() {
+				expect(test.selectize.$control.hasClass('required')).to.be.equal(false);
+			});
 		});
 
 	});

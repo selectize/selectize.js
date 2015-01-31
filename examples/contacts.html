@@ -122,6 +122,11 @@
 							'</div>';
 						}
 					},
+					createFilter: function(input) {
+						var regexpA = new RegExp('^' + REGEX_EMAIL + '$', 'i');
+						var regexpB = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
+						return regexpA.test(input) || regexpB.test(input);
+					},
 					create: function(input) {
 						if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
 							return {email: input};

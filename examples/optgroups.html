@@ -153,16 +153,16 @@
 							{id: 'trail-blazer', make: 'chevrolet', model: 'TrailBlazer'},
 						],
 						optgroups: [
-							{id: 'dodge', name: 'Dodge'},
-							{id: 'audi', name: 'Audi'},
-							{id: 'chevrolet', name: 'Chevrolet'}
+							{$order: 3, id: 'dodge', name: 'Dodge'},
+							{$order: 2, id: 'audi', name: 'Audi'},
+							{$order: 1, id: 'chevrolet', name: 'Chevrolet'}
 						],
 						labelField: 'model',
 						valueField: 'id',
 						optgroupField: 'make',
 						optgroupLabelField: 'name',
 						optgroupValueField: 'id',
-						optgroupOrder: ['chevrolet', 'dodge', 'audi'],
+						lockOptgroupOrder: true,
 						searchField: ['model'],
 						plugins: ['optgroup_columns'],
 						openOnFocus: false
