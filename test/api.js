@@ -6,8 +6,12 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select>', {});
+				test = setup_test('<select tabindex="4">', {});
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('4');
 				test.selectize.disable();
+			});
+			it('should set "tabindex" prop to -1', function() {
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
 			});
 			it('should set "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(true);
@@ -15,8 +19,9 @@
 			it('should set isDisabled property to true', function() {
 				expect(test.selectize.isDisabled).to.be.equal(true);
 			});
-			it('should add "disabled" attribute on original input', function() {
+			it('should add "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(true);
+				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(true);
 			});
 		});
 
@@ -24,8 +29,12 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select disabled>', {});
+				test = setup_test('<select disabled tabindex="2">', {});
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('-1');
 				test.selectize.enable();
+			});
+			it('should restore original "tabindex" prop', function() {
+				expect(String(test.selectize.$control_input.attr('tabindex'))).to.be.equal('2');
 			});
 			it('should remove "disabled" class', function() {
 				expect(test.selectize.$control.hasClass('disabled')).to.be.equal(false);
@@ -33,8 +42,9 @@
 			it('should set isDisabled property to false', function() {
 				expect(test.selectize.isDisabled).to.be.equal(false);
 			});
-			it('should remove "disabled" attribute on original input', function() {
+			it('should remove "disabled" attribute on inputs', function() {
 				expect(test.selectize.$input.is(':disabled')).to.be.equal(false);
+				expect(test.selectize.$control_input.is(':disabled')).to.be.equal(false);
 			});
 		});
 
@@ -63,8 +73,8 @@
 				test.selectize.focus();
 				window.setTimeout(function() {
 					test.selectize.blur();
-					window.setTimeout(done, 5);
-				}, 5);
+					window.setTimeout(done, 100);
+				}, 50);
 			});
 			it('should set isFocused property to false', function() {
 				expect(test.selectize.isFocused).to.be.equal(false);
@@ -135,21 +145,65 @@
 			var test;
 
 			before(function() {
-				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value', optgroupValueField: 'grpval'});
 			});
 			it('should register group', function() {
 				var data = {label: 'Group Label'};
 				test.selectize.addOptionGroup('group_id', data);
 				expect(test.selectize.optgroups).to.have.property('group_id');
-				expect(test.selectize.optgroups['group_id']).to.eql(data);
+			});
+			it('should add implicit $order property', function() {
+				test.selectize.addOptionGroup('group1', {});
+				test.selectize.addOptionGroup('group2', {});
+				assert.equal(test.selectize.optgroups['group1'].$order, 2);
+				assert.equal(test.selectize.optgroups['group2'].$order, 3);
+			});
+		});
+
+		describe('removeOptionGroup()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			it('should remove group', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				test.selectize.removeOptionGroup('group_id');
+				expect(test.selectize.optgroups).to.not.have.property('group_id');
+			});
+		});
+
+		describe('clearOptionGroups()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+			it('should clear all groups', function() {
+				var data = {label: 'Group Label'};
+				test.selectize.addOptionGroup('group_id', data);
+				test.selectize.addOptionGroup('group_id2', data);
+				test.selectize.clearOptionGroups();
+				expect(test.selectize.optgroups).to.deep.equal({});
 			});
 		});
 
 		describe('addOption()', function() {
 			var test;
-
 			before(function() {
 				test = setup_test('<select>', {valueField: 'value', labelField: 'value'});
+			});
+
+			it('should add implicit $order property', function() {
+				var opt1 = {value: 'hello'};
+				var opt2 = {value: 'world'};
+				test.selectize.addOption(opt1);
+				test.selectize.addOption(opt2);
+				assert.deepEqual(test.selectize.options, {
+					'hello': {value: 'hello', $order: 1},
+					'world': {value: 'world', $order: 2}
+				});
 			});
 			it('should allow string values', function() {
 				test.selectize.addOption({value: 'stringtest'});
@@ -195,6 +249,7 @@
 						{value: 'a'},
 						{value: 'b'},
 						{value: 'c'},
+						{value: 'x'},
 						{value: '$1'},
 						{value: '\''},
 						{value: '"'},
@@ -229,6 +284,16 @@
 				test.selectize.addItem(0);
 				expect(test.selectize.items.indexOf('0')).to.not.be.equal(-1);
 			});
+			it('should not fire "change" if silent is truthy', function(done) {
+				var watcher = function(e) { throw new Error('Change fired'); };
+				test.$select.on('change', watcher);
+				test.selectize.addItem('x', true);
+				expect(test.selectize.items.indexOf('x')).to.not.be.equal(-1);
+				window.setTimeout(function() {
+					test.$select.off('change', watcher);
+					done();
+				}, 0);
+			});
 			it('should update DOM', function() {
 				test.selectize.addItem('c');
 				expect(test.selectize.$control.find('[data-value=c]').length).to.be.equal(1);
@@ -261,6 +326,7 @@
 						{value: 'd'},
 						{value: 'e'},
 						{value: 'f'},
+						{value: 'x'},
 						{value: 'null'},
 						{value: 'undefined'},
 						{value: '\''},
@@ -282,6 +348,12 @@
 				expect(test.selectize.options).to.have.property('e_updated');
 				expect(test.selectize.items.indexOf('e')).to.be.equal(-1);
 				expect(test.selectize.items.indexOf('e_updated')).to.be.equal(0);
+			});
+			it('should maintain implicit $order property', function() {
+				var order_orig = test.selectize.options['x'].$order;
+				assert.isNumber(order_orig);
+				test.selectize.updateOption('x', {value: 'x', something: 'x'});
+				assert.equal(test.selectize.options['x'].$order, order_orig);
 			});
 			it('should allow integer values', function() {
 				test.selectize.updateOption(0, {value: '0_updated'});
@@ -473,6 +545,15 @@
 				expect(test.selectize.$control.find('[data-value=1]').length).to.be.equal(0);
 				expect(test.selectize.$control.find('[data-value=2]').length).to.be.equal(0);
 				expect(test.selectize.$control.find('[data-value=3]').length).to.be.equal(0);
+			});
+			it('should not fire "change" if silent is truthy', function(done) {
+				var watcher = function(e) { throw new Error('Change fired'); };
+				test.$select.on('change', watcher);
+				test.selectize.clear(true);
+				window.setTimeout(function() {
+					test.$select.off('change', watcher);
+					done();
+				}, 0);
 			});
 			it('should not give control focus', function(done) {
 				test.selectize.clear();

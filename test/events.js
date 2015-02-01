@@ -1,5 +1,39 @@
 describe('Events', function() {
 
+	describe('focus', function() {
+		it('should work as expected', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var counter = 0;
+			test.selectize.on('focus', function() { counter++; });
+			test.selectize.focus();
+
+			syn.click(test.selectize.$control).delay(0, function() {
+				window.setTimeout(function() {
+					expect(counter).to.be.equal(1);
+					done();
+				}, 0);
+			});
+		});
+	});
+
+	describe('blur', function() {
+		it('should work as expected', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var counter = 0;
+			test.selectize.on('blur', function() { counter++; });
+			test.selectize.focus();
+
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn.click($('body')).delay(0, function() {
+					window.setTimeout(function() {
+						expect(counter).to.be.equal(1);
+						done();
+					}, 0);
+				});
+			});
+		});
+	});
+
 	describe('change', function() {
 		it('should be triggered once', function(done) {
 			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
@@ -26,8 +60,8 @@ describe('Events', function() {
 			var counter = 0;
 			test.$select.on('change', function() { counter++; });
 
-			Syn.click(test.selectize.$control).delay(0, function() {
-				Syn
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn
 					.click($('[data-value="a"]', test.selectize.$dropdown))
 					.delay(0, function() {
 						expect(counter).to.be.equal(0);
@@ -45,10 +79,11 @@ describe('Events', function() {
 			});
 			test.selectize.addItem('b');
 		});
-		it('should contain item\'s value', function(done) {
+		it('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
 			test.selectize.on('item_add', function(value, $item) {
 				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
 				done();
 			});
 			test.selectize.addItem('b');
@@ -63,10 +98,11 @@ describe('Events', function() {
 			});
 			test.selectize.removeItem('a');
 		});
-		it('should contain item\'s value', function(done) {
+		it('should contain item\'s value and element', function(done) {
 			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
-			test.selectize.on('item_remove', function(value) {
+			test.selectize.on('item_remove', function(value, $item) {
 				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
 				done();
 			});
 			test.selectize.removeItem('b');
@@ -105,6 +141,29 @@ describe('Events', function() {
 				done();
 			});
 			test.selectize.addOptionGroup('id', optgroup);
+		});
+	});
+
+	describe('optgroup_remove', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('optgroup_remove', function(id) {
+				expect(id).to.be.equal('id');
+				done();
+			});
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+			test.selectize.removeOptionGroup('id');
+		});
+	});
+
+	describe('optgroup_clear', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('optgroup_clear', function() {
+				done();
+			});
+			test.selectize.addOptionGroup('id', {label: 'Group'});
+			test.selectize.clearOptionGroups();
 		});
 	});
 
@@ -200,7 +259,7 @@ describe('Events', function() {
 			test.selectize.on('type', function() {
 				done();
 			});
-			Syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
+			syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
 		});
 		it('should contain current value', function(done) {
 			var test = setup_test('<select></select>', {create: true});
@@ -208,7 +267,7 @@ describe('Events', function() {
 				expect(value).to.be.equal('a');
 				done();
 			});
-			Syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
+			syn.click(test.selectize.$control).type('a', test.selectize.$control_input);
 		});
 	});
 

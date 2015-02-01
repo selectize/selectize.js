@@ -1,6 +1,6 @@
 /**
- * selectize.bootstrap2.css (v0.11.2) - Bootstrap 2 Theme
- * Copyright (c) 2013 Brian Reavis & contributors
+ * selectize.bootstrap2.css (v0.12.0) - Bootstrap 2 Theme
+ * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -227,7 +227,7 @@
 .selectize-dropdown {
   position: absolute;
   z-index: 10;
-  border: 1px solid #d0d0d0;
+  border: 1px solid #cccccc;
   background: #ffffff;
   margin: -1px 0 0 0;
   border-top: 0 none;

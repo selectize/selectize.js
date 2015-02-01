@@ -3,7 +3,7 @@
 ```html
 <script type="text/javascript" src="selectize.js"></script>
 <link rel="stylesheet" type="text/css" href="selectize.css" />
-<script type="text/javascript">
+<script>
 $(function() {
 	$('select').selectize(options);
 });
@@ -79,11 +79,11 @@ $(function() {
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>1000</code></td>
 	</tr>
-	<tr>
+	<tr name="maxItems">
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>∞</code></td>
+		<td valign="top"><code>1</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
@@ -91,6 +91,12 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>closeAfterSelect</code></td>
+        <td valign="top">If true, the dropdown will be closed after a selection is made.</td>
+        <td valign="top"><code>boolean</code></td>
+        <td valign="top"><code>false</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>allowEmptyOption</code></td>
 		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option act as a placeholder.</td>
@@ -108,6 +114,12 @@ $(function() {
 		<td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>300</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>loadingClass</code></td>
+		<td valign="top">The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'loading'</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>preload</code></td>
@@ -144,10 +156,16 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>options</code></td>
-		<td valign="top">Options available to select; array of objects. If your element is &lt;select&gt; with &lt;option&gt;s specified this property gets populated accordingly. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
+		<td valign="top">Options available to select; array of objects. If your element i as &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>optgroups</code></td>
+        <td valign="top">Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever "optgroupValueField" is set to.</td>
+        <td valign="top"><code>array</code></td>
+        <td valign="top"><code>[]</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>dataAttr</code></td>
 		<td valign="top">The &lt;option&gt; attribute from which to read JSON data about the option.</td>
@@ -193,8 +211,9 @@ $(function() {
 
 			Unless present, a special "$score" field will be automatically added to the beginning
 			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
+			
 
-			For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
+			You can override the "$score" function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
 		</td>
 		<td valign="top"><code>string|array</code></td>
 		<td valign="top"><code>'$order'</code></td>
@@ -212,10 +231,10 @@ $(function() {
 		<td valign="top"><code>'and'</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>optgroupOrder</td>
-		<td valign="top">An array of optgroup values that indicates the order they should be listed in in the dropdown. If not provided, groups will be ordered by the ranking of the options within them.</td>
-		<td valign="top"><code>array</code></td>
-		<td valign="top"><code>null</code></td>
+		<td valign="top"><code>lockOptgroupOrder</td>
+		<td valign="top">If truthy, selectize will make all optgroups be in the same order as they were added (by the "$order" property). Otherwise, it will order based on the score of the results in each.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>copyClassesToDropdown</code></td>
@@ -250,6 +269,18 @@ $(function() {
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
+    <tr>
+        <td valign="top"><code>onFocus()</code></td>
+        <td valign="top">Invoked when the control gains focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
+    <tr>
+        <td valign="top"><code>onBlur()</code></td>
+        <td valign="top">Invoked when the control loses focus.</td>
+        <td valign="top"><code>function</code></td>
+        <td valign="top"><code>null</code></td>
+    </tr>
 	<tr>
 		<td valign="top"><code>onChange(value)</code></td>
 		<td valign="top">Invoked when the value of the control changes.</td>

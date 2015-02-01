@@ -1,7 +1,11 @@
 # selectize.js
-[![Build Status](https://travis-ci.org/brianreavis/selectize.js.png?branch=master)](https://travis-ci.org/brianreavis/selectize.js)
 
-Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+[![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
+![Bower version](http://img.shields.io/bower/v/selectize.svg?style=flat)
+[![Build Status](http://img.shields.io/travis/brianreavis/selectize.js/master.svg?style=flat)](https://travis-ci.org/brianreavis/selectize.js)
+[![Coverage Status](http://img.shields.io/coveralls/brianreavis/selectize.js/master.svg?style=flat)](https://coveralls.io/r/brianreavis/selectize.js)
+
+Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://brianreavis.github.io/selectize.js/)
 - [Changelog](https://github.com/brianreavis/selectize.js/releases)
@@ -9,6 +13,7 @@ Selectize is an extensible jQuery-based custom &lt;select&gt; UI control. It's u
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
 - [Plugin Documentation](docs/plugins.md)
+- [Browser Test Matrix](https://saucelabs.com/u/selectize)
 
 ### Features
 
@@ -70,7 +75,6 @@ By default, all [plugins](src/plugins) are included. To hand-pick what plugins (
 
 ```sh
 # dependencies
-npm install -g bower
 npm install
 
 # build selectize
@@ -81,15 +85,18 @@ grunt --plugins=remove_button,restore_on_backspace
 
 ### Contributing
 
-First build your copy then try out the [bundled examples](examples/).
+When issuing a pull request, *please exclude changes in the "dist" folder to avoid merge conflicts*. Also, please ensure all the tests pass:
 
-To use the automated test runner, either open ["tests/index.html"](tests/index.html) in a browser, or run `make test`. The latter requires [node.js](http://nodejs.org/) and [testem](https://github.com/airportyh/testem) to be installed (`npm install -g testem`).
-
-When issuing a pull request, please exclude changes in the "dist" folder to avoid merge conflicts.
+```sh
+$ npm test # phantomjs
+$ BROWSERS=Firefox npm test
+$ BROWSERS=Firefox,Chrome npm test
+$ BROWSERS=Firefox,Chrome,Safari npm test
+```
 
 ## License
 
-Copyright &copy; 2013 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
+Copyright &copy; 2013–2015 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

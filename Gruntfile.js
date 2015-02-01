@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 module.exports = function(grunt) {
-	grunt.loadNpmTasks('grunt-bower-cli');
+	grunt.loadNpmTasks('grunt-bower-task');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
@@ -109,7 +109,9 @@ module.exports = function(grunt) {
 		bower: {
 			install: {
 				options: {
-					directory: 'bower_components',
+					copy: false,
+					clean: false,
+					layout: 'byComponent',
 					action: 'install'
 				}
 			}

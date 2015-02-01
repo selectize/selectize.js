@@ -30,7 +30,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>addOption(data)</code></td>
-		<td valign="top">Adds an available option. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
+		<td valign="top">Adds an available option, or array of options. If it already exists, nothing will happen. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>updateOption(value, data)</code></td>
@@ -64,23 +64,23 @@ var selectize = $select[0].selectize;
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
-		<td valign="top"><code>clear()</code></td>
-		<td valign="top">Resets / clears all selected items from the control.</td>
+		<td valign="top"><code>clear(silent)</code></td>
+		<td valign="top">Resets / clears all selected items from the control. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>getItem(value)</code></td>
 		<td valign="top">Returns the jQuery element of the item matching the given value.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>addItem(value)</code></td>
-		<td valign="top">"Selects" an item. Adds it to the list at the current caret position.</td>
+		<td valign="top"><code>addItem(value, silent)</code></td>
+		<td valign="top">"Selects" an item. Adds it to the list at the current caret position. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>removeItem(value)</code></td>
-		<td valign="top">Removes the selected item matching the provided value.</td>
+		<td valign="top"><code>removeItem(value, silent)</code></td>
+		<td valign="top">Removes the selected item matching the provided value. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>createItem(value)</code></td>
+		<td valign="top"><code>createItem(value, callback)</code></td>
 		<td valign="top">Invokes the "create" method provided in the selectize options that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
 	</tr>
 	<tr>
@@ -98,6 +98,14 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>addOptionGroup(id, data)</code></td>
 		<td valign="top">Registers a new optgroup for options to be bucketed into. The "id" argument refers to a value of the property in option identified by the "optgroupField" setting.</td>
 	</tr>
+    <tr>
+        <td valign="top"><code>removeOptionGroup(id)</code></td>
+        <td valign="top">Removes a single option group.</td>
+    </tr>
+    <tr>
+        <td valign="top"><code>clearOptionGroups()</code></td>
+        <td valign="top">Removes all existing option groups.</td>
+    </tr>
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
 	</tr>
@@ -181,10 +189,10 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>getValue()</code></td>
-		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. &lt;select multiple&gt;), this returns an array. If only one item can be selected, this returns a string.</td>
+		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. <a href="usage.md#maxItems">&lt;select multiple&gt;</a>, this returns an array. If only one item can be selected, this returns a string.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>setValue(value)</code></td>
+		<td valign="top"><code>setValue(value, silent)</code></td>
 		<td valign="top">Resets the selected items to the given value.</td>
 	</tr>
 	<tr>
