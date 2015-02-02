@@ -1723,7 +1723,7 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Calculates and applies the appropriate position of the dropdown.
-	 * 
+	 *
 	 * Supports dropdownDirection up, down and auto. In case menu can't be fitted it's
 	 * height is limited to don't fall out of display.
 	 */
@@ -1752,7 +1752,7 @@ $.extend(Selectize.prototype, {
 			case 'up':
 				offset.top -= p.dropdown.height;
 				if (p.dropdown.height > p.control.above) {
-					fittedHeight = controlPos.above - 5;
+					fittedHeight = p.control.above - 5;
 				}
 				break;
 
@@ -1801,7 +1801,7 @@ $.extend(Selectize.prototype, {
 	getPositions: function() {
 		var $control = this.$control;
 		var $window = $(window);
-		
+
 		var control_height = $control.outerHeight(false);
 		var control_above = $control.offset().top - $window.scrollTop();
 		var control_below = $window.height() - control_above - control_height;
