@@ -29,7 +29,7 @@ Selectize.define('restore_on_backspace', function(options) {
 				index = this.caretPos - 1;
 				if (index >= 0 && index < this.items.length) {
 					option = this.options[this.items[index]];
-					if (this.deleteSelection(e)) {
+					if (this.deleteSelection(e, true)) {
 						this.setTextboxValue(options.text.apply(this, [option]));
 						this.refreshOptions(true);
 					}
