@@ -513,6 +513,8 @@ $.extend(Selectize.prototype, {
 				}
 				return;
 			case KEY_BACKSPACE:
+				self.deleteSelection(e, true);
+				return;
 			case KEY_DELETE:
 				self.deleteSelection(e);
 				return;
@@ -1775,16 +1777,19 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Removes the current selected item(s).
+	 * Removes the current selected item(s),
+	 * optionally moving the caret position.
 	 *
 	 * @param {object} e (optional)
+	 * @param {boolean} back (optional)
 	 * @returns {boolean}
 	 */
-	deleteSelection: function(e) {
+	deleteSelection: function(e, back) {
 		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 		var self = this;
 
-		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+		direction = back || (back === undefined && e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
+
 		selection = getSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
