@@ -56,6 +56,13 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>createPosition</code></td>
+		<td valign="top">
+			Control the position of the create item option in the dropdown list. This option can be "first" (default) to appear at the top of the dropdown list, or "last" to appear at the bottom of the dropdown list.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'first'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>highlight</code></td>
 		<td valign="top">Toggles match highlighting within the dropdown menu.</td>
 		<td valign="top"><code>boolean</code></td>
@@ -211,7 +218,7 @@ $(function() {
 
 			Unless present, a special "$score" field will be automatically added to the beginning
 			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
-			
+
 
 			You can override the "$score" function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
 		</td>

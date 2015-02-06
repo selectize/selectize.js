@@ -1112,8 +1112,14 @@ $.extend(Selectize.prototype, {
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
-			$dropdown_content.prepend(self.render('option_create', {input: query}));
-			$create = $($dropdown_content[0].childNodes[0]);
+			var create_position = self.settings.createPosition;
+			if (create_position === 'last') {
+				$dropdown_content.append(self.render('option_create', {input: query}));
+				$create = $($dropdown_content[0].childNodes[$dropdown_content[0].childNodes.length - 1]);
+			} else {
+				$dropdown_content.prepend(self.render('option_create', {input: query}));
+				$create = $($dropdown_content[0].childNodes[0]);
+			}
 		}
 
 		// activate
