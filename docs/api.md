@@ -18,6 +18,26 @@ var selectize = $select[0].selectize;
 - [Event Documentation](events.md)
 - [Developing Plugins](plugins.md)
 
+### Properties
+
+<table width="100%">
+	<tr>
+		<th valign="top" colspan="3" align="left"><a href="#props" name="props">Properties</a></th>
+	</tr>
+	<tr>
+		<th valign="top" width="120px" align="left">Property</th>
+		<th valign="top" align="left">Description</th>
+	</tr>
+	<tr>
+		<td valign="top"><code>options</code></td>
+		<td valign="top">An object containing the entire pool of options. The object is keyed by each object's value.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>items</code></td>
+		<td valign="top">An array of selected values.</td>
+	</tr>
+</table>
+
 ### Methods
 
 <table width="100%">
