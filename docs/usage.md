@@ -23,6 +23,18 @@ $(function() {
 		<th valign="top" width="60px" align="left">Default</th>
 	</tr>
 	<tr>
+		<td valign="top"><code>options</code></td>
+		<td valign="top">An array of the initial available options. By default this is populated from the original input element.</td>
+		<td valign="top"><code>array</code></td>
+		<td valign="top"><code>[]</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>items</code></td>
+		<td valign="top">An array of the initial selected values. By default this is populated from the original input element.</td>
+		<td valign="top"><code>array</code></td>
+		<td valign="top"><code>[]</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>delimiter</code></td>
 		<td valign="top">The string to separate items by. This option is only used when Selectize is instantiated from a &lt;input type="text"&gt; element.</td>
 		<td valign="top"><code>string</code></td>
