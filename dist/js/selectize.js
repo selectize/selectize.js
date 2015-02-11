@@ -1212,7 +1212,7 @@
 			var events = silent ? [] : ['change'];
 	
 			debounce_events(this, events, function() {
-				this.clear(silent);
+				this.clear();
 				this.addItems(value, silent);
 			});
 		},
@@ -1882,7 +1882,7 @@
 				}
 	
 				if (!self.options.hasOwnProperty(value)) return;
-				if (inputMode === 'single') self.clear(silent);
+				if (inputMode === 'single') self.clear();
 				if (inputMode === 'multi' && self.isFull()) return;
 	
 				$item = $(self.render('item', self.options[value]));
