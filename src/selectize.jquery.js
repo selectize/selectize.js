@@ -8,8 +8,6 @@ $.fn.selectize = function(settings_user) {
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
 
-	var optionsMap = {};
-
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
@@ -49,6 +47,7 @@ $.fn.selectize = function(settings_user) {
 	var init_select = function($input, settings_element) {
 		var i, n, tagName, $children, order = 0;
 		var options = settings_element.options;
+		var optionsMap = {};
 
 		var readData = function($el) {
 			var data = attr_data && $el.attr(attr_data);
