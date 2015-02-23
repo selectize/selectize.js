@@ -1036,7 +1036,7 @@ $.extend(Selectize.prototype, {
 		var query             = $.trim(self.$control_input.val());
 		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
-		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
+		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value')) !== null;
 
 		// build markup
 		n = results.items.length;
@@ -1181,7 +1181,7 @@ $.extend(Selectize.prototype, {
 	 */
 	registerOption: function(data) {
 		var key = hash_key(data[this.settings.valueField]);
-		if (!key || this.options.hasOwnProperty(key)) return false;
+		if (key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
 		this.options[key] = data;
 		return key;
@@ -1195,7 +1195,7 @@ $.extend(Selectize.prototype, {
 	 */
 	registerOptionGroup: function(data) {
 		var key = hash_key(data[this.settings.optgroupValueField]);
-		if (!key) return false;
+		if (key === null) return false;
 
 		data.$order = data.$order || ++this.order;
 		this.optgroups[key] = data;
