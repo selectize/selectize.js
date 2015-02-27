@@ -1,6 +1,14 @@
-$.fn.selectize = function(settings_user) {
+$.fn.selectize = function(options) {
+	if(typeof options === 'string'){
+		var el = this[0];
+		if (el && el.selectize){
+			var instance = el.selectize;
+			var args = Array.prototype.slice.call(arguments, 1);
+			return instance[options].apply(instance, args);
+		} else return;
+	}
 	var defaults             = $.fn.selectize.defaults;
-	var settings             = $.extend({}, defaults, settings_user);
+	var settings             = $.extend({}, defaults, options);
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
 	var field_value          = settings.valueField;
@@ -150,7 +158,7 @@ $.fn.selectize = function(settings_user) {
 			init_textbox($input, settings_element);
 		}
 
-		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, options));
 	});
 };
 

@@ -13,6 +13,19 @@ var $select = $('select').selectize(options);
 var selectize = $select[0].selectize;
 ```
 
+Or, you can pass an API method you want to call as an argument,
+along with any arguments:
+
+```js
+// initialize the selectize control
+var $select = $('select').selectize(options);
+
+// call an API method
+$select.selectize('getValue'); //=> "1"
+$select.selectize('setValue', 4);
+$select.selectize('getValue'); //=> "4"
+```
+
 #### Related Topics
 
 - [Event Documentation](events.md)
