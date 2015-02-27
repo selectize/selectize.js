@@ -1,12 +1,24 @@
-$.fn.selectize = function(settings_user) {
-	var defaults             = $.fn.selectize.defaults;
-	var settings             = $.extend({}, defaults, settings_user);
+var load_element_settings = function(input, settings){
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
 	var field_value          = settings.valueField;
 	var field_optgroup       = settings.optgroupField;
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
+	var $input = $(input);
+
+	var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+	if (!placeholder && !settings.allowEmptyOption) {
+		placeholder = $input.children('option[value=""]').text();
+	}
+
+	var settings_element = {
+		placeholder: placeholder,
+		options: [],
+		optgroups: [],
+		items: []
+	}
+	var optionsMap = {};
 
 	/**
 	 * Initializes selectize from a <input type="text"> element.
@@ -14,7 +26,7 @@ $.fn.selectize = function(settings_user) {
 	 * @param {object} $input
 	 * @param {object} settings_element
 	 */
-	var init_textbox = function($input, settings_element) {
+	var init_textbox = function($input) {
 		var i, n, values, option;
 
 		var data_raw = $input.attr(attr_data);
@@ -37,17 +49,15 @@ $.fn.selectize = function(settings_user) {
 			}
 		}
 	};
-
 	/**
 	 * Initializes selectize from a <select> element.
 	 *
 	 * @param {object} $input
 	 * @param {object} settings_element
 	 */
-	var init_select = function($input, settings_element) {
+	var init_select = function($input) {
 		var i, n, tagName, $children, order = 0;
 		var options = settings_element.options;
-		var optionsMap = {};
 
 		var readData = function($el) {
 			var data = attr_data && $el.attr(attr_data);
@@ -124,33 +134,24 @@ $.fn.selectize = function(settings_user) {
 				addOption($children[i]);
 			}
 		}
+
+
 	};
 
+	if (input.tagName.toLowerCase() === 'select') {
+		init_select($input, settings_element);
+	} else {
+		init_textbox($input, settings_element);
+	}
+	return settings_element;
+}
+
+$.fn.selectize = function(settings_user) {
 	return this.each(function() {
 		if (this.selectize) return;
 
-		var instance;
-		var $input = $(this);
-		var tag_name = this.tagName.toLowerCase();
-		var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
-		if (!placeholder && !settings.allowEmptyOption) {
-			placeholder = $input.children('option[value=""]').text();
-		}
-
-		var settings_element = {
-			'placeholder' : placeholder,
-			'options'     : [],
-			'optgroups'   : [],
-			'items'       : []
-		};
-
-		if (tag_name === 'select') {
-			init_select($input, settings_element);
-		} else {
-			init_textbox($input, settings_element);
-		}
-
-		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+		var settings_element = load_element_settings(this, $.extend({}, Selectize.defaults, settings_user))
+		new Selectize($(this), $.extend(true, {}, Selectize.defaults, settings_element, settings_user));
 	});
 };
 

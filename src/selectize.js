@@ -1668,6 +1668,19 @@ $.extend(Selectize.prototype, {
 		}
 	},
 
+        reloadFromOriginalInput: function() {
+		var element_settings = load_element_settings(this.$input[0], this.settings);
+		this.clearOptions();
+		this.clearOptionGroups();
+		this.addOption(element_settings.options);
+		element_settings.optgroups.forEach(function(group){
+			this.registerOptionGroup(group);
+		}, this);
+		this.settings.placeholder = element_settings.placeholder;
+		this.updatePlaceholder();
+		this.addItems(element_settings.items);
+	},
+
 	/**
 	 * Shows/hide the input placeholder depending
 	 * on if there items in the list already.
