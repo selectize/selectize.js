@@ -437,6 +437,39 @@
 			});
 		});
 
+		describe('getOptions()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 0 },
+						{value: 1, text: 1},
+						{value: 'a', text: 'a'},
+						{value: 'b'},
+						{value: '\''},
+						{value: '\\'},
+						{value: '"'},
+						{value: '\\\''},
+						{value: '\\"'},
+						{value: ' ', text: ' '},
+					]
+				});
+				test.selectize.refreshOptions(true);
+			});
+			it('should return all values when options exisit', function() {
+				expect(test.selectize.getOptions()).to.be.ok;
+				expect(test.selectize.getOptions().length).to.be.equal(10);
+			});
+			it('should return empty when no options exisit', function() {
+				test.selectize.clearOptions();
+				expect(test.selectize.getOptions()).to.be.ok;
+				expect(test.selectize.getOptions().length).to.be.equal(0);
+			});
+		});
+
 		describe('getItem()', function() {
 			var test;
 

@@ -1351,6 +1351,22 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Returns an array of current options
+	 *
+	 * @returns {array}
+	 */
+	getOptions: function() {
+		var self = this;
+		var $options = [];
+
+		for (var key in self.options) {
+			$options.push(self.options[key])
+		}
+
+		return $options;
+	},
+
+	/**
 	 * Returns the jQuery element of the next or
 	 * previous selectable option.
 	 *
