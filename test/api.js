@@ -459,11 +459,11 @@
 				});
 				test.selectize.refreshOptions(true);
 			});
-			it('should return all values when options exisit', function() {
+			it('should return all values when options exists', function() {
 				expect(test.selectize.getOptions()).to.be.ok;
 				expect(test.selectize.getOptions().length).to.be.equal(10);
 			});
-			it('should return empty when no options exisit', function() {
+			it('should return empty when no options exists', function() {
 				test.selectize.clearOptions();
 				expect(test.selectize.getOptions()).to.be.ok;
 				expect(test.selectize.getOptions().length).to.be.equal(0);
