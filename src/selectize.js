@@ -644,7 +644,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionHover: function(e) {
-		if (this.ignoreHover || $(e.currentTarget).attr('data-disabled')) return;
+		if (this.ignoreHover || $(e.currentTarget).data(this.settings.disabled)) return;
 		this.setActiveOption(e.currentTarget, false);
 	},
 
@@ -664,7 +664,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		$target = $(e.currentTarget);
-        if($target.data('data-disabled')){
+        if($target.data(self.settings.disabled)){
             return;
         }
 		if ($target.hasClass('create')) {
@@ -843,7 +843,7 @@ $.extend(Selectize.prototype, {
 	 * Sets the selected item in the dropdown menu
 	 * of available options.
 	 *
-	 * @param {object} $object
+	 * @param {object} $option
 	 * @param {boolean} scroll
 	 * @param {boolean} animate
 	 */
@@ -856,6 +856,14 @@ $.extend(Selectize.prototype, {
 		self.$activeOption = null;
 
 		$option = $($option);
+        
+        $.each($option, function(elt){
+            if($($option[elt]).data(self.settings.disabled)){
+                delete $option[elt];
+                $option.length -=1;
+            }
+        });
+
 		if (!$option.length) return;
 
 		self.$activeOption = $option.addClass('active');
@@ -1192,10 +1200,24 @@ $.extend(Selectize.prototype, {
     },
 
     /**
+     * Determines whether or not the option group
+     * matching the given id is disabled.
+     *
+     * @param id
+     * @returns {boolean}
+     */
+    isOptionGroupDisabled: function(id){
+        var key, self = this;
+        key = hash_key(id);
+        if(self.optgroups.hasOwnProperty(key)){
+            return self.optgroups[key][self.settings.disabled];
+        }
+    },
+
+    /**
      * Disable the option matching the given value.
-     * Note: this does not refresh
-     * the options list dropdown (use `refreshOptions`
-     * for that).
+     * Note: this does not refresh the options list dropdown
+     * (use `refreshOptions` for that).
      *
      * Usage:
      *
@@ -1225,6 +1247,35 @@ $.extend(Selectize.prototype, {
                 delete cache_options[value];
             }
             self.trigger("option_disabled", value, disabled);
+        }
+    },
+
+    /**
+     * Disable the option group matching the given id.
+     * Note: this does not refresh the options list dropdown
+     * (use `refreshOptions` for that).
+     *
+     * Usage:
+     *
+     *   this.disableOptionGroup("id", true);
+     *
+     * @param {string} id
+     * @param {boolean} disabled
+     */
+    disableOptionGroup: function(id, disabled) {
+        var key, self = this;
+        if (typeof disabled === 'undefined') {
+            disabled = true;
+        }
+
+        key = hash_key(id);
+        if(self.optgroups.hasOwnProperty(key) && self.optgroups[key][self.settings.disabled] != disabled){
+            self.optgroups[key][self.settings.disabled] = disabled;
+
+            // invalidate render cache
+            self.renderCache = {};
+
+            self.trigger("optgroup_disabled", id, disabled);
         }
     },
 
@@ -2105,15 +2156,24 @@ $.extend(Selectize.prototype, {
 		if (templateName === 'option' || templateName === 'option_create') {
 			html = html.replace(regex_tag, '<$1 data-selectable');
 		}
-        // add mandatory attributes
-        if (self.isOptionDisabled(data[self.settings.valueField])) {
-            html = html.replace(regex_tag, '<$1 data-disabled="true"');
-        }
 		if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
+            if (self.isOptionGroupDisabled(id)) {
+                html = html.replace(regex_tag, '<$1 data-'+self.settings.disabled+'="true"');
+            }
 			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
 		}
 		if (templateName === 'option' || templateName === 'item') {
+            var disabled_group = false, groups;
+            groups = $.isArray(data.optgroup) ? data.optgroup : [data.optgroup];
+            $.each(groups, function(elt){
+                if(!disabled_group && self.isOptionGroupDisabled(groups[elt])){
+                    disabled_group = true;
+                }
+            });
+            if (self.isOptionDisabled(data[self.settings.valueField]) || disabled_group) {
+                html = html.replace(regex_tag, '<$1 data-'+self.settings.disabled+'="true"');
+            }
 			html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
 		}
 

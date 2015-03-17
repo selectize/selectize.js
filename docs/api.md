@@ -81,6 +81,14 @@ var selectize = $select[0].selectize;
 		<td valign="top">Determines whether or not the option matching the given value is disabled.</td>
 	</tr>
 	<tr>
+		<td valign="top"><code>disableOptionGroup(id, disabled)</code></td>
+		<td valign="top">Disable the option group matching the given id. Note: this does not refresh the options list dropdown (use `refreshOptions` for that).</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>isOptionGroupDisabled(id)</code></td>
+		<td valign="top">Determines whether or not the option group matching the given id is disabled.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
 		<td valign="top">Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>

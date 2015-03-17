@@ -71,6 +71,11 @@ selectize.off('event_name', handler);
         <td valign="top"></td>
         <td valign="top">Invoked when all options are removed from the control.</td>
     </tr>
+	<tr>
+		<td valign="top"><code>"option_disabled"</code></td>
+		<td valign="top"><code>value</code>, <code>disabled</code></td>
+		<td valign="top">Invoked when an option has been disabled or enabled.</td>
+	</tr>
     <tr>
         <td valign="top"><code>"optgroup_add"</code></td>
         <td valign="top"><code>id</code>, <code>data</code></td>
@@ -86,6 +91,11 @@ selectize.off('event_name', handler);
         <td valign="top"></td>
         <td valign="top">Invoked when all option groups are removed.</td>
     </tr>
+	<tr>
+		<td valign="top"><code>"optgroup_disabled"</code></td>
+		<td valign="top"><code>id</code>, <code>disabled</code></td>
+		<td valign="top">Invoked when an option group has been disabled or enabled.</td>
+	</tr>
 	<tr>
 		<td valign="top"><code>"dropdown_open"</code></td>
 		<td valign="top"><code>$dropdown</code></td>
@@ -110,10 +120,5 @@ selectize.off('event_name', handler);
 		<td valign="top"><code>"destroy"</code></td>
 		<td valign="top"></td>
 		<td valign="top">Invoked right before the control is destroyed.</td>
-	</tr>
-	<tr>
-		<td valign="top"><code>"option_disabled"</code></td>
-		<td valign="top"><code>value</code>, <code>disabled</code></td>
-		<td valign="top">Invoked when an option has been disabled or enabled.</td>
 	</tr>
 </table>

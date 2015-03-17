@@ -86,7 +86,7 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
-			option[disabled]       = option[disabled] || $option.attr("disabled") ? true : false;
+			option[disabled]       = option[disabled] || $option.attr(disabled) ? true : false;
 
 			optionsMap[value] = option;
 			options.push(option);
@@ -106,6 +106,7 @@ $.fn.selectize = function(settings_user) {
 				optgroup = readData($optgroup) || {};
 				optgroup[field_optgroup_label] = id;
 				optgroup[field_optgroup_value] = id;
+				optgroup[disabled] = $optgroup.attr(disabled) ? true : false;
 				settings_element.optgroups.push(optgroup);
 			}
 
