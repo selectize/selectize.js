@@ -644,7 +644,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionHover: function(e) {
-		if (this.ignoreHover) return;
+		if (this.ignoreHover || $(e.currentTarget).attr('data-disabled')) return;
 		this.setActiveOption(e.currentTarget, false);
 	},
 
@@ -664,6 +664,9 @@ $.extend(Selectize.prototype, {
 		}
 
 		$target = $(e.currentTarget);
+        if($target.data('data-disabled')){
+            return;
+        }
 		if ($target.hasClass('create')) {
 			self.createItem(null, function() {
 				if (self.settings.closeAfterSelect) {
@@ -1172,6 +1175,58 @@ $.extend(Selectize.prototype, {
 			self.trigger('option_add', value, data);
 		}
 	},
+
+    /**
+     * Determines whether or not the option
+     * matching the given value is disabled.
+     *
+     * @param value
+     * @returns {boolean}
+     */
+    isOptionDisabled: function(value){
+        var key, self = this;
+        key = hash_key(value);
+        if(self.options.hasOwnProperty(key)){
+            return self.options[key][self.settings.disabled];
+        }
+    },
+
+    /**
+     * Disable the option matching the given value.
+     * Note: this does not refresh
+     * the options list dropdown (use `refreshOptions`
+     * for that).
+     *
+     * Usage:
+     *
+     *   this.disableOption("value", true);
+     *
+     * @param {string} value
+     * @param {boolean} disabled
+     */
+    disableOption: function(value, disabled) {
+        var key, cache_items, cache_options, self = this;
+        if (typeof disabled === 'undefined') {
+            disabled = true;
+        }
+
+        key = hash_key(value);
+        if(self.options.hasOwnProperty(key) && self.options[key][self.settings.disabled] != disabled){
+            self.options[key][self.settings.disabled] = disabled;
+
+            // invalidate render cache
+            cache_items = self.renderCache['item'];
+            cache_options = self.renderCache['option'];
+
+            if (cache_items) {
+                delete cache_items[value];
+            }
+            if (cache_options) {
+                delete cache_options[value];
+            }
+            self.trigger("option_disabled", value, disabled);
+        }
+    },
 
 	/**
 	 * Registers an option to the pool of options.
@@ -2050,6 +2105,10 @@ $.extend(Selectize.prototype, {
 		if (templateName === 'option' || templateName === 'option_create') {
 			html = html.replace(regex_tag, '<$1 data-selectable');
 		}
+        // add mandatory attributes
+        if (self.isOptionDisabled(data[self.settings.valueField])) {
+            html = html.replace(regex_tag, '<$1 data-disabled="true"');
+        }
 		if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
 			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');

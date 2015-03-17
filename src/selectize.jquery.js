@@ -4,6 +4,7 @@ $.fn.selectize = function(settings_user) {
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
 	var field_value          = settings.valueField;
+	var disabled             = settings.disabled;
 	var field_optgroup       = settings.optgroupField;
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
@@ -85,11 +86,12 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
+			option[disabled]       = option[disabled] || $option.attr("disabled") ? true : false;
 
 			optionsMap[value] = option;
 			options.push(option);
 
-			if ($option.is(':selected')) {
+			if ($option.is(':selected') && !option[disabled]) {
 				settings_element.items.push(value);
 			}
 		};
