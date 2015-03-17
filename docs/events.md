@@ -111,4 +111,9 @@ selectize.off('event_name', handler);
 		<td valign="top"></td>
 		<td valign="top">Invoked right before the control is destroyed.</td>
 	</tr>
+	<tr>
+		<td valign="top"><code>"option_disabled"</code></td>
+		<td valign="top"><code>value</code>, <code>disabled</code></td>
+		<td valign="top">Invoked when an option has been disabled or enabled.</td>
+	</tr>
 </table>

@@ -73,6 +73,14 @@ var selectize = $select[0].selectize;
 		<td valign="top">Retrieves the jQuery element for the previous or next option, relative to the currently highlighted option. The "direction" argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
+		<td valign="top"><code>disableOption(value, disabled)</code></td>
+		<td valign="top">Disable the option matching the given value. Note: this does not refresh the options list dropdown (use refreshOptions() for that).</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>isOptionDisabled(value)</code></td>
+		<td valign="top">Determines whether or not the option matching the given value is disabled.</td>
+	</tr>
+	<tr>
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
 		<td valign="top">Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
