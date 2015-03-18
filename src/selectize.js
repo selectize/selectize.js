@@ -304,23 +304,25 @@ $.extend(Selectize.prototype, {
 	 */
 	setupCallbacks: function() {
 		var key, fn, callbacks = {
-			'initialize'      : 'onInitialize',
-			'change'          : 'onChange',
-			'item_add'        : 'onItemAdd',
-			'item_remove'     : 'onItemRemove',
-			'clear'           : 'onClear',
-			'option_add'      : 'onOptionAdd',
-			'option_remove'   : 'onOptionRemove',
-			'option_clear'    : 'onOptionClear',
-			'optgroup_add'    : 'onOptionGroupAdd',
-			'optgroup_remove' : 'onOptionGroupRemove',
-			'optgroup_clear'  : 'onOptionGroupClear',
-			'dropdown_open'   : 'onDropdownOpen',
-			'dropdown_close'  : 'onDropdownClose',
-			'type'            : 'onType',
-			'load'            : 'onLoad',
-			'focus'           : 'onFocus',
-			'blur'            : 'onBlur'
+			'initialize'       : 'onInitialize',
+			'change'           : 'onChange',
+			'item_add'         : 'onItemAdd',
+			'item_remove'      : 'onItemRemove',
+			'clear'            : 'onClear',
+			'option_add'       : 'onOptionAdd',
+			'option_remove'    : 'onOptionRemove',
+			'option_clear'     : 'onOptionClear',
+			'option_disabled'  : 'onOptionDisabled',
+			'optgroup_add'     : 'onOptionGroupAdd',
+			'optgroup_remove'  : 'onOptionGroupRemove',
+			'optgroup_clear'   : 'onOptionGroupClear',
+			'optgroup_disabled': 'onOptionGroupDisabled',
+			'dropdown_open'    : 'onDropdownOpen',
+			'dropdown_close'   : 'onDropdownClose',
+			'type'             : 'onType',
+			'load'             : 'onLoad',
+			'focus'            : 'onFocus',
+			'blur'             : 'onBlur'
 		};
 
 		for (key in callbacks) {
