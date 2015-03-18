@@ -856,7 +856,7 @@ $.extend(Selectize.prototype, {
 		self.$activeOption = null;
 
 		$option = $($option);
-        
+
         $.each($option, function(elt){
             if($($option[elt]).data(self.settings.disabled)){
                 delete $option[elt];
@@ -2159,7 +2159,7 @@ $.extend(Selectize.prototype, {
 		if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
             if (self.isOptionGroupDisabled(id)) {
-                html = html.replace(regex_tag, '<$1 data-'+self.settings.disabled+'="true"');
+                html = html.replace(regex_tag, '<$1 data-disabled');
             }
 			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
 		}
@@ -2172,7 +2172,7 @@ $.extend(Selectize.prototype, {
                 }
             });
             if (self.isOptionDisabled(data[self.settings.valueField]) || disabled_group) {
-                html = html.replace(regex_tag, '<$1 data-'+self.settings.disabled+'="true"');
+                html = html.replace(regex_tag, '<$1 data-disabled');
             }
 			html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
 		}
