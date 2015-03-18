@@ -78,12 +78,12 @@
 					optgroupField: 'grp'
 				});
 				assert.deepEqual(test.selectize.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2}
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, disabled: false},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, disabled: false}
 				});
 				assert.deepEqual(test.selectize.optgroups, {
-					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3},
-					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4}
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, disabled: false},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, disabled: false}
 				});
 			});
 			it('should add options in text form (no html entities)', function() {
