@@ -242,6 +242,11 @@
 	.create {
 		color: @selectize-color-dropdown-item-create-text;
 	}
+    [data-disabled] {
+        cursor: default !important;
+        color: lighten(desaturate(@selectize-color-dropdown-item-active-text, 100%), @selectize-lighten-disabled-item-text);
+        background: lighten(desaturate(@selectize-color-dropdown-item-active, 100%), @selectize-lighten-disabled-item);
+    }
 }
 
 .selectize-dropdown-content {
