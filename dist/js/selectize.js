@@ -2728,14 +2728,15 @@
 			};
 	
 			var addGroup = function($optgroup) {
-				var i, n, id, optgroup, $options;
+				var i, n, id, label, optgroup, $options;
 	
 				$optgroup = $($optgroup);
-				id = $optgroup.attr('label');
+				id = $optgroup.attr(settings.optgroupValueField);
+				label = $optgroup.attr(settings.optgroupLabelField);
 	
 				if (id) {
 					optgroup = readData($optgroup) || {};
-					optgroup[field_optgroup_label] = id;
+					optgroup[field_optgroup_label] = label;
 					optgroup[field_optgroup_value] = id;
 					settings_element.optgroups.push(optgroup);
 				}
