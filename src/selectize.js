@@ -1532,7 +1532,7 @@ $.extend(Selectize.prototype, {
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
-			var $item, $option, $options;
+			var $item, $option, $options, disabled_group = false, groups, i;
 			var self = this;
 			var inputMode = self.settings.mode;
 			var i, active, value_next, wasFull;
@@ -1543,7 +1543,14 @@ $.extend(Selectize.prototype, {
 				return;
 			}
 
-			if (!self.options.hasOwnProperty(value)) return;
+            groups = $.isArray(data.optgroup) ? data.optgroup : [data.optgroup];
+            for(i in groups){
+                if(!disabled_group && self.isOptionGroupDisabled(groups[i])){
+                    disabled_group = true;
+                    break;
+                }
+            }
+			if (!self.options.hasOwnProperty(value) || self.isOptionDisabled(value) || disabled_group) return;
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
