@@ -1531,23 +1531,24 @@ $.extend(Selectize.prototype, {
 	addItem: function(value, silent) {
 		var events = silent ? [] : ['change'];
 
-		debounce_events(this, events, function() {
-			var $item, $option, $options, disabled_group = false, groups, i;
-			var self = this;
-			var inputMode = self.settings.mode;
-			var i, active, value_next, wasFull;
-			value = hash_key(value);
+        debounce_events(this, events, function() {
+            var $item, $option, $options, disabled_group = false, groups, g;
+            var self = this;
+            var inputMode = self.settings.mode;
+            var i, active, value_next, wasFull;
+            value = hash_key(value);
 
-			if (self.items.indexOf(value) !== -1) {
-				if (inputMode === 'single') self.close();
-				return;
-			}
-
-            groups = $.isArray(data.optgroup) ? data.optgroup : [data.optgroup];
-            for(i in groups){
-                if(!disabled_group && self.isOptionGroupDisabled(groups[i])){
-                    disabled_group = true;
-                    break;
+            if (self.items.indexOf(value) !== -1) {
+                if (inputMode === 'single') self.close();
+                return;
+            }
+            if (!self.options.hasOwnProperty(value) || self.isOptionDisabled(value)) return;
+            if(self.options[value].optgroup){
+                groups = $.isArray(self.options[value].optgroup) ? self.options[value].optgroup : [self.options[value].optgroup];
+                for(g in groups){
+                    if(self.isOptionGroupDisabled(groups[g])){
+                        return;
+                    }
                 }
             }
 			if (!self.options.hasOwnProperty(value) || self.isOptionDisabled(value) || disabled_group) return;
