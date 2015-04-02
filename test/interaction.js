@@ -41,6 +41,45 @@
 
 		});
 
+		describe('clicking label', function() {
+
+			it('should give it focus to select', function(done) {
+				var inputId = "labeledSelect";
+		        $('#fixture').append('<label for="'+inputId+'">select</label>');
+				var label = $('label[for="'+inputId+'"]');
+
+				var test = setup_test('<select id="'+inputId+'">' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {});
+
+				Syn
+					.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+			});
+
+			it('should give it focus to input', function(done) {
+				var inputId = "labeledInput";
+		        $('#fixture').append('<label for="'+inputId+'">input</label>');
+				var label = $('label[for="'+inputId+'"]');
+				
+				var test = setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
+
+				Syn
+					.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+			});
+
+		});
+
 		describe('clicking option', function() {
 
 			it('should select it', function(done) {
