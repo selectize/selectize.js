@@ -106,6 +106,7 @@ $.extend(Selectize.prototype, {
 		var tab_index;
 		var classes;
 		var classes_plugins;
+		var inputId;
 
 		inputMode         = self.settings.mode;
 		tab_index         = $input.attr('tabindex') || '';
@@ -117,6 +118,11 @@ $.extend(Selectize.prototype, {
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		if(inputId = $input.attr('id')) {
+			$control_input.attr('id', inputId + '_selectized');
+			$('label[for='+inputId+']').attr('for', inputId + '_selectized');
+		}
 
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
