@@ -45,7 +45,7 @@
 
 			it('should give it focus to select', function(done) {
 				var inputId = "labeledSelect";
-		        $('#fixture').append('<label for="'+inputId+'">select</label>');
+				$('#fixture').append('<label for="'+inputId+'">select</label>');
 				var label = $('label[for="'+inputId+'"]');
 
 				var test = setup_test('<select id="'+inputId+'">' +
@@ -64,7 +64,7 @@
 
 			it('should give it focus to input', function(done) {
 				var inputId = "labeledInput";
-		        $('#fixture').append('<label for="'+inputId+'">input</label>');
+				$('#fixture').append('<label for="'+inputId+'">input</label>');
 				var label = $('label[for="'+inputId+'"]');
 				
 				var test = setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
@@ -276,7 +276,7 @@
 				expect(selectize.getItem(text).length).to.be.equal(0);
 				expect($(selectize.$dropdown_content).filter('.create').length).to.be.equal(0);
 			});
- 		});
+		});
 
 	});
 
