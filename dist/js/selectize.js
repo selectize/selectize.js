@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.12.0)
+ * selectize.js (v0.12.1)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -1212,7 +1212,7 @@
 			var events = silent ? [] : ['change'];
 	
 			debounce_events(this, events, function() {
-				this.clear();
+				this.clear(silent);
 				this.addItems(value, silent);
 			});
 		},
@@ -1882,7 +1882,7 @@
 				}
 	
 				if (!self.options.hasOwnProperty(value)) return;
-				if (inputMode === 'single') self.clear();
+				if (inputMode === 'single') self.clear(silent);
 				if (inputMode === 'multi' && self.isFull()) return;
 	
 				$item = $(self.render('item', self.options[value]));
@@ -2640,8 +2640,6 @@
 		var field_optgroup_label = settings.optgroupLabelField;
 		var field_optgroup_value = settings.optgroupValueField;
 	
-		var optionsMap = {};
-	
 		/**
 		 * Initializes selectize from a <input type="text"> element.
 		 *
@@ -2681,6 +2679,7 @@
 		var init_select = function($input, settings_element) {
 			var i, n, tagName, $children, order = 0;
 			var options = settings_element.options;
+			var optionsMap = {};
 	
 			var readData = function($el) {
 				var data = attr_data && $el.attr(attr_data);
