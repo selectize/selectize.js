@@ -70,6 +70,12 @@ var Selectize = function($input, settings) {
 		delete self.settings.optgroups;
 	}
 
+	//if specified, do not make options active on mouse hover
+	if (self.settings.ignoreHover)
+	{
+		self.ignoreHover = true;
+	}
+
 	// option-dependent defaults
 	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
 	if (typeof self.settings.hideSelected !== 'boolean') {
@@ -220,7 +226,10 @@ $.extend(Selectize.prototype, {
 			}
 		});
 		$window.on('mousemove' + eventNS, function() {
-			self.ignoreHover = false;
+			if (!self.settings.ignoreHover)
+			{
+				self.ignoreHover = false;
+			}
 		});
 
 		// store original children and tab index so that they can be
