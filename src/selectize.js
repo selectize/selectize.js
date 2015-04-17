@@ -77,7 +77,6 @@ var Selectize = function($input, settings) {
 	}
 
 	//if specified, do not make options active on mouse hover
-	if (self.settings.ignoreHover)
 	{
 		self.ignoreHover = true;
 	}
