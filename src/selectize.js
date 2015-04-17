@@ -1130,7 +1130,9 @@ $.extend(Selectize.prototype, {
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
 				$active_before = active_before && self.getOption(active_before);
-				if ($active_before && $active_before.length) {
+				if (self.settings.alwaysActivateFirstMatch) {
+					$active = self.getOption(self.items[0]);
+				} else if ($active_before && $active_before.length) {
 					$active = $active_before;
 				} else if (self.settings.mode === 'single' && self.items.length) {
 					$active = self.getOption(self.items[0]);
