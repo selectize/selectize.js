@@ -1691,7 +1691,7 @@ $.extend(Selectize.prototype, {
 	open: function() {
 		var self = this;
 
-		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
+		if (!self.hasOptions || self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
