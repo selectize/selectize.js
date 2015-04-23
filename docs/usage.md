@@ -158,6 +158,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>revertChildrenOnDestroy</code></td>
+		<td valign="top">If true, when you call destroy method, all options will be reverted to previous state, selection will be reverted, and all AJAX-loaded options will be removed even if they are selected.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
 	<tr>

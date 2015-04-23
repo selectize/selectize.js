@@ -1995,9 +1995,12 @@ $.extend(Selectize.prototype, {
 		self.$wrapper.remove();
 		self.$dropdown.remove();
 
+		if (self.settings.revertChildrenOnDestroy) {
+			self.$input
+				.html('')
+				.append(revertSettings.$children)
+		}
 		self.$input
-			.html('')
-			.append(revertSettings.$children)
 			.removeAttr('tabindex')
 			.removeClass('selectized')
 			.attr({tabindex: revertSettings.tabindex})
