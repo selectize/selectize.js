@@ -915,7 +915,7 @@ $.extend(Selectize.prototype, {
 	 */
 	focus: function() {
 		var self = this;
-		if (self.isDisabled) return;
+		if (self.isDisabled) return self;
 
 		self.ignoreFocus = true;
 		self.$control_input[0].focus();
@@ -923,6 +923,7 @@ $.extend(Selectize.prototype, {
 			self.ignoreFocus = false;
 			self.onFocus();
 		}, 0);
+		return self;
 	},
 
 	/**
@@ -933,6 +934,7 @@ $.extend(Selectize.prototype, {
 	blur: function(dest) {
 		this.$control_input[0].blur();
 		this.onBlur(null, dest);
+		return this;
 	},
 
 	/**
