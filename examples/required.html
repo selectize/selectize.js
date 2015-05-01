@@ -24,8 +24,8 @@
 				<h2>Required Element</h2>
 				<div class="control-group">
 					<form>
-						<label for="select-beast">Beast:</label>
-						<select id="select-beast" required class="demo-default" placeholder="Select a person...">
+						<label for="select-person">Person:</label>
+						<select id="select-person" required class="demo-default" placeholder="Select a person...">
 							<option value="">Select a person...</option>
 							<option value="4">Thomas Edison</option>
 							<option value="1">Nikola</option>
@@ -38,7 +38,7 @@
 					</form>
 				</div>
 				<script>
-				$('#select-beast').selectize({
+				$('#select-person').selectize({
 					create: true,
 					sortField: {
 						field: 'text',

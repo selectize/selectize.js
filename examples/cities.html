@@ -44,7 +44,7 @@
 				<p>A demonstration showing how to use the API to cascade controls for a classic state / city selector.</p>
 				<p><strong>Note:</strong> The API for fetching cities is a little spotty, so if it fails to list cities, that's the problem.</p>
 				<div class="control-group">
-					<label for="select-beast">State:</label>
+					<label for="select-state">State:</label>
 					<select id="select-state" placeholder="Pick a state...">
 						<option value="">Select a state...</option>
 						<option value="AL">Alabama</option>
@@ -99,7 +99,7 @@
 						<option value="WI">Wisconsin</option>
 						<option value="WY">Wyoming</option>
 					</select>
-					<label for="select-beast" style="margin-top:20px">City:</label>
+					<label for="select-city" style="margin-top:20px">City:</label>
 					<select id="select-city" placeholder="Pick a city..."></select>
 				</div>
 				<script>
@@ -115,7 +115,8 @@
 						select_city.load(function(callback) {
 							xhr && xhr.abort();
 							xhr = $.ajax({
-								url: 'http://www.corsproxy.com/api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+//								url: 'http://www.corsproxy.com/api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+								url: 'https://cors-anywhere.herokuapp.com/api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
 								success: function(results) {
 									select_city.enable();
 									callback(results);

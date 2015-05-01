@@ -38,8 +38,8 @@
 			<div class="demo">
 				<h2>&lt;select&gt;</h2>
 				<div class="control-group">
-					<label for="select-beast">Beast:</label>
-					<select id="select-beast" class="demo-default" placeholder="Select a person...">
+					<label for="select-person">Person:</label>
+					<select id="select-person" class="demo-default" placeholder="Select a person...">
 						<option value="">Select a person...</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -48,7 +48,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast').selectize({
+				$('#select-person').selectize({
 					create: true,
 					sortField: {
 						field: 'text',
@@ -62,8 +62,8 @@
 			<div class="demo">
 				<h2>&lt;select&gt; (allow empty)</h2>
 				<div class="control-group">
-					<label for="select-beast-empty">Beast:</label>
-					<select id="select-beast-empty" class="demo-default" data-placeholder="Select a person...">
+					<label for="select-person-empty">Beast:</label>
+					<select id="select-person-empty" class="demo-default" data-placeholder="Select a person...">
 						<option value="">None</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -72,7 +72,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast-empty').selectize({
+				$('#select-person-empty').selectize({
 					allowEmptyOption: true,
 					create: true
 				});
@@ -82,8 +82,8 @@
 			<div class="demo">
 				<h2>&lt;select&gt; (disabled)</h2>
 				<div class="control-group">
-					<label for="select-beast-disabled">Beast:</label>
-					<select id="select-beast-disabled" class="demo-default" disabled placeholder="Select a person...">
+					<label for="select-person-disabled">Person:</label>
+					<select id="select-person-disabled" class="demo-default" disabled placeholder="Select a person...">
 						<option value="">Select a person...</option>
 						<option value="4">Thomas Edison</option>
 						<option value="1">Nikola</option>
@@ -91,7 +91,7 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast-disabled').selectize({
+				$('#select-person-disabled').selectize({
 					create: true,
 					sortField: {field: 'text'}
 				});
