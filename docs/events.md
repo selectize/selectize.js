@@ -104,7 +104,7 @@ selectize.off('event_name', handler);
 	<tr>
 		<td valign="top"><code>"load"</code></td>
 		<td valign="top"><code>data</code></td>
-		<td valign="top">Invoked when new options have been loaded and added to the control (via the "load" option or "load" API method).</td>
+		<td valign="top">Invoked when new options have been loaded and added to the control (via the <code>load</code>  option or <code>load</code>  API method).</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>"destroy"</code></td>

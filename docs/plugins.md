@@ -23,7 +23,7 @@ complete control.
 ```js
 Selectize.define('plugin_name', function(options) {
 	// options: plugin-specific options
-	// this: selectize instance
+	// this: Selectize instance
 });
 ```
 
@@ -63,7 +63,7 @@ like so:
 Selectize.define('plugin_name', function(options) {
 	var self = this;
 
-	// override the setup method to add an extra "click" handler
+	// override the setup method to add an extra `click`  handler
 	this.setup = (function() {
 		var original = self.setup;
 		return function() {
