@@ -1,12 +1,12 @@
 ## Selectize API
 
 Selectize controls can be controlled programmatically via the methods described in this section.
-When initializing the control, the "selectize" property is
+When initializing the control, the `selectize` property is
 added on the original &lt;select&gt; / &lt;input&gt; element—this
 property points to the underlying Selectize instance.
 
 ```js
-// initialize the selectize control
+// initialize the Selectize control
 var $select = $('select').selectize(options);
 
 // fetch the instance
@@ -70,22 +70,25 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>getAdjacentOption(value, direction)</code></td>
-		<td valign="top">Retrieves the jQuery element for the previous or next option, relative to the currently highlighted option. The "direction" argument should be 1 for "next" or -1 for "previous".</td>
+		<td valign="top">Retrieves the jQuery element for the previous or next option, relative to the currently highlighted option. The <code>direction</code> argument should be 1 for "next" or -1 for "previous".</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
 		<td valign="top">Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
+
+
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_items" name="methods_items">Items</a></th>
 	</tr>
+
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
 		<td valign="top"><code>clear(silent)</code></td>
-		<td valign="top">Resets / clears all selected items from the control. If "silent" is truthy, no change event will be fired on the original input.</td>
+		<td valign="top">Resets / clears all selected items from the control. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>getItem(value)</code></td>
@@ -93,39 +96,42 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>addItem(value, silent)</code></td>
-		<td valign="top">"Selects" an item. Adds it to the list at the current caret position. If "silent" is truthy, no change event will be fired on the original input.</td>
+		<td valign="top">"Selects" an item. Adds it to the list at the current caret position. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>removeItem(value, silent)</code></td>
-		<td valign="top">Removes the selected item matching the provided value. If "silent" is truthy, no change event will be fired on the original input.</td>
+		<td valign="top">Removes the selected item matching the provided value. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>createItem(value, [triggerDropdown], [callback])</code></td>
-		<td valign="top">Invokes the "create" method provided in the selectize options that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
+		<td valign="top">Invokes the <code>create</code> method provided in the Selectize settings that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>refreshItems()</code></td>
 		<td valign="top">Re-renders the selected item lists.</td>
 	</tr>
+
+
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_items" name="methods_optgroups">Optgroups</a></th>
 	</tr>
+
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
 	</tr>
 	<tr>
 		<td valign="top"><code>addOptionGroup(id, data)</code></td>
-		<td valign="top">Registers a new optgroup for options to be bucketed into. The "id" argument refers to a value of the property in option identified by the "optgroupField" setting.</td>
+		<td valign="top">Registers a new optgroup for options to be bucketed into. The <code>id</code> argument refers to a value of the property in option identified by the <code>optgroupField</code> setting.</td>
 	</tr>
-    <tr>
-        <td valign="top"><code>removeOptionGroup(id)</code></td>
-        <td valign="top">Removes a single option group.</td>
-    </tr>
-    <tr>
-        <td valign="top"><code>clearOptionGroups()</code></td>
-        <td valign="top">Removes all existing option groups.</td>
-    </tr>
+	<tr>
+		<td valign="top"><code>removeOptionGroup(id)</code></td>
+		<td valign="top">Removes a single option group.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>clearOptionGroups()</code></td>
+		<td valign="top">Removes all existing option groups.</td>
+	</tr>
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_events" name="methods_events">Events</a></th>
 	</tr>
@@ -149,9 +155,12 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>trigger(event, ...)</code></td>
 		<td valign="top">Triggers event listeners.</td>
 	</tr>
+
+
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_dropdown" name="methods_dropdown">Dropdown</a></th>
 	</tr>
+
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
@@ -168,9 +177,12 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>positionDropdown()</code></td>
 		<td valign="top">Calculates and applies the appropriate position of the dropdown.</td>
 	</tr>
+
+
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_other" name="methods_other">Other</a></th>
 	</tr>
+
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
@@ -181,7 +193,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>load(fn)</code></td>
-		<td valign="top">Loads options by invoking the the provided function. The function should accept one argument (callback) and invoke the callback with the results once they are available.</td>
+		<td valign="top">Loads options by invoking the provided function. The function should accept one argument (callback) and invoke the callback with the results once they are available.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>focus()</code></td>
@@ -209,7 +221,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>getValue()</code></td>
-		<td valign="top">Returns the value of the control. If multiple items can be selected (e.g. <a href="usage.md#maxItems">&lt;select multiple&gt;</a>, this returns an array. If only one item can be selected, this returns a string.</td>
+		<td valign="top">Returns the value of the control. If multiple items can be selected with a "select" input tag (e.g. <a href="usage.md#maxItems">&lt;select multiple&gt;</a>), this returns an array. Otherwise, returns a string (separated by <code>delimiter</code> if "multiple").</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>setValue(value, silent)</code></td>
@@ -217,7 +229,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>setCaret(index)</code></td>
-		<td valign="top">Moves the caret to the specified position ("index" being the index in the list of selected items).</td>
+		<td valign="top">Moves the caret to the specified position (<code>index</code> being the index in the list of selected items).</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>isFull()</code></td>
@@ -225,7 +237,12 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>clearCache(template)</code></td>
-		<td valign="top">Clears the render cache. Takes an optional template argument (e.g. "option", "item") to clear only that cache.</td>
+		<td valign="top">Clears the render cache. Takes an optional template argument (e.g. <code>option</code> , <code>item</code>) to clear only that cache.</td>
+	</tr>
+	<tr>
+		<td valign="top"><code>updatePlaceholder()</code></td>
+		<td valign="top">When the `settings.placeholder` value is changed, the new placeholder will be displayed.</td>
+		<!-- Proposed change: accept an optional string. If given, just takes it to update the placeholder. Will avoid to refer to settings. -->
 	</tr>
 </table>
 
@@ -251,7 +268,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>tokens</code></td>
-		<td valign="top">An array containing parsed search tokens. A token is an object containing two properties: "string" and "regex".</td>
+		<td valign="top">An array containing parsed search tokens. A token is an object containing two properties: <code>string</code> and <code>regex</code> .</td>
 		<td valign="top"><code>array</code></td>
 	</tr>
 	<tr>
@@ -261,7 +278,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>items</code></td>
-		<td valign="top">A list of matched results. Each result is an object containing two properties: "score" and "id".</td>
+		<td valign="top">A list of matched results. Each result is an object containing two properties: <code>score</code> and <code>id</code> .</td>
 		<td valign="top"><code>array</code></td>
 	</tr>
 </table>
