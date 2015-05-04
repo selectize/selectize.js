@@ -46,14 +46,14 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>delimiter</code></td>
-		<td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The deimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
+		<td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The delimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>','</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>create</code></td>
 		<td valign="top">
-			Allows the user to create new items that aren't in the initial list of options. This setting can be any of the following: <code>true</code> , <code>false</code> (disabled), or a function that accepts two arguments: <code>input</code> and <code>callback</code>. The callback should be invoked with the final data for the option.</td>
+			Allows the user to create new items that aren't in the initial list of options. This setting can be any of the following: <code>true</code>, <code>false</code> (disabled), or a function that accepts two arguments: <code>input</code> and <code>callback</code>. The callback should be invoked with the final data for the option.</td>
 		<td valign="top"><code>boolean|function</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -139,9 +139,9 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>placeholder</code></td>
-		<td valign="top">The placeholder of the string (displayed when nothing is selected / typed). Defaults to input element placeholder, unless this one is specified.</td>
+		<td valign="top">The placeholder of the control (displayed when nothing is selected / typed). Defaults to input element's placeholder, unless this one is specified.</td>
 		<td valign="top"><code>string</code></td>
-		<td valign="top"><code>'loading'</code></td>
+		<td valign="top"><code>undefined</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>preload</code></td>
@@ -237,14 +237,11 @@ $(function() {
 	<tr>
 		<td valign="top"><code>sortField</code></td>
 		<td valign="top">
-			A single field or an array of fields to sort by. Each item in the array should be an object containing at
-			least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code> . The
-			order of the array defines the sort precedence.<br><br>
+			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
 
-			Unless present, a special `$score` field will be automatically added to the beginning
-			of the sort list. This will make results sorted primarily by match quality (descending).<br><br>
+			<p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
 
-			You can override the `$score` function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.
+			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.</p>
 		</td>
 		<td valign="top"><code>string|array</code></td>
 		<td valign="top"><code>'$order'</code></td>
