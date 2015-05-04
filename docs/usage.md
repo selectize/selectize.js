@@ -46,21 +46,21 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>delimiter</code></td>
-		<td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The deimiter is also used in the `getValue` API call on a text &lt;input&gt; tag to separate the multiple values.</td>
+		<td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The deimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>','</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>create</code></td>
 		<td valign="top">
-			Allows the user to create new items that aren't in the initial list of options. This setting can be any of the following: `true` , `false` (disabled), or a function that accepts two arguments: `input` and `callback`. The callback should be invoked with the final data for the option.</td>
-		<td valign="top"><code>boolean/function</code></td>
+			Allows the user to create new items that aren't in the initial list of options. This setting can be any of the following: <code>true</code> , <code>false</code> (disabled), or a function that accepts two arguments: <code>input</code> and <code>callback</code>. The callback should be invoked with the final data for the option.</td>
+		<td valign="top"><code>boolean|function</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
 		<td valign="top">
-			If true, when user exits the field (clicks outside of input), a new option is created and selected (if `create` setting is enabled).
+			If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
@@ -68,7 +68,7 @@ $(function() {
 		<td valign="top"><code>createFilter</code></td>
 		<td valign="top">
 			Specifies a RegExp or a string containing a regular expression that the current search filter must match to be allowed to be created. May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
-		<td valign="top"><code>RegExp/string/function</code></td>
+		<td valign="top"><code>RegExp|string|function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
@@ -145,13 +145,13 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>preload</code></td>
-		<td valign="top">If true, the `load` function will be called upon control initialization (with an empty search). Alternatively it can be set to `'focus'` to call the `load` function when control receives focus.</td>
+		<td valign="top">If true, the <code>load</code> function will be called upon control initialization (with an empty search). Alternatively it can be set to <code>'focus'</code> to call the <code>load</code> function when control receives focus.</td>
 		<td valign="top"><code>boolean/string</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>dropdownParent</code></td>
-		<td valign="top">The element the dropdown menu is appended to. This should be `'body'` or `null`. If null, the dropdown will be appended as a child of the Selectize control.</td>
+		<td valign="top">The element the dropdown menu is appended to. This should be <code>'body'</code> or <code>null</code>. If null, the dropdown will be appended as a child of the Selectize control.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
@@ -194,7 +194,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>optgroups</code></td>
-		<td valign="top">Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever `optgroupValueField` is set to.</td>
+		<td valign="top">Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever <code>optgroupValueField</code> is set to.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
 	</tr>
@@ -206,7 +206,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>valueField</code></td>
-		<td valign="top">The name of the property to use as the `value` when an item is selected.</td>
+		<td valign="top">The name of the property to use as the <code>value</code> when an item is selected.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'value'</code></td>
 	</tr>
@@ -238,7 +238,7 @@ $(function() {
 		<td valign="top"><code>sortField</code></td>
 		<td valign="top">
 			A single field or an array of fields to sort by. Each item in the array should be an object containing at
-			least a `field` property. Optionally, `direction` can be set to `'asc'` or `'desc'` . The
+			least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code> . The
 			order of the array defines the sort precedence.<br><br>
 
 			Unless present, a special `$score` field will be automatically added to the beginning
@@ -257,7 +257,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>searchConjunction</td>
-		<td valign="top">When searching for multiple terms (separated by space), this is the operator used. Can be `'and'` or `'or'` .</td>
+		<td valign="top">When searching for multiple terms (separated by space), this is the operator used. Can be <code>'and'</code> or <code>'or'</code> .</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'and'</code></td>
 	</tr>
@@ -290,7 +290,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>score(search)</code></td>
-		<td valign="top">Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the `score` of an item (the function's first argument). If 0, the option is declared not a match. The `search` argument is a <a href="#search">Search</a> object. For an example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.</td>
+		<td valign="top">Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
@@ -374,7 +374,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>onLoad(data)</code></td>
-		<td valign="top">Invoked when new options have been loaded and added to the control (via the `load` option or `load` API method).</td>
+		<td valign="top">Invoked when new options have been loaded and added to the control (via the <code>load</code> option or <code>load</code> API method).</td>
 		<td valign="top"><code>function</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
@@ -384,8 +384,8 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			Custom rendering functions. Each function should accept two arguments: `data` and `escape` and return HTML (string) with a single root element.
-			The `escape` argument is a function that takes a string and escapes all special HTML characters.
+			Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string) with a single root element.
+			The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
 			<table width="100%">
 				<tr>
@@ -398,7 +398,7 @@ $(function() {
 				</tr>
 				<tr>
 					<td valign="top"><code>option_create</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: `input` (which is what the user has typed).</td>
+					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup_header</code></td>
@@ -406,7 +406,7 @@ $(function() {
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup</code></td>
-					<td valign="top">The wrapper for an optgroup. The `html` property in the data will be the raw html of the optgroup's header and options.</td>
+					<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
 				</tr>
 			</table>
 		</td>
