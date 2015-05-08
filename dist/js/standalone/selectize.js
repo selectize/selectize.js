@@ -677,13 +677,21 @@
 			this._events[event].push(fct);
 		},
 		off: function(event, fct){
-			var n = arguments.length;
+			var index, length, n = arguments.length;
 			if (n === 0) return delete this._events;
 			if (n === 1) return delete this._events[event];
 	
 			this._events = this._events || {};
 			if (event in this._events === false) return;
-			this._events[event].splice(this._events[event].indexOf(fct), 1);
+	
+	        // indexOf
+			length = this._events[event].length;
+			for (index = 0; index < length; index++) {
+				if (this._events[event][index] === fct)	break;
+			}
+			if (index == length)	return;
+	
+			this._events[event].splice(index, 1);
 		},
 		trigger: function(event /* , args... */){
 			this._events = this._events || {};
@@ -707,6 +715,7 @@
 			destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
 		}
 	};
+	
 	
 	var IS_MAC        = /Mac/.test(navigator.userAgent);
 	
@@ -868,12 +877,14 @@
 	
 		// override trigger method
 		self.trigger = function() {
-			var type = arguments[0];
-			if (types.indexOf(type) !== -1) {
-				event_args[type] = arguments;
-			} else {
-				return trigger.apply(self, arguments);
+			var i, len, type = arguments[0];
+	
+			for (i=0, len=types.length; i<len; i++) {
+				if (types[i] === type) {
+					return event_args[type] = arguments;
+				}
 			}
+			return trigger.apply(self, arguments);
 		};
 	
 		// invoke provided function
@@ -1052,6 +1063,7 @@
 		$input.on('keydown keyup update blur', update);
 		update();
 	};
+	
 	
 	var Selectize = function($input, settings) {
 		var key, i, n, dir, input, self = this;
@@ -1826,6 +1838,16 @@
 			});
 		},
 	
+	    indexOf: function(array, value) {
+			var length = array ? array.length : 0;
+			for (var index = 0; index < length; index++) {
+				if (array[index] === value) {
+					return index;
+				}
+			}
+			return -1;
+		},
+	
 		/**
 		 * Sets the selected item.
 		 *
@@ -1856,8 +1878,8 @@
 	
 			if (eventName === 'mousedown' && self.isShiftDown && self.$activeItems.length) {
 				$last = self.$control.children('.active:last');
-				begin = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$last[0]]);
-				end   = Array.prototype.indexOf.apply(self.$control[0].childNodes, [$item[0]]);
+				begin = self.indexOf(self.$control[0].childNodes, [$last[0]]);
+				end   = self.indexOf(self.$control[0].childNodes, [$item[0]]);
 				if (begin > end) {
 					swap  = begin;
 					begin = end;
@@ -1865,7 +1887,7 @@
 				}
 				for (i = begin; i <= end; i++) {
 					item = self.$control[0].childNodes[i];
-					if (self.$activeItems.indexOf(item) === -1) {
+					if (self.indexOf(self.$activeItems, item) === -1) {
 						$(item).addClass('active');
 						self.$activeItems.push(item);
 					}
@@ -1873,7 +1895,7 @@
 				e.preventDefault();
 			} else if ((eventName === 'mousedown' && self.isCtrlDown) || (eventName === 'keydown' && this.isShiftDown)) {
 				if ($item.hasClass('active')) {
-					idx = self.$activeItems.indexOf($item[0]);
+					idx = self.indexOf(self.$activeItems, $item[0]);
 					self.$activeItems.splice(idx, 1);
 					$item.removeClass('active');
 				} else {
@@ -2064,7 +2086,7 @@
 			// filter out selected items
 			if (settings.hideSelected) {
 				for (i = result.items.length - 1; i >= 0; i--) {
-					if (self.items.indexOf(hash_key(result.items[i].id)) !== -1) {
+					if (self.indexOf(self.items, hash_key(result.items[i].id)) !== -1) {
 						result.items.splice(i, 1);
 					}
 				}
@@ -2319,7 +2341,7 @@
 			// update references
 			if (value_new !== value) {
 				delete self.options[value];
-				index_item = self.items.indexOf(value);
+				index_item = self.indexOf(self.items, value);
 				if (index_item !== -1) {
 					self.items.splice(index_item, 1, value_new);
 				}
@@ -2341,7 +2363,7 @@
 			}
 	
 			// update the item if it's selected
-			if (self.items.indexOf(value_new) !== -1) {
+			if (self.indexOf(self.items, value_new) !== -1) {
 				$item = self.getItem(value);
 				$item_new = $(self.render('item', data));
 				if ($item.hasClass('active')) $item_new.addClass('active');
@@ -2485,7 +2507,7 @@
 				var i, active, value_next, wasFull;
 				value = hash_key(value);
 	
-				if (self.items.indexOf(value) !== -1) {
+				if (self.indexOf(self.items, value) !== -1) {
 					if (inputMode === 'single') self.close();
 					return;
 				}
@@ -2541,12 +2563,12 @@
 	
 			$item = (typeof value === 'object') ? value : self.getItem(value);
 			value = hash_key($item.attr('data-value'));
-			i = self.items.indexOf(value);
+			i = self.indexOf(self.items, value);
 	
 			if (i !== -1) {
 				$item.remove();
 				if ($item.hasClass('active')) {
-					idx = self.$activeItems.indexOf($item[0]);
+					idx = self.indexOf(self.$activeItems, $item[0]);
 					self.$activeItems.splice(idx, 1);
 				}
 	

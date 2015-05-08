@@ -16,13 +16,21 @@ MicroEvent.prototype = {
 		this._events[event].push(fct);
 	},
 	off: function(event, fct){
-		var n = arguments.length;
+		var index, length, n = arguments.length;
 		if (n === 0) return delete this._events;
 		if (n === 1) return delete this._events[event];
 
 		this._events = this._events || {};
 		if (event in this._events === false) return;
-		this._events[event].splice(this._events[event].indexOf(fct), 1);
+
+        // indexOf
+		length = this._events[event].length;
+		for (index = 0; index < length; index++) {
+			if (this._events[event][index] === fct)	break;
+		}
+		if (index == length)	return;
+
+		this._events[event].splice(index, 1);
 	},
 	trigger: function(event /* , args... */){
 		this._events = this._events || {};
