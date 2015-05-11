@@ -129,6 +129,58 @@
 	};
 	
 	/**
+	 * Groups an array of objects, or values of object keys by a property or function.
+	 *
+	 * @param {array} options
+	 * @param {string|function} matchFn
+	 * @returns {object}
+	 */
+	
+	var group_by = function(options, matchFn) {
+		if (typeof options === 'undefined' || options === null) return {};
+		if (typeof matchFn !== 'function' && typeof matchFn !== 'string') return {};
+		var key, obj, returnValue = {};
+		for (var id in options) {
+			obj = options[id];
+			if(typeof matchFn === 'string') {
+				key = obj[matchFn];
+			} else {
+				key = matchFn(obj);
+			}
+			if (typeof key !== 'undefined' && key !== null) {
+				if(returnValue.hasOwnProperty(key) && key) {
+					returnValue[key].push(obj);
+				} else {
+					returnValue[key] = [obj];
+				}
+			}
+		}
+		return returnValue;
+	}
+	
+	/**
+	 * Returns an array of all the keys on an object.
+	 *
+	 * @param {object} hash
+	 * @returns {array}
+	 */
+	
+	var hash_keys = function (hash) {
+		var keys = [];
+		if (typeof Object.keys === "function") {
+			keys = Object.keys(hash);
+		} else {
+			keys = []
+			for (var key in p) {
+				if (p.hasOwnProperty(key)) {
+					keys.push(key);
+				}
+			}
+		}
+		return keys;
+	}
+	
+	/**
 	 * Converts a scalar to its best string representation
 	 * for hash keys and HTML attribute values.
 	 *
@@ -444,6 +496,7 @@
 		update();
 	};
 	
+	
 	var Selectize = function($input, settings) {
 		var key, i, n, dir, input, self = this;
 		input = $input[0];
@@ -489,6 +542,7 @@
 			$activeOption    : null,
 			$activeItems     : [],
 	
+			optgroupsFn      : null,
 			optgroups        : {},
 			options          : {},
 			userOptions      : {},
@@ -510,9 +564,15 @@
 	
 		// build optgroup table
 		if (self.settings.optgroups) {
-			for (i = 0, n = self.settings.optgroups.length; i < n; i++) {
-				self.registerOptionGroup(self.settings.optgroups[i]);
+			var optGroups;
+			// If dynamic optgroups function, store it for future rebuild and generate optgroups
+			if (typeof self.settings.optgroups === "function") {
+				self.optgroupsFn = self.settings.optgroups;
+				self.registerDynamicOptionGroups();
+			} else {
+				self.registerOptionGroups(self.settings.optgroups);
 			}
+	
 			delete self.settings.optgroups;
 		}
 	
@@ -1615,6 +1675,9 @@
 			if (value = self.registerOption(data)) {
 				self.userOptions[value] = true;
 				self.lastQuery = null;
+				if (typeof self.optgroupsFn === 'function') {
+					self.registerDynamicOptionGroups();
+				}
 				self.trigger('option_add', value, data);
 			}
 		},
@@ -1631,6 +1694,45 @@
 			data.$order = data.$order || ++this.order;
 			this.options[key] = data;
 			return key;
+		},
+	
+		/**
+		* Build option groups from optgroup function.
+		*
+		* @return {array}
+		*/
+	
+		buildOptionGroups: function () {
+			var groups = group_by(this.options, this.settings.optgroupField),
+				keys = hash_keys(groups);
+	
+			return self.optgroupsFn(keys);
+		},
+	
+		/**
+		 * Builds dynamic option groups and registers them.
+		 *
+		 * @return {array}
+		 */
+	
+		registerDynamicOptionGroups: function () {
+			this.clearOptionGroups();
+			optGroups = this.buildOptionGroups();
+			this.registerOptionGroups(optGroups);
+			return optGroups;
+		},
+	
+		/**
+		 * Registers multiple option groups to the pool of option groups.
+		 *
+		 * @param {object} data
+		 * @return {boolean|string}
+		 */
+	
+		registerOptionGroups: function (groups) {
+			for (var i = 0, n = groups.length; i < n; i++) {
+				this.registerOptionGroup(groups[i]);
+			}
 		},
 	
 		/**
@@ -1766,6 +1868,9 @@
 			delete self.userOptions[value];
 			delete self.options[value];
 			self.lastQuery = null;
+			if (typeof self.optgroupsFn === 'function') {
+				self.registerDynamicOptionGroups();
+			}
 			self.trigger('option_remove', value);
 			self.removeItem(value, silent);
 		},
