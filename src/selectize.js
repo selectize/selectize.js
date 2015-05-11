@@ -1217,6 +1217,7 @@ $.extend(Selectize.prototype, {
 	 */
 
 	registerDynamicOptionGroups: function () {
+		var optGroups;
 		this.clearOptionGroups();
 		optGroups = this.buildOptionGroups();
 		this.registerOptionGroups(optGroups);
