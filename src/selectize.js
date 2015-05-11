@@ -1207,7 +1207,7 @@ $.extend(Selectize.prototype, {
 		var groups = group_by(this.options, this.settings.optgroupField),
 			keys = hash_keys(groups);
 
-		return self.optgroupsFn(keys);
+		return this.optgroupsFn(keys);
 	},
 
 	/**
