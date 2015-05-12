@@ -705,7 +705,7 @@
 								data: {
 									q: query,
 									page_limit: 10,
-									apikey: '3qqmdwbuswut94jv4eua3j85'
+									apikey: 'w82gs68n8m2gur98m6du5ugc'
 								},
 								error: function() {
 									callback();
@@ -800,7 +800,7 @@
 							select_city.load(function(callback) {
 								xhr && xhr.abort();
 								xhr = $.ajax({
-									url: 'http://www.corsproxy.com/api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+									url: 'https://jsonp.afeld.me/?url=http://api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
 									success: function(results) {
 										select_city.enable();
 										callback(results);
