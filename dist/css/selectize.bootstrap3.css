@@ -399,3 +399,10 @@
   -moz-border-radius: 0;
   border-radius: 0;
 }
+
+.selectize-input .remove-single {
+  position: absolute;
+  right: 28px;
+  top: 6px;
+  font-size: 23px;
+}
