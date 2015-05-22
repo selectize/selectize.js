@@ -285,6 +285,10 @@
 .selectize-control.single .selectize-input.input-active input {
   cursor: text;
 }
+.selectize-control.single .selectize-input.input-readonly.input-active,
+.selectize-control.single .selectize-input.input-readonly.input-active input {
+  cursor: default;
+}
 .selectize-control.single .selectize-input:after {
   content: ' ';
   display: block;
