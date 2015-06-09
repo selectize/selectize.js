@@ -108,6 +108,95 @@
 .selectize-control.plugin-remove_button .disabled [data-value] .remove {
   border-left-color: #aaaaaa;
 }
+nav {
+  padding: 0px 0;
+  width: 200px;
+  background-color: white;
+  position: absolute;
+}
+.optgroup-header {
+  height: 40px;
+}
+nav li .dropdown {
+  width: 200px;
+}
+nav:hover {
+  background-color: #08c;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+nav ul li {
+  display: inline-block;
+  position: relative;
+}
+/* sub navigation */
+nav li ul {
+  background-color: #fff;
+  position: absolute;
+  left: 200px;
+  top: 0px;
+  /* make this equal to the line-height of the links (specified below) */
+  width: 200px;
+}
+nav li ul a:hover {
+  background-color: #08c;
+}
+nav li li {
+  position: relative;
+  margin: 0;
+  display: block;
+}
+nav li li ul {
+  position: absolute;
+  top: 0;
+  left: 200px;
+  /* make this equal to the width of the sub nav above */
+  margin: 0;
+}
+/* style all links */
+nav a {
+  line-height: 40px;
+  padding: 0 12px;
+  margin: 0 12px;
+}
+nav a {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+nav a:hover,
+nav a:focus,
+nav a:active {
+  color: #fff;
+}
+/* style sub level links */
+nav li li a {
+  border-bottom: solid 1px #c83232;
+  margin: 0 3px;
+  padding: 0;
+  padding-left: 8px;
+}
+nav li li:last-child a {
+  border-bottom: none;
+}
+/* show arrows for dropdowns */
+nav li.dropdown > a {
+  background-position: right 20px;
+  background-repeat: no-repeat;
+}
+nav li li.dropdown > a {
+  background-position: right 16px;
+  background-repeat: no-repeat;
+}
+ul.sub-menu {
+  display: none;
+}
+ul.sub-menu:hover {
+  display: block;
+}
 .selectize-control {
   position: relative;
 }
