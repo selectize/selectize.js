@@ -113,6 +113,34 @@
 				})
 				</script>
 			</div>
+      <div class="demo">
+        <h2>Plugin: "sub_menu"</h2>
+        <div class="control-group" style="width:210px">
+          <input id="sub-menu">
+        </div>
+        <script>
+          $('#sub-menu').selectize({
+              options: [
+                  {class: 'mammal', value: "dog", name: "Dog" },
+                  {class: 'mammal', value: "cat", name: "Cat" },
+                  {class: 'mammal', value: "horse", name: "Horse" },
+                  {class: 'mammal', value: "kangaroo", name: "Kangaroo" },
+                  {class: 'bird', value: 'duck', name: 'Duck'},
+                  {class: 'bird', value: 'chicken', name: 'Chicken'},
+                  {class: 'bird', value: 'ostrich', name: 'Ostrich'},
+                  {class: 'bird', value: 'seagull', name: 'Seagull'}
+              ],
+              optgroups: [
+                  {value: 'mammal', label: 'Mammal'},
+                  {value: 'bird', label: 'Bird'}
+              ],
+              optgroupField: 'class',
+              plugins: ['sub_menu'],
+              labelField: 'name',
+              searchField: ['name']
+          });
+        </script>
+      </div>
 		</div>
 	</body>
 </html>
