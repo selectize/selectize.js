@@ -68,17 +68,19 @@ $.fn.selectize = function(settings_user) {
 			// the current group to the "optgroup" property on the
 			// existing option so that it's rendered in both places.
 			if (optionsMap.hasOwnProperty(value)) {
-				if (group) {
-					var arr = optionsMap[value][field_optgroup];
-					if (!arr) {
-						optionsMap[value][field_optgroup] = group;
-					} else if (!$.isArray(arr)) {
-						optionsMap[value][field_optgroup] = [arr, group];
-					} else {
-						arr.push(group);
-					}
+				if (!group) {
+					return;
 				}
-				return;
+				
+				var arr = optionsMap[value][field_optgroup];
+				
+				if (!arr) {
+					optionsMap[value][field_optgroup] = group;
+				} else if (!$.isArray(arr)) {
+					optionsMap[value][field_optgroup] = [arr, group];
+				} else {
+					arr.push(group);
+				}				
 			}
 
 			var option             = readData($option) || {};
