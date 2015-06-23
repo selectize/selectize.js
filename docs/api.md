@@ -227,6 +227,10 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>clearCache(template)</code></td>
 		<td valign="top">Clears the render cache. Takes an optional template argument (e.g. "option", "item") to clear only that cache.</td>
 	</tr>
+	<tr>
+		<td valign="top"><code>setTextboxValue(str)</code></td>
+		<td valign="top">Sets the value of the input field.</td>
+	</tr>
 </table>
 
 ### Related Objects
