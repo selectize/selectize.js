@@ -244,6 +244,10 @@ var selectize = $select[0].selectize;
 		<td valign="top">When the `settings.placeholder` value is changed, the new placeholder will be displayed.</td>
 		<!-- Proposed change: accept an optional string. If given, just takes it to update the placeholder. Will avoid to refer to settings. -->
 	</tr>
+	<tr>
+		<td valign="top"><code>setTextboxValue(str)</code></td>
+		<td valign="top">Sets the value of the input field.</td>
+	</tr>
 </table>
 
 ### Related Objects
