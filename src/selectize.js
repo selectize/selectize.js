@@ -1784,6 +1784,10 @@ $.extend(Selectize.prototype, {
 		var i, n, direction, selection, values, caret, option_select, $option_select, $tail;
 		var self = this;
 
+		if (self.settings.disableDelete && e && e.keyCode === KEY_BACKSPACE) {
+			return;
+		}
+
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
 		selection = getSelection(self.$control_input[0]);
 

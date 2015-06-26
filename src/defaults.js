@@ -46,6 +46,8 @@ Selectize.defaults = {
 
 	dropdownParent: null,
 
+	disableDelete: false,
+
 	copyClassesToDropdown: true,
 
 	/*
