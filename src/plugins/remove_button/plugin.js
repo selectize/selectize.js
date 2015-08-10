@@ -55,16 +55,15 @@ Selectize.define('remove_button', function(options) {
 				e.preventDefault();
 				if (self.isLocked) return;
 
-	            if (self.settings.mode === 'single') {
-                    self.clear();
-                } else {
-				    var $item = $(e.currentTarget).parent();
-                    self.setActiveItem($item);
-                    if (self.deleteSelection()) {
-                        self.setCaret(self.items.length);
-                    }
-
-                }
+				if (self.settings.mode === 'single') {
+					self.clear();
+				} else {
+					var $item = $(e.currentTarget).parent();
+					self.setActiveItem($item);
+					if (self.deleteSelection()) {
+						self.setCaret(self.items.length);
+					}
+				}
 			});
 
 		};
