@@ -1053,6 +1053,7 @@
 		update();
 	};
 	
+	
 	var Selectize = function($input, settings) {
 		var key, i, n, dir, input, self = this;
 		input = $input[0];
@@ -2529,6 +2530,13 @@
 			});
 		},
 	
+		removeItems: function(value, silent) {
+			var items = $.isArray(values) ? values : [values];
+			for (var i = 0, n = items.length; i < n; i++) {
+				this.isPending = (i < n - 1);
+				this.removeItem(items[i], silent);
+			}
+		},
 		/**
 		 * Removes the selected item matching
 		 * the provided value.
@@ -2560,7 +2568,10 @@
 					self.setCaret(self.caretPos - 1);
 				}
 	
-				self.refreshState();
+				if (!self.isPending) {
+					self.refreshState();
+				}
+	
 				self.updatePlaceholder();
 				self.updateOriginalInput({silent: silent});
 				self.positionDropdown();
