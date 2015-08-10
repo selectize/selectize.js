@@ -234,6 +234,27 @@
 			});
 		});
 
+		describe('removeItems()', function() {
+			var test;
+
+			before(function() {
+				test = setup_test('<select multiple>', {
+					valueField: 'value',
+					labelField: 'value',
+					options: [
+						{value: 'a'},
+						{value: 'b'},
+						{value: 'c'},
+						{value: 'x'},
+					]
+				});
+			});
+			it('should update "items" array', function() {
+				test.selectize.removeItems([ 'b', 'a' ]);
+				expect(test.selectize.items.indexOf('b')).to.be.equal(0);
+				expect(test.selectize.items.indexOf('a')).to.be.equal(0);
+			});
+		});
 		describe('addItem()', function() {
 			var test;
 
