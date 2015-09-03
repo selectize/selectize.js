@@ -40,6 +40,8 @@ var Selectize = function($input, settings) {
 		loading          : 0,
 		loadedSearches   : {},
 
+		texts            : settings.texts == null ? {} : settings.texts,
+
 		$activeOption    : null,
 		$activeItems     : [],
 
@@ -290,8 +292,9 @@ $.extend(Selectize.prototype, {
 			'item': function(data, escape) {
 				return '<div class="item">' + escape(data[field_label]) + '</div>';
 			},
-			'option_create': function(data, escape) {
-				return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+			'option_create': function(data, escape, texts) {
+
+				return '<div class="create">'+texts.add+' <strong>' + escape(data.input) + '</strong>&hellip;</div>';
 			}
 		};
 
@@ -2044,7 +2047,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render markup
-		html = self.settings.render[templateName].apply(this, [data, escape_html]);
+		html = self.settings.render[templateName].apply(this, [data, escape_html, self.texts]);
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
