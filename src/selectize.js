@@ -1647,11 +1647,11 @@ $.extend(Selectize.prototype, {
 		opts = opts || {};
 
 		if (self.tagType === TAG_SELECT) {
-			$options	= self.$input.find('option');
-			existing	= [];
-			fresh			= [];
-			old				= [];
-			values		= [];
+			$options  = self.$input.find('option');
+			existing  = [];
+			fresh     = [];
+			old       = [];
+			values    = [];
 
 			$options.get().forEach(function(option) {
 				existing.push(option.value);
