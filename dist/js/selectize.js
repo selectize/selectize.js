@@ -3763,6 +3763,7 @@ $.fn.selectize = function(settings_user) {
 			for (i = 0, n = $options.length; i < n; i++) {
 				addOption($options[i], id);
 			}
+<<<<<<< master
 		};
 
 		settings_element.maxItems = $input.attr('multiple') ? null : 1;
@@ -4044,6 +4045,222 @@ Selectize.define('drag_drop', function(options) {
 					self.isFocused = true;
 					self.setActiveItem(active);
 					self.positionDropdown();
+=======
+	
+			self.lock();
+	
+			var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
+				var data = {};
+				data[self.settings.labelField] = input;
+				data[self.settings.valueField] = input;
+				return data;
+			};
+	
+			var create = once(function(data) {
+				self.unlock();
+	
+				if (!data || typeof data !== 'object') return callback();
+				var value = hash_key(data[self.settings.valueField]);
+				if (typeof value !== 'string') return callback();
+	
+				self.setTextboxValue('');
+				self.addOption(data);
+				self.setCaret(caret);
+				self.addItem(value);
+				self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
+				callback(data);
+			});
+	
+			var output = setup.apply(this, [input, create]);
+			if (typeof output !== 'undefined') {
+				create(output);
+			}
+	
+			return true;
+		},
+	
+		/**
+		 * Re-renders the selected item lists.
+		 */
+		refreshItems: function() {
+			this.lastQuery = null;
+	
+			if (this.isSetup) {
+				this.addItem(this.items);
+			}
+	
+			this.refreshState();
+			this.updateOriginalInput();
+		},
+	
+		/**
+		 * Updates all state-dependent attributes
+		 * and CSS classes.
+		 */
+		refreshState: function() {
+			this.refreshValidityState();
+			this.refreshClasses();
+		},
+	
+		/**
+		 * Update the `required` attribute of both input and control input.
+		 *
+		 * The `required` property needs to be activated on the control input
+		 * for the error to be displayed at the right place. `required` also
+		 * needs to be temporarily deactivated on the input since the input is
+		 * hidden and can't show errors.
+		 */
+		refreshValidityState: function() {
+			if (!this.isRequired) return false;
+	
+			var invalid = !this.items.length;
+	
+			this.isInvalid = invalid;
+			this.$control_input.prop('required', invalid);
+			this.$input.prop('required', !invalid);
+		},
+	
+		/**
+		 * Updates all state-dependent CSS classes.
+		 */
+		refreshClasses: function() {
+			var self     = this;
+			var isFull   = self.isFull();
+			var isLocked = self.isLocked;
+	
+			self.$wrapper
+				.toggleClass('rtl', self.rtl);
+	
+			self.$control
+				.toggleClass('focus', self.isFocused)
+				.toggleClass('disabled', self.isDisabled)
+				.toggleClass('required', self.isRequired)
+				.toggleClass('invalid', self.isInvalid)
+				.toggleClass('locked', isLocked)
+				.toggleClass('full', isFull).toggleClass('not-full', !isFull)
+				.toggleClass('input-active', self.isFocused && !self.isInputHidden)
+				.toggleClass('dropdown-active', self.isOpen)
+				.toggleClass('has-options', !$.isEmptyObject(self.options))
+				.toggleClass('has-items', self.items.length > 0);
+	
+			self.$control_input.data('grow', !isFull && !isLocked);
+		},
+	
+		/**
+		 * Determines whether or not more items can be added
+		 * to the control without exceeding the user-defined maximum.
+		 *
+		 * @returns {boolean}
+		 */
+		isFull: function() {
+			return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
+		},
+	
+		/**
+		 * Refreshes the original <select> or <input>
+		 * element to reflect the current state.
+		 */
+    updateOriginalInput: function(opts) {
+  		var i, n, existing, fresh, old, $options, label, value, values, self = this;
+  		opts = opts || {};
+
+  		if (self.tagType === TAG_SELECT) {
+  			$options  = self.$input.find('option');
+  			existing  = [];
+  			fresh     = [];
+  			old       = [];
+  			values    = [];
+
+  			$options.get().forEach(function(option) {
+  				existing.push(option.value);
+  			});
+
+  			self.items.forEach(function(item) {
+  				value = escape_html(item);
+  				label = escape_html(self.options[item][self.settings.labelField] || '');
+
+  				values.push(value);
+
+  				if (existing.indexOf(value) != -1) {
+  					return;
+  				}
+
+  				fresh.push('<option value="' + value + '" selected="selected">' + label + '</option>');
+  			});
+
+  			old = existing.filter(function(value) {
+  				return values.indexOf(value) < 0;
+  			}).map(function(value) {
+  				return 'option[value="' + value + '"]';
+  			});
+
+  			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {
+  				fresh.push('<option value="" selected="selected"></option>');
+  			}
+
+  			self.$input.find(old.join(', ')).remove();
+  			self.$input.append(fresh.join(''));
+  		} else {
+  			self.$input.val(self.getValue());
+  			self.$input.attr('value',self.$input.val());
+  		}
+
+  		if (self.isSetup) {
+  			if (!opts.silent) {
+  				self.trigger('change', self.$input.val());
+  			}
+  		}
+  	},
+      
+		/**
+		 * Shows/hide the input placeholder depending
+		 * on if there items in the list already.
+		 */
+		updatePlaceholder: function() {
+			if (!this.settings.placeholder) return;
+			var $input = this.$control_input;
+	
+			if (this.items.length) {
+				$input.removeAttr('placeholder');
+			} else {
+				$input.attr('placeholder', this.settings.placeholder);
+			}
+			$input.triggerHandler('update', {force: true});
+		},
+	
+		/**
+		 * Shows the autocomplete dropdown containing
+		 * the available options.
+		 */
+		open: function() {
+			var self = this;
+	
+			if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
+			self.focus();
+			self.isOpen = true;
+			self.refreshState();
+			self.$dropdown.css({visibility: 'hidden', display: 'block'});
+			self.positionDropdown();
+			self.$dropdown.css({visibility: 'visible'});
+			self.trigger('dropdown_open', self.$dropdown);
+		},
+	
+		/**
+		 * Closes the autocomplete dropdown menu.
+		 */
+		close: function() {
+			var self = this;
+			var trigger = self.isOpen;
+	
+			if (self.settings.mode === 'single' && self.items.length) {
+				self.hideInput();
+	
+				// Do not trigger blur while inside a blur event,
+				// this fixes some weird tabbing behavior in FF and IE.
+				// See #1164
+				if (!self.isBlurring) {
+					self.$control_input.blur(); // close keyboard on iOS
+>>>>>>> Performance upgrade for updateOriginalInput()
 				}
 			});
 		};
