@@ -1715,19 +1715,45 @@ $.extend(Selectize.prototype, {
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {
-		var i, n, options, label, self = this;
+		var i, n, existing, fresh, old, $options, label, value, values, self = this;
 		opts = opts || {};
 
 		if (self.tagType === TAG_SELECT) {
-			options = [];
-			for (i = 0, n = self.items.length; i < n; i++) {
-				label = self.options[self.items[i]][self.settings.labelField] || '';
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+			$options  = self.$input.find('option');
+			existing  = [];
+			fresh     = [];
+			old       = [];
+			values    = [];
+
+			$options.get().forEach(function(option) {
+				existing.push(option.value);
+			});
+
+			self.items.forEach(function(item) {
+				value = escape_html(item);
+				label = escape_html(self.options[item][self.settings.labelField] || '');
+
+				values.push(value);
+
+				if (existing.indexOf(value) != -1) {
+					return;
+				}
+
+				fresh.push('<option value="' + value + '" selected="selected">' + label + '</option>');
+			});
+
+			old = existing.filter(function(value) {
+				return values.indexOf(value) < 0;
+			}).map(function(value) {
+				return 'option[value="' + value + '"]';
+			});
+
+			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {
+				fresh.push('<option value="" selected="selected"></option>');
 			}
-			if (!options.length && !this.$input.attr('multiple')) {
-				options.push('<option value="" selected="selected"></option>');
-			}
-			self.$input.html(options.join(''));
+
+			self.$input.find(old.join(', ')).remove();
+			self.$input.append(fresh.join(''));
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
