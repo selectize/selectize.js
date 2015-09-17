@@ -2971,8 +2971,6 @@
 	});
 	
 	Selectize.define('remove_button', function(options) {
-		if (this.settings.mode === 'single') return;
-	
 		options = $.extend({
 			label     : '&times;',
 			title     : 'Remove',
@@ -3013,10 +3011,14 @@
 					e.preventDefault();
 					if (self.isLocked) return;
 	
-					var $item = $(e.currentTarget).parent();
-					self.setActiveItem($item);
-					if (self.deleteSelection()) {
-						self.setCaret(self.items.length);
+					if (self.settings.mode === 'single') {
+						self.clear();
+					} else {
+						var $item = $(e.currentTarget).parent();
+						self.setActiveItem($item);
+						if (self.deleteSelection()) {
+							self.setCaret(self.items.length);
+						}
 					}
 				});
 	
@@ -3024,6 +3026,7 @@
 		})();
 	
 	});
+	
 	
 	Selectize.define('restore_on_backspace', function(options) {
 		var self = this;
