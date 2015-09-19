@@ -119,12 +119,12 @@ $.extend(Selectize.prototype, {
 		inputMode         = self.settings.mode;
 		classes           = $input.attr('class') || '';
 
-		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
-		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
-		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
-		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
-		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+		$wrapper          = self.$wrapper || 		$('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
+		$control          = self.$control || 		$('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
+		$control_input    = self.$control_input || 	$('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$dropdown_parent  =		 		$(settings.dropdownParent || $wrapper);
+		$dropdown         = self.$dropdown ||		$('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
+		$dropdown_content = self.$dropdown_content ||	$('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
