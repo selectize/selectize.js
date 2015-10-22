@@ -1676,7 +1676,7 @@ $.extend(Selectize.prototype, {
 				return 'option[value="' + value + '"]';
 			});
 
-			if (!fresh.length && !this.$input.attr('multiple')) {
+			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {
 				fresh.push('<option value="" selected="selected"></option>');
 			}
 
