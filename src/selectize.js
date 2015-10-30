@@ -1326,7 +1326,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Clears all options.
+	 * Clears all options. This includes clearing all selected items.
 	 */
 	clearOptions: function() {
 		var self = this;
