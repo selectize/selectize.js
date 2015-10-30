@@ -965,7 +965,8 @@ $.extend(Selectize.prototype, {
 		return {
 			fields      : settings.searchField,
 			conjunction : settings.searchConjunction,
-			sort        : sort
+			sort        : sort,
+			filter      : settings.filter
 		};
 	},
 
