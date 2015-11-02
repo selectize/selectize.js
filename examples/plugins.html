@@ -113,6 +113,53 @@
 				})
 				</script>
 			</div>
+
+			<div class="demo">
+				<h2>Plugin: "condensed_dropdown"</h2>
+				<div class="control-group">
+				  <input type="text" id="condensed_dropdown">
+				</div>
+				<script>
+				$('#condensed_dropdown').selectize({
+					options: [
+						{value: 'Alpha'},
+						{value: 'Bravo'},
+						{value: 'Charlie'},
+						{value: 'Delta'},
+						{value: 'Echo'},
+						{value: 'Foxtrot'},
+						{value: 'Golf'},
+						{value: 'Hotel'},
+						{value: 'India'},
+						{value: 'Juliet'},
+						{value: 'Kilo'},
+						{value: 'Lima'},
+						{value: 'Mike'},
+						{value: 'November'},
+						{value: 'Oscar'},
+						{value: 'Papa'},
+						{value: 'Quebec'},
+						{value: 'Romeo'},
+						{value: 'Sierra'},
+						{value: 'Tango'},
+						{value: 'Uniform'},
+						{value: 'Victor'},
+						{value: 'Whiskey'},
+						{value: 'X-ray'},
+						{value: 'Yankee'},
+						{value: 'Zulu'}
+					],
+			    labelField: 'value',
+			    valueField: 'value',
+			    searchField: ['value'],
+			    create: true,
+			    persist: false,
+			    highlight: false,
+			    closeAfterSelect: false,
+					plugins: ['condensed_dropdown']
+				})
+				</script>
+			</div>
 		</div>
 	</body>
 </html>
