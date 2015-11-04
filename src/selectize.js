@@ -220,11 +220,11 @@ $.extend(Selectize.prototype, {
 			}
 		});
 		$window.on('mousemove' + eventNS, function() {
-            if (self.settings.ignoreHover) {
-                self.ignoreHover = true;
-            } else {
-                self.ignoreHover = false;
-            }
+			if (self.settings.ignoreHover) {
+				self.ignoreHover = true;
+			} else {
+				self.ignoreHover = false;
+			}
 		});
 
 		// store original children and tab index so that they can be
