@@ -33,10 +33,10 @@ Selectize.define('click_to_edit', function( options ) {
    return function(e) {
      var index, option, key;
 
-     if (e.toElement.className === 'item active') {
+     if (e.target.className === 'item active') {
        index = this.caretPos - 1;
        if (index >= 0 && index < this.items.length) {
-         key = $(e.toElement).data('value');
+         key = $(e.target).data('value');
          option = this.options[key];
 
          if (this.deleteSelection(e)) {
