@@ -580,9 +580,11 @@ $.extend(Selectize.prototype, {
 
 		if (self.ignoreFocus) return;
 		self.isFocused = true;
-		if (self.settings.preload === 'focus') self.onSearchChange('');
+        if (!wasFocused) {
+		    if (self.settings.preload === 'focus') self.onSearchChange('');
 
-		if (!wasFocused) self.trigger('focus');
+		    self.trigger('focus');
+        }
 
 		if (!self.$activeItems.length) {
 			self.showInput();
