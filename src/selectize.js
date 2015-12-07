@@ -24,6 +24,7 @@ var Selectize = function($input, settings) {
 		isRequired       : $input.is('[required]'),
 		isInvalid        : false,
 		isLocked         : false,
+		isDropUp         : false,
 		isFocused        : false,
 		isInputHidden    : false,
 		isSetup          : false,
@@ -72,6 +73,7 @@ var Selectize = function($input, settings) {
 
 	// option-dependent defaults
 	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
+	self.settings.dropdownDirection = -1 < ['up', 'down', 'auto'].indexOf(self.settings.dropdownDirection) ? self.settings.dropdownDirection : 'auto';
 	if (typeof self.settings.hideSelected !== 'boolean') {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
@@ -1622,6 +1624,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
 			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
 			.toggleClass('dropdown-active', self.isOpen)
+			.toggleClass('dropdown-up', self.isDropUp)
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
 
@@ -1727,7 +1730,23 @@ $.extend(Selectize.prototype, {
 	positionDropdown: function() {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-		offset.top += $control.outerHeight(true);
+		var controlHeight = $control.outerHeight(true);
+		var dropdownHeight = this.$dropdown.outerHeight(true);
+
+		var optDirection = this.settings.dropdownDirection;
+		if (optDirection === 'auto') {
+			var dropdownBottom = $control.offset().top + controlHeight + dropdownHeight;
+			var windowBottom = $(window).height();
+			optDirection = dropdownBottom < windowBottom ? 'down' : 'up';
+		}
+
+		if (optDirection === 'down') {
+			offset.top += controlHeight;
+			self.isDropUp = false;
+		} else if (optDirection === 'up') {
+			offset.top -= dropdownHeight;
+			self.isDropUp = true;
+		}
 
 		this.$dropdown.css({
 			width : $control.outerWidth(),
