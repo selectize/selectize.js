@@ -87,7 +87,20 @@ grunt --plugins=remove_button,restore_on_backspace
 
 ### Contributing
 
-When issuing a pull request, *please exclude changes in the "dist" folder to avoid merge conflicts*. Also, please ensure all the tests pass:
+When issuing a pull request, *please exclude changes in the "dist"
+folder to avoid merge conflicts*. Please include tests with your feature
+so that we're not tempted to break it in the future!
+
+Add an entry to the top of the CHANGELOG, and update the documentation
+in `docs/` as needed. (Refactors and documentation changes don't need a
+changelog entry.)
+
+Squash your commits together in one or a few complete, logical commits,
+with a concise and descriptive message. One commit means one
+feature/bugfix/thing that has changed, or a diff bringing the code one
+step forward to a better, working state.
+
+Also, please ensure all the tests pass:
 
 ```sh
 $ npm test # phantomjs
