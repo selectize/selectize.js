@@ -282,6 +282,9 @@ var autoGrow = function($input) {
 		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keypress') {
 			keyCode = e.keyCode;
+			printable = (
+				(keyCode != 44) // comma
+			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
 				selection = getSelection($input[0]);
@@ -292,7 +295,7 @@ var autoGrow = function($input) {
 				} else if (keyCode === KEY_DELETE && typeof selection.start !== 'undefined') {
 					value = value.substring(0, selection.start) + value.substring(selection.start + 1);
 				}
-			} else {
+			} else if (printable) {
 				shift = e.shiftKey;
 				character = String.fromCharCode(e.keyCode);
 				if (shift) character = character.toUpperCase();
