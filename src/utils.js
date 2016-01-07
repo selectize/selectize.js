@@ -281,9 +281,9 @@ var autoGrow = function($input) {
 
 		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keypress') {
-			keyCode = e.keyCode;
+			keyCode = e.which || e.keyCode;
 			printable = (
-				(keyCode != 44) // comma
+				(keyCode != 44 && keyCode != KEY_COMMA) // comma
 			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
