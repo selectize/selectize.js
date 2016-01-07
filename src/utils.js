@@ -283,7 +283,9 @@ var autoGrow = function($input) {
 		if (e.type && e.type.toLowerCase() === 'keypress') {
 			keyCode = e.which || e.keyCode;
 			printable = (
-				(keyCode != 44 && keyCode != KEY_COMMA) // comma
+				!(keyCode >= 44 && keyCode <= 45) && !(keyCode === KEY_COMMA) && // comma and insert
+				!(keyCode >= 33 && keyCode <= 40) && // arrow and scroll keys
+				(keyCode !== 12 && keyCode !== 19) // pause/break numkey 5
 			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
