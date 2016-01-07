@@ -271,7 +271,7 @@ var autoGrow = function($input) {
 	var currentWidth = null;
 
 	var update = function(e, options) {
-		var value, keyCode, placeholder, width;
+		var value, keyCode, printable, placeholder, width;
 		var shift, character, selection;
 		e = e || window.event || {};
 		options = options || {};
