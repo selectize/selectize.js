@@ -271,7 +271,7 @@ var autoGrow = function($input) {
 	var currentWidth = null;
 
 	var update = function(e, options) {
-		var value, keyCode, printable, placeholder, width;
+		var value, keyCode, placeholder, width;
 		var shift, character, selection;
 		e = e || window.event || {};
 		options = options || {};
@@ -280,14 +280,8 @@ var autoGrow = function($input) {
 		if (!options.force && $input.data('grow') === false) return;
 
 		value = $input.val();
-		if (e.type && e.type.toLowerCase() === 'keydown') {
+		if (e.type && e.type.toLowerCase() === 'keypress') {
 			keyCode = e.keyCode;
-			printable = (
-				(keyCode >= 97 && keyCode <= 122) || // a-z
-				(keyCode >= 65 && keyCode <= 90)  || // A-Z
-				(keyCode >= 48 && keyCode <= 57)  || // 0-9
-				keyCode === 32 // space
-			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
 				selection = getSelection($input[0]);
@@ -298,7 +292,7 @@ var autoGrow = function($input) {
 				} else if (keyCode === KEY_DELETE && typeof selection.start !== 'undefined') {
 					value = value.substring(0, selection.start) + value.substring(selection.start + 1);
 				}
-			} else if (printable) {
+			} else {
 				shift = e.shiftKey;
 				character = String.fromCharCode(e.keyCode);
 				if (shift) character = character.toUpperCase();
@@ -320,7 +314,7 @@ var autoGrow = function($input) {
 		}
 	};
 
-	$input.on('keydown keyup update blur', update);
+	$input.on('keydown keyup keypress update blur', update);
 	update();
 };
 
