@@ -1068,7 +1068,8 @@
 				self.refreshState();
 	
 				// IE11 bug: element still marked as active
-				(dest || document.body).focus();
+				//(dest || document.body).focus();
+				dest && dest.focus();
 	
 				self.ignoreFocus = false;
 				self.trigger('blur');
