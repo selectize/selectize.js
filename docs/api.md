@@ -100,7 +100,7 @@ var selectize = $select[0].selectize;
 		<td valign="top">Removes the selected item matching the provided value. If "silent" is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>createItem(value, callback)</code></td>
+		<td valign="top"><code>createItem(value, [triggerDropdown], [callback])</code></td>
 		<td valign="top">Invokes the "create" method provided in the selectize options that should provide the data for the new item, given the user input. Once this completes, it will be added to the item list.</td>
 	</tr>
 	<tr>
