@@ -10,7 +10,7 @@
 	},
 	"main": [
 		"dist/css/selectize.css",
-		"dist/js/selectize.js"
+		"dist/js/standalone/selectize.js"
 	],
 	"ignore": [
 		"Makefile",
