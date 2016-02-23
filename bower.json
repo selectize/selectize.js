@@ -2,12 +2,11 @@
 	"name": "selectize",
 	"keywords": ["select", "ui", "form", "input", "control", "autocomplete", "tagging", "tag"],
 	"description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-	"version": "0.12.1",
 	"license": "Apache License, Version 2.0",
 	"readmeFilename": "README.md",
 	"repository": {
 		"type": "git",
-		"url": "git://github.com/brianreavis/selectize.js.git"
+		"url": "git://github.com/selectize/selectize.js.git"
 	},
 	"main": [
 		"dist/css/selectize.css",

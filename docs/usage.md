@@ -168,7 +168,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>options</code></td>
-		<td valign="top">Options available to select; array of objects. If your element i as &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
+		<td valign="top">Options available to select; array of objects. If your element is a &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>[]</code></td>
 	</tr>
@@ -365,7 +365,9 @@ $(function() {
 	<tr>
 		<td valign="top"><code>render</code></td>
 		<td valign="top">
-			Custom rendering functions. Each function should accept two arguments: "data" and "escape" and return HTML (string) with a single root element.
+			Custom rendering functions. Each function should accept two
+			arguments: "data" and "escape" and return HTML (string or
+			DOM element) with a single root element.
 			The "escape" argument is a function that takes a string and escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
             <table width="100%">
