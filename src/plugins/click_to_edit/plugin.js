@@ -21,34 +21,41 @@
  */
 
 Selectize.define('click_to_edit', function( options ) {
- var self = this;
+  var self = this;
 
- options.text = options.text || function(option) {
-   return option[this.settings.labelField];
- };
+  options.text = options.text || function(option) {
+    return option[this.settings.labelField];
+  };
 
- this.onClick = (function(e) {
-   var original = self.onClick;
+  this.onClick = (function(e) {
+    var original     = self.onClick,
+        maxItemIsOne = self.settings.maxItems === 1,
+        activeClass  = maxItemIsOne ? 'item active' : 'input active';
    
-   return function(e) {
-     var index, option, key;
+    return function(e) {
+      var index, option, key;
 
-     if (e.target.className === 'item active') {
-       index = this.caretPos - 1;
-       if (index >= 0 && index < this.items.length) {
-         key = $(e.target).data('value');
-         option = this.options[key];
+      if (e.target.className.indexOf(activeClass)) {
+        index = this.caretPos - 1;
+        if (index >= 0 && index < this.items.length) {
+          key = maxItemIsOne ? $(e.target).children().first().data('value') : $(e.target).data('value');
+          option = this.options[key];
 
-         if (this.deleteSelection(e)) {
-           this.setTextboxValue(options.text.apply(this, [option]));
-           this.refreshOptions(true);
-         }
+          if (this.deleteSelection(e)) {
+            // Remove item manually if maxItemIsOne since
+            // `e` is not on the item itself but the input
+            if (maxItemIsOne)
+              this.removeItem(key);
+
+            this.setTextboxValue(options.text.apply(this, [option]));
+            this.refreshOptions(true);
+          }
          
-         e.preventDefault();
-         return;
-       }
-     }
-   };
- })();
+          e.preventDefault();
+          return;
+        }
+      }
+    };
+  })();
 
- });
+});
