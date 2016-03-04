@@ -72,6 +72,7 @@ var Selectize = function($input, settings) {
 
 	// option-dependent defaults
 	self.settings.mode = self.settings.mode || (self.settings.maxItems === 1 ? 'single' : 'multi');
+	self.settings.dropdownDirection = self.settings.dropdownDirection || 'auto';
 	if (typeof self.settings.hideSelected !== 'boolean') {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
@@ -1145,6 +1146,7 @@ $.extend(Selectize.prototype, {
 			self.setActiveOption(null);
 			if (triggerDropdown && self.isOpen) { self.close(); }
 		}
+		self.positionDropdown();
 	},
 
 	/**
@@ -1728,15 +1730,33 @@ $.extend(Selectize.prototype, {
 	 * position of the dropdown.
 	 */
 	positionDropdown: function() {
+		var self = this;
+		var direction = self.settings.dropdownDirection;
+		if (direction !== 'auto') { return self.setDropdownDirection(direction); }
+
+		self.setDropdownDirection('down');
+		var rect = self.$dropdown[0].getBoundingClientRect();
+		var inViewPort  = rect.bottom <= (window.innerHeight || $(window).height());
+		if (!inViewPort) { return self.setDropdownDirection('up'); }
+	},
+
+	/**
+	 * Changes the dropdown position based on
+	 * a given direction.
+	 *
+	 * @param {string} direction
+	 */
+	setDropdownDirection: function (direction) {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 		offset.top += $control.outerHeight(true);
 
 		this.$dropdown.css({
 			width : $control.outerWidth(),
-			top   : offset.top,
-			left  : offset.left
-		});
+			left  : offset.left,
+			top   : (direction === 'down') ?  offset.top : 'auto',
+			bottom: (direction === 'down') ? 'auto'  : offset.top,
+		}).toggleClass('dropdown-up', (direction === 'down') ? false : true);
 	},
 
 	/**
