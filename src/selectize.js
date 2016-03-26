@@ -547,7 +547,7 @@ $.extend(Selectize.prototype, {
 	 * Invokes the user-provide option provider / loader.
 	 *
 	 * Note: this function is debounced in the Selectize
-	 * constructor (by `settings.loadDelay` milliseconds)
+	 * constructor (by `settings.loadThrottle` milliseconds)
 	 *
 	 * @param {string} value
 	 */
