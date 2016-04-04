@@ -335,6 +335,59 @@
 			});
 		});
 
-	});
+		describe('<select> (load function)', function() {
+			var test, load;
 
+			beforeEach(function() {
+				test = setup_test('<select></select>', {
+					load: function(query, done) {
+						return load(query, done);
+					}
+				});
+			});
+
+			it('should provide the search query and trigger the load event', function(done) {
+				load = function(query, done) {
+					expect(query).to.be.equal('foo');
+					done();
+				};
+
+				test.selectize.on('load', function() {
+					done();
+				});
+
+				test.selectize.onSearchChange('foo');
+			});
+
+			it('should populate the select after done() is called', function(done) {
+				load = function(query, done) {
+					done([ { value: 1, text: 'foo' }, { value: 2, text: 'bar' } ]);
+				};
+
+				test.selectize.on('load', function(results) {
+					expect(results.length).to.be.equal(2);
+					done();
+				});
+
+				test.selectize.onSearchChange('foo');
+			});
+
+			it('should populate the select after a thenable is resolved', function(done) {
+				load = function(query) {
+					return {
+						then: function(done) {
+							return done([ { value: 1, text: 'foo' }, { value: 2, text: 'bar' } ]);
+						}
+					};
+				};
+
+				test.selectize.on('load', function(results) {
+					expect(results.length).to.be.equal(2);
+					done();
+				});
+
+				test.selectize.onSearchChange('foo');
+			});
+		});
+	});
 })();
