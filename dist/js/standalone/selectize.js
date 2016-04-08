@@ -1291,6 +1291,11 @@
 			};
 
 			$input.attr('tabindex', -1).hide().after(self.$wrapper);
+			//PRZEMEK_TUTAJ
+			self.$wrapper.find('.selectize-dropdown').mCustomScrollbar({
+				setHeight: 1,
+				axis: 'y'
+			});
 
 			if ($.isArray(settings.items)) {
 				self.setValue(settings.items);
