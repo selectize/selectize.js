@@ -507,8 +507,7 @@ $.extend(Selectize.prototype, {
 					if (!self.isFull()) {
 						e.preventDefault();
 					}
-				}
-				if (self.settings.create && self.createItem()) {
+				} else if (self.settings.create && self.createItem()) {
 					e.preventDefault();
 				}
 				return;
