@@ -99,7 +99,8 @@ with a concise and descriptive message. One commit means one
 feature/bugfix/thing that has changed, or a diff bringing the code one
 step forward to a better, working state.
 
-Also, please ensure all the tests pass:
+#### Tests
+Please ensure all the tests pass:
 
 ```sh
 $ npm test # phantomjs
@@ -107,6 +108,15 @@ $ BROWSERS=Firefox npm test
 $ BROWSERS=Firefox,Chrome npm test
 $ BROWSERS=Firefox,Chrome,Safari npm test
 ```
+
+#### Local environment
+To run Selectize locally:
+
+```sh
+$ grunt serve
+```
+
+You can then run the examples in `http://localhost:8000/examples/`.
 
 ## License
 
