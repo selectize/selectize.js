@@ -1679,7 +1679,7 @@ $.extend(Selectize.prototype, {
 		if (!this.settings.placeholder) return;
 		var $input = this.$control_input;
 
-		if (this.items.length) {
+      		if ( this.items.length && !this.settings.keepPlaceholder || this.order == this.items.length || this.settings.maxItems != null && this.items.length >= this.settings.maxItems  ) {
 			$input.removeAttr('placeholder');
 		} else {
 			$input.attr('placeholder', this.settings.placeholder);
