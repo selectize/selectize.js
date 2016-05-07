@@ -1367,6 +1367,7 @@
 				'option_add'      : 'onOptionAdd',
 				'option_remove'   : 'onOptionRemove',
 				'option_clear'    : 'onOptionClear',
+				'options_refresh' : 'onOptionsRefresh',
 				'optgroup_add'    : 'onOptionGroupAdd',
 				'optgroup_remove' : 'onOptionGroupRemove',
 				'optgroup_clear'  : 'onOptionGroupClear',
@@ -2197,6 +2198,7 @@
 				self.setActiveOption(null);
 				if (triggerDropdown && self.isOpen) { self.close(); }
 			}
+			self.trigger('options_refresh');
 		},
 	
 		/**
