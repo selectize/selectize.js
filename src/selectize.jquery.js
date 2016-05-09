@@ -60,7 +60,7 @@ $.fn.selectize = function(settings_user) {
 		var addOption = function($option, group) {
 			$option = $($option);
 
-			var value = hash_key($option.attr('value'));
+			var value = hash_key($option.val());
 			if (!value && !settings.allowEmptyOption) return;
 
 			// if the option already exists, it's probably been
