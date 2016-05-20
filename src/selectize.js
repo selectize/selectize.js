@@ -406,14 +406,15 @@ $.extend(Selectize.prototype, {
 		} else {
 			// If a regex or string is included, this will split the pasted
 			// input and create Items for each separate value
-			if (self.settings.splitOn) {
-				setTimeout(function() {
+			setTimeout(function() {
+				if (self.settings.splitOn) {
 					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
 					for (var i = 0, n = splitInput.length; i < n; i++) {
 						self.createItem(splitInput[i]);
 					}
-				}, 0);
-			}
+				}
+				self.onKeyUp(e);
+			}, 0);
 		}
 	},
 
