@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "microplugin": "0.0.3",
-    "sifter": "^0.4.0"
+    "sifter": "^0.5.1"
   },
   "devDependencies": {
     "grunt": "0.4.x",
