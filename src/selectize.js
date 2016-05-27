@@ -126,6 +126,9 @@ $.extend(Selectize.prototype, {
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
+		$control.addClass(self.settings.readOnly?'input-readonly':'');
+		$control_input.attr('readonly', self.settings.readOnly);
+
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
 		}
