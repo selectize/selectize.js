@@ -31,7 +31,7 @@
     "grunt-contrib-concat": "0.3.x",
     "grunt-contrib-copy": "0.4.x",
     "grunt-contrib-less": "~0.9.0",
-    "grunt-contrib-uglify": "0.2.x",
+    "grunt-contrib-uglify": "~1.0.1",
     "grunt-recess": "0.5.x",
     "grunt-replace": "0.4.x",
     "karma": "^0.12.31",
