@@ -73,6 +73,13 @@
 	border: 1px solid @dropdown-border;
 	.selectize-border-radius(@border-radius-base);
 	.selectize-box-shadow(0 6px 12px rgba(0,0,0,.175));
+
+	&.dropup {
+		margin: 0 0 2px 0;
+		border: 1px solid @dropdown-fallback-border;
+		border: 1px solid @dropdown-border;
+		.selectize-border-radius(@border-radius-base);
+	}
 }
 
 .selectize-dropdown {
@@ -103,7 +110,8 @@
 .selectize-input {
 	min-height: @input-height-base;
 
-	&.dropdown-active {
+	&.dropdown-active,
+	&.dropdown-active.dropup {
 		.selectize-border-radius(@selectize-border-radius);
 	}
 	&.dropdown-active::before {

@@ -43,7 +43,7 @@ Selectize.defaults = {
 	inputClass: 'selectize-input',
 	dropdownClass: 'selectize-dropdown',
 	dropdownContentClass: 'selectize-dropdown-content',
-
+	dropdownDirection: 'down',
 	dropdownParent: null,
 
 	copyClassesToDropdown: true,

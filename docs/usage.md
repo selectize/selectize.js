@@ -140,6 +140,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>dropdownDirection</code></td>
+		<td valign="top">Direction in which dropdown will display. Currently accepts "up" and "down" as possible values.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>down</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>dropdownParent</code></td>
 		<td valign="top">The element the dropdown menu is appended to. This should be "body" or null. If null, the dropdown will be appended as a child of the selectize control.</td>
 		<td valign="top"><code>string</code></td>
