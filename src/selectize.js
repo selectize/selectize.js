@@ -1562,6 +1562,8 @@ $.extend(Selectize.prototype, {
 			var value = hash_key(data[self.settings.valueField]);
 			if (typeof value !== 'string') return callback();
 
+			self.$control_input.triggerHandler('update', {force: true})
+
 			self.setTextboxValue('');
 			self.addOption(data);
 			self.setCaret(caret);
