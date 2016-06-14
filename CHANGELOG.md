@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
+
+   *(thanks @caseymct - #1079)*
+
 *  New feature: allow to disable single options or complete optgroups
 
    *@zeitiger*
