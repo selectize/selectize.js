@@ -173,12 +173,12 @@ $.extend(Selectize.prototype, {
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 		autoGrow($control_input);
 
-		$control.on({
+		$control.on(settings.controlEvents || {}).on({
 			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
 			click     : function() { return self.onClick.apply(self, arguments); }
 		});
 
-		$control_input.on({
+		$control_input.on(settings.inputEvents || {}).on({
 			mousedown : function(e) { e.stopPropagation(); },
 			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
 			keyup     : function() { return self.onKeyUp.apply(self, arguments); },
