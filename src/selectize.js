@@ -1336,10 +1336,15 @@ $.extend(Selectize.prototype, {
 		self.loadedSearches = {};
 		self.userOptions = {};
 		self.renderCache = {};
-		self.options = self.sifter.items = {};
+		var options = self.options;
+		$.each(self.options, function(key, value) {
+			if(self.items.indexOf(key) == -1) {
+				delete options[key];
+			}
+		});
+		self.options = self.sifter.items = options;
 		self.lastQuery = null;
 		self.trigger('option_clear');
-		self.clear();
 	},
 
 	/**
