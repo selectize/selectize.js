@@ -1,23 +1,23 @@
 *  Fix issue preventing build ("Cannot assign to read only property
-   'subarray'") because of bug in uglifyjs. ([#1072][])
+   'subarray'") because of bug in uglifyjs. (#1072)
 
-   [@jaridmargolin][]
+   *@jaridmargolin*
 
-*  Fix tabbing issue ([#877][]) on IE11. ([#997][])
+*  Fix tabbing issue (#877) on IE11. (#997)
 
-   [@bwilson-ux][]
+   *@bwilson-ux*
 
-*  Fix jQuery initialization for jQuery >= 1.9 ([#1045][])
+*  Fix jQuery initialization for jQuery >= 1.9 (#1045)
 
-   [@mpokrywka][]
+   *@mpokrywka*
 
-*  Make `remove_button` work for single-option usage ([#848][])
+*  Make `remove_button` work for single-option usage (#848)
 
-   [@ChoppyThing][]
+   *@ChoppyThing*
 
-*  Fixed bug that made `allowEmptyOption: true` useless ([#739][])
+*  Fixed bug that made `allowEmptyOption: true` useless (#739)
 
-   [@mcavalletto][]
+   *@mcavalletto*
 
 *  Functions in option `render` can now return a DOM node in addition to
-   text. ([#617][])
+   text. (#617)
