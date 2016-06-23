@@ -105,7 +105,7 @@ module.exports = function(grunt) {
 	})();
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('bower.json'),
+		pkg: grunt.file.readJSON('package.json'),
 		bower: {
 			install: {
 				options: {
@@ -205,7 +205,7 @@ module.exports = function(grunt) {
 		uglify: {
 			main: {
 				options: {
-					'banner': '/*! selectize.js - v<%= pkg.version %> | https://github.com/brianreavis/selectize.js | Apache License (v2) */\n',
+					'banner': '/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n',
 					'report': 'gzip',
 					'ascii-only': true
 				},
