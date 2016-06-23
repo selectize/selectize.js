@@ -1,5 +1,5 @@
 /**
- * selectize.default.css (v0.12.1) - Default Theme
+ * selectize.default.css (v0.12.2) - Default Theme
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -107,6 +107,12 @@
 }
 .selectize-control.plugin-remove_button .disabled [data-value] .remove {
   border-left-color: #aaaaaa;
+}
+.selectize-control.plugin-remove_button .remove-single {
+  position: absolute;
+  right: 28px;
+  top: 6px;
+  font-size: 23px;
 }
 .selectize-control {
   position: relative;
