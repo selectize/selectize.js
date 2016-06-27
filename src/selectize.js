@@ -1145,6 +1145,8 @@ $.extend(Selectize.prototype, {
 			self.setActiveOption(null);
 			if (triggerDropdown && self.isOpen) { self.close(); }
 		}
+
+		self.positionDropdown();
 	},
 
 	/**

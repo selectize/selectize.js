@@ -10,15 +10,19 @@
 			'<option value="b">B</option>' +
 		'</select>', options);
 
-		click(test.selectize.$control, function() {
-			var controlCoordinates = getCoordinates(test.selectize.$control);
-			var dropdownCoordinates = getCoordinates(test.selectize.$dropdown);
-
-			callback(controlCoordinates, dropdownCoordinates);
+		click(test.selectize.$control, function () {
+			callback(test);
 		});
 	};
 
-	var getCoordinates = function ($el) {
+	var getCoordinates = function(test) {
+		var controlCoordinates = getElCoordinates(test.selectize.$control);
+		var dropdownCoordinates = getElCoordinates(test.selectize.$dropdown);
+
+		return { control: controlCoordinates, dropdown: dropdownCoordinates };
+	};
+
+	var getElCoordinates = function ($el) {
 		var offset = $el.offset();
 
 		return {
@@ -27,16 +31,18 @@
 			bottom: offset.top + $el.outerHeight(),
 			right: offset.left + $el.outerWidth()
 		};
-	}
+	};
 
 	describe('Positioning', function() {
 
 		it('should place dropdown below control when using default dropdownDirection', function(done) {
-			testPositioning({}, function (controlCoordinates, dropdownCoordinates) {
+			testPositioning({}, function (test) {
+				var coordinates = getCoordinates(test);
+
 				// the dropdown by default has a margin-top of -1
-				expect(controlCoordinates.bottom).to.equal(dropdownCoordinates.top + 1);
-				expect(controlCoordinates.left).to.equal(dropdownCoordinates.left);
-				expect(controlCoordinates.right).to.equal(dropdownCoordinates.right);
+				expect(coordinates.control.bottom).to.equal(coordinates.dropdown.top + 1);
+				expect(coordinates.control.left).to.equal(coordinates.dropdown.left);
+				expect(coordinates.control.right).to.equal(coordinates.dropdown.right);
 				done();
 			});
 		});
@@ -44,12 +50,30 @@
 		it('should place dropdown above control when using dropdownDirection: up', function(done) {
 			testPositioning({
 				dropdownDirection: 'up'
-			}, function (controlCoordinates, dropdownCoordinates) {
+			}, function (test) {
+				var coordinates = getCoordinates(test);
+
 				// the dropdown by default has a margin-bottom of -1
-				expect(controlCoordinates.top).to.equal(dropdownCoordinates.bottom - 1);
-				expect(controlCoordinates.left).to.equal(dropdownCoordinates.left);
-				expect(controlCoordinates.right).to.equal(dropdownCoordinates.right);
+				expect(coordinates.control.top).to.equal(coordinates.dropdown.bottom - 1);
+				expect(coordinates.control.left).to.equal(coordinates.dropdown.left);
+				expect(coordinates.control.right).to.equal(coordinates.dropdown.right);
 				done();
+			});
+		});
+
+		it('should keep dropdown locked above control when using dropdownDirection: up', function(done) {
+			testPositioning({
+				dropdownDirection: 'up'
+			}, function (test) {
+				syn.type('a', test.selectize.$control_input).delay(0, function() {
+					var coordinates = getCoordinates(test);
+
+					// the dropdown by default has a margin-bottom of -1
+					expect(coordinates.control.top).to.equal(coordinates.dropdown.bottom - 1);
+					expect(coordinates.control.left).to.equal(coordinates.dropdown.left);
+					expect(coordinates.control.right).to.equal(coordinates.dropdown.right);
+					done();
+				});
 			});
 		});
 
