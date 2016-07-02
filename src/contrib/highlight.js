@@ -37,3 +37,16 @@ var highlight = function($element, pattern) {
 		highlight(this);
 	});
 };
+
+/**
+ * removeHighlight fn copied from highlight v5 and
+ * edited to remove with() and pass js strict mode
+ */
+jQuery.fn.removeHighlight = function() {
+	return this.find("span.highlight").each(function() {
+		this.parentNode.firstChild.nodeName;
+		var parent = this.parentNode;
+		parent.replaceChild(this.firstChild, this);
+		parent.normalize();
+	}).end();
+};
