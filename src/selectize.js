@@ -225,8 +225,13 @@ $.extend(Selectize.prototype, {
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
+		// Detach children outside of DOM to prevent slowdown on large selects
+		var inputPlaceholder = $('<div></div>');
+		$input.replaceWith(inputPlaceholder);
+		var inputChildren = $input.children().detach();
+		inputPlaceholder.replaceWith($input);
 		this.revertSettings = {
-			$children : $input.children().detach(),
+			$children : inputChildren,
 			tabindex  : $input.attr('tabindex')
 		};
 
