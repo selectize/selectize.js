@@ -64,6 +64,21 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "select_on_focus"</h2>
+				<div class="control-group">
+					<label for="input-tags6">Tags:</label>
+					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('#input-tags6').selectize({
+					plugins: ['select_on_focus'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
