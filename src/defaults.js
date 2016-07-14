@@ -12,6 +12,7 @@ Selectize.defaults = {
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,
+	highlightContainerSelector: null,
 	openOnFocus: true,
 	maxOptions: 1000,
 	maxItems: null,

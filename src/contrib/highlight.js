@@ -37,3 +37,17 @@ var highlight = function($element, pattern) {
 		highlight(this);
 	});
 };
+
+var removeHighlight = function( $element ){
+	
+	var removeHighlight = function(node) {
+		node.parentNode.firstChild.nodeName;
+		var parent = node.parentNode;
+		parent.replaceChild(node.firstChild, node);
+		parent.normalize();
+	};
+	
+	return $element.find("span.highlight").each(function() {
+		removeHighlight(this);
+	});
+};

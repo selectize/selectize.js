@@ -137,6 +137,58 @@
 		});
 
 		describe('typing in input', function() {
+			
+			it('should highlight matches', function(done) {
+				
+				var test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					"<option data-data='{ \"value\": \"Hello world\", \"text\": \"Hello world\" }' value='Hello world'>Hello world</option>" +
+					"<option data-data='{ \"value\": \"World\", \"text\": \"World\" }' value='World'>World</option>" +
+				'</select>', {
+					create: false,
+					persist: false
+				});
+				
+				click(test.selectize.$control, function(){
+					syn.type('world', test.selectize.$control_input)
+					.delay(1000, function(){
+						expect($('[data-value="Hello world"] span.highlight', test.selectize.$dropdown).length).to.be.equal(1);
+						expect($('[data-value="World"] span.highlight', test.selectize.$dropdown).length).to.be.equal(1);
+						expect($('[data-value="Hello world"] span.highlight', test.selectize.$dropdown).text()).to.be.equal('world');
+						expect($('[data-value="World"] span.highlight', test.selectize.$dropdown).text()).to.be.equal('World');
+						done();
+					});
+				});
+				
+			});
+			
+			it('should highlight matches within specified container', function(done) {
+				
+				var test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					"<option data-data='{ \"value\": \"Hello world\", \"text\": \"Hello world\" }' value='Hello world'>Hello world</option>" +
+					"<option data-data='{ \"value\": \"World\", \"text\": \"World\" }' value='World'>World</option>" +
+				'</select>', {
+					create: false,
+					persist: false,
+					render: {
+						option: function(item, escape) {
+							return '<div><span class="highlight-container">'+escape(item.value)+'</span> <span class="no-highlight-container">'+escape(item.value)+'</span></div>'
+						}
+					},
+					highlightContainerSelector: '.highlight-container'
+				});
+				
+				click(test.selectize.$control, function(){
+					syn.type('world', test.selectize.$control_input)
+					.delay(1000, function(){
+						expect($('[data-value="Hello world"] .highlight-container span.highlight', test.selectize.$dropdown).length).to.be.equal(1);
+						expect($('[data-value="Hello world"] .no-highlight-container span.highlight', test.selectize.$dropdown).length).to.be.equal(0);
+						done();
+					});
+				});
+				
+			});
 
 			it('should filter results', function(done) {
 				var test = setup_test('<select>' +
