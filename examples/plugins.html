@@ -66,14 +66,27 @@
 			<div class="demo">
 				<h2>Plugin: "select_on_focus"</h2>
 				<div class="control-group">
-					<label for="input-tags6">Tags:</label>
-					<input type="text" id="input-tags6" class="demo-default" value="awesome,neat">
+					<label for="demo-select-on-focus">Select On Focus:</label>
+					<select id="demo-select-on-focus" class="demo-select-on-focus" placeholder="Select a language...">
+						<option value="txt">Text</option>
+						<option value="md">Markdown</option>
+						<option value="html">HTML</option>
+						<option value="php">PHP</option>
+						<option value="python">Python</option>
+						<option value="java">Java</option>
+						<option value="js" selected>JavaScript</option>
+						<option value="c#">Ruby</option>
+						<option value="c#">VHDL</option>
+						<option value="c#">Verilog</option>
+						<option value="c#">C#</option>
+						<option value="c++">C/C++</option>
+					</select>
 				</div>
 				<script>
-				$('#input-tags6').selectize({
-					plugins: ['select_on_focus'],
-					persist: false,
-					create: true
+				$('.demo-select-on-focus').selectize({
+					sortField: 'text',
+					hideSelected: false,
+					plugins: ['select_on_focus']
 				});
 				</script>
 			</div>
