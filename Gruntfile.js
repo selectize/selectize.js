@@ -229,7 +229,10 @@ module.exports = function(grunt) {
 			files: [
 				'src/**/*.js'
 			],
-			tasks: 'concat:js'
+			tasks: [
+				'concat:js',
+				'build_standalone'
+			]
 		}
 	});
 };
