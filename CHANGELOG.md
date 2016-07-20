@@ -1,3 +1,8 @@
+*  Fix highlighting more than one character (#1099, #1098)
+
+   *@skimi*
+
+
 ## v0.12.2 · 23 June 2016
 *  Fix issue preventing build ("Cannot assign to read only property
    'subarray'") because of bug in uglifyjs. (#1072)
