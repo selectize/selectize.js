@@ -100,6 +100,43 @@
 
 		});
 
+		describe('clicking label', function() {
+
+			it('should give it focus to select', function(done) {
+				var inputId = "labeledSelect";
+				var label =
+					$('<label for="'+inputId+'">select</label>').appendTo('form');
+
+				var test = setup_test('<select id="'+inputId+'">' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {});
+
+				syn.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+			});
+
+			it('should give it focus to input', function(done) {
+				var inputId = "labeledInput";
+				var label =
+					$('<label for="'+inputId+'">input</label>').appendTo('form');
+
+				var test = setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
+
+				syn.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+			});
+
+		});
+
 		describe('clicking option', function() {
 
 			it('should select it', function(done) {

@@ -115,6 +115,7 @@ $.extend(Selectize.prototype, {
 		var timeout_focus;
 		var classes;
 		var classes_plugins;
+		var inputId;
 
 		inputMode         = self.settings.mode;
 		classes           = $input.attr('class') || '';
@@ -125,6 +126,11 @@ $.extend(Selectize.prototype, {
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		if(inputId = $input.attr('id')) {
+			$control_input.attr('id', inputId + '-selectized');
+			$('label[for='+inputId+']').attr('for', inputId + '-selectized');
+		}
 
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
