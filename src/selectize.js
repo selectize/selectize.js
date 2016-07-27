@@ -128,8 +128,8 @@ $.extend(Selectize.prototype, {
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
 		if(inputId = $input.attr('id')) {
-			$control_input.attr('id', inputId + '_selectized');
-			$('label[for='+inputId+']').attr('for', inputId + '_selectized');
+			$control_input.attr('id', inputId + '-selectized');
+			$('label[for='+inputId+']').attr('for', inputId + '-selectized');
 		}
 
 		if(self.settings.copyClassesToDropdown) {
