@@ -2287,7 +2287,7 @@
 	
 			self.showInput();
 			self.positionDropdown();
-			self.refreshOptions(true);
+			self.refreshOptions(!!self.settings.openOnDelete);
 	
 			// select previous option
 			if (option_select) {
@@ -2575,6 +2575,7 @@
 		createFilter: null,
 		highlight: true,
 		openOnFocus: true,
+		openOnDelete: true,
 		maxOptions: 1000,
 		maxItems: null,
 		hideSelected: null,
