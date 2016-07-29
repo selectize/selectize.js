@@ -64,6 +64,34 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "select_on_focus"</h2>
+				<div class="control-group">
+					<label for="demo-select-on-focus">Select On Focus:</label>
+					<select id="demo-select-on-focus" class="demo-select-on-focus" placeholder="Select a language...">
+						<option value="txt">Text</option>
+						<option value="md">Markdown</option>
+						<option value="html">HTML</option>
+						<option value="php">PHP</option>
+						<option value="python">Python</option>
+						<option value="java">Java</option>
+						<option value="js" selected>JavaScript</option>
+						<option value="c#">Ruby</option>
+						<option value="c#">VHDL</option>
+						<option value="c#">Verilog</option>
+						<option value="c#">C#</option>
+						<option value="c++">C/C++</option>
+					</select>
+				</div>
+				<script>
+				$('.demo-select-on-focus').selectize({
+					sortField: 'text',
+					hideSelected: false,
+					plugins: ['select_on_focus']
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
