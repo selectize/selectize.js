@@ -2392,7 +2392,9 @@
 					}
 				}
 			}
-	
+			if (self.caretPos !== i) {
+				self.trigger('caret_move', { position: i, direction: i > self.caretPos ? 'right' : 'left' });
+			}
 			self.caretPos = i;
 		},
 	
