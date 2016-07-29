@@ -129,7 +129,7 @@ $.extend(Selectize.prototype, {
 
 		if(inputId = $input.attr('id')) {
 			$control_input.attr('id', inputId + '-selectized');
-			$('label[for='+inputId+']').attr('for', inputId + '-selectized');
+			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
 		}
 
 		if(self.settings.copyClassesToDropdown) {
