@@ -216,6 +216,7 @@
 				$form = test.$select.parents('form');
 				$button = $('<button type="submit">').appendTo($form);
 			});
+
 			afterEach(function() {
 				$form.off('.test_required');
 				$button.remove();
@@ -224,32 +225,51 @@
 			it('should have isRequired property set to true', function() {
 				expect(test.selectize.isRequired).to.be.equal(true);
 			});
+
 			it('should have the required class', function() {
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
 
+			it('should pass validation if an element is selected',
+			function(done) {
+				test.selectize.addItem('a');
+				$form.one('submit.test_required', function(e) {
+					done();
+				});
+
+				syn.click($button);
+			});
+
 			if ($.fn.selectize.support.validity) {
-				it('should have "invalid" class when validation fails', function(done) {
-					test.$select[0].checkValidity();
-					window.setTimeout(function() {
-						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-						done();
-					}, 250);
-				});
-				it('should clear the invalid class after an item is selected', function(done) {
-					syn.click($button).delay(0, function() {
-						test.selectize.addItem('a');
-						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
-						done();
-					});
-				});
-				it('should pass validation if an element is selected', function(done) {
-					test.selectize.addItem('a');
+				it('should not pass validation if no element is selected',
+				function(done) {
 					$form.one('submit.test_required', function(e) {
+						expect(e.isDefaultPrevented()).to.be.true;
 						done();
 					});
 
 					syn.click($button);
+				});
+
+				it('should have "invalid" class when validation fails',
+			  function(done) {
+					test.$select[0].checkValidity();
+
+					window.setTimeout(function() {
+						expect(test.selectize.$control.hasClass('invalid')).
+							to.be.true;
+						done();
+					}, 250);
+				});
+
+				it('should clear the invalid class after an item is selected',
+				function(done) {
+					syn.click($button).delay(0, function() {
+						test.selectize.addItem('a');
+						expect(test.selectize.$control.hasClass('invalid')).
+							to.be.false;
+						done();
+					});
 				});
 			}
 		});
