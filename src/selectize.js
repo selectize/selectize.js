@@ -1611,12 +1611,26 @@ $.extend(Selectize.prototype, {
 	 * and CSS classes.
 	 */
 	refreshState: function() {
-		var invalid, self = this;
-		if (self.isRequired) {
-			if (self.items.length) self.isInvalid = false;
-			self.$control_input.prop('required', invalid);
-		}
-		self.refreshClasses();
+		this.refreshValidityState();
+		this.refreshClasses();
+	},
+
+	/**
+	 * Update the `required` attribute of both input and control input.
+	 *
+	 * The `required` property needs to be activated on the control input
+	 * for the error to be displayed at the right place. `required` also
+	 * needs to be temporarily deactivated on the input since the input is
+	 * hidden and can't show errors.
+	 */
+	refreshValidityState: function() {
+		if (!this.isRequired) return false;
+
+		var invalid = !this.items.length;
+
+		this.isInvalid = invalid;
+		this.$control_input.prop('required', invalid);
+		this.$input.prop('required', !invalid);
 	},
 
 	/**
