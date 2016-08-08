@@ -1,3 +1,7 @@
+*  Fix open keyboard bug under iOS after closing selection (#1127)
+
+   *@zeitiger*
+
 *  Fix highlighting more than one character (#1099, #1098)
 
    *@skimi*
