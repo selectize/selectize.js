@@ -1087,7 +1087,8 @@ $.extend(Selectize.prototype, {
 					groups[optgroup] = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
-				groups[optgroup].appendChild(option_html);
+				// a child could only have one parent, so if you have more parents clone the child
+				groups[optgroup].appendChild((!j) ? option_html : option_html.cloneNode(true));
 			}
 		}
 

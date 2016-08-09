@@ -1,3 +1,7 @@
+*  Fix render bug of options with duplicated values in different option groups (#1128)
+
+   *@zeitiger*
+   
 *  Output friendly error message when Microplguin is missing (#1137).
    Special thanks to @styxxx for proposing the improvement.
 
