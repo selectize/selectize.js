@@ -1,3 +1,7 @@
+*  New feature: allow to disable single options or complete optgroups
+
+   *@zeitiger*
+
 *  Fix open keyboard bug under iOS after closing selection (#1127)
 
    *@zeitiger*

@@ -59,6 +59,16 @@
 			});
 		});
 
+		describe('<input type="number">', function() {
+			it('should complete without exceptions', function(done) {
+				var test = setup_test('<input type="number">', {});
+				window.setTimeout(function() {
+					assert.equal(test.selectize.$control_input.attr('type'), 'number');
+					done();
+				}, 0);
+			});
+		});
+
 		describe('<select>', function() {
 			it('should complete without exceptions', function() {
 				var test = setup_test('<select></select>', {});
@@ -66,25 +76,50 @@
 			it('should allow for values optgroups with duplicated options', function() {
 				var test = setup_test(['<select>',
 					'<optgroup label="Group 1">',
-						'<option value="a">Item A</option>',
-						'<option value="b">Item B</option>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
 					'</optgroup>',
 					'<optgroup label="Group 2">',
-						'<option value="a">Item A</option>',
-						'<option value="b">Item B</option>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
 					'</optgroup>',
-				'</select>'].join(''), {
+					'</select>'].join(''), {
 					optgroupValueField: 'val',
-					optgroupField: 'grp'
+					optgroupField: 'grp',
+					disabledField: 'dis'
 				});
 				assert.deepEqual(test.selectize.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2}
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
 				});
 				assert.deepEqual(test.selectize.optgroups, {
-					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3},
-					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4}
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
+				}, '2');
+			});
+			it('should allow respect disabled flags of option and optgroup', function() {
+				var test = setup_test(['<select>',
+					'<optgroup label="Group 1">',
+					'<option value="a" disabled>Item A</option>',
+					'<option value="b">Item B</option>',
+					'</optgroup>',
+					'<optgroup label="Group 2" disabled>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
+					'</optgroup>',
+					'</select>'].join(''), {
+					optgroupValueField: 'val',
+					optgroupField: 'grp',
+					disabledField: 'dis'
 				});
+				assert.deepEqual(test.selectize.options, {
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
+				});
+				assert.deepEqual(test.selectize.optgroups, {
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: true}
+				}, '2');
 			});
 			it('should add options in text form (no html entities)', function() {
 				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
@@ -160,6 +195,19 @@
 					});
 
 					expect(order_actual).to.eql(order_expected);
+					done();
+				}, 0);
+			});
+			it('should respect option disabled flag', function (done) {
+				var test = setup_test(['<select>',
+					'<option value="a">Item A</option>',
+					'<option value="b" disabled>Item B</option>',
+					'</select>'].join(''), {});
+
+				test.selectize.refreshOptions(true);
+				window.setTimeout(function() {
+					expect(test.selectize.$dropdown.find('.option')).to.has.length(2);
+					expect(test.selectize.$dropdown.find('[data-selectable]')).to.has.length(1);
 					done();
 				}, 0);
 			});
