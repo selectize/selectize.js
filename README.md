@@ -34,9 +34,17 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
-### Files
+### Installation and files
 
-All pre-built files needed to use Selectize can be found in the ["dist"](dist/) folder.
+All pre-built files needed to use Selectize can be found in the
+["dist"](dist/) folder.
+
+If you're looking to get started with minimal fuss, include
+`standalone/selectize.min.js` (bundles Sifter and Microplugin
+dependencies – also available un-minifed for debugging, just remove the
+`.min` part) and `css/selectize.default.css`.
+
+Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 - [**js/**](dist/js)
 	- [**standalone/**](dist/js/standalone)
