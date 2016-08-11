@@ -265,6 +265,12 @@ $(function() {
 		<td valign="top"><code>'optgroup'</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>disabledField</code></td>
+		<td valign="top">The name of the property to disabled option and optgroup.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'disabled'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>sortField</code></td>
 		<td valign="top">
 			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>

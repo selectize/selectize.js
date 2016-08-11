@@ -178,6 +178,7 @@ $.extend(Selectize.prototype, {
 		if ($input.attr('autocapitalize')) {
 			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
+		$control_input[0].type = $input[0].type;
 
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
@@ -185,6 +186,7 @@ $.extend(Selectize.prototype, {
 		self.$dropdown         = $dropdown;
 		self.$dropdown_content = $dropdown_content;
 
+		$dropdown.on('mouseenter mousedown click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
@@ -2093,11 +2095,16 @@ $.extend(Selectize.prototype, {
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
-			html.attr('data-selectable', '');
+			if (!data[self.settings.disabledField]) {
+				html.attr('data-selectable', '');
+			}
 		}
 		else if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
 			html.attr('data-group', id);
+			if(data[self.settings.disabledField]) {
+				html.attr('data-disabled', '');
+			}
 		}
 		if (templateName === 'option' || templateName === 'item') {
 			html.attr('data-value', value || '');

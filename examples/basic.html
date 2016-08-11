@@ -91,10 +91,29 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast-disabled').selectize({
-					create: true,
-					sortField: {field: 'text'}
-				});
+					$('#select-beast-disabled').selectize({
+						create: true,
+						sortField: {field: 'text'}
+					});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>&lt;select&gt; (&lt;option disabled&gt;)</h2>
+				<div class="control-group">
+					<label for="select-beast-single-disabled">Beast:</label>
+					<select id="select-beast-single-disabled" class="demo-default" placeholder="Select a person...">
+						<option value="">Select a person...</option>
+						<option value="4" disabled>Thomas Edison</option>
+						<option value="1">Nikola</option>
+						<option value="3" selected>Nikola Tesla</option>
+					</select>
+				</div>
+				<script>
+					$('#select-beast-single-disabled').selectize({
+						create: true,
+						sortField: {field: 'text'}
+					});
 				</script>
 			</div>
 
