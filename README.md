@@ -131,7 +131,7 @@ $ BROWSERS=Firefox,Chrome,Safari npm test
 To run Selectize locally:
 
 ```sh
-$ grunt serve
+$ npm start
 ```
 
 You can then run the examples in `http://localhost:8000/examples/`.

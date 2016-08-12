@@ -51,7 +51,11 @@
     "mocha": "^3.1.0"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start"
+    "test": "karma start",
+    "build": "make",
+    "prestart": "npm run build",
+    "start": "grunt serve",
+    "grunt": "grunt"
   },
   "engines": {
     "node": "*"
