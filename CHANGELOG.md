@@ -1,3 +1,7 @@
+*  Feature to allow override input control type for e.g. keyboard suggestion on touch devices (#1135)
+
+   *@zeitiger*
+   
 *  Output friendly error message when Microplguin is missing (#1137).
    Special thanks to @styxxx for proposing the improvement.
 

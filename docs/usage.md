@@ -289,6 +289,12 @@ $(function() {
 		<td valign="top"><code>'and'</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>searchInputType</td>
+		<td valign="top">Allow to override input control type. Useful for touch devices to make suggestion which keyboard should be used.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'text'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>lockOptgroupOrder</td>
 		<td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
 		<td valign="top"><code>boolean</code></td>

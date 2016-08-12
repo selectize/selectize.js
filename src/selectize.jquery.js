@@ -15,6 +15,8 @@ $.fn.selectize = function(settings_user) {
 	 * @param {object} settings_element
 	 */
 	var init_textbox = function($input, settings_element) {
+		settings_element.searchInputType = $input.prop('type');
+
 		var i, n, values, option;
 
 		var data_raw = $input.attr(attr_data);

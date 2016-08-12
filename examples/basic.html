@@ -27,13 +27,29 @@
 					<input type="text" id="input-tags" class="demo-default" value="awesome,neat">
 				</div>
 				<script>
-				$('#input-tags').selectize({
-					persist: false,
-					createOnBlur: true,
-					create: true
-				});
+					$('#input-tags').selectize({
+						persist: false,
+						createOnBlur: true,
+						create: true
+					});
 				</script>
 			</div>
+			<div class="demo">
+				<h2>&lt;input type="text"&gt; (custom input type)</h2>
+				<div class="control-group">
+					<label for="input-tags">Number tags:</label>
+					<input type="text" id="input-number-tags" class="demo-default" value="5,23,42,1337">
+				</div>
+				<script>
+					$('#input-number-tags').selectize({
+						persist: false,
+						createOnBlur: true,
+						create: true,
+						searchInputType: 'tel'
+					});
+				</script>
+			</div>
+
 
 			<div class="demo">
 				<h2>&lt;select&gt;</h2>
@@ -48,14 +64,14 @@
 					</select>
 				</div>
 				<script>
-				$('#select-beast').selectize({
-					create: true,
-					sortField: {
-						field: 'text',
-						direction: 'asc'
-					},
-					dropdownParent: 'body'
-				});
+					$('#select-beast').selectize({
+						create: true,
+						sortField: {
+							field: 'text',
+							direction: 'asc'
+						},
+						dropdownParent: 'body'
+					});
 				</script>
 			</div>
 
@@ -485,6 +501,34 @@
 				$('#select-state-disabled').selectize({
 					maxItems: 3
 				});
+				</script>
+			</div>
+			<div class="demo">
+				<h2>&lt;select&gt; (custom search input type)</h2>
+				<div class="control-group">
+					<label for="select-country-tel-code">Telephone country code:</label>
+					<select id="select-country-tel-code" class="demo-default" placeholder="Enter a country code e.g. +44">
+						<option value="">Select a country...</option>
+						<option value="+1">USA/Canada</option>
+						<option value="+27">South Africa</option>
+						<option value="+33">France</option>
+						<option value="+43">Austria</option>
+						<option value="+44">United Kingdom</option>
+						<option value="+49">Germany</option>
+						<option value="+55">Brazil</option>
+						<option value="+61">Australia</option>
+						<option value="+7">Russia</option>
+						<option value="+81">Japan</option>
+						<option value="+86">China</option>
+						<option value="+91">India</option>
+					</select>
+				</div>
+				<script>
+					$('#select-country-tel-code').selectize({
+						searchField: ['value'],
+						searchInputType: 'tel',
+						dropdownParent: 'body'
+					});
 				</script>
 			</div>
 		</div>

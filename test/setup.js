@@ -17,6 +17,18 @@
 			it('should complete without exceptions', function() {
 				var test = setup_test('<input type="text">', {});
 			});
+			it('should customize input type for control input via user setting', function() {
+				var test = setup_test('<input type="text">', {searchInputType: 'number'});
+				assert.equal(test.selectize.$control_input.prop('type'), 'number');
+			});
+			it('should customize input type for control input via input setting', function() {
+				var test = setup_test('<input type="tel">');
+				assert.equal(test.selectize.$control_input.prop('type'), 'tel');
+			});
+			it('should customize input type for control input user setting > input setting', function() {
+				var test = setup_test('<input type="tel">', {searchInputType: 'number'});
+				assert.equal(test.selectize.$control_input.prop('type'), 'number');
+			});
 			it('should populate items,options from "dataAttr" if available', function() {
 				var data = [{val: 'a', lbl: 'Hello'}, {val: 'b', lbl: 'World'}];
 				var test = setup_test('<input type="text" value="c,d,e" data-hydrate="' + JSON.stringify(data).replace(/"/g,'&quot;') + '">', {
@@ -62,6 +74,10 @@
 		describe('<select>', function() {
 			it('should complete without exceptions', function() {
 				var test = setup_test('<select></select>', {});
+			});
+			it('should customize input type for control input', function() {
+				var test = setup_test('<select></select>', {searchInputType: 'number'});
+				assert.equal(test.selectize.$control_input.prop('type'), 'number');
 			});
 			it('should allow for values optgroups with duplicated options', function() {
 				var test = setup_test(['<select>',

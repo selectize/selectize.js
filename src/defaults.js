@@ -37,6 +37,7 @@ Selectize.defaults = {
 	sortField: '$order',
 	searchField: ['text'],
 	searchConjunction: 'and',
+	searchInputType : 'text',
 
 	mode: null,
 	wrapperClass: 'selectize-control',
