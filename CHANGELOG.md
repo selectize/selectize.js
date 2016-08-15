@@ -1,3 +1,8 @@
+*  Output friendly error message when Microplguin is missing (#1137).
+   Special thanks to @styxxx for proposing the improvement.
+
+   *Jonathan Allard* (@joallard)
+
 *  Fix open keyboard bug under iOS after closing selection (#1127)
 
    *@zeitiger*
