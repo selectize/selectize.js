@@ -635,7 +635,7 @@
 }));
 
 /**
- * selectize.js (v0.12.2)
+ * selectize.js (v0.12.3)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -695,6 +695,20 @@
 			highlight(this);
 		});
 	};
+	
+	/**
+	 * removeHighlight fn copied from highlight v5 and
+	 * edited to remove with() and pass js strict mode
+	 */
+	jQuery.fn.removeHighlight = function() {
+		return this.find("span.highlight").each(function() {
+			this.parentNode.firstChild.nodeName;
+			var parent = this.parentNode;
+			parent.replaceChild(this.firstChild, this);
+			parent.normalize();
+		}).end();
+	};
+	
 	
 	var MicroEvent = function() {};
 	MicroEvent.prototype = {
@@ -758,7 +772,8 @@
 	var TAG_INPUT     = 2;
 	
 	// for now, android support in general is too spotty to support validity
-	var SUPPORTS_VALIDITY_API = !/android/i.test(window.navigator.userAgent) && !!document.createElement('form').validity;
+	var SUPPORTS_VALIDITY_API = !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
+	
 	
 	var isset = function(object) {
 		return typeof object !== 'undefined';
@@ -1088,6 +1103,20 @@
 		return tmp.innerHTML;
 	};
 	
+	var logError = function(message, options){
+		if(!options) options = {};
+		var component = "Selectize";
+	
+		console.error(component + ": " + message)
+	
+		if(options.explanation){
+			// console.group is undefined in <IE11
+			if(console.group) console.group();
+			console.error(options.explanation);
+			if(console.group) console.groupEnd();
+		}
+	}
+	
 	
 	var Selectize = function($input, settings) {
 		var key, i, n, dir, input, self = this;
@@ -1177,7 +1206,18 @@
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	
 	MicroEvent.mixin(Selectize);
-	MicroPlugin.mixin(Selectize);
+	
+	if(typeof MicroPlugin !== "undefined"){
+		MicroPlugin.mixin(Selectize);
+	}else{
+		logError("Dependency MicroPlugin is missing",
+			{explanation:
+				"Make sure you either: (1) are using the \"standalone\" "+
+				"version of Selectize, or (2) require MicroPlugin before you "+
+				"load Selectize."}
+		);
+	}
+	
 	
 	// methods
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1206,6 +1246,7 @@
 			var timeout_focus;
 			var classes;
 			var classes_plugins;
+			var inputId;
 	
 			inputMode         = self.settings.mode;
 			classes           = $input.attr('class') || '';
@@ -1216,6 +1257,11 @@
 			$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 			$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+	
+			if(inputId = $input.attr('id')) {
+				$control_input.attr('id', inputId + '-selectized');
+				$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
+			}
 	
 			if(self.settings.copyClassesToDropdown) {
 				$dropdown.addClass(classes);
@@ -1492,19 +1538,26 @@
 		 */
 		onPaste: function(e) {
 			var self = this;
+	
 			if (self.isFull() || self.isInputHidden || self.isLocked) {
 				e.preventDefault();
-			} else {
-				// If a regex or string is included, this will split the pasted
-				// input and create Items for each separate value
-				if (self.settings.splitOn) {
-					setTimeout(function() {
-						var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
-						for (var i = 0, n = splitInput.length; i < n; i++) {
-							self.createItem(splitInput[i]);
-						}
-					}, 0);
-				}
+				return;
+			}
+	
+			// If a regex or string is included, this will split the pasted
+			// input and create Items for each separate value
+			if (self.settings.splitOn) {
+	
+				// Wait for pasted text to be recognized in value
+				setTimeout(function() {
+					var pastedText = self.$control_input.val();
+					if(!pastedText.match(self.settings.splitOn)){ return }
+	
+					var splitInput = $.trim(pastedText).split(self.settings.splitOn);
+					for (var i = 0, n = splitInput.length; i < n; i++) {
+						self.createItem(splitInput[i]);
+					}
+				}, 0);
 			}
 		},
 	
@@ -2191,6 +2244,7 @@
 	
 			// highlight matching terms inline
 			if (self.settings.highlight && results.query.length && results.tokens.length) {
+				$dropdown_content.removeHighlight();
 				for (i = 0, n = results.tokens.length; i < n; i++) {
 					highlight($dropdown_content, results.tokens[i].regex);
 				}
@@ -2688,12 +2742,26 @@
 		 * and CSS classes.
 		 */
 		refreshState: function() {
-			var invalid, self = this;
-			if (self.isRequired) {
-				if (self.items.length) self.isInvalid = false;
-				self.$control_input.prop('required', invalid);
-			}
-			self.refreshClasses();
+			this.refreshValidityState();
+			this.refreshClasses();
+		},
+	
+		/**
+		 * Update the `required` attribute of both input and control input.
+		 *
+		 * The `required` property needs to be activated on the control input
+		 * for the error to be displayed at the right place. `required` also
+		 * needs to be temporarily deactivated on the input since the input is
+		 * hidden and can't show errors.
+		 */
+		refreshValidityState: function() {
+			if (!this.isRequired) return false;
+	
+			var invalid = !this.items.length;
+	
+			this.isInvalid = invalid;
+			this.$control_input.prop('required', invalid);
+			this.$input.prop('required', !invalid);
 		},
 	
 		/**
@@ -2804,6 +2872,7 @@
 	
 			if (self.settings.mode === 'single' && self.items.length) {
 				self.hideInput();
+				self.$control_input.blur(); // close keyboard on iOS
 			}
 	
 			self.isOpen = false;
