@@ -1,5 +1,23 @@
+<!-- Feel free to put either your handle and/or full name, according to
+     your privacy needs -->
+
+## v0.12.3 · 24 August 2016
+*  Make `label[for]` work after applying Selectize (#755)
+
+   *Barrett Sonntag* (@barretts)
+
 *  Output friendly error message when Microplguin is missing (#1137).
    Special thanks to @styxxx for proposing the improvement.
+
+*  Add local server command `grunt server`.
+
+*  Stop creating items automatically when text is pasted, only create
+   them when pasted text contains delimiter.
+
+*  Fix regression 'Required fields can not be focusable' in Chrome
+	(#733)
+
+*  Fix detection of Validity API, we had false negatives before.
 
    *Jonathan Allard* (@joallard)
 
