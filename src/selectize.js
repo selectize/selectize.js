@@ -2032,6 +2032,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var eventNS = self.eventNS;
 		var revertSettings = self.revertSettings;
+		var selected = self.getValue();
 
 		self.trigger('destroy');
 		self.off();
@@ -2045,6 +2046,12 @@ $.extend(Selectize.prototype, {
 			.removeClass('selectized')
 			.attr({tabindex: revertSettings.tabindex})
 			.show();
+
+		// Preserve selected values when selectize is destroyed
+		var selected_values = $.isArray(selected) ? selected : [selected];
+		for (var i = 0, n = selected_values.length; i < n; i++) {
+			self.$input.find('option[value="' + selected_values[i] + '"]').prop('selected', true);
+		}
 
 		self.$control_input.removeData('grow');
 		self.$input.removeData('selectize');
