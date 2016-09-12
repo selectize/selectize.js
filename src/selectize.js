@@ -646,7 +646,7 @@ $.extend(Selectize.prototype, {
 			self.refreshState();
 
 			// IE11 bug: element still marked as active
-			dest && dest.focus();
+			dest && dest.focus && dest.focus();
 
 			self.ignoreFocus = false;
 			self.trigger('blur');
