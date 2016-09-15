@@ -24,7 +24,7 @@ Selectize.define('remove_button', function(options) {
 
 		var singleClose = function(thisRef, options) {
 
-			options.className = 'remove-single';
+			options.className = options.className || 'remove-single';
 
 			var self = thisRef;
 			var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
@@ -37,8 +37,8 @@ Selectize.define('remove_button', function(options) {
 			 * @return {string}
 			 */
 			var append = function(html_container, html_element) {
-				return $('<span>').append(html_container)
-					.append(html_element);
+				var pos = html_container.search(/(<\/[^>]+>\s*)$/);
+				return html_container.substring(0, pos) + html_element + html_container.substring(pos);
 			};
 
 			thisRef.setup = (function() {
