@@ -20,6 +20,7 @@
     "url": "git://github.com/selectize/selectize.js.git"
   },
   "dependencies": {
+    "@types/jquery": "^2.0.32",
     "microplugin": "0.0.3",
     "sifter": "^0.5.1"
   },
