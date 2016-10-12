@@ -24,6 +24,7 @@
     "sifter": "^0.5.1"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt": "0.4.x",
     "grunt-bower-task": "^0.4.0",
     "grunt-cli": "^0.1.13",
@@ -46,7 +47,8 @@
     "karma-mocha-reporter": "^0.3.1",
     "karma-phantomjs-launcher": "^1.0.1",
     "karma-safari-launcher": "^0.1.1",
-    "karma-sauce-launcher": "^0.2.10"
+    "karma-sauce-launcher": "^0.2.10",
+    "mocha": "^3.1.0"
   },
   "scripts": {
     "test": "./node_modules/karma/bin/karma start"
