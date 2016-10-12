@@ -36,7 +36,6 @@
     "grunt-contrib-less": "~0.9.0",
     "grunt-contrib-uglify": "~1.0.1",
     "grunt-contrib-watch": "1.x",
-    "grunt-recess": "0.5.x",
     "grunt-replace": "0.4.x",
     "karma": "^0.12.31",
     "karma-chai": "^0.1.0",
