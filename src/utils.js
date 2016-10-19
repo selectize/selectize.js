@@ -269,6 +269,7 @@ var measureString = function(str, $parent) {
  */
 var autoGrow = function($input) {
 	var currentWidth = null;
+        var currentValue = null;
 
 	var update = function(e, options) {
 		var value, keyCode, printable, placeholder, width;
@@ -276,9 +277,12 @@ var autoGrow = function($input) {
 		e = e || window.event || {};
 		options = options || {};
 
-		if (e.metaKey || e.altKey) return;
-		if (!options.force && $input.data('grow') === false) return;
+		prev = $input.previousSibling;
+            	value = $input.val();
 
+		if(value == currentValue) return;
+            	if (!options.force && $input.data('grow') === false) return;
+		
 		value = $input.val();
 		if (e.type && e.type.toLowerCase() === 'keydown') {
 			keyCode = e.keyCode;
@@ -312,12 +316,14 @@ var autoGrow = function($input) {
 			value = placeholder;
 		}
 
-		width = measureString(value, $input) + 4;
+		width = measureString(value, $input) + 14;
 		if (width !== currentWidth) {
 			currentWidth = width;
 			$input.width(width);
 			$input.triggerHandler('resize');
 		}
+		
+		currentValue = value;
 	};
 
 	$input.on('keydown keyup update blur', update);
