@@ -106,7 +106,7 @@ $.extend(Selectize.prototype, {
         buildControlInput: function(control) {
             var self = this;
 
-            var $control_input = $('<input type="'+self.settings.inputType+'" name="_selectize_q" autocomplete="off" />')
+            var $control_input = $('<input type="'+(self.settings.inputType || self.$input.attr('type'))+'" name="_selectize_q" autocomplete="off" />')
                 .appendTo(control).attr('tabindex', self.$input.is(':disabled') ? '-1' : self.tabIndex);
 
             var inputId;
