@@ -29,8 +29,8 @@ Selectize.define('optgroup_columns', function(options) {
 		return index >= 0 && index < $options.length ? $options.eq(index) : $();
 	};
 
-	this.onKeyDown = (function() {
-		var original = self.onKeyDown;
+	this._onKeyDown = (function() {
+		var original = self._onKeyDown;
 		return function(e) {
 			var index, $option, $options, $optgroup;
 
