@@ -103,7 +103,58 @@ if(typeof MicroPlugin !== "undefined"){
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 $.extend(Selectize.prototype, {
+        buildControlInput: function(control) {
+            var self = this;
 
+            var $control_input = $('<input type="'+self.settings.inputType+'" name="_selectize_q" autocomplete="off" />')
+                .appendTo(control).attr('tabindex', self.$input.is(':disabled') ? '-1' : self.tabIndex);
+
+            var inputId;
+            if(inputId = self.$input.attr('id')) {
+                $control_input.attr('id', inputId + '-selectized');
+                $("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
+            }
+
+            if (self.settings.placeholder) {
+                $control_input.attr('placeholder', this.settings.placeholder);
+            }
+
+            if (self.$input.attr('autocorrect')) {
+                $control_input.attr('autocorrect', self.$input.attr('autocorrect'));
+            }
+
+            if (self.$input.attr('autocapitalize')) {
+                $control_input.attr('autocapitalize', self.$input.attr('autocapitalize'));
+            }
+
+            autoGrow($control_input);
+
+            $control_input.on({
+                mousedown : function(e) { e.stopPropagation(); },
+                keydown   : function() { return self.onKeyDown.apply(self, arguments); },
+                keyup     : function() { return self.onKeyUp.apply(self, arguments); },
+                keypress  : function() { return self.onKeyPress.apply(self, arguments); },
+                resize    : function() { self.positionDropdown.apply(self, []); },
+                blur      : function() { return self.onBlur.apply(self, arguments); },
+                focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
+                paste     : function() { return self.onPaste.apply(self, arguments); }
+            });
+
+
+            return $control_input;
+        },
+
+        changeInputType: function(type, setFocus) {
+            if(setFocus == undefined) setFocus = false;
+
+            this.settings.inputType = type;
+            this.$control_input.blur();
+            this.$control_input.remove();
+            this.$control_input = this.buildControlInput(this.$control);
+
+            if(setFocus) this.$control_input.focus();
+        },
+	
 	/**
 	 * Creates all elements and sets up event bindings.
 	 */
@@ -126,22 +177,16 @@ $.extend(Selectize.prototype, {
 		var timeout_focus;
 		var classes;
 		var classes_plugins;
-		var inputId;
 
 		inputMode         = self.settings.mode;
 		classes           = $input.attr('class') || '';
 
 		$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$control_input    = self.buildControlInput($control);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
-
-		if(inputId = $input.attr('id')) {
-			$control_input.attr('id', inputId + '-selectized');
-			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
-		}
 
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
@@ -161,22 +206,10 @@ $.extend(Selectize.prototype, {
 			$input.attr('multiple', 'multiple');
 		}
 
-		if (self.settings.placeholder) {
-			$control_input.attr('placeholder', settings.placeholder);
-		}
-
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
 			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 			self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
-		}
-
-		if ($input.attr('autocorrect')) {
-			$control_input.attr('autocorrect', $input.attr('autocorrect'));
-		}
-
-		if ($input.attr('autocapitalize')) {
-			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
 
 		self.$wrapper          = $wrapper;
@@ -188,22 +221,10 @@ $.extend(Selectize.prototype, {
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
-		autoGrow($control_input);
 
 		$control.on({
 			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
 			click     : function() { return self.onClick.apply(self, arguments); }
-		});
-
-		$control_input.on({
-			mousedown : function(e) { e.stopPropagation(); },
-			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
-			keyup     : function() { return self.onKeyUp.apply(self, arguments); },
-			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
-			resize    : function() { self.positionDropdown.apply(self, []); },
-			blur      : function() { return self.onBlur.apply(self, arguments); },
-			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
-			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
 
 		$document.on('keydown' + eventNS, function(e) {
