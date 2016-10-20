@@ -21,8 +21,8 @@ Selectize.define('restore_on_backspace', function(options) {
 		return option[this.settings.labelField];
 	};
 
-	this.onKeyDown = (function() {
-		var original = self.onKeyDown;
+	this._onKeyDown = (function() {
+		var original = self._onKeyDown;
 		return function(e) {
 			var index, option;
 			if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
