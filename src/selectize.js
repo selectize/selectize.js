@@ -448,6 +448,11 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onKeyPress: function(e) {
+            this.androidFix = null;
+
+            this._onKeyPress(e);
+        },
+	_onKeyPress: function(e) {
 		if (this.isLocked) return e && e.preventDefault();
 		var character = String.fromCharCode(e.keyCode || e.which);
 		if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
@@ -464,6 +469,12 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onKeyDown: function(e) {
+            this.androidFix = { value: this.$control_input.val(), start: this.$control_input[0].selectionStart, end: this.$control_input[0].selectionEnd };
+
+            this._onKeyDown(e);
+        },
+	
+	_onKeyDown: function(e) {
 		var isInput = e.target === this.$control_input[0];
 		var self = this;
 
@@ -555,6 +566,47 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onKeyUp: function(e) {
+            var self = this;
+            // save current value
+            var val = $(self.$control_input).val();
+
+            // will fix Android issue by emulating keydown and keypress with correct charcode
+            if(e.keyCode == 229 && self.androidFix !== null) {
+                if(self.androidFix.value == '' && val == '') { // backspace on empty, unrecognized (229) unprintable character, must be backspace
+                    self._onKeyDown( { keyCode: KEY_BACKSPACE, preventDefault: function() {}, stopPropagation: function() {} } );
+                    self._onKeyPress( { keyCode: KEY_BACKSPACE, preventDefault: function() {}, stopPropagation: function() {} } );
+                } else {
+                    // get existing value updated with selection removed if a selection was present
+                    var updateValue = self.androidFix.value.substring(0, self.androidFix.start) + self.androidFix.value.substring(self.androidFix.end);
+                    // save caret position in new value
+                    var start = self.$control_input[0].selectionStart;
+                    // reset field to before keyup
+                    self.$control_input.val(self.androidFix.value);
+
+                    var prevent = false;
+
+                    if(updateValue.length >= val.length) { // unrecognized unprintable character or characters have been removed, must be backspace (or delete on tablet?)
+                        self._onKeyDown( { keyCode: KEY_BACKSPACE, preventDefault: function() { prevent = true; }, stopPropagation: function() {} } );
+                        self._onKeyPress( { keyCode: KEY_BACKSPACE, preventDefault: function() { prevent = true; }, stopPropagation: function() {} } );
+                    } else if(updateValue.length < val.length) { // new character appared
+                        for(var i = 0; i < val.length; i++) { // find the new character, by finding the difference
+                            if(i >= updateValue.length || updateValue[i] != val[i]) {
+                                self._onKeyDown( { keyCode: val[i].charCodeAt(0), preventDefault: function() { prevent = true; }, stopPropagation: function() {} } );
+                                self._onKeyPress( { keyCode: val[i].charCodeAt(0), preventDefault: function() { prevent = true; }, stopPropagation: function() {} } );
+                                break;
+                            }
+                        }
+                    }
+
+                    if(!prevent) { // if preventDefault was not triggered then reset to saved state
+                        self.$control_input.val(val);
+                        self.$control_input[0].setSelectionRange(start,start);
+                    }
+                }
+            }
+            this._onKeyUp(e);
+        },
+	_onKeyUp: function(e) {
 		var self = this;
 
 		if (self.isLocked) return e && e.preventDefault();
