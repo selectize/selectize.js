@@ -12,7 +12,7 @@ Selectize.defaults = {
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,
-	inputType: 'text',
+	inputType: null,
 	openOnFocus: true,
 	maxOptions: 1000,
 	maxItems: null,
