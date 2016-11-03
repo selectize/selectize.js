@@ -700,7 +700,7 @@
 	 * removeHighlight fn copied from highlight v5 and
 	 * edited to remove with() and pass js strict mode
 	 */
-	jQuery.fn.removeHighlight = function() {
+	$.fn.removeHighlight = function() {
 		return this.find("span.highlight").each(function() {
 			this.parentNode.firstChild.nodeName;
 			var parent = this.parentNode;
@@ -1766,7 +1766,7 @@
 				self.refreshState();
 	
 				// IE11 bug: element still marked as active
-				dest && dest.focus();
+				dest && dest.focus && dest.focus();
 	
 				self.ignoreFocus = false;
 				self.trigger('blur');
@@ -3697,7 +3697,7 @@
 	
 			var singleClose = function(thisRef, options) {
 	
-				options.className = 'remove-single';
+				options.className = options.className || 'remove-single';
 	
 				var self = thisRef;
 				var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
@@ -3710,7 +3710,8 @@
 				 * @return {string}
 				 */
 				var append = function(html_container, html_element) {
-					return html_container + html_element;
+					var pos = html_container.search(/(<\/[^>]+>\s*)$/);
+					return html_container.substring(0, pos) + html_element + html_container.substring(pos);
 				};
 	
 				thisRef.setup = (function() {
@@ -3734,7 +3735,9 @@
 							e.preventDefault();
 							if (self.isLocked) return;
 	
-							self.clear();
+							// use removeItem - clear() will not trigger the 'item_remove' event
+							var $item = $(e.currentTarget).parent();
+							self.removeItem($item);
 						});
 	
 					};

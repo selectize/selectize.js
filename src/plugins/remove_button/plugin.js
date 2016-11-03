@@ -62,7 +62,9 @@ Selectize.define('remove_button', function(options) {
 						e.preventDefault();
 						if (self.isLocked) return;
 
-						self.clear();
+						// use removeItem - clear() will not trigger the 'item_remove' event
+						var $item = $(e.currentTarget).parent();
+						self.removeItem($item);
 					});
 
 				};
