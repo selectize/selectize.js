@@ -25,7 +25,7 @@ var highlight = function($element, pattern) {
 				middlebit.parentNode.replaceChild(spannode, middlebit);
 				skip = 1;
 			}
-		} else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) {
+		} else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && ( node.className !== 'highlight' || node.tagName !== 'SPAN' )) {
 			for (var i = 0; i < node.childNodes.length; ++i) {
 				i += highlight(node.childNodes[i]);
 			}
