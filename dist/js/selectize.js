@@ -1506,7 +1506,7 @@
 			}
 	
 			// perform search
-			if (query !== self.lastQuery) {
+			if (query !== self.lastQuery || (self.bannedValues !== undefined && self.bannedValues.length >= 1)) {
 				self.lastQuery = query;
 				result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 				self.currentResults = result;
@@ -1522,6 +1522,14 @@
 					}
 				}
 			}
+			
+			if(self.bannedValues !== undefined && self.bannedValues.length >= 1){
+                            for (i = result.items.length - 1; i >= 0; i--) {
+                                if(self.bannedValues.indexOf(result.items[i].id) !== -1){
+                                    result.items.splice(i, 1);
+                                }
+                            }
+                        }
 	
 			return result;
 		},
@@ -2174,9 +2182,23 @@
 	
 			if (self.tagType === TAG_SELECT) {
 				options = [];
+				
 				for (i = 0, n = self.items.length; i < n; i++) {
 					label = self.options[self.items[i]][self.settings.labelField] || '';
-					options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+                                        var html_attr = ' ';
+                                        if(this.settings.preserveOptionsAttr){
+                                            $(self.options[self.items[i]]).each(
+                                                function(i,el){
+                                                    for(var key in el){
+                                                        if(key.match(/^data(-\w+)+$/)){
+                                                            html_attr += key+'="'+el[key]+'" ';
+                                                        }
+                                                    }
+                                                }
+                                            );
+                                        }
+                                        
+					options.push('<option value="' + escape_html(self.items[i]) + '" '+html_attr+' selected="selected">' + escape_html(label) + '</option>');
 				}
 				if (!options.length && !this.$input.attr('multiple')) {
 					options.push('<option value="" selected="selected"></option>');
@@ -2633,6 +2655,7 @@
 	Selectize.defaults = {
 		options: [],
 		optgroups: [],
+		bannedValues: [],
 	
 		plugins: [],
 		delimiter: ',',
@@ -2652,6 +2675,7 @@
 		preload: false,
 		allowEmptyOption: false,
 		closeAfterSelect: false,
+		preserveOptionsAttr: false,
 	
 		scrollDuration: 60,
 		loadThrottle: 300,
@@ -2799,6 +2823,16 @@
 				option[field_value]    = option[field_value] || value;
 				option[field_optgroup] = option[field_optgroup] || group;
 	
+				if(settings.preserveOptionsAttr){
+                                    $($option[0].attributes).each(
+                                        function(i,el){
+                                            if(el.name.match(/^data(-\w+)+$/)){
+                                                option[el.name] = el.value;
+                                            }
+                                        }
+                                    );
+                                }
+				
 				optionsMap[value] = option;
 				options.push(option);
 	
