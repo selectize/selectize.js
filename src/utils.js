@@ -253,7 +253,7 @@ var measureString = function(str, $parent) {
 	]);
 
 	var width = $test.width();
-	$test.remove();
+	setTimeout(function() { $test.remove(); }, 0);
 
 	return width;
 };
