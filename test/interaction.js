@@ -290,6 +290,23 @@
 				});
 			});
 
+			it('should not delete any dropdown option text if duplicate match occurs', function(done) {
+				var test = setup_test('<select>' +
+					'<option></option>' +
+					'<option value="a"></option>' +
+					'<option value="b">Isabel Street</option>' +
+				'</select>', {});
+
+				click(test.selectize.$control, function() {
+					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
+					syn.type('Isabel St', test.selectize.$control_input)
+					.delay(0, function() {
+						expect(test.selectize.$dropdown_content.find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
+						done();
+					});
+				});
+			});
+
 		});
 
 		describe('blurring the input', function() {

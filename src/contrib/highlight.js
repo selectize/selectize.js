@@ -12,6 +12,8 @@ var highlight = function($element, pattern) {
 
 	var highlight = function(node) {
 		var skip = 0;
+		// Wrap matching part of text node with highlighting <span>, e.g.
+		// Soccer  ->  <span class="highlight">Soc</span>cer  for regex = /soc/i
 		if (node.nodeType === 3) {
 			var pos = node.data.search(regex);
 			if (pos >= 0 && node.data.length > 0) {
@@ -25,7 +27,10 @@ var highlight = function($element, pattern) {
 				middlebit.parentNode.replaceChild(spannode, middlebit);
 				skip = 1;
 			}
-		} else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName)) {
+		} 
+		// Recurse element node, looking for child text nodes to highlight, unless element 
+		// is childless, <script>, <style>, or already highlighted: <span class="hightlight">
+		else if (node.nodeType === 1 && node.childNodes && !/(script|style)/i.test(node.tagName) && ( node.className !== 'highlight' || node.tagName !== 'SPAN' )) {
 			for (var i = 0; i < node.childNodes.length; ++i) {
 				i += highlight(node.childNodes[i]);
 			}
