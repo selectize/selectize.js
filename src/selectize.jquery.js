@@ -85,6 +85,7 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_optgroup] = option[field_optgroup] || group;
+			option.originalOption  = $option;
 
 			optionsMap[value] = option;
 			options.push(option);
