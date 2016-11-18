@@ -1123,10 +1123,12 @@ $.extend(Selectize.prototype, {
 		$dropdown_content.html(html);
 
 		// highlight matching terms inline
-		if (self.settings.highlight && results.query.length && results.tokens.length) {
+		if (self.settings.highlight) {
 			$dropdown_content.removeHighlight();
-			for (i = 0, n = results.tokens.length; i < n; i++) {
-				highlight($dropdown_content, results.tokens[i].regex);
+			if (results.query.length && results.tokens.length) {
+				for (i = 0, n = results.tokens.length; i < n; i++) {
+					highlight($dropdown_content, results.tokens[i].regex);
+				}
 			}
 		}
 
