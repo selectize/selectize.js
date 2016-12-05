@@ -1752,7 +1752,9 @@ $.extend(Selectize.prototype, {
 
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
-			self.$control_input.blur(); // close keyboard on iOS
+			setTimeout(function() {
+				self.$control_input.blur(); // close keyboard on iOS
+			});
 		}
 
 		self.isOpen = false;
