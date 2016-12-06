@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  New feature: allow to disable single options or complete optgroups
+
+   *@zeitiger*
+
 ## v0.12.3 · 24 August 2016
 *  Make `label[for]` work after applying Selectize (#755)
 

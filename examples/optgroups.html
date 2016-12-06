@@ -55,9 +55,37 @@
 					</select>
 				</div>
 				<script>
-				$('#select-gear').selectize({
-					sortField: 'text'
-				});
+					$('#select-gear').selectize({
+						sortField: 'text'
+					});
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Optgroups (disabled)</h2>
+				<div class="control-group">
+					<label for="select-gear-disabled">Gear:</label>
+					<select id="select-gear-disabled" class="demo-default" multiple placeholder="Select gear...">
+						<option value="">Select gear...</option>
+						<optgroup label="Climbing">
+							<option value="pitons">Pitons</option>
+							<option value="cams">Cams</option>
+							<option value="nuts">Nuts</option>
+							<option value="bolts">Bolts</option>
+							<option value="stoppers">Stoppers</option>
+							<option value="sling">Sling</option>
+						</optgroup>
+						<optgroup label="Skiing" disabled>
+							<option value="skis">Skis</option>
+							<option value="skins">Skins</option>
+							<option value="poles">Poles</option>
+						</optgroup>
+					</select>
+				</div>
+				<script>
+					$('#select-gear-disabled').selectize({
+						sortField: 'text'
+					});
 				</script>
 			</div>
 
@@ -78,9 +106,9 @@
 					</select>
 				</div>
 				<script>
-				$('#select-repeated-options').selectize({
-					sortField: 'text'
-				});
+					$('#select-repeated-options').selectize({
+						sortField: 'text'
+					});
 				</script>
 			</div>
 

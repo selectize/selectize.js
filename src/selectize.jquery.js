@@ -4,6 +4,7 @@ $.fn.selectize = function(settings_user) {
 	var attr_data            = settings.dataAttr;
 	var field_label          = settings.labelField;
 	var field_value          = settings.valueField;
+	var field_disabled       = settings.disabledField;
 	var field_optgroup       = settings.optgroupField;
 	var field_optgroup_label = settings.optgroupLabelField;
 	var field_optgroup_value = settings.optgroupValueField;
@@ -84,6 +85,7 @@ $.fn.selectize = function(settings_user) {
 			var option             = readData($option) || {};
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
+			option[field_disabled] = option[field_disabled] || $option.prop('disabled');
 			option[field_optgroup] = option[field_optgroup] || group;
 
 			optionsMap[value] = option;
@@ -104,6 +106,7 @@ $.fn.selectize = function(settings_user) {
 				optgroup = readData($optgroup) || {};
 				optgroup[field_optgroup_label] = id;
 				optgroup[field_optgroup_value] = id;
+				optgroup[field_disabled] = $optgroup.prop('disabled');
 				settings_element.optgroups.push(optgroup);
 			}
 
