@@ -1,6 +1,11 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Allow the dropdown to reopen on click if it is closed without losing focus
+   by closeAfterSelect: true
+   
+   *@fishpercolator*
+
 *  New feature: allow to disable single options or complete optgroups
 
    *@zeitiger*

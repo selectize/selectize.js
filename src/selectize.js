@@ -362,7 +362,9 @@ $.extend(Selectize.prototype, {
 
 		// necessary for mobile webkit devices (manual focus triggering
 		// is ignored unless invoked within a click event)
-		if (!self.isFocused) {
+    // also necessary to reopen a dropdown that has been closed by
+    // closeAfterSelect
+		if (!self.isFocused || !self.isOpen) {
 			self.focus();
 			e.preventDefault();
 		}
