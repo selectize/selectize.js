@@ -229,6 +229,15 @@ $(function() {
 		<td valign="top"><code>[]</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>optgroupRegister</code></td>
+		<td valign="top">
+			Dynamically register an option group. Return value should
+			be false or same format as an <code>optgroups</code> obeject.
+		</td>
+		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>dataAttr</code></td>
 		<td valign="top">The &lt;option&gt; attribute from which to read JSON data about the option.</td>
 		<td valign="top"><code>string</code></td>

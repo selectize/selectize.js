@@ -34,6 +34,9 @@ Selectize.defaults = {
 	optgroupLabelField: 'label',
 	optgroupValueField: 'value',
 	lockOptgroupOrder: false,
+	/*
+	optgroupRegister: null, // function(optgroup) { ... }
+	*/
 
 	sortField: '$order',
 	searchField: ['text'],

@@ -97,6 +97,29 @@
 					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
 				}, '2');
 			});
+			it('should register optgroups if optgroupRegister is set', function() {
+				var test = setup_test('<select>', {
+					options: [
+						{value: 'a', grp: 'someGroup'},
+						{value: 'b', grp: 'anotherGroup'},
+						{value: 'c', grp: 'anotherGroup'}
+					],
+					optgroupValueField: 'val',
+					optgroupField: 'grp',
+					optgroupRegister: function (optgroup) {
+						var group = {};
+						group['label'] = optgroup;
+						group['val'] = optgroup;
+
+						return group;
+					}
+				});
+				test.selectize.refreshOptions();
+				assert.deepEqual(test.selectize.optgroups, {
+					'someGroup': {label: 'someGroup', val: 'someGroup', $order: 4},
+					'anotherGroup': {label: 'anotherGroup', val: 'anotherGroup', $order: 5}
+				}, '2');
+			});
 			it('should allow respect disabled flags of option and optgroup', function() {
 				var test = setup_test(['<select>',
 					'<optgroup label="Group 1">',
