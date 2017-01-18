@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Added openAfterItemRemove option (#925)
+
+   *@panupetteri*
+
 *  New feature: allow to disable single options or complete optgroups
 
    *@zeitiger*

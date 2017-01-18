@@ -42,6 +42,46 @@
 			});
 		});
 
+		it('should open dropdown after item removal if openAfterItemRemove: true', function(done) {
+			var test = setup_test('<select multiple>' +
+				'<option value="a">A</option>' +
+				'<option value="b">B</option>' +
+				'</select>', {}); // openAfterItemRemove defaults to true
+				
+			click(test.selectize.$control, function() {
+				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+					test.selectize.close();
+
+					syn.type('\b', test.selectize.$control_input)
+					.delay(350, function() {
+						expect(test.selectize.isOpen).to.be.equal(true);
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+				});
+			});
+		});
+
+		it('should not open dropdown after item removal if openAfterItemRemove: false', function(done) {
+			var test = setup_test('<select multiple>' +
+				'<option value="a">A</option>' +
+				'<option value="b">B</option>' +
+				'</select>', { openAfterItemRemove: false});
+
+			click(test.selectize.$control, function() {
+				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+					test.selectize.close();
+
+					syn.type('\b', test.selectize.$control_input)
+					.delay(350, function() {
+						expect(test.selectize.isOpen).to.be.equal(false);
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+				});
+			});
+		});
+
 		it('should close and blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
 			var test = setup_test('<select>' +
 				'<option value="a">A</option>' +

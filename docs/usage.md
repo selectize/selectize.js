@@ -197,6 +197,12 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>true</code></td>
 	</tr>
+	<tr>
+		<td valign="top"><code>openAfterItemRemove</code></td>
+		<td valign="top">If true, the dropdown will be opened after an item has been removed.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
 
 
 	<tr>
