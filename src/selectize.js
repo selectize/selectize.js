@@ -164,7 +164,12 @@ $.extend(Selectize.prototype, {
 		if (self.settings.placeholder) {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
-
+		
+		if (self.settings.maxlength) {
+			$control_input.attr('maxlength', settings.maxlength);
+		}
+		
+		
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
 			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -178,6 +183,7 @@ $.extend(Selectize.prototype, {
 		if ($input.attr('autocapitalize')) {
 			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
+		
 		$control_input[0].type = $input[0].type;
 
 		self.$wrapper          = $wrapper;

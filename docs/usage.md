@@ -197,8 +197,13 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>true</code></td>
 	</tr>
-
-
+	<tr>
+		<td valign="top"><code>maxlength</code></td>
+		<td valign="top">Limit the amout of characters in the input field.</td>
+		<td valign="top"><code>int</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	
 	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
