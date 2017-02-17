@@ -23,10 +23,10 @@ Selectize.define('drop_up', function (options) {
     this.positionDropdown = function () {
         var $control = this.$control;
         var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-        offset.top -= this.$dropdown.outerHeight(true);
+        var top = window.innerHeight - offset.top + 2;
         this.$dropdown.css({
             width: $control.outerWidth(),
-            top: offset.top,
+            bottom: top,
             left: offset.left
         });
     }
