@@ -1522,7 +1522,7 @@ $.extend(Selectize.prototype, {
 		i = self.items.indexOf(value);
 
 		if (i !== -1) {
-			$item.remove();
+			$item.detach();
 			if ($item.hasClass('active')) {
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);

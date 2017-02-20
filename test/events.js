@@ -149,6 +149,15 @@ describe('Events', function() {
 			});
 			test.selectize.removeItem('b');
 		});
+		it('should not lose custom data attributes', function(done) {
+			var settings = {render: {item: function(item, escape) {return $('<div/>').data('test-data', 1);} }};
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', settings);
+			test.selectize.on('item_remove', function(value, $item) {
+				expect($($item).data('test-data')).to.be.equal(1);
+				done();
+			});
+			test.selectize.removeItem('b');
+		});
 	});
 
 	describe('clear', function() {
