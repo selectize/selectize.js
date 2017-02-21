@@ -1,3 +1,5 @@
+→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
+
 # selectize.js
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
