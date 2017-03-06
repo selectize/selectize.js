@@ -86,7 +86,18 @@ var Selectize = function($input, settings) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MicroEvent.mixin(Selectize);
-MicroPlugin.mixin(Selectize);
+
+if(typeof MicroPlugin !== "undefined"){
+	MicroPlugin.mixin(Selectize);
+}else{
+	logError("Dependency MicroPlugin is missing",
+		{explanation:
+			"Make sure you either: (1) are using the \"standalone\" "+
+			"version of Selectize, or (2) require MicroPlugin before you "+
+			"load Selectize."}
+	);
+}
+
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -115,6 +126,7 @@ $.extend(Selectize.prototype, {
 		var timeout_focus;
 		var classes;
 		var classes_plugins;
+		var inputId;
 
 		inputMode         = self.settings.mode;
 		classes           = $input.attr('class') || '';
@@ -125,6 +137,11 @@ $.extend(Selectize.prototype, {
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+		if(inputId = $input.attr('id')) {
+			$control_input.attr('id', inputId + '-selectized');
+			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
+		}
 
 		if(self.settings.copyClassesToDropdown) {
 			$dropdown.addClass(classes);
@@ -161,6 +178,7 @@ $.extend(Selectize.prototype, {
 		if ($input.attr('autocapitalize')) {
 			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
+		$control_input[0].type = $input[0].type;
 
 		self.$wrapper          = $wrapper;
 		self.$control          = $control;
@@ -168,6 +186,7 @@ $.extend(Selectize.prototype, {
 		self.$dropdown         = $dropdown;
 		self.$dropdown_content = $dropdown_content;
 
+		$dropdown.on('mouseenter mousedown click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
 		$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
 		$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
 		watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
@@ -405,19 +424,26 @@ $.extend(Selectize.prototype, {
 	 */
 	onPaste: function(e) {
 		var self = this;
+
 		if (self.isFull() || self.isInputHidden || self.isLocked) {
 			e.preventDefault();
-		} else {
-			// If a regex or string is included, this will split the pasted
-			// input and create Items for each separate value
-			if (self.settings.splitOn) {
-				setTimeout(function() {
-					var splitInput = $.trim(self.$control_input.val() || '').split(self.settings.splitOn);
-					for (var i = 0, n = splitInput.length; i < n; i++) {
-						self.createItem(splitInput[i]);
-					}
-				}, 0);
-			}
+			return;
+		}
+
+		// If a regex or string is included, this will split the pasted
+		// input and create Items for each separate value
+		if (self.settings.splitOn) {
+
+			// Wait for pasted text to be recognized in value
+			setTimeout(function() {
+				var pastedText = self.$control_input.val();
+				if(!pastedText.match(self.settings.splitOn)){ return }
+
+				var splitInput = $.trim(pastedText).split(self.settings.splitOn);
+				for (var i = 0, n = splitInput.length; i < n; i++) {
+					self.createItem(splitInput[i]);
+				}
+			}, 0);
 		}
 	},
 
@@ -551,7 +577,7 @@ $.extend(Selectize.prototype, {
 	 * Invokes the user-provide option provider / loader.
 	 *
 	 * Note: this function is debounced in the Selectize
-	 * constructor (by `settings.loadDelay` milliseconds)
+	 * constructor (by `settings.loadThrottle` milliseconds)
 	 *
 	 * @param {string} value
 	 */
@@ -626,7 +652,7 @@ $.extend(Selectize.prototype, {
 			self.refreshState();
 
 			// IE11 bug: element still marked as active
-			(dest || document.body).focus();
+			dest && dest.focus && dest.focus();
 
 			self.ignoreFocus = false;
 			self.trigger('blur');
@@ -970,6 +996,7 @@ $.extend(Selectize.prototype, {
 			fields      : settings.searchField,
 			conjunction : settings.searchConjunction,
 			sort        : sort,
+			nesting     : settings.nesting,
 			filter      : settings.filter
 		};
 	},
@@ -1065,10 +1092,10 @@ $.extend(Selectize.prototype, {
 					optgroup = '';
 				}
 				if (!groups.hasOwnProperty(optgroup)) {
-					groups[optgroup] = [];
+					groups[optgroup] = document.createDocumentFragment();
 					groups_order.push(optgroup);
 				}
-				groups[optgroup].push(option_html);
+				groups[optgroup].appendChild(option_html);
 			}
 		}
 
@@ -1082,28 +1109,34 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render optgroup headers & join groups
-		html = [];
+		html = document.createDocumentFragment();
 		for (i = 0, n = groups_order.length; i < n; i++) {
 			optgroup = groups_order[i];
-			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].length) {
+			if (self.optgroups.hasOwnProperty(optgroup) && groups[optgroup].childNodes.length) {
 				// render the optgroup header and options within it,
 				// then pass it to the wrapper template
-				html_children = self.render('optgroup_header', self.optgroups[optgroup]) || '';
-				html_children += groups[optgroup].join('');
-				html.push(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
-					html: html_children
+				html_children = document.createDocumentFragment();
+				html_children.appendChild(self.render('optgroup_header', self.optgroups[optgroup]));
+				html_children.appendChild(groups[optgroup]);
+
+				html.appendChild(self.render('optgroup', $.extend({}, self.optgroups[optgroup], {
+					html: domToString(html_children),
+					dom:  html_children
 				})));
 			} else {
-				html.push(groups[optgroup].join(''));
+				html.appendChild(groups[optgroup]);
 			}
 		}
 
-		$dropdown_content.html(html.join(''));
+		$dropdown_content.html(html);
 
 		// highlight matching terms inline
-		if (self.settings.highlight && results.query.length && results.tokens.length) {
-			for (i = 0, n = results.tokens.length; i < n; i++) {
-				highlight($dropdown_content, results.tokens[i].regex);
+		if (self.settings.highlight) {
+			$dropdown_content.removeHighlight();
+			if (results.query.length && results.tokens.length) {
+				for (i = 0, n = results.tokens.length; i < n; i++) {
+					highlight($dropdown_content, results.tokens[i].regex);
+				}
 			}
 		}
 
@@ -1186,7 +1219,7 @@ $.extend(Selectize.prototype, {
 	 */
 	registerOption: function(data) {
 		var key = hash_key(data[this.settings.valueField]);
-		if (!key || this.options.hasOwnProperty(key)) return false;
+		if (typeof key === 'undefined' || key === null || this.options.hasOwnProperty(key)) return false;
 		data.$order = data.$order || ++this.order;
 		this.options[key] = data;
 		return key;
@@ -1489,7 +1522,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var $item, i, idx;
 
-		$item = (typeof value === 'object') ? value : self.getItem(value);
+		$item = (value instanceof $) ? value : self.getItem(value);
 		value = hash_key($item.attr('data-value'));
 		i = self.items.indexOf(value);
 
@@ -1599,12 +1632,26 @@ $.extend(Selectize.prototype, {
 	 * and CSS classes.
 	 */
 	refreshState: function() {
-		var invalid, self = this;
-		if (self.isRequired) {
-			if (self.items.length) self.isInvalid = false;
-			self.$control_input.prop('required', invalid);
-		}
-		self.refreshClasses();
+		this.refreshValidityState();
+		this.refreshClasses();
+	},
+
+	/**
+	 * Update the `required` attribute of both input and control input.
+	 *
+	 * The `required` property needs to be activated on the control input
+	 * for the error to be displayed at the right place. `required` also
+	 * needs to be temporarily deactivated on the input since the input is
+	 * hidden and can't show errors.
+	 */
+	refreshValidityState: function() {
+		if (!this.isRequired) return false;
+
+		var invalid = !this.items.length;
+
+		this.isInvalid = invalid;
+		this.$control_input.prop('required', invalid);
+		this.$input.prop('required', !invalid);
 	},
 
 	/**
@@ -1715,6 +1762,9 @@ $.extend(Selectize.prototype, {
 
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
+			setTimeout(function() {
+				self.$control_input.blur(); // close keyboard on iOS
+			});
 		}
 
 		self.isOpen = false;
@@ -2049,26 +2099,31 @@ $.extend(Selectize.prototype, {
 		}
 
 		// render markup
-		html = self.settings.render[templateName].apply(this, [data, escape_html]);
+		html = $(self.settings.render[templateName].apply(this, [data, escape_html]));
 
 		// add mandatory attributes
 		if (templateName === 'option' || templateName === 'option_create') {
-			html = html.replace(regex_tag, '<$1 data-selectable');
+			if (!data[self.settings.disabledField]) {
+				html.attr('data-selectable', '');
+			}
 		}
-		if (templateName === 'optgroup') {
+		else if (templateName === 'optgroup') {
 			id = data[self.settings.optgroupValueField] || '';
-			html = html.replace(regex_tag, '<$1 data-group="' + escape_replace(escape_html(id)) + '"');
+			html.attr('data-group', id);
+			if(data[self.settings.disabledField]) {
+				html.attr('data-disabled', '');
+			}
 		}
 		if (templateName === 'option' || templateName === 'item') {
-			html = html.replace(regex_tag, '<$1 data-value="' + escape_replace(escape_html(value || '')) + '"');
+			html.attr('data-value', value || '');
 		}
 
 		// update cache
 		if (cache) {
-			self.renderCache[templateName][value] = html;
+			self.renderCache[templateName][value] = html[0];
 		}
 
-		return html;
+		return html[0];
 	},
 
 	/**

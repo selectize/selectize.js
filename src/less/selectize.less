@@ -221,8 +221,15 @@
 			.selectize-border-radius(1px);
 		}
 	}
-	[data-selectable], .optgroup-header {
+	.option, .optgroup-header {
 		padding: @selectize-padding-dropdown-item-y @selectize-padding-dropdown-item-x;
+	}
+	.option, [data-disabled], [data-disabled] [data-selectable].option {
+		cursor: inherit;
+		opacity: 0.5;
+	}
+	[data-selectable].option {
+		opacity: 1;
 	}
 	.optgroup:first-child .optgroup-header {
 		border-top: 0 none;
@@ -248,6 +255,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	max-height: @selectize-max-height-dropdown;
+	-webkit-overflow-scrolling: touch;
 }
 
 .selectize-control.single .selectize-input {

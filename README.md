@@ -1,16 +1,16 @@
-[**Selectize needs your help. I'm looking for maintainers!**](https://github.com/brianreavis/selectize.js/issues/752)
+→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
 
 # selectize.js
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
-![Bower version](http://img.shields.io/bower/v/selectize.svg?style=flat)
-[![Build Status](http://img.shields.io/travis/brianreavis/selectize.js/master.svg?style=flat)](https://travis-ci.org/brianreavis/selectize.js)
-[![Coverage Status](http://img.shields.io/coveralls/brianreavis/selectize.js/master.svg?style=flat)](https://coveralls.io/r/brianreavis/selectize.js)
+[![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
+[![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
+[![Coverage Status](http://img.shields.io/coveralls/selectize/selectize.js/master.svg?style=flat)](https://coveralls.io/r/selectize/selectize.js)
 
 Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
-- [Demos](http://brianreavis.github.io/selectize.js/)
-- [Changelog](https://github.com/brianreavis/selectize.js/releases)
+- [Demos](http://selectize.github.io/selectize.js/)
+- [Changelog](https://github.com/selectize/selectize.js/releases)
 - [Examples](examples/)
 - [Usage Documentation](docs/usage.md)
 - [API Documentation](docs/api.md)
@@ -35,9 +35,17 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
-### Files
+### Installation and files
 
-All pre-built files needed to use Selectize can be found in the ["dist"](dist/) folder.
+All pre-built files needed to use Selectize can be found in the
+["dist"](dist/) folder.
+
+If you're looking to get started with minimal fuss, include
+`standalone/selectize.min.js` (bundles Sifter and Microplugin
+dependencies – also available un-minifed for debugging, just remove the
+`.min` part) and `css/selectize.default.css`.
+
+Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 - [**js/**](dist/js)
 	- [**standalone/**](dist/js/standalone)
@@ -86,8 +94,34 @@ grunt --plugins=remove_button,restore_on_backspace
 ```
 
 ### Contributing
+When issuing a pull request:
 
-When issuing a pull request, *please exclude changes in the "dist" folder to avoid merge conflicts*. Also, please ensure all the tests pass:
+* please **do not include/commit changes in the `dist/` folder** to avoid
+  merge conflicts.  A good way to include the right files is to use
+  `git gui` or `git add` when committing to select the files you want to
+  add to your commit.
+
+* please **include tests** with your feature so that we're not tempted to
+  break it in the future!
+
+Add an entry to the top of the CHANGELOG, and update the documentation
+in `docs/` as needed. (Refactors and documentation changes don't need a
+changelog entry.)
+
+Squash your commits together in one or a few complete, logical commits,
+with a concise and descriptive message. One commit means one
+feature/bugfix/thing that has changed, or a diff bringing the code one
+step forward to a better, working state.
+
+Once your commit is nice and clean, and you want to *discard the other
+changes*, you can use `git checkout .` (that will erase changes to
+tracked files) and `git clean [-i/--interactive]` (to erase untracked
+files).  **However, be careful with those commands, as their function
+is to erase things/changes.**
+
+
+#### Tests
+Please ensure all the tests pass:
 
 ```sh
 $ npm test # phantomjs
@@ -96,9 +130,22 @@ $ BROWSERS=Firefox,Chrome npm test
 $ BROWSERS=Firefox,Chrome,Safari npm test
 ```
 
+#### Local environment
+To run Selectize locally:
+
+```sh
+$ npm start
+```
+
+You can then run the examples in `http://localhost:8000/examples/`.
+
+However, be careful not to add the `dist/` files in your commit, as
+Grunt automatically regenerates the files in `dist/` as the source is
+changed.
+
 ## License
 
-Copyright &copy; 2013–2015 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/brianreavis/selectize.js/graphs/contributors)
+Copyright &copy; 2013–2016 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 

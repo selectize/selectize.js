@@ -69,6 +69,48 @@ describe('Events', function() {
 					});
 			});
 		});
+
+
+		it('should not be possible to trigger a disabled option', function(done) {
+			var test = setup_test(['<select>',
+				'<option value="a" disabled>Item A</option>',
+				'<option value="b">Item B</option>',
+				'</select>'].join(''), {});
+			var counter = 0;
+			test.$select.on('change', function() { counter++; });
+
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn
+					.click($('[data-value="a"]', test.selectize.$dropdown))
+					.delay(0, function() {
+						expect(counter).to.be.equal(0);
+						done();
+					});
+			});
+		});
+
+		it('should not be possible to trigger a option under a disabled optgroup', function(done) {
+			var test = setup_test(['<select>',
+				'<optgroup label="Group 1">',
+				'<option value="a">Item A</option>',
+				'</optgroup>',
+				'<optgroup label="Group 2" disabled>',
+				'<option value="b">Item B</option>',
+				'<option value="c">Item C</option>',
+				'</optgroup>',
+				'</select>'].join(''), {});
+			var counter = 0;
+			test.$select.on('change', function() { counter++; });
+
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn
+					.click($('[data-value="c"]', test.selectize.$dropdown))
+					.delay(0, function() {
+						expect(counter).to.be.equal(0);
+						done();
+					});
+			});
+		});
 	});
 
 	describe('item_add', function() {

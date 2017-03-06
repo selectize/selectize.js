@@ -5,8 +5,10 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-replace');
 
 	grunt.registerTask('configure', [
@@ -32,6 +34,11 @@ module.exports = function(grunt) {
 		'configure',
 		'compile'
 	]);
+
+	grunt.registerTask('serve', [
+			'connect',
+			'watch'
+	])
 
 	grunt.registerTask('clean_bootstrap2_css', 'Cleans CSS rules ocurring before the header comment.', function() {
 		var file = 'dist/css/selectize.bootstrap2.css';
@@ -76,8 +83,8 @@ module.exports = function(grunt) {
 	];
 
 	var files_js_dependencies = [
-		'bower_components/sifter/sifter.js',
-		'bower_components/microplugin/src/microplugin.js',
+		'node_modules/sifter/sifter.js',
+		'node_modules/microplugin/src/microplugin.js',
 	];
 
 	var less_imports = [];
@@ -105,7 +112,7 @@ module.exports = function(grunt) {
 	})();
 
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('bower.json'),
+		pkg: grunt.file.readJSON('package.json'),
 		bower: {
 			install: {
 				options: {
@@ -202,10 +209,13 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		connect: {
+			keepalive: true
+		},
 		uglify: {
 			main: {
 				options: {
-					'banner': '/*! selectize.js - v<%= pkg.version %> | https://github.com/brianreavis/selectize.js | Apache License (v2) */\n',
+					'banner': '/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n',
 					'report': 'gzip',
 					'ascii-only': true
 				},
@@ -214,6 +224,15 @@ module.exports = function(grunt) {
 					'dist/js/standalone/selectize.min.js': ['dist/js/standalone/selectize.js']
 				}
 			}
+		},
+		watch: {
+			files: [
+				'src/**/*.js'
+			],
+			tasks: [
+				'concat:js',
+				'build_standalone'
+			]
 		}
 	});
 };

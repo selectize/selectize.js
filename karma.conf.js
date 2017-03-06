@@ -65,9 +65,9 @@ module.exports = function(config) {
 		frameworks: ['mocha', 'chai'],
 		files: [
 			'dist/css/selectize.default.css',
-			'bower_components/jquery/jquery.js',
-			'bower_components/microplugin/src/microplugin.js',
-			'bower_components/sifter/sifter.js',
+			'node_modules/jquery/dist/jquery.js',
+			'node_modules/microplugin/src/microplugin.js',
+			'node_modules/sifter/sifter.js',
 			'test/support/*.js',
 			'src/contrib/*.js',
 			'src/constants.js',

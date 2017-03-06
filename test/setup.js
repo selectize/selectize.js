@@ -59,6 +59,16 @@
 			});
 		});
 
+		describe('<input type="number">', function() {
+			it('should complete without exceptions', function(done) {
+				var test = setup_test('<input type="number">', {});
+				window.setTimeout(function() {
+					assert.equal(test.selectize.$control_input.attr('type'), 'number');
+					done();
+				}, 0);
+			});
+		});
+
 		describe('<select>', function() {
 			it('should complete without exceptions', function() {
 				var test = setup_test('<select></select>', {});
@@ -66,25 +76,50 @@
 			it('should allow for values optgroups with duplicated options', function() {
 				var test = setup_test(['<select>',
 					'<optgroup label="Group 1">',
-						'<option value="a">Item A</option>',
-						'<option value="b">Item B</option>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
 					'</optgroup>',
 					'<optgroup label="Group 2">',
-						'<option value="a">Item A</option>',
-						'<option value="b">Item B</option>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
 					'</optgroup>',
-				'</select>'].join(''), {
+					'</select>'].join(''), {
 					optgroupValueField: 'val',
-					optgroupField: 'grp'
+					optgroupField: 'grp',
+					disabledField: 'dis'
 				});
 				assert.deepEqual(test.selectize.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2}
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
 				});
 				assert.deepEqual(test.selectize.optgroups, {
-					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3},
-					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4}
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: false}
+				}, '2');
+			});
+			it('should allow respect disabled flags of option and optgroup', function() {
+				var test = setup_test(['<select>',
+					'<optgroup label="Group 1">',
+					'<option value="a" disabled>Item A</option>',
+					'<option value="b">Item B</option>',
+					'</optgroup>',
+					'<optgroup label="Group 2" disabled>',
+					'<option value="a">Item A</option>',
+					'<option value="b">Item B</option>',
+					'</optgroup>',
+					'</select>'].join(''), {
+					optgroupValueField: 'val',
+					optgroupField: 'grp',
+					disabledField: 'dis'
 				});
+				assert.deepEqual(test.selectize.options, {
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
+				});
+				assert.deepEqual(test.selectize.optgroups, {
+					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
+					'Group 2': {label: 'Group 2', val: 'Group 2', $order: 4, dis: true}
+				}, '2');
 			});
 			it('should add options in text form (no html entities)', function() {
 				var test = setup_test('<select><option selected value="a">&lt;hi&gt;</option></select>', {});
@@ -163,6 +198,19 @@
 					done();
 				}, 0);
 			});
+			it('should respect option disabled flag', function (done) {
+				var test = setup_test(['<select>',
+					'<option value="a">Item A</option>',
+					'<option value="b" disabled>Item B</option>',
+					'</select>'].join(''), {});
+
+				test.selectize.refreshOptions(true);
+				window.setTimeout(function() {
+					expect(test.selectize.$dropdown.find('.option')).to.has.length(2);
+					expect(test.selectize.$dropdown.find('[data-selectable]')).to.has.length(1);
+					done();
+				}, 0);
+			});
 			describe('getValue()', function() {
 				it('should return "" when empty', function() {
 					var test = setup_test('<select>', {});
@@ -216,6 +264,7 @@
 				$form = test.$select.parents('form');
 				$button = $('<button type="submit">').appendTo($form);
 			});
+
 			afterEach(function() {
 				$form.off('.test_required');
 				$button.remove();
@@ -224,32 +273,51 @@
 			it('should have isRequired property set to true', function() {
 				expect(test.selectize.isRequired).to.be.equal(true);
 			});
+
 			it('should have the required class', function() {
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(true);
 			});
 
+			it('should pass validation if an element is selected',
+			function(done) {
+				test.selectize.addItem('a');
+				$form.one('submit.test_required', function(e) {
+					done();
+				});
+
+				syn.click($button);
+			});
+
 			if ($.fn.selectize.support.validity) {
-				it('should have "invalid" class when validation fails', function(done) {
-					test.$select[0].checkValidity();
-					window.setTimeout(function() {
-						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(true);
-						done();
-					}, 250);
-				});
-				it('should clear the invalid class after an item is selected', function(done) {
-					syn.click($button).delay(0, function() {
-						test.selectize.addItem('a');
-						expect(test.selectize.$control.hasClass('invalid')).to.be.equal(false);
-						done();
-					});
-				});
-				it('should pass validation if an element is selected', function(done) {
-					test.selectize.addItem('a');
+				it('should not pass validation if no element is selected',
+				function(done) {
 					$form.one('submit.test_required', function(e) {
+						expect(e.isDefaultPrevented()).to.be.true;
 						done();
 					});
 
 					syn.click($button);
+				});
+
+				it('should have "invalid" class when validation fails',
+			  function(done) {
+					test.$select[0].checkValidity();
+
+					window.setTimeout(function() {
+						expect(test.selectize.$control.hasClass('invalid')).
+							to.be.true;
+						done();
+					}, 250);
+				});
+
+				it('should clear the invalid class after an item is selected',
+				function(done) {
+					syn.click($button).delay(0, function() {
+						test.selectize.addItem('a');
+						expect(test.selectize.$control.hasClass('invalid')).
+							to.be.false;
+						done();
+					});
 				});
 			}
 		});
@@ -275,6 +343,63 @@
 			});
 			it('should not have the required class', function() {
 				expect(test.selectize.$control.hasClass('required')).to.be.equal(false);
+			});
+		});
+
+		describe('<select> (custom string render)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {
+					render: {
+						option: function(item, escape) {
+							return '<div class="option custom-option">' + escape(item.text) + '</div>'
+						}
+					}
+				});
+			});
+
+			it('should render the custom option element', function(done) {
+				test.selectize.focus();
+
+				window.setTimeout(function() {
+					expect(test.selectize.$dropdown.find('.custom-option').length).to.be.equal(1);
+					done();
+				}, 5);
+			});
+		});
+
+		describe('<select> (custom dom render)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {
+					render: {
+						option: function(item, escape) {
+							var div = document.createElement('div');
+
+							div.className = 'option custom-option';
+							div.innerHTML = escape(item.text);
+
+							return div;
+						}
+					}
+				});
+			});
+
+			it('should render the custom option element', function(done) {
+				test.selectize.focus();
+
+				window.setTimeout(function() {
+					expect(test.selectize.$dropdown_content.find('.custom-option').length).to.be.equal(1);
+					done();
+				}, 0);
 			});
 		});
 

@@ -12,7 +12,7 @@
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/stylesheet.css">
 		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
-		<script src="js/jquery.js"></script>
+		<script src="js/jquery.min.js"></script>
 		<script src="../dist/js/standalone/selectize.js"></script>
 		<script src="js/index.js"></script>
 	</head>
@@ -25,7 +25,8 @@
 				<div class="control-group">
 					<form>
 						<label for="select-beast">Beast:</label>
-						<select id="select-beast" required class="demo-default" placeholder="Select a person...">
+						<select id="select-beast" required class="demo-default"
+							placeholder="Select a person..." name="beast">
 							<option value="">Select a person...</option>
 							<option value="4">Thomas Edison</option>
 							<option value="1">Nikola</option>
