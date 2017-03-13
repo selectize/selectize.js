@@ -44,6 +44,10 @@
 					var test = setup_test('<input type="text" value="a,b">', {delimiter: ','});
 					expect(test.selectize.getValue()).to.be.equal('a,b');
 				});
+				it('should respect data attribute options', function() {
+					var test = setup_test('<input type="text" value="a,b" data-delimiter=":">', {delimiter: ','});
+					expect(test.selectize.getValue()).to.be.equal('a:b');
+				});
 			});
 			describe('<input type="text" attributes>', function() {
 				it('should propagate original input attributes to the generated input', function() {
