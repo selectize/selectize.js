@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  New feature: allow `data-` attributes to override options
+
+   *@ersatzryan*
+
 *  New feature: allow to disable single options or complete optgroups
 
    *@zeitiger*
