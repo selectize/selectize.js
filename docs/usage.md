@@ -37,12 +37,12 @@ $(function() {
 		<td valign="top">
 			An array of the initial options available to select; array
 			of objects.<br>
-      <br>
+			<br>
 			By default this is populated from the original input
 			element.  If your element is a &lt;select&gt; with
 			&lt;option&gt;s specified this property gets populated
 			automatically.<br>
-      <br>
+			<br>
 			Setting this property is convenient if you have your data as
 			an array and want to automatically generate the
 			&lt;option&gt;s.
