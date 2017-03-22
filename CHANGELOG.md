@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Bugfix: add touchstart in order to catch touches as well as clicks when adding custom items
+
+   *@danielgehr*
+
 *  New feature: allow to disable single options or complete optgroups
 
    *@zeitiger*
