@@ -280,13 +280,12 @@ var autoGrow = function($input) {
 		if (!options.force && $input.data('grow') === false) return;
 
 		value = $input.val();
-		if (e.type && e.type.toLowerCase() === 'keydown') {
-			keyCode = e.keyCode;
+		if (e.type && e.type.toLowerCase() === 'keypress') {
+			keyCode = e.which || e.keyCode;
 			printable = (
-				(keyCode >= 97 && keyCode <= 122) || // a-z
-				(keyCode >= 65 && keyCode <= 90)  || // A-Z
-				(keyCode >= 48 && keyCode <= 57)  || // 0-9
-				keyCode === 32 // space
+				!(keyCode >= 44 && keyCode <= 45) && !(keyCode === KEY_COMMA) && // comma and insert
+				!(keyCode >= 33 && keyCode <= 40) && // arrow and scroll keys
+				(keyCode !== 12 && keyCode !== 19) // pause/break numkey 5
 			);
 
 			if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
@@ -320,7 +319,7 @@ var autoGrow = function($input) {
 		}
 	};
 
-	$input.on('keydown keyup update blur', update);
+	$input.on('keydown keyup keypress update blur', update);
 	update();
 };
 
