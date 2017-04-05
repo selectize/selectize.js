@@ -29,17 +29,34 @@
 
 		it('should close dropdown after selection made if closeAfterSelect: true', function(done) {
 			var test = setup_test('<select multiple>' +
-					'<option value="a">A</option>' +
-					'<option value="b">B</option>' +
+				'<option value="a">A</option>' +
+				'<option value="b">B</option>' +
 				'</select>', {closeAfterSelect: true});
 
-				click(test.selectize.$control, function() {
-					click($('[data-value=a]', test.selectize.$dropdown_content), function() {
-						expect(test.selectize.isOpen).to.be.equal(false);
-						expect(test.selectize.isFocused).to.be.equal(true);
-						done();
-					});
+			click(test.selectize.$control, function() {
+				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+					expect(test.selectize.isOpen).to.be.equal(false);
+					expect(test.selectize.isFocused).to.be.equal(true);
+					done();
 				});
+			});
+		});
+
+		it('should close and blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
+			var test = setup_test('<select>' +
+				'<option value="a">A</option>' +
+				'<option value="b">B</option>' +
+				'</select>', {closeAfterSelect: true});
+
+			click(test.selectize.$control, function() {
+				expect(test.selectize.isOpen).to.be.equal(true);
+				expect(test.selectize.isFocused).to.be.equal(true);
+				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
+					expect(test.selectize.isOpen).to.be.equal(false);
+					expect(test.selectize.isFocused).to.be.equal(false);
+					done();
+				});
+			});
 		});
 
 		describe('clicking control', function() {
@@ -96,6 +113,43 @@
 					expect(test.selectize.$dropdown.is(':visible')).to.be.equal(true);
 					done();
 				});
+			});
+
+		});
+
+		describe('clicking label', function() {
+
+			it('should give it focus to select', function(done) {
+				var inputId = "labeledSelect";
+				var label =
+					$('<label for="'+inputId+'">select</label>').appendTo('form');
+
+				var test = setup_test('<select id="'+inputId+'">' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {});
+
+				syn.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
+			});
+
+			it('should give it focus to input', function(done) {
+				var inputId = "labeledInput";
+				var label =
+					$('<label for="'+inputId+'">input</label>').appendTo('form');
+
+				var test = setup_test('<input id="'+inputId+'" type="text" value="a,b,c,d">', {});
+
+				syn.click(label)
+					.delay(0, function() {
+						label.remove();
+						expect(test.selectize.isFocused).to.be.equal(true);
+						done();
+					});
 			});
 
 		});
@@ -231,6 +285,23 @@
 					.delay(0, function() {
 						expect(test.selectize.isOpen).to.be.equal(true);
 						expect(test.selectize.options).to.not.have.property('asdf');
+						done();
+					});
+				});
+			});
+
+			it('should not delete any dropdown option text if duplicate match occurs', function(done) {
+				var test = setup_test('<select>' +
+					'<option></option>' +
+					'<option value="a"></option>' +
+					'<option value="b">Isabel Street</option>' +
+				'</select>', {});
+
+				click(test.selectize.$control, function() {
+					// Here, the 'S' in St will also match the 's' in Isabel (a duplicate match)
+					syn.type('Isabel St', test.selectize.$control_input)
+					.delay(0, function() {
+						expect(test.selectize.$dropdown_content.find('.option[data-value=b]').text()).to.be.equal('Isabel Street');
 						done();
 					});
 				});

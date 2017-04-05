@@ -21,4 +21,4 @@ var TAG_SELECT    = 1;
 var TAG_INPUT     = 2;
 
 // for now, android support in general is too spotty to support validity
-var SUPPORTS_VALIDITY_API = !/android/i.test(window.navigator.userAgent) && !!document.createElement('form').validity;
+var SUPPORTS_VALIDITY_API = !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;

@@ -283,7 +283,7 @@ var autoGrow = function($input) {
 		if (e.type && e.type.toLowerCase() === 'keydown') {
 			keyCode = e.keyCode;
 			printable = (
-				(keyCode >= 48 && keyCode <= 57)   || // 0-9
+				(keyCode >= 48 && keyCode <= 57)  || // 0-9
 				(keyCode >= 65 && keyCode <= 90)   || // a-z
 				(keyCode >= 96 && keyCode <= 111)  || // numpad 0-9, numeric operators
 				(keyCode >= 186 && keyCode <= 222) || // semicolon, equal, comma, dash, etc.
@@ -324,3 +324,25 @@ var autoGrow = function($input) {
 	$input.on('keydown keyup update blur', update);
 	update();
 };
+
+var domToString = function(d) {
+	var tmp = document.createElement('div');
+
+	tmp.appendChild(d.cloneNode(true));
+
+	return tmp.innerHTML;
+};
+
+var logError = function(message, options){
+	if(!options) options = {};
+	var component = "Selectize";
+
+	console.error(component + ": " + message)
+
+	if(options.explanation){
+		// console.group is undefined in <IE11
+		if(console.group) console.group();
+		console.error(options.explanation);
+		if(console.group) console.groupEnd();
+	}
+}

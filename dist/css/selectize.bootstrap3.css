@@ -1,5 +1,5 @@
 /**
- * selectize.bootstrap3.css (v0.12.1) - Bootstrap 3 Theme
+ * selectize.bootstrap3.css (v0.12.4) - Bootstrap 3 Theme
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -107,6 +107,12 @@
 }
 .selectize-control.plugin-remove_button .disabled [data-value] .remove {
   border-left-color: rgba(77, 77, 77, 0);
+}
+.selectize-control.plugin-remove_button .remove-single {
+  position: absolute;
+  right: 28px;
+  top: 6px;
+  font-size: 23px;
 }
 .selectize-control {
   position: relative;
@@ -276,6 +282,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 200px;
+  -webkit-overflow-scrolling: touch;
 }
 .selectize-control.single .selectize-input,
 .selectize-control.single .selectize-input input {
