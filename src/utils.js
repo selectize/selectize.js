@@ -283,9 +283,10 @@ var autoGrow = function($input) {
 		if (e.type && e.type.toLowerCase() === 'keydown') {
 			keyCode = e.keyCode;
 			printable = (
-				(keyCode >= 97 && keyCode <= 122) || // a-z
-				(keyCode >= 65 && keyCode <= 90)  || // A-Z
 				(keyCode >= 48 && keyCode <= 57)  || // 0-9
+				(keyCode >= 65 && keyCode <= 90)   || // a-z
+				(keyCode >= 96 && keyCode <= 111)  || // numpad 0-9, numeric operators
+				(keyCode >= 186 && keyCode <= 222) || // semicolon, equal, comma, dash, etc.
 				keyCode === 32 // space
 			);
 
