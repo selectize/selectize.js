@@ -1173,7 +1173,7 @@ $.extend(Selectize.prototype, {
 			if (triggerDropdown && !self.isOpen) { self.open(); }
 		} else {
 			self.setActiveOption(null);
-			if (triggerDropdown && self.isOpen) { self.close(); }
+			if (triggerDropdown && self.isOpen) { self.closeEmptyDropdown(); }
 		}
 	},
 
@@ -1748,6 +1748,14 @@ $.extend(Selectize.prototype, {
 		self.trigger('dropdown_open', self.$dropdown);
 	},
 
+	/**
+	 * Proxy method to close the dropdown when it has no option available.
+	 * This proxy exists only to facilitate a plugin override for this specific context
+	 */
+	closeEmptyDropdown: function() {
+		this.close();
+	},
+	
 	/**
 	 * Closes the autocomplete dropdown menu.
 	 */
