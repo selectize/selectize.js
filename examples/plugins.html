@@ -64,6 +64,32 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "continue_editing"</h2>
+				<div class="control-group">
+					<label for="select-continue">Tags:</label>
+					<select id="select-continue" class="demo-default" placeholder="Select a person...">
+						<option value="">Select a person...</option>
+							<option value="1">Chuck Testa</option>
+							<option value="4">Sage Cattabriga-Alosa</option>
+							<option value="3">Nikola Tesla</option>
+						</select>
+				</div>
+				<script>
+				$('#select-continue').selectize({
+					plugins: ['continue_editing'],
+					persist: false,
+					create: function(input) {
+						return {
+							value: input,
+							text: input
+						}
+					}
+				});
+				</script>
+			</div>
+
+
+			<div class="demo">
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
