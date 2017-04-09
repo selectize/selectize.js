@@ -1360,7 +1360,7 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Clears all options.
 	 */
-	clearOptions: function() {
+	clearOptions: function(clearInput) {
 		var self = this;
 
 		self.loadedSearches = {};
@@ -1369,7 +1369,7 @@ $.extend(Selectize.prototype, {
 		self.options = self.sifter.items = {};
 		self.lastQuery = null;
 		self.trigger('option_clear');
-		self.clear();
+		if (clearInput === true || typeof clearInput === 'undefined') self.clear();
 	},
 
 	/**
