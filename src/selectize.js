@@ -957,8 +957,8 @@ $.extend(Selectize.prototype, {
 	 * @param {Element} dest
 	 */
 	blur: function(dest) {
-		this.$control_input[0].blur();
 		this.onBlur(null, dest);
+		this.$control_input[0].blur();
 	},
 
 	/**
