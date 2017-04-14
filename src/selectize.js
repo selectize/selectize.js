@@ -1370,6 +1370,7 @@ $.extend(Selectize.prototype, {
 		self.lastQuery = null;
 		self.trigger('option_clear');
 		self.clear();
+		self.renderCache = {};
 	},
 
 	/**
