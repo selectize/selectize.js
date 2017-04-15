@@ -116,8 +116,10 @@
 							xhr && xhr.abort();
 							xhr = $.ajax({
 								url: 'http://www.corsproxy.com/api.sba.gov/geodata/primary_city_links_for_state_of/' + value + '.json',
+								dataType:'json'
 								success: function(results) {
 									select_city.enable();
+									var data = jQuery.parseJSON(results);
 									callback(results);
 								},
 								error: function() {
