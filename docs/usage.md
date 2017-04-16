@@ -184,6 +184,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>suppressAddDuplicate</code></td>
+		<td valign="top">Sets whether the "Add..." option should be displayed when the value is already persisted.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>selectOnTab</code></td>
 		<td valign="top">If true, the tab key will choose the currently selected item.</td>
 		<td valign="top"><code>boolean</code></td>
