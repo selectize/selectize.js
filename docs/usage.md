@@ -80,6 +80,13 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>createPrompt</code></td>
+		<td valign="top">
+			If create is true then this is the prompt that will be shown in the field when creating a new item.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'Add '</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
 		<td valign="top">
 			If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
