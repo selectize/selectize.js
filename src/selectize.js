@@ -1507,6 +1507,13 @@ $.extend(Selectize.prototype, {
 		});
 	},
 
+	removeItems: function(values, silent) {
+		var items = $.isArray(values) ? values : [values];
+		for (var i = 0, n = items.length; i < n; i++) {
+			this.isPending = (i < n - 1);
+			this.removeItem(items[i], silent);
+		}
+	},
 	/**
 	 * Removes the selected item matching
 	 * the provided value.
@@ -1538,7 +1545,10 @@ $.extend(Selectize.prototype, {
 				self.setCaret(self.caretPos - 1);
 			}
 
-			self.refreshState();
+			if (!self.isPending) {
+				self.refreshState();
+			}
+
 			self.updatePlaceholder();
 			self.updateOriginalInput({silent: silent});
 			self.positionDropdown();
