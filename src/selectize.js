@@ -740,11 +740,17 @@ $.extend(Selectize.prototype, {
 		var $wrapper = self.$wrapper.addClass(self.settings.loadingClass);
 
 		self.loading++;
-		fn.apply(self, [function(results) {
+		fn.apply(self, [function(results, groups) {
 			self.loading = Math.max(self.loading - 1, 0);
 			if (results && results.length) {
 				self.addOption(results);
 				self.refreshOptions(self.isFocused && !self.isInputHidden);
+			}
+			if (groups && groups.length) {
+				groups.forEach(function (group) {
+					var id = group[self.settings.optgroupValueField];
+					self.addOptionGroup(id, group);
+				});
 			}
 			if (!self.loading) {
 				$wrapper.removeClass(self.settings.loadingClass);
