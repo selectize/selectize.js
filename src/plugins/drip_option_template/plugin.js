@@ -12,7 +12,6 @@
  *
  */
 
-
 Selectize.define('drip_option_template', function(options) {
   var self = this;
   var original = self.setupTemplates;
