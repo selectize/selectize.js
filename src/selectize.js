@@ -1764,6 +1764,7 @@ $.extend(Selectize.prototype, {
 
 		self.isOpen = false;
 		self.$dropdown.hide();
+		self.$dropdown_content.removeHighlight();
 		self.setActiveOption(null);
 		self.refreshState();
 
