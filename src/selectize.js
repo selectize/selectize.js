@@ -1135,6 +1135,10 @@ $.extend(Selectize.prototype, {
 			}
 		}
 
+    // remove "selected" class before setting
+    // src: https://github.com/selectize/selectize.js/issues/1191
+    self.$dropdown.find('.selected').removeClass('selected');
+
 		// add "selected" class to selected options
 		if (!self.settings.hideSelected) {
 			for (i = 0, n = self.items.length; i < n; i++) {
