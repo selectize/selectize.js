@@ -1763,6 +1763,12 @@ $.extend(Selectize.prototype, {
 			self.hideInput();
 			setTimeout(function() {
 				self.$control_input.blur(); // close keyboard on iOS
+				
+				// if dropdown lives in a modal, restore focus to modal
+				// so ESC key still closes modal
+				if (self.$control_input.parents('.modal').length) {
+					self.$control_input.parents('.modal').focus()
+				}
 			});
 		}
 
