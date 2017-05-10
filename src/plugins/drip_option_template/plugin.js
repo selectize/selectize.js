@@ -28,7 +28,7 @@ Selectize.define('drip_option_template', function(options) {
     // if original <option> has `data-combotrigger` attribute,
     // this adds it to the option data, which will pass it
     // to the rendered option
-		if (selectOptions[i].dataset.hasOwnProperty('combotrigger'))
+		if (selectOptions[i].dataset.hasOwnProperty('combotrigger')) {
       this.options[selectOptions[i].value]['combotrigger'] = selectOptions[i].dataset.combotrigger;
     }
   }
