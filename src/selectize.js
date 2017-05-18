@@ -1701,7 +1701,11 @@ $.extend(Selectize.prototype, {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				label = self.options[self.items[i]][self.settings.labelField] || '';
-        options.push('<option value="' + escape_html(self.items[i]) + '" data-combotrigger="' + (self.options[self.items[i]].combotrigger ? true : false) + '" selected="selected">' + escape_html(label) + '</option>');
+        options.push('<option value="' +
+          escape_html(self.items[i]) +
+          '" data-combotrigger="' + (self.options[self.items[i]].combotrigger ? true : false) + '"' +
+          (self.options[self.items[i]].type ? ' data-type="' + self.options[self.items[i]].type : '') + '"' +
+          ' selected="selected">' + escape_html(label) + '</option>');
 			}
 			if (!options.length && !this.$input.attr('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
@@ -1763,7 +1767,7 @@ $.extend(Selectize.prototype, {
 			self.hideInput();
 			setTimeout(function() {
 				self.$control_input.blur(); // close keyboard on iOS
-				
+
 				// if dropdown lives in a modal, restore focus to modal
 				// so ESC key still closes modal
 				if (self.$control_input.parents('.modal').length) {
