@@ -31,6 +31,11 @@ Selectize.define('drip_option_template', function(options) {
 		if (selectOptions[i].dataset.hasOwnProperty('combotrigger')) {
       this.options[selectOptions[i].value]['combotrigger'] = selectOptions[i].dataset.combotrigger;
     }
+
+    // passes along data-type atrributes
+    if (selectOptions[i].dataset.hasOwnProperty('type')) {
+      this.options[selectOptions[i].value]['type'] = selectOptions[i].dataset.type;
+    }
   }
 
   // add custom template to available option templates
