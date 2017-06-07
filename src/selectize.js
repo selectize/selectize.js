@@ -1795,7 +1795,7 @@ $.extend(Selectize.prototype, {
 		offset.top += $control.outerHeight(true);
 
 		this.$dropdown.css({
-			width : $control.outerWidth(),
+			width : $control[0].getBoundingClientRect().width,
 			top   : offset.top,
 			left  : offset.left
 		});
