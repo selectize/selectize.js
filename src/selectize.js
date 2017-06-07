@@ -2075,6 +2075,11 @@ $.extend(Selectize.prototype, {
 		self.$control_input.removeData('grow');
 		self.$input.removeData('selectize');
 
+		if (--Selectize.count == 0 && Selectize.$testInput) {
+			Selectize.$testInput.remove();
+			Selectize.$testInput = undefined;
+		}
+
 		$(window).off(eventNS);
 		$(document).off(eventNS);
 		$(document.body).off(eventNS);
