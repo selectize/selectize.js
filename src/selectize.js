@@ -1712,12 +1712,18 @@ $.extend(Selectize.prototype, {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				label = self.options[self.items[i]][self.settings.labelField] || '';
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+				var $option = $('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+				var $originalOption = self.options[self.items[i]].originalOption;
+				if ($originalOption) {
+					$option = $originalOption.clone(true).val(escape_html(self.items[i])).text(escape_html(label)).prop('selected', true);
+				}
+				options.push($option);
 			}
 			if (!options.length && !this.$input.attr('multiple')) {
-				options.push('<option value="" selected="selected"></option>');
+				options.push($('<option value="" selected="selected"></option>'));
 			}
-			self.$input.html(options.join(''));
+			self.$input.html('');
+			self.$input.append(options);
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
