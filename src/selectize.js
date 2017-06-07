@@ -1439,11 +1439,23 @@ $.extend(Selectize.prototype, {
 	 * @param {boolean} silent
 	 */
 	addItems: function(values, silent) {
+		this.buffer = document.createDocumentFragment();
+
+		var childNodes = this.$control[0].childNodes;
+		for (var i = 0; i < childNodes.length; i++) {
+			this.buffer.appendChild(childNodes[i]);
+		}
+
 		var items = $.isArray(values) ? values : [values];
 		for (var i = 0, n = items.length; i < n; i++) {
 			this.isPending = (i < n - 1);
 			this.addItem(items[i], silent);
 		}
+
+		var control = this.$control[0];
+		control.insertBefore(this.buffer, control.firstChild);
+
+		this.buffer = null;
 	},
 
 	/**
@@ -1819,11 +1831,15 @@ $.extend(Selectize.prototype, {
 	 */
 	insertAtCaret: function($el) {
 		var caret = Math.min(this.caretPos, this.items.length);
+		var el = $el[0];
+		var target = this.buffer || this.$control[0];
+
 		if (caret === 0) {
-			this.$control.prepend($el);
+			target.insertBefore(el, target.firstChild);
 		} else {
-			$(this.$control[0].childNodes[caret]).before($el);
+			target.insertBefore(el, target.childNodes[caret]);
 		}
+
 		this.setCaret(caret + 1);
 	},
 
