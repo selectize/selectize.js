@@ -1502,7 +1502,10 @@ $.extend(Selectize.prototype, {
 
 				self.updatePlaceholder();
 				self.trigger('item_add', value, $item);
-				self.updateOriginalInput({silent: silent});
+
+				if (!self.isPending) {
+					self.updateOriginalInput({silent: silent});
+				}
 			}
 		});
 	},
