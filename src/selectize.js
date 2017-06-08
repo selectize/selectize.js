@@ -1135,6 +1135,10 @@ $.extend(Selectize.prototype, {
 			}
 		}
 
+    // remove "selected" class before setting
+    // src: https://github.com/selectize/selectize.js/issues/1191
+    self.$dropdown.find('.selected').removeClass('selected');
+
 		// add "selected" class to selected options
 		if (!self.settings.hideSelected) {
 			for (i = 0, n = self.items.length; i < n; i++) {
@@ -1712,7 +1716,7 @@ $.extend(Selectize.prototype, {
 			options = [];
 			for (i = 0, n = self.items.length; i < n; i++) {
 				label = self.options[self.items[i]][self.settings.labelField] || '';
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+        options.push('<option value="' + escape_html(self.items[i]) + '" data-combotrigger="' + (self.options[self.items[i]].combotrigger ? true : false) + '" selected="selected">' + escape_html(label) + '</option>');
 			}
 			if (!options.length && !this.$input.attr('multiple')) {
 				options.push('<option value="" selected="selected"></option>');
@@ -1779,6 +1783,7 @@ $.extend(Selectize.prototype, {
 
 		self.isOpen = false;
 		self.$dropdown.hide();
+		self.$dropdown_content.removeHighlight();
 		self.setActiveOption(null);
 		self.refreshState();
 
