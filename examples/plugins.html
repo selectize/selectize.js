@@ -49,6 +49,25 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "clear_button"</h2>
+				<div class="control-group">
+					<label for="input-clear">Tags:</label>
+					<input type="text" id="input-clear" class="input-clear demo-default" value="awesome,neat">
+				</div>
+				<div class="control-group">
+					<label for="input-clear-disable">Tags:</label>
+					<input type="text" disabled id="input-clear-disable" class="input-clear demo-default" value="awesome,neat">
+				</div>
+				<script>
+				$('.input-clear').selectize({
+					plugins: ['clear_button'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "restore_on_backspace"</h2>
 				<div class="control-group">
 					<label for="input-tags6">Tags:</label>

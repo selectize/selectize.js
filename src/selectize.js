@@ -1811,7 +1811,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (!self.items.length) return;
-		self.$control.children(':not(input)').remove();
+		self.$control.children('[data-value]').remove();
 		self.items = [];
 		self.lastQuery = null;
 		self.setCaret(0);
