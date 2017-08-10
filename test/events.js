@@ -132,6 +132,25 @@ describe('Events', function() {
 		});
 	});
 
+	describe('item_before_remove', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('item_before_remove', function() {
+				done();
+			});
+			test.selectize.removeItem('a');
+		});
+		it('should contain item\'s value and element', function(done) {
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('item_before_remove', function(value, $item) {
+				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
+				done();
+			});
+			test.selectize.removeItem('b');
+		});
+	});
+
 	describe('item_remove', function() {
 		it('should be triggered', function(done) {
 			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
