@@ -76,12 +76,9 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>refreshOptions(triggerDropdown)</code></td>
 		<td valign="top">Refreshes the list of available options shown in the autocomplete dropdown menu.</td>
 	</tr>
-
-
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_items" name="methods_items">Items</a></th>
 	</tr>
-
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
@@ -110,12 +107,9 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>refreshItems()</code></td>
 		<td valign="top">Re-renders the selected item lists.</td>
 	</tr>
-
-
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_items" name="methods_optgroups">Optgroups</a></th>
 	</tr>
-
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
@@ -155,12 +149,9 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>trigger(event, ...)</code></td>
 		<td valign="top">Triggers event listeners.</td>
 	</tr>
-
-
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_dropdown" name="methods_dropdown">Dropdown</a></th>
 	</tr>
-
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
@@ -177,12 +168,9 @@ var selectize = $select[0].selectize;
 		<td valign="top"><code>positionDropdown()</code></td>
 		<td valign="top">Calculates and applies the appropriate position of the dropdown.</td>
 	</tr>
-
-
 	<tr>
 		<th valign="top" colspan="3" align="left"><a href="#methods_other" name="methods_other">Other</a></th>
 	</tr>
-
 	<tr>
 		<th valign="top" width="120px" align="left">Method</th>
 		<th valign="top" align="left">Description</th>
