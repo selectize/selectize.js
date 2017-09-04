@@ -1660,8 +1660,12 @@ $.extend(Selectize.prototype, {
 		var invalid = !this.items.length;
 
 		this.isInvalid = invalid;
-		this.$control_input.prop('required', invalid);
-		this.$input.prop('required', !invalid);
+		invalid
+			? this.$control_input.attr('required', true)
+			: this.$control_input.removeAttr('required');
+		!invalid
+			? this.$input.attr('required', true)
+			: this.$input.removeAttr('required');
 	},
 
 	/**
