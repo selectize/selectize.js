@@ -15,6 +15,7 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jqueryui.js"></script>
 		<script src="../dist/js/standalone/selectize.js"></script>
+		<script src="../src/plugins/hierarchy/plugin.js"></script>
 		<script src="js/index.js"></script>
 	</head>
     <body>
@@ -111,6 +112,332 @@
 						}
 					}
 				})
+				</script>
+			</div>
+
+			<div class="demo">
+				<h2>Plugin: "hierarchy"</h2>
+				<div class="control-group">
+					<select id="select-hierarchy" name="hierarchy-field"></select>
+				</div>
+				<script>
+				$('#select-hierarchy').selectize({
+					placeholder: "hierarchy example",
+					plugins: {
+						hierarchy: {
+							// value: boolean. default: false.
+							mustHaveLowestChild: true,
+							
+							// value: array-of-string, callback.
+							// callback signature: callback(int currentLevel): string
+							// RTL is not supported yet.
+							labelPrefix: ["state", "county", "city & town"],
+							// labelPrefix: function (level) {
+							//     return "level-" + level;
+							// },
+							
+							// recognized keywords (case-sensitive): LEVEL_ID, LEVEL_LBL, PARENT_ID, PARENT_LBL. default: empty string.
+							optionGroupTemplate: "member of {{LEVEL_LBL}} under {{PARENT_LBL}}",
+
+							// value (case-sensitive): "many", "single-block", "single-fit". default: "many".
+							itemDisplay: "single-fit",
+							
+							// value (case-sensitive): "many", "last-child", "lowest-child". default: "many".
+							// Bound with: mustHaveLowestChild is true.
+							produceValue: "lowest-child",
+							
+							/*							
+							// value: string. default "please select more".
+							// Bound with: mustHaveLowestChild is true.
+							directingPlaceholder: "mohon pilih lagi",
+							
+							// value: string. default: "level".
+							// Bound with: (parent) load is not undefined.
+							levelKey: "tingkat",
+
+							// value: string. default: "parentId".
+							// Bound with: (parent) load is not undefined.
+							parentIdKey: "id-ortu",
+
+							// value: string. default: "query".
+							// Bound with: (parent) load is not undefined.
+							queryKey: "cari-kata",
+							*/
+						}
+					},
+					maxItems: null,
+					valueField: 'id',
+					labelField: 'title',
+					searchField: 'title',
+					create: false,
+					options: [
+						{id: "1", title: "Alabama *", children: [
+							{id: "1.1", title: "Baldwin *", children: [
+								{id: "1.1.1", title: "Bay Minette (city)"},
+								{id: "1.1.2", title: "Daphne (city)"},
+								{id: "1.1.3", title: "Elberta (town)"},
+								{id: "1.1.4", title: "Fairhope (city)"},
+								{id: "1.1.5", title: "Foley (city)"},
+								{id: "1.1.6", title: "Gulf Shores (city)"},
+								{id: "1.1.7", title: "Loxley (town)"},
+								{id: "1.1.8", title: "Magnolia Springs (town)"},
+								{id: "1.1.9", title: "Orange Beach (city)"},
+								{id: "1.1.10", title: "Perdido Beach (town)"},
+								{id: "1.1.11", title: "Robertsdale (city)"},
+								{id: "1.1.12", title: "Silverhill (town)"},
+								{id: "1.1.13", title: "Spanish Fort (city)"},
+								{id: "1.1.14", title: "Summerdale (town)"},
+							]},
+							{id: "1.2", title: "Calhoun *", children: [
+								{id: "1.2.1", title: "Anniston (city)"},
+								{id: "1.2.2", title: "Glencoe (city)"},
+								{id: "1.2.3", title: "Hobson City (town)"},
+								{id: "1.2.4", title: "Jacksonville (city)"},
+								{id: "1.2.5", title: "Ohatchee (town)"},
+								{id: "1.2.6", title: "Oxford (city)"},
+								{id: "1.2.7", title: "Piedmont (city)"},
+								{id: "1.2.8", title: "Southside (city)"},
+								{id: "1.2.9", title: "Weaver (city)"},
+							]},
+							{id: "1.3", title: "Etowah *", children: [
+								{id: "1.3.1", title: "Attalla (city)"},
+								{id: "1.3.2", title: "Boaz (city)"},
+								{id: "1.3.3", title: "Gadsden (city)"},
+								{id: "1.3.4", title: "Glencoe (city)"},
+								{id: "1.3.5", title: "Hokes Bluff (city)"},
+								{id: "1.3.6", title: "Rainbow City (city)"},
+								{id: "1.3.7", title: "Southside (city)"},
+								{id: "1.3.8", title: "Altoona (town)"},
+								{id: "1.3.9", title: "Reece City (town)"},
+								{id: "1.3.10", title: "Ridgeville (town)"},
+								{id: "1.3.11", title: "Sardis City (town)"},
+								{id: "1.3.12", title: "Walnut Grove (town)"},
+							]},
+							{id: "1.4", title: "Houston"},
+							{id: "1.5", title: "Jefferson"},
+							{id: "1.6", title: "Lauderdale"},
+							{id: "1.7", title: "Lee"},
+							{id: "1.8", title: "Madison"},
+							{id: "1.9", title: "Marshall"},
+							{id: "1.10", title: "Mobile"},
+							{id: "1.11", title: "Montgomery"},
+							{id: "1.12", title: "Morgan"},
+							{id: "1.13", title: "Shelby"},
+							{id: "1.14", title: "St. Clair"},
+							{id: "1.15", title: "Tuscaloosa"},
+						]},
+						{id: "2", title: "Alaska"},
+						{id: "3", title: "Arizona *", children: [
+							{id: "3.1", title: "Apache *", children: [
+								{id: "3.1.1", title: "St. Johns (city)"},
+								{id: "3.1.2", title: "Eagar (town)"},
+								{id: "3.1.3", title: "Springerville (town)"},
+							]},
+							{id: "3.2", title: "Cochise *", children: [
+								{id: "3.2.1", title: "Benson (city)"},
+								{id: "3.2.2", title: "Bisbee (city)"},
+								{id: "3.2.3", title: "Douglas (city)"},
+								{id: "3.2.4", title: "Huachuca City (town)"},
+								{id: "3.2.5", title: "Sierra Vista (city)"},
+								{id: "3.2.6", title: "Tombstone (city)"},
+								{id: "3.2.7", title: "Willcox (city)"},
+							]},
+							{id: "3.3", title: "Coconino *", children: [
+
+								{id: "3.3.1", title: "Flagstaff (city)"},
+								{id: "3.3.2", title: "Fredonia (town)"},
+								{id: "3.3.3", title: "Page (city)"},
+								{id: "3.3.4", title: "Sedona (city)"},
+								{id: "3.3.5", title: "Tusayan (town)"},
+								{id: "3.3.6", title: "Williams (city)"},
+							]},
+							{id: "3.4", title: "Gila"},
+							{id: "3.5", title: "Graham"},
+							{id: "3.6", title: "Greenlee"},
+							{id: "3.7", title: "La Paz"},
+							{id: "3.8", title: "Maricopa"},
+							{id: "3.9", title: "Mohave"},
+							{id: "3.10", title: "Navajo"},
+							{id: "3.11", title: "Pima"},
+							{id: "3.12", title: "Pinal"},
+							{id: "3.13", title: "Santa Cruz"},
+							{id: "3.14", title: "Yavapai"},
+							{id: "3.15", title: "Yuma"},
+						]},
+						{id: "4", title: "Arkansas"},
+						{id: "5", title: "California *", children: [
+							{id: "5.1", title: "Alameda *", children: [
+								{id: "5.1.1", title: "Alameda (city)"},
+								{id: "5.1.2", title: "Albany (city)"},
+								{id: "5.1.3", title: "Berkeley (city)"},
+								{id: "5.1.4", title: "Dublin (city)"},
+								{id: "5.1.5", title: "Emeryville (city)"},
+								{id: "5.1.6", title: "Fremont (city)"},
+								{id: "5.1.7", title: "Hayward (city)"},
+								{id: "5.1.8", title: "Livermore (city)"},
+								{id: "5.1.9", title: "Newark (city)"},
+								{id: "5.1.10", title: "Oakland (city)"},
+								{id: "5.1.11", title: "Piedmont (city)"},
+								{id: "5.1.12", title: "Pleasanton (city)"},
+								{id: "5.1.13", title: "San Leandro (city)"},
+								{id: "5.1.14", title: "Union City (city)"},
+							]},
+							{id: "5.2", title: "Alpine"},
+							{id: "5.3", title: "Amador *", children: [
+								{id: "5.3.1", title: "Amador City (city)"},
+								{id: "5.3.2", title: "Ione (city)"},
+								{id: "5.3.3", title: "Jackson (city)"},
+								{id: "5.3.4", title: "Plymouth (city)"},
+								{id: "5.3.5", title: "Sutter Creek (city)"},
+							]},
+							{id: "5.4", title: "Butte *", children: [
+								{id: "5.4.1", title: "Biggs (city)"},
+								{id: "5.4.2", title: "Chico (city)"},
+								{id: "5.4.3", title: "Gridley (city)"},
+								{id: "5.4.4", title: "Oroville (city)"},
+								{id: "5.4.5", title: "Paradise (town)"},
+							]},
+							{id: "5.5", title: "Calaveras"},
+							{id: "5.6", title: "Colusa"},
+							{id: "5.7", title: "Contra Costa"},
+							{id: "5.8", title: "Del Norte"},
+							{id: "5.9", title: "El Dorado"},
+							{id: "5.10", title: "Fresno"},
+							{id: "5.11", title: "Glenn"},
+							{id: "5.12", title: "Humboldt"},
+							{id: "5.13", title: "Imperial"},
+							{id: "5.14", title: "Inyo"},
+							{id: "5.15", title: "Kern"},
+							{id: "5.16", title: "Kings"},
+							{id: "5.17", title: "Lake"},
+							{id: "5.18", title: "Lassen"},
+							{id: "5.19", title: "Los Angeles"},
+							{id: "5.20", title: "Madera"},
+							{id: "5.21", title: "Marin"},
+							{id: "5.22", title: "Mariposa"},
+							{id: "5.23", title: "Mendocino"},
+							{id: "5.24", title: "Merced"},
+							{id: "5.25", title: "Modoc"},
+							{id: "5.26", title: "Mono"},
+							{id: "5.27", title: "Monterey"},
+							{id: "5.28", title: "Napa"},
+							{id: "5.29", title: "Nevada"},
+							{id: "5.30", title: "Orange"},
+							{id: "5.31", title: "Placer"},
+							{id: "5.32", title: "Plumas"},
+							{id: "5.33", title: "Riverside"},
+							{id: "5.34", title: "Sacramento"},
+							{id: "5.35", title: "San Benito"},
+							{id: "5.36", title: "San Bernardino"},
+							{id: "5.37", title: "San Diego"},
+							{id: "5.38", title: "San Francisco"},
+							{id: "5.39", title: "San Joaquin"},
+							{id: "5.40", title: "San Luis Obispo"},
+							{id: "5.41", title: "San Mateo"},
+							{id: "5.42", title: "Santa Barbara"},
+							{id: "5.43", title: "Santa Clara"},
+							{id: "5.44", title: "Santa Cruz"},
+							{id: "5.45", title: "Shasta"},
+							{id: "5.46", title: "Sierra"},
+							{id: "5.47", title: "Siskiyou"},
+							{id: "5.48", title: "Solano"},
+							{id: "5.49", title: "Sonoma"},
+							{id: "5.50", title: "Stanislaus"},
+							{id: "5.51", title: "Sutter"},
+							{id: "5.52", title: "Tehama"},
+							{id: "5.53", title: "Trinity"},
+							{id: "5.54", title: "Tulare"},
+							{id: "5.55", title: "Tuolumne"},
+							{id: "5.56", title: "Ventura"},
+							{id: "5.57", title: "Yolo"},
+							{id: "5.58", title: "Yuba"},
+						]},
+						{id: "6", tit1le: "Colorado"},
+						{id: "7", title: "Connecticut"},
+						{id: "8", title: "Delaware"},
+						{id: "9", title: "Florida"},
+						{id: "10", title: "Georgia"},
+						{id: "11", title: "Hawaii"},
+						{id: "12", title: "Idaho"},
+						{id: "13", title: "Illinois"},
+						{id: "14", title: "Indiana"},
+						{id: "15", title: "Iowa"},
+						{id: "16", title: "Kansas"},
+						{id: "17", title: "Kentucky"},
+						{id: "18", title: "Louisiana"},
+						{id: "19", title: "Maine"},
+						{id: "20", title: "Maryland"},
+						{id: "21", title: "Massachusetts"},
+						{id: "22", title: "Michigan"},
+						{id: "23", title: "Minnesota"},
+						{id: "24", title: "Mississippi"},
+						{id: "25", title: "Missouri"},
+						{id: "26", title: "Montana"},
+						{id: "27", title: "Nebraska"},
+						{id: "28", title: "Nevada"},
+						{id: "29", title: "New Hampshire"},
+						{id: "30", title: "New Jersey"},
+						{id: "31", title: "New Mexico"},
+						{id: "32", title: "New York"},
+						{id: "33", title: "North Carolina"},
+						{id: "34", title: "North Dakota"},
+						{id: "35", title: "Ohio"},
+						{id: "36", title: "Oklahoma"},
+						{id: "37", title: "Oregon"},
+						{id: "38", title: "Pennsylvania"},
+						{id: "39", title: "Rhode Island"},
+						{id: "40", title: "South Carolina"},
+						{id: "41", title: "South Dakota"},
+						{id: "42", title: "Tennessee"},
+						{id: "43", title: "Texas"},
+						{id: "44", title: "Utah"},
+						{id: "45", title: "Vermont"},
+						{id: "46", title: "Virginia"},
+						{id: "47", title: "Washington"},
+						{id: "48", title: "West Virginia"},
+						{id: "49", title: "Wisconsin"},
+						{id: "50", title: "Wyoming"},
+					],
+					/*
+					// variant-1: use string as value.
+					load: "data.php",
+					
+					// variant-2: use pain object as value.
+					// Any valid $.ajax() key can be used as its key.
+					// if data is provided, it will be merged with data produced by plugin.
+					load: {url: "data.php"},
+					
+					// variant-3: varian-2 with additional (custom) param: urlTemplate.
+					// urlTemplate will overide url.
+					// The only recognized keyword is (case-sensitive): QUERY.
+					load: {urlTemplate: "data.php?test-query={{QUERY}}"},
+					
+					// variant-4: native value (function).
+					load: function (query, callback) {
+						if (!query.length) return callback();
+						
+						var self = this;
+						var values = self.getValue();
+						var lastVal = values[values.length -1] || null;
+						
+						$.ajax({
+							url: "data.php",
+							data: {
+								query: query,
+								level: values.length +1,
+								parentId: lastVal,
+							},
+							method: "POST",
+							success: function (res) {
+								callback(res);
+							},
+							error: function () {
+								callback();
+							}
+						})
+					}
+					*/
+				});
 				</script>
 			</div>
 		</div>
