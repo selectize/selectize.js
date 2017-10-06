@@ -302,7 +302,7 @@ var autoGrow = function($input) {
 				}
 			} else if (printable) {
 				shift = e.shiftKey;
-				character = String.fromCharCode(e.keyCode);
+				character = String.fromCharCode(e.key);
 				if (shift) character = character.toUpperCase();
 				else character = character.toLowerCase();
 				value += character;
