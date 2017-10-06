@@ -1,3 +1,5 @@
+→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
+
 # selectize.js
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
@@ -40,7 +42,7 @@ All pre-built files needed to use Selectize can be found in the
 
 If you're looking to get started with minimal fuss, include
 `standalone/selectize.min.js` (bundles Sifter and Microplugin
-dependencies – also available un-minifed for debugging, just remove the
+dependencies – also available un-minified for debugging, just remove the
 `.min` part) and `css/selectize.default.css`.
 
 Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
