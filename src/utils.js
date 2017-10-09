@@ -301,11 +301,7 @@ var autoGrow = function($input) {
 					value = value.substring(0, selection.start) + value.substring(selection.start + 1);
 				}
 			} else if (printable) {
-				shift = e.shiftKey;
-				character = String.fromCharCode(e.keyCode);
-				if (shift) character = character.toUpperCase();
-				else character = character.toLowerCase();
-				value += character;
+				value += e.key;
 			}
 		}
 
