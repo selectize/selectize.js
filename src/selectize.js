@@ -196,14 +196,16 @@ $.extend(Selectize.prototype, {
 			mousedown : function() { return self.onMouseDown.apply(self, arguments); },
 			click     : function() { return self.onClick.apply(self, arguments); }
 		});
-
+		$wrapper.on('blur', function ($e) {
+		    self.onBlur.apply(self, arguments);
+		});
 		$control_input.on({
 			mousedown : function(e) { e.stopPropagation(); },
 			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
 			keyup     : function() { return self.onKeyUp.apply(self, arguments); },
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
-			blur      : function() { return self.onBlur.apply(self, arguments); },
+			//blur      : function() { return self.onBlur.apply(self, arguments); },
 			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
