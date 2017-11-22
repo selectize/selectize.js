@@ -213,7 +213,7 @@ var selectize = $select[0].selectize;
 	</tr>
 	<tr>
 		<td valign="top"><code>setValue(value, silent)</code></td>
-		<td valign="top">Resets the selected items to the given value.</td>
+		<td valign="top">Resets the selected items to the given value. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>setCaret(index)</code></td>
