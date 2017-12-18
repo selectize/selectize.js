@@ -1772,9 +1772,13 @@ $.extend(Selectize.prototype, {
 
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
-			setTimeout(function() {
+
+			// Do not trigger blur while inside a blur event,
+			// this fixes some weird tabbing behavior in FF and IE.
+			// See #1164
+			if (self.ignoreFocus) {
 				self.$control_input.blur(); // close keyboard on iOS
-			});
+			}
 		}
 
 		self.isOpen = false;
