@@ -991,6 +991,7 @@ $.extend(Selectize.prototype, {
 		return {
 			fields      : settings.searchField,
 			conjunction : settings.searchConjunction,
+			nesting     : settings.searchNesting,
 			sort        : sort,
 			nesting     : settings.nesting
 		};
