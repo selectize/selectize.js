@@ -2135,6 +2135,14 @@ $.extend(Selectize.prototype, {
 		}
 		if (templateName === 'option' || templateName === 'item') {
 			html.attr('data-value', value || '');
+                        
+                        // Adding the item html data to the created one.
+                        label = data[self.settings.labelField]
+
+                        if(label && value)
+                        {
+                            html.html(label)
+                        }
 		}
 
 		// update cache
