@@ -235,16 +235,20 @@ var measureString = function(str, $parent) {
 		return 0;
 	}
 
-	var $test = $('<test>').css({
-		position: 'absolute',
-		top: -99999,
-		left: -99999,
-		width: 'auto',
-		padding: 0,
-		whiteSpace: 'pre'
-	}).text(str).appendTo('body');
+	if (!Selectize.$testInput) {
+		Selectize.$testInput = $('<span />').css({
+			position: 'absolute',
+			top: -99999,
+			left: -99999,
+			width: 'auto',
+			padding: 0,
+			whiteSpace: 'pre'
+		}).appendTo('body');
+	}
 
-	transferStyles($parent, $test, [
+	Selectize.$testInput.text(str);
+
+	transferStyles($parent, Selectize.$testInput, [
 		'letterSpacing',
 		'fontSize',
 		'fontFamily',
@@ -252,10 +256,7 @@ var measureString = function(str, $parent) {
 		'textTransform'
 	]);
 
-	var width = $test.width();
-	$test.remove();
-
-	return width;
+	return Selectize.$testInput.width();
 };
 
 /**
@@ -283,9 +284,10 @@ var autoGrow = function($input) {
 		if (e.type && e.type.toLowerCase() === 'keydown') {
 			keyCode = e.keyCode;
 			printable = (
-				(keyCode >= 97 && keyCode <= 122) || // a-z
-				(keyCode >= 65 && keyCode <= 90)  || // A-Z
 				(keyCode >= 48 && keyCode <= 57)  || // 0-9
+				(keyCode >= 65 && keyCode <= 90)   || // a-z
+				(keyCode >= 96 && keyCode <= 111)  || // numpad 0-9, numeric operators
+				(keyCode >= 186 && keyCode <= 222) || // semicolon, equal, comma, dash, etc.
 				keyCode === 32 // space
 			);
 
