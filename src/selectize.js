@@ -544,7 +544,7 @@ $.extend(Selectize.prototype, {
 				return;
 		}
 
-		if ((self.isFull() || self.isInputHidden) && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
+		if (self.isInputHidden && !(IS_MAC ? e.metaKey : e.ctrlKey)) {
 			e.preventDefault();
 			return;
 		}
@@ -646,6 +646,7 @@ $.extend(Selectize.prototype, {
 			self.setActiveOption(null);
 			self.setCaret(self.items.length);
 			self.refreshState();
+      self.$dropdown_content.removeHighlight();
 
 			// IE11 bug: element still marked as active
 			dest && dest.focus && dest.focus();
