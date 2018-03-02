@@ -1056,7 +1056,7 @@
 				self.lastValue = value;
 				self.onSearchChange(value);
 				self.refreshOptions();
-				self.trigger('type', value);
+				// self.trigger('type', value);
 			}
 		},
 	
