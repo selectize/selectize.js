@@ -429,17 +429,25 @@ $.extend(Selectize.prototype, {
 		// If a regex or string is included, this will split the pasted
 		// input and create Items for each separate value
 		if (self.settings.splitOn) {
+			var pastedText;
 
-			// Wait for pasted text to be recognized in value
-			setTimeout(function() {
-				var pastedText = self.$control_input.val();
-				if(!pastedText.match(self.settings.splitOn)){ return }
+			if (e.originalEvent.clipboardData) {
+				pastedText = e.originalEvent.clipboardData.getData('text/plain');
+			}
+			else if (window.clipboardData) {
+				// IE workaround
+				pastedText = window.clipboardData.getData('Text');
+			}
 
-				var splitInput = $.trim(pastedText).split(self.settings.splitOn);
-				for (var i = 0, n = splitInput.length; i < n; i++) {
-					self.createItem(splitInput[i]);
-				}
-			}, 0);
+			if(!pastedText.match(self.settings.splitOn)){ return }
+
+			// The text is handled here, no need for the input to also handle it
+			e.preventDefault();
+
+			var splitInput = $.trim(pastedText).split(self.settings.splitOn);
+			for (var i = 0, n = splitInput.length; i < n; i++) {
+				self.createItem(splitInput[i]);
+			}
 		}
 	},
 
