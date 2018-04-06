@@ -17,6 +17,9 @@ var highlight = function($element, pattern) {
 		if (node.nodeType === 3) {
 			var pos = node.data.search(regex);
 			if (pos >= 0 && node.data.length > 0) {
+				if (node.parentNode && node.parentNode.classList.contains('highlight')) {
+					return skip;
+				}
 				var match = node.data.match(regex);
 				var spannode = document.createElement('span');
 				spannode.className = 'highlight';
