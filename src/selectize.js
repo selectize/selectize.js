@@ -1176,6 +1176,7 @@ $.extend(Selectize.prototype, {
 			}
 			self.setActiveOption($active);
 			if (triggerDropdown && !self.isOpen) { self.open(); }
+			if (query.length < self.settings.minInputLength && self.isOpen) { self.close(); }
 		} else {
 			self.setActiveOption(null);
 			if (triggerDropdown && self.isOpen) { self.close(); }
