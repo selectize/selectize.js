@@ -76,6 +76,9 @@ var Selectize = function($input, settings) {
 		self.settings.hideSelected = self.settings.mode === 'multi';
 	}
 
+	// minimum length of characters typed into $control_input before $dropdown is shown
+	self.settings.minInputLength = Number.isInteger(self.settings.minInputLength) && self.settings.minInputLength > 0 ? self.settings.minInputLength : 0;
+
 	self.initializePlugins(self.settings.plugins);
 	self.setupCallbacks();
 	self.setupTemplates();
@@ -1064,6 +1067,8 @@ $.extend(Selectize.prototype, {
 		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
 		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
+
+		triggerDropdown = query.length >= self.settings.minInputLength ? triggerDropdown : false;
 
 		// build markup
 		n = results.items.length;
