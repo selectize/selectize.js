@@ -59,6 +59,7 @@ Selectize.define('drag_drop', function(options) {
 					});
 					self.setValue(values);
 					self.setActiveItem(active);
+					self.positionDropdown();
 				}
 			});
 		};
