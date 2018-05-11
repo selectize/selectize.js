@@ -11,7 +11,7 @@ matrix:
   allow_failures:
     - env: TARGET=saucelabs
 node_js:
-  - '0.10'
+  - '6.12'
 before_script:
   - npm install -g bower
   - npm install -g grunt-cli
