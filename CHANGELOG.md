@@ -1,6 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Added `spellcheck` to the list of `input` attributes that are inherited by selectize.
+
+   *@winzig*
+
 *  Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
 
    *(thanks @caseymct - #1079)*

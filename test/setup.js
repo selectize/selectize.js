@@ -47,14 +47,16 @@
 			});
 			describe('<input type="text" attributes>', function() {
 				it('should propagate original input attributes to the generated input', function() {
-					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none">', {});
+					var test = setup_test('<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">', {});
 					expect(test.selectize.$control_input.attr('autocorrect')).to.be.equal('off');
 					expect(test.selectize.$control_input.attr('autocapitalize')).to.be.equal('none');
+					expect(test.selectize.$control_input.attr('spellcheck')).to.be.equal('false');
 				});
 				it('should not add attributes if not present in the original', function() {
 					var test = setup_test('<input type="text">', {});
 					expect(test.selectize.$control_input.attr('autocorrect')).to.be.equal(undefined);
 					expect(test.selectize.$control_input.attr('autocapitalize')).to.be.equal(undefined);
+					expect(test.selectize.$control_input.attr('spellcheck')).to.be.equal(undefined);
 				});
 			});
 		});

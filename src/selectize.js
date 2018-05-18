@@ -178,6 +178,10 @@ $.extend(Selectize.prototype, {
 		if ($input.attr('autocapitalize')) {
 			$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 		}
+
+		if ($input.attr('spellcheck')) {
+			$control_input.attr('spellcheck', $input.attr('spellcheck'));
+		}
 		$control_input[0].type = $input[0].type;
 
 		self.$wrapper          = $wrapper;
