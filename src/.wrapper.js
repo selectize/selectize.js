@@ -22,7 +22,7 @@
 (function(root, factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(['jquery','sifter','microplugin'], factory);
-	} else if (typeof exports === 'object') {
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = factory(require('jquery'), require('sifter'), require('microplugin'));
 	} else {
 		root.Selectize = factory(root.jQuery, root.Sifter, root.MicroPlugin);
