@@ -1516,7 +1516,7 @@ $.extend(Selectize.prototype, {
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
-				if (!$options.length || self.isFull()) {
+				if (!$options.length || self.isFull() || self.settings.closeAfterSelect) {
 					self.close();
 				} else if (!self.isPending) {
 					self.positionDropdown();
