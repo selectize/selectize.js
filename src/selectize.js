@@ -287,6 +287,11 @@ $.extend(Selectize.prototype, {
 			self.onSearchChange('');
 		}
 
+		// If there's an option 'hideInput', hides the input.
+		if (self.settings.hideInput){
+			$control_input.css('visibility', 'hidden');
+			$control_input.prop('readonly', true);
+		}
 	},
 
 	/**
@@ -937,8 +942,14 @@ $.extend(Selectize.prototype, {
 	 * Restores input visibility.
 	 */
 	showInput: function() {
-		this.$control_input.css({opacity: 1, position: 'relative', left: 0});
-		this.isInputHidden = false;
+		if(this.settings.hideInput){
+			this.$control.css({cursor: 'pointer'});
+			this.$control_input.css({opacity: 0, position: 'relative', left: self.rtl ? 10000 : -10000 });
+			this.isInputHidden = false;
+		} else {
+			this.$control_input.css({opacity: 1, position: 'relative', left: 0});
+			this.isInputHidden = false;
+		}
 	},
 
 	/**
