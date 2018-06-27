@@ -5,6 +5,13 @@
 
    *@winzig*
 
+## v0.12.4, v0.12.5 · 27 June 2018
+
+*  Allow the dropdown to reopen on click if it is closed without losing focus
+   by closeAfterSelect: true
+
+   *@fishpercolator*
+
 *  Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
 
    *(thanks @caseymct - #1079)*
