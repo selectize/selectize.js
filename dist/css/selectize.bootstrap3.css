@@ -415,3 +415,19 @@
   -moz-border-radius: 0;
   border-radius: 0;
 }
+
+.selectize-control.input-lg .selectize-input {
+    padding: 10px 16px;
+    font-size: 18px;
+}
+
+.selectize-control.input-lg .selectize-input > * {
+    height: 24px;
+    line-height: 24px;
+    color: #555;
+}
+
+.selectize-dropdown.input-lg [data-selectable], .selectize-dropdown.input-lg .optgroup-header {
+    padding: 10px 16px;
+    font-size: 18px;
+}
