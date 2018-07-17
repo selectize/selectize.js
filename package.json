@@ -51,7 +51,7 @@
     "mocha": "^3.1.0"
   },
   "peerDependencies": {
-    "jquery": "^1.7.0, ^2, ^3"
+    "jquery": "^1.7.0 || ^2 || ^3"
   },
   "scripts": {
     "test": "karma start",
