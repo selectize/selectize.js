@@ -1542,6 +1542,10 @@ $.extend(Selectize.prototype, {
 		var self = this;
 		var $item, i, idx;
 
+		if (!value) {
+			return false;
+		}
+
 		$item = (value instanceof $) ? value : self.getItem(value);
 		value = hash_key($item.attr('data-value'));
 		i = self.items.indexOf(value);
