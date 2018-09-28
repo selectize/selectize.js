@@ -1803,17 +1803,16 @@ $.extend(Selectize.prototype, {
 	 * Calculates and applies the appropriate
 	 * position of the dropdown.
 	 */
-	positionDropdown: function() {
-		var $control = this.$control;
-		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
-		offset.top += $control.outerHeight(true);
+	 positionDropdown: function() {
+		 var $control = this.$control;
 
-		this.$dropdown.css({
-			width : $control[0].getBoundingClientRect().width,
-			top   : offset.top,
-			left  : offset.left
-		});
-	},
+		 this.$dropdown.offset({
+			 top:  $control.offset().top + $control[0].offsetHeight,
+			 left: $control.offset().left,
+		 }).css({
+			 width : $control[0].getBoundingClientRect().width,
+		 });
+	 },
 
 	/**
 	 * Resets / clears all selected items

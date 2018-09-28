@@ -173,7 +173,7 @@ $(function() {
 	</tr>
 	<tr>
 		<td valign="top"><code>dropdownParent</code></td>
-		<td valign="top">The element the dropdown menu is appended to. This should be <code>'body'</code> or <code>null</code>. If null, the dropdown will be appended as a child of the Selectize control.</td>
+		<td valign="top">The element the dropdown menu is appended to. If null, the dropdown will be appended as a child of the Selectize control.</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
