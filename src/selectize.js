@@ -1142,6 +1142,9 @@ $.extend(Selectize.prototype, {
 
 		// add "selected" class to selected options
 		if (!self.settings.hideSelected) {
+			// clear selection on all previously selected elements first
+			self.$dropdown.find('.selected').removeClass('selected');
+
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
