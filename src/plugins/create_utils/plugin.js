@@ -14,7 +14,7 @@
  * 1) "enter" key pressed ('create_on_enter' plugin)
  * 2) losing focus ('create_on_blur' plugin)
  *
- * @author Jordi Hereu Mayo <jhereu@baitic.com>
+ * @author Jordi Hereu Mayo <jhereumayo@gmail.com>
  */
 
 Selectize.define('create_on_enter', function () {
