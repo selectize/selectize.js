@@ -18,8 +18,6 @@
  */
 
 Selectize.define('create_on_enter', function () {
-    if (this.settings.mode !== 'multi')
-        return;
     var self = this;
     this.onKeyUp = (function (e) {
         var original = self.onKeyUp;
@@ -33,8 +31,6 @@ Selectize.define('create_on_enter', function () {
 });
 
 Selectize.define('create_on_blur', function () {
-    if (this.settings.mode !== 'multi')
-        return;
     var self = this;
     this.onBlur = (function (e) {
         var original = self.onBlur;
