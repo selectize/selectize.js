@@ -101,6 +101,7 @@ Selectize.define('remove_button', function(options) {
 
 					// add event listener
 					thisRef.$control.on('click', '.' + options.className, function(e) {
+						e.stopPropagation();
 						e.preventDefault();
 						if (self.isLocked) return;
 
