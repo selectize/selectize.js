@@ -1551,6 +1551,7 @@ $.extend(Selectize.prototype, {
 			if ($item.hasClass('active')) {
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
+				$item.removeClass('active');
 			}
 
 			self.items.splice(i, 1);

@@ -406,6 +406,30 @@
 			});
 		});
 
+		describe('deleting active item', function() {
+			it('should deactivate the item', function(done) {
+				var test = setup_test('<select multiple="multiple">' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+					'</select>', {});
+
+				click(test.selectize.$control, function() {
+					click($('[data-value="a"]', test.selectize.$dropdown), function() {
+						click($('[data-value="a"]', test.selectize.$control), function() {
+							syn
+								.type('[backspace]', test.selectize.$control_input)
+								.delay(5, function() {
+									click($('[data-value="a"]', test.selectize.$dropdown), function () {
+										expect($('[data-value="a"]', test.selectize.$control).hasClass('active')).to.be.equal(false);
+										done();
+									});
+								});
+						});
+					});
+				});
+			});
+		});
+
 	});
 
 })();

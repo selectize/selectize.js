@@ -1,6 +1,11 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+*  Fixed incorrect highlighting of options that were activated, removed
+   and then re-added in "multiple" mode (#1212 and #1216)
+
+   *@sustmi*
+
 ## v0.12.4, v0.12.5 · 27 June 2018
 
 *  Allow the dropdown to reopen on click if it is closed without losing focus
