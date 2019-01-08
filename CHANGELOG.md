@@ -1,6 +1,18 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+## v0.12.7 · 08 January 2019
+
+*  Added option to disable (hide) the text search functionality, with option "hideSearch"
+
+   *@paulklinkenberg*
+
+
+## v0.12.6 · 12 July 2018
+
+*  No changes, just a version number update
+
+
 ## v0.12.4, v0.12.5 · 27 June 2018
 
 *  Allow the dropdown to reopen on click if it is closed without losing focus

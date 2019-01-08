@@ -275,19 +275,25 @@ $(function() {
 		<td valign="top"><code>'$order'</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>searchField</td>
+		<td valign="top"><code>searchField</code></td>
 		<td valign="top">An array of property names to analyze when filtering options.</td>
 		<td valign="top"><code>array</code></td>
 		<td valign="top"><code>['text']</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>searchConjunction</td>
+		<td valign="top"><code>hideSearch</code></td>
+		<td valign="top">A boolean value to indicate if the text search option should be hidden.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>searchConjunction</code></td>
 		<td valign="top">When searching for multiple terms (separated by space), this is the operator used. Can be <code>'and'</code> or <code>'or'</code> .</td>
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'and'</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>lockOptgroupOrder</td>
+		<td valign="top"><code>lockOptgroupOrder</code></td>
 		<td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>

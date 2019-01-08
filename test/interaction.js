@@ -132,6 +132,18 @@
 				});
 			});
 
+			it('should hide the text search input when hideSearch=true', function(done) {
+				var test = setup_test('<select>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+				'</select>', {hideSearch: true});
+
+				click(test.selectize.$control, function() {
+					expect(test.selectize.$control_input.is(':visible')).to.be.equal(false);
+					done();
+				});
+			});
+
 		});
 
 		describe('clicking label', function() {

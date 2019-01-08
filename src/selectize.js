@@ -139,6 +139,11 @@ $.extend(Selectize.prototype, {
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
 
+		if (self.settings.hideSearch === true) {
+			// Using the style attribute directly is a workaround for the jquery .css() function limitation ".css() ignores !important declarations"
+			$control_input.attr('style', 'display: none !important');
+		}
+
 		if(inputId = $input.attr('id')) {
 			$control_input.attr('id', inputId + '-selectized');
 			$("label[for='"+inputId+"']").attr('for', inputId + '-selectized');
@@ -1692,7 +1697,7 @@ $.extend(Selectize.prototype, {
 			.toggleClass('invalid', self.isInvalid)
 			.toggleClass('locked', isLocked)
 			.toggleClass('full', isFull).toggleClass('not-full', !isFull)
-			.toggleClass('input-active', self.isFocused && !self.isInputHidden)
+			.toggleClass('input-active', self.isFocused && !self.isInputHidden && self.settings.hideSearch !== true)
 			.toggleClass('dropdown-active', self.isOpen)
 			.toggleClass('has-options', !$.isEmptyObject(self.options))
 			.toggleClass('has-items', self.items.length > 0);
