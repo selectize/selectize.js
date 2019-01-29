@@ -18,15 +18,11 @@ Selectize.define('remove_button', function(options) {
 	options = $.extend({
 		label     : '&times;',
 		title     : 'Remove',
-		className : 'remove',
+		className : this.settings.mode === 'single' ? 'remove-single' : 'remove',
 		append    : true
 	}, options);
 
 	var self = this;
-	if (this.settings.mode === 'single') {
-		options.className = options.className || 'remove-single';
-	}
-
 	var html = '<a href="javascript:void(0)" class="' + options.className + '" tabindex="-1" title="' + escape_html(options.title) + '">' + options.label + '</a>';
 
 	/**

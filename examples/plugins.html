@@ -31,6 +31,10 @@
 					<label for="input-tags2">Tags:</label>
 					<input type="text" disabled id="input-tags2" class="input-tags demo-default" value="awesome,neat">
 				</div>
+				<div class="control-group">
+					<label for="input-tags">Tags:</label>
+					<input type="text" id="input-tags3" class="input-tags2 demo-default" value="awesome">
+				</div>
 				<script>
 				$('.input-tags').selectize({
 					plugins: ['remove_button'],
@@ -44,6 +48,14 @@
 					onDelete: function(values) {
 						return confirm(values.length > 1 ? 'Are you sure you want to remove these ' + values.length + ' items?' : 'Are you sure you want to remove "' + values[0] + '"?');
 					}
+				});
+
+				// single selection
+				$('.input-tags2').selectize({
+					plugins: ['remove_button'],
+					persist: true,
+					create: true,
+					maxItems: 1
 				});
 				</script>
 			</div>

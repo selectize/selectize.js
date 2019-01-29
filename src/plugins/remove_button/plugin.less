@@ -34,10 +34,22 @@
 	.disabled [data-value] .remove {
 		border-left-color: lighten(desaturate(@selectize-color-item-border, 100%), @selectize-lighten-disabled-item-border);
 	}
-	.remove-single {
+	[data-value] .remove-single {
 		position: absolute;
-		right: 0;
-		top: 0;
-		font-size: 23px;
+		right: @selectize-padding-x - 2px;
+		top: -1px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: @selectize-line-height;
+		color: lighten(@selectize-arrow-color, 30%);
+		text-shadow: 0 1px 0 rgba(0,0,0,0.1);
+		&:hover:not(:active) {
+			color: transparent;
+			text-shadow: 0 0 1px @selectize-arrow-color;
+		}
+		&:hover:active {
+			text-shadow: none;
+		}
 	}
 }
