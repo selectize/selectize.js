@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Selectize.js Demo</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<!--[if IE 8]><script src="js/es5.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="../dist/js/standalone/selectize.js"></script>
+		<script src="js/index.js"></script>
+		<style type="text/css">
+			.selectize-control .option .title {
+				display: block;
+			}
+			.selectize-control .item .currency {
+				color: red;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+    <body>
+		<div id="wrapper">
+			<h1>Selectize.js</h1>
+			<div class="demo">
+				<h2>Custom data-attributes for static content</h2>
+				<p>Example renders static items with <strong>html</strong> content and allows for custom data-attributes for keyword search:</p>
+
+				<div class="control-group">
+					<label for="select-price">Links:</label>
+					<select class="selectize" name='price' id='select-price' placeholder='Price' data-maxoptions='10' data-maxitems='1' data-create='false' data-persist='false'>
+						<option value="10" data-keywords="YEN" data-label="10 <span class='currency'>&#65509;</span>">10</option>
+						<option value="50" data-keywords="YUAN China" data-label="50 <span class='currency'>&#20803;</span>">50</option>
+						<option value="100" data-keywords="DOLLAR BUCK GREEN Дол" data-label="100 <span class='currency'>&dollar;</span>">100</option>
+						<option value="1000" data-keywords="DRACHMA" data-label="1000 <span class='currency'>&#8367;</span>">1000</option>
+						<option value="5000" data-keywords="ROUBLE WOODEN Руб" data-label="5000 <span class='currency'>&#8381;</span>">5000</option>
+					</select>
+				</div>
+
+				<script>
+					$('.selectize', '.demo').each(function () {
+
+					// get selectize instance static configuration
+					var _data = $(this).data();
+
+					// create selectize instance options object
+					var _options = {
+						labelField: _data.labelfield || 'label',
+						valueField: _data.valuefield || 'value',
+						searchField: ['label', 'keywords'],
+						preload: _data.preload,
+						create: _data.create,
+						persist: _data.persist,
+						maxOptions: _data.maxoptions,
+						maxItems: _data.maxitems,
+						load: function (query, callback) {
+							if (!query.length) return callback();
+							$.ajax({
+								url: _data.load,
+								type: 'GET',
+								dataType: 'json',
+								data: {
+									name: query,
+								},
+								error: function (err) {
+									callback();
+								},
+								success: function(res) {
+									callback(res);
+								}
+							});
+						},
+						onInitialize: function() {
+							var selectize = this;
+							$.get(_data.load, function(data) {
+								selectize.clearCache();
+								selectize.addOption(data);
+							});
+						},
+						onDropdownOpen: function() {
+							this.clearCache();
+						},
+						render: {
+							option: function (item) {
+								var label = item.label ? '<span class="text">' + decodeURIComponent(item[_options.labelField]) : '';
+								return '<div class="option">' + label + '</div>';
+							},
+							item: function(data) {
+								return '<div class="item">' + decodeURIComponent(data[_options.labelField]) + '</div>';
+							}
+						},
+					};
+
+					// include individual selectize options
+					var selectizeInput = $(this).selectize(_options);
+					$(this).data('selectize', selectizeInput[0].selectize);
+
+					// init selectize instance
+					$(this).selectize(_options);
+
+					// selectize item selection
+					var $select = $(this).selectize();
+					$('.selectize-control').on('click', function () {
+						var selectize = $select[0].selectize;
+						selectize.clearCache();
+					});
+
+					});
+				</script>
+			</div>
+		</div>
+	</body>
+</html>

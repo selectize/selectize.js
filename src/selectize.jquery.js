@@ -88,6 +88,12 @@ $.fn.selectize = function(settings_user) {
 			option[field_disabled] = option[field_disabled] || $option.prop('disabled');
 			option[field_optgroup] = option[field_optgroup] || group;
 
+			// iterate on <option> data attributes 
+			// to get data-attributes from static options
+			$.each($option.data(), function(i, v) {
+				option[i] = v;
+			});
+
 			optionsMap[value] = option;
 			options.push(option);
 
