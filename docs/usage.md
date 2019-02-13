@@ -121,13 +121,13 @@ $(function() {
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select. 1 makes the control mono-selection, null allows an unlimited number of items.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>1</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
-		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
+		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options. This defaults to <code>true</code> when in a multi-selection control, to <code>false</code> otherwise.</td>
 		<td valign="top"><code>boolean</code></td>
-		<td valign="top"><code>false</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>closeAfterSelect</code></td>
