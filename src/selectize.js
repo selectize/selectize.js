@@ -19,6 +19,7 @@ var Selectize = function($input, settings) {
 
 		eventNS          : '.selectize' + (++Selectize.count),
 		highlightedValue : null,
+		isBlurring       : false,
 		isOpen           : false,
 		isDisabled       : false,
 		isRequired       : $input.is('[required]'),
@@ -362,7 +363,9 @@ $.extend(Selectize.prototype, {
 
 		// necessary for mobile webkit devices (manual focus triggering
 		// is ignored unless invoked within a click event)
-		if (!self.isFocused) {
+    // also necessary to reopen a dropdown that has been closed by
+    // closeAfterSelect
+		if (!self.isFocused || !self.isOpen) {
 			self.focus();
 			e.preventDefault();
 		}
@@ -650,10 +653,12 @@ $.extend(Selectize.prototype, {
 			// IE11 bug: element still marked as active
 			dest && dest.focus && dest.focus();
 
+			self.isBlurring = false;
 			self.ignoreFocus = false;
 			self.trigger('blur');
 		};
 
+		self.isBlurring = true;
 		self.ignoreFocus = true;
 		if (self.settings.create && self.settings.createOnBlur) {
 			self.createItem(null, false, deactivate);
@@ -1366,10 +1371,15 @@ $.extend(Selectize.prototype, {
 		self.loadedSearches = {};
 		self.userOptions = {};
 		self.renderCache = {};
-		self.options = self.sifter.items = {};
+		var options = self.options;
+		$.each(self.options, function(key, value) {
+			if(self.items.indexOf(key) == -1) {
+				delete options[key];
+			}
+		});
+		self.options = self.sifter.items = options;
 		self.lastQuery = null;
 		self.trigger('option_clear');
-		self.clear();
 	},
 
 	/**
@@ -1773,9 +1783,13 @@ $.extend(Selectize.prototype, {
 
 		if (self.settings.mode === 'single' && self.items.length) {
 			self.hideInput();
-			setTimeout(function() {
+
+			// Do not trigger blur while inside a blur event,
+			// this fixes some weird tabbing behavior in FF and IE.
+			// See #1164
+			if (!self.isBlurring) {
 				self.$control_input.blur(); // close keyboard on iOS
-			});
+			}
 		}
 
 		self.isOpen = false;
