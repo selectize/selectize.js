@@ -2298,11 +2298,13 @@
 			var $control = this.$control;
 			var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 			offset.top += $control.outerHeight(true);
-	
+			var left = offset.left;
+			if (this.settings.dropdownAlign === 'right') left += $control.outerWidth() - this.$dropdown.outerWidth();
+
 			this.$dropdown.css({
 				width : $control[0].getBoundingClientRect().width,
 				top   : offset.top,
-				left  : offset.left
+				left  : left
 			});
 		},
 	
@@ -2734,6 +2736,7 @@
 		dropdownContentClass: 'selectize-dropdown-content',
 	
 		dropdownParent: null,
+		dropdownAlign: 'left',
 	
 		copyClassesToDropdown: true,
 	
