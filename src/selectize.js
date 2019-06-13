@@ -1083,7 +1083,7 @@ $.extend(Selectize.prototype, {
 		for (i = 0; i < n; i++) {
 			option      = self.options[results.items[i].id];
 			option_html = self.render('option', option);
-			optgroup    = option[self.settings.optgroupField] || '';
+			optgroup    = hash_key(option.hasOwnProperty(self.settings.optgroupField) ? option[self.settings.optgroupField] : null);
 			optgroups   = $.isArray(optgroup) ? optgroup : [optgroup];
 
 			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
