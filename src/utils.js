@@ -238,12 +238,17 @@ var measureString = function(str, $parent) {
 	if (!Selectize.$testInput) {
 		Selectize.$testInput = $('<span />').css({
 			position: 'absolute',
-			top: -99999,
-			left: -99999,
 			width: 'auto',
 			padding: 0,
 			whiteSpace: 'pre'
-		}).appendTo('body');
+		});
+
+		$('<div />').css({
+			position: 'absolute',
+			width: 0,
+			height: 0,
+			overflow: 'hidden'
+		}).append(Selectize.$testInput).appendTo('body');
 	}
 
 	Selectize.$testInput.text(str);
