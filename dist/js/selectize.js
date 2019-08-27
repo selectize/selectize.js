@@ -2300,7 +2300,7 @@
 			offset.top += $control.outerHeight(true);
 			var left = offset.left;
 			if (this.settings.dropdownAlign === 'right') left += $control.outerWidth() - this.$dropdown.outerWidth();
-
+	
 			this.$dropdown.css({
 				width : $control[0].getBoundingClientRect().width,
 				top   : offset.top,
