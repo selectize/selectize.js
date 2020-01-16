@@ -48,7 +48,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build_standalone', '', function() {
-		var files, i, n, source, name, path, modules = [];
+		var i, n, source, name, path, modules = [];
 
 		// amd definitions must be changed to be not anonymous
 		// @see https://github.com/brianreavis/selectize.js/issues/89

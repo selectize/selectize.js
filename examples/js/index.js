@@ -19,18 +19,18 @@ $(function() {
 			var lines = code.split('\n');
 			var indent = null;
 
-			for (var i = 0; i < lines.length; i++) {
-				if (/^[	 ]*$/.test(lines[i])) continue;
+			for (var j = 0; j < lines.length; j++) {
+				if (/^[	 ]*$/.test(lines[j])) continue;
 				if (!indent) {
-					var lineindent = lines[i].match(/^([ 	]+)/);
+					var lineindent = lines[j].match(/^([ 	]+)/);
 					if (!lineindent) break;
-					indent = lineindent[1];
+					indent = lineindent[j];
 				}
-				lines[i] = lines[i].replace(new RegExp('^' + indent), '');
+				lines[j] = lines[j].replace(new RegExp('^' + indent), '');
 			}
 
-			var code = $.trim(lines.join('\n')).replace(/	/g, '    ');
-			var $pre = $('<pre>').addClass('js').text(code);
+			var code2 = $.trim(lines.join('\n')).replace(/	/g, '    ');
+			var $pre = $('<pre>').addClass('js').text(code2);
 			$pre.insertAfter(this);
 		}
 	});
