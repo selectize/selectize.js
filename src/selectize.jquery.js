@@ -23,10 +23,12 @@ $.fn.selectize = function(settings_user) {
 		if (!data_raw) {
 			var value = $.trim($input.val() || '');
 			if (!settings.allowEmptyOption && !value.length) return;
-			values = value.split(settings.delimiter);
+			var regexStr = '(".*?"|[^"' + settings.delimiter + '\s]+)(?=\s*' + settings.delimiter + '|\s*$)'
+			var regExDelimiter = new RegExp(regexStr,'g');
+			values = value.match(regExDelimiter);
 			for (i = 0, n = values.length; i < n; i++) {
 				option = {};
-				option[field_label] = values[i];
+				option[field_label] = values[i].replace(/"/g,'');
 				option[field_value] = values[i];
 				settings_element.options.push(option);
 			}
