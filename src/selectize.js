@@ -1707,7 +1707,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	isFull: function() {
-		return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
+		return this.settings.create && this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
 	},
 
 	/**
