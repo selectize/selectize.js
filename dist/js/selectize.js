@@ -721,6 +721,9 @@
 					// blur on click outside
 					if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
 						self.blur(e.target);
+						if (e.target) {
+							e.target.focus();
+						}
 					}
 				}
 			});
