@@ -1494,6 +1494,7 @@
 	    // closeAfterSelect
 			if (!self.isFocused || !self.isOpen) {
 				self.focus();
+				self.open();
 				e.preventDefault();
 			}
 		},
