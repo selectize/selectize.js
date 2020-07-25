@@ -2085,7 +2085,7 @@
     createItem: function(input, triggerDropdown) {
       var self  = this;
       var caret = self.caretPos;
-      let value = self.$control_input.val() || '';
+      var value = self.$control_input.val() || '';
       if(!self.settings.keepWhitesapces){
         value = $.trim(value);
       }
