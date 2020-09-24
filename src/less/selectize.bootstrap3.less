@@ -148,3 +148,9 @@
 	.selectize-box-shadow(none);
 	.selectize-border-radius(0);
 }
+
+// Handle Selectize input in side-by-side button groups. Follows button-groups.less in Bootstrap source.
+.btn-group > .selectize-control:not(:last-child) > .selectize-input {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
