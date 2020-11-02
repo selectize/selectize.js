@@ -5,6 +5,7 @@
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
 [![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
+![Node.js CI](https://github.com/selectize/selectize.js/workflows/Node.js%20CI/badge.svg)
 [![Coverage Status](http://img.shields.io/coveralls/selectize/selectize.js/master.svg?style=flat)](https://coveralls.io/r/selectize/selectize.js)
 
 Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
@@ -17,17 +18,26 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&
 - [Plugin Documentation](docs/plugins.md)
 - [Browser Test Matrix](https://saucelabs.com/u/selectize)
 
-### Features
+## Features
 
-- **Smart Option Searching / Ranking**<br>Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
-- **Caret between items**<br>Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
-- **Select &amp; delete multiple items at once**<br>Hold down <kbd>option</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.
-- **Díåcritîçs supported**<br>Great for international environments.
-- **Item creation**<br>Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
-- **Remote data loading**<br>For when you have thousands of options and want them provided by the server as the user types.
-- **Clean API &amp; code**<br>Interface with it and make modifications easily. Pull requests welcome!
-- **Extensible**<br> [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
-- **Touch Support**<br> Plays nice with iOS 5+ devices.
+- **Smart Option Searching / Ranking**
+Options are efficiently scored and sorted on-the-fly (using [sifter](https://github.com/brianreavis/sifter.js)). Want to search an item's title *and* description? No problem.
+- **Caret between items**
+Order matters sometimes. Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between selected items.</li>
+- **Select &amp; delete multiple items at once**
+Hold down <kbd>option</kbd> on Mac or <kbd>ctrl</kbd> on Windows to select more than one item to delete.
+- **Díåcritîçs supported**
+Great for international environments.
+- **Item creation**
+Allow users to create items on the fly (async saving is supported; the control locks until the callback is fired).
+- **Remote data loading**
+For when you have thousands of options and want them provided by the server as the user types.
+- **Clean API &amp; code**
+Interface with it and make modifications easily. Pull requests welcome!
+- **Extensible**
+ [Plugin API](docs/plugins.md) for developing custom features (uses [microplugin](https://github.com/brianreavis/microplugin.js)).
+- **Touch Support**
+ Plays nice with iOS 5+ devices.
 
 ### Dependencies
 
@@ -94,14 +104,15 @@ grunt --plugins=remove_button,restore_on_backspace
 ```
 
 ### Contributing
+
 When issuing a pull request:
 
-* please **do not include/commit changes in the `dist/` folder** to avoid
+- please **do not include/commit changes in the `dist/` folder** to avoid
   merge conflicts.  A good way to include the right files is to use
   `git gui` or `git add` when committing to select the files you want to
   add to your commit.
 
-* please **include tests** with your feature so that we're not tempted to
+- please **include tests** with your feature so that we're not tempted to
   break it in the future!
 
 Add an entry to the top of the CHANGELOG, and update the documentation
@@ -119,22 +130,23 @@ tracked files) and `git clean [-i/--interactive]` (to erase untracked
 files).  **However, be careful with those commands, as their function
 is to erase things/changes.**
 
-
 #### Tests
+
 Please ensure all the tests pass:
 
 ```sh
-$ npm test # phantomjs
-$ BROWSERS=Firefox npm test
-$ BROWSERS=Firefox,Chrome npm test
-$ BROWSERS=Firefox,Chrome,Safari npm test
+npm test # phantomjs
+BROWSERS=Firefox npm test
+BROWSERS=Firefox,Chrome npm test
+BROWSERS=Firefox,Chrome,Safari npm test
 ```
 
 #### Local environment
+
 To run Selectize locally:
 
 ```sh
-$ npm start
+npm start
 ```
 
 You can then run the examples in `http://localhost:8000/examples/`.
