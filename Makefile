@@ -6,6 +6,8 @@ all: compile
 test:
 	npm test
 compile:
+	rm -rf build
+	rm -rf dist
 	$(GRUNT) --plugins=$(plugins)
 release:
 ifeq ($(strip $(version)),)
