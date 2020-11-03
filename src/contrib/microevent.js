@@ -2,8 +2,8 @@
  * MicroEvent - to make any js object an event emitter
  *
  * - pure javascript - server compatible, browser compatible
- * - dont rely on the browser doms
- * - super simple - you get it immediatly, no mistery, no magic involved
+ * - don't rely on the browser doms
+ * - super simple - you get it immediately, no mystery, no magic involved
  *
  * @author Jerome Etienne (https://github.com/jeromeetienne)
  */
