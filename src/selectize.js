@@ -1367,8 +1367,10 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Clears all options.
+	 * 
+	 * @param {boolean} silent
 	 */
-	clearOptions: function() {
+	clearOptions: function(silent) {
 		var self = this;
 
 		self.loadedSearches = {};
@@ -1383,6 +1385,7 @@ $.extend(Selectize.prototype, {
 		self.options = self.sifter.items = options;
 		self.lastQuery = null;
 		self.trigger('option_clear');
+		self.clear(silent);
 	},
 
 	/**
