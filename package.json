@@ -23,15 +23,15 @@
     "url": "git://github.com/selectize/selectize.js.git"
   },
   "dependencies": {
-    "@types/jquery": "^2.0.32",
     "microplugin": "0.0.3",
     "sifter": "^0.5.4"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.4",
+    "bootstrap-sass": "^3.4.1",
     "bootstrap2": "npm:bootstrap-2.3.2@1.0.0",
     "bootstrap3": "npm:bootstrap@3.4.1",
     "bootstrap4": "npm:bootstrap@4.5.3",
-    "bootstrap-sass": "^3.4.1",
     "chai": "^4.2.0",
     "grunt": "~1.3.0",
     "grunt-bower-task": "^0.5.0",
