@@ -64,6 +64,21 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "autofill_disable"</h2>
+				<div class="control-group">
+					<label for="input-sortable">Tags:</label>
+					<input type="text" id="auto-complete-off" class="demo-default" value="no,auto,complete">
+				</div>
+				<script>
+				$('#auto-complete-off').selectize({
+					plugins: ['autofill_disable'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
