@@ -4,6 +4,7 @@
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
+[![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
 ![Node.js CI](https://github.com/selectize/selectize.js/workflows/Node.js%20CI/badge.svg)
 [![Coverage Status](http://img.shields.io/coveralls/selectize/selectize.js/master.svg?style=flat)](https://coveralls.io/r/selectize/selectize.js)
 
@@ -60,6 +61,12 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 	- [**standalone/**](dist/js/standalone)
 		- [selectize.js](dist/js/standalone/selectize.js) — With dependencies, minus jquery
 	- [selectize.js](dist/js/selectize.js) — Without dependencies
+- [**scss/**](dist/scss)
+	- [selectize.scss](dist/scss/selectize.scss) — Core styles
+	- [selectize.default.less](dist/scss/selectize.default.scss) — Default theme
+	- [selectize.bootstrap3.scss](dist/scss/selectize.bootstrap3.scss) - Bootstrap 3 theme
+	- [selectize.bootstrap4.scss](dist/scss/selectize.bootstrap4.scss) - Bootstrap 4 theme
+	- [**plugins/**](dist/scss/plugins) — Individual plugin styles
 - [**less/**](dist/less)
 	- [selectize.less](dist/less/selectize.less) — Core styles
 	- [selectize.default.less](dist/less/selectize.default.less) — Default theme
@@ -71,6 +78,7 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 	- [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
 	- [selectize.bootstrap2.css](dist/css/selectize.bootstrap2.css) - Bootstrap 2 theme
 	- [selectize.bootstrap3.css](dist/css/selectize.bootstrap3.css) - Bootstrap 3 theme
+	- [selectize.bootstrap4.css](dist/css/selectize.bootstrap4.css) - Bootstrap 4 theme
 
 ### Usage
 
@@ -157,6 +165,7 @@ changed.
 ## License
 
 Copyright &copy; 2013–2016 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
+Copyright &copy; 2020 [Ris Adams](selectize@risadams.com) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 
