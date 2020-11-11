@@ -45,6 +45,10 @@ Interface with it and make modifications easily. Pull requests welcome!
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
+**Optional:**
+
+- [jquery-ui](https://github.com/jquery/jquery-ui) (required by `drag_drop` plugin)
+
 ### Installation and files
 
 All pre-built files needed to use Selectize can be found in the

@@ -74,5 +74,8 @@
   },
   "engines": {
     "node": "*"
+  },
+  "optionalDependencies": {
+    "jquery-ui": "^1.10.4"
   }
 }
