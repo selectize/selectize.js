@@ -41,7 +41,8 @@ Interface with it and make modifications easily. Pull requests welcome!
 
 ### Dependencies
 
-- [jquery](https://github.com/jquery/jquery) (1.7 and greater)
+- [jquery](https://github.com/jquery/jquery) (1.7 and greater), as [peer dependency](https://nodejs.org/en/blog/npm/peer-dependencies/)
+- - **Note:** it is installed automatically in development, or in projects using NPM 1 or 2. When using NPM from version 3 on, just a warning is thrown and the user needs to manually install an explicit version in their own project (e.g. `npm install --save jquery@3.5.1`).
 - [sifter](https://github.com/brianreavis/sifter.js) (bundled in ["standalone" build](dist/js/standalone))
 - [microplugin](https://github.com/brianreavis/microplugin.js) (bundled in ["standalone" build](dist/js/standalone))
 
