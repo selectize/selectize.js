@@ -1,4 +1,5 @@
-var fs = require("fs");
+const fs = require("fs");
+const sass = require("dart-sass");
 
 module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -10,7 +11,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-replace");
 
-  const sass = require("node-sass");
   require("load-grunt-tasks")(grunt); //babel, sass
 
   grunt.registerTask("configure", ["clean:pre"]);
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     "concat:less_theme_dependencies",
     "concat:less_plugins",
     "concat:js",
-    "less:uncompressed",
+    "less:compressed",
     "sass:build",
     "clean_bootstrap2_css",
     "replace",
@@ -162,9 +162,7 @@ module.exports = function (grunt) {
           },
         ],
       },
-      less_plugins: {
-        files: less_plugin_files,
-      },
+      less_plugins: { files: less_plugin_files, },
       scss: {
         files: [
           {
@@ -185,9 +183,7 @@ module.exports = function (grunt) {
           },
         ],
       },
-      scss_plugins: {
-        files: scss_plugin_files,
-      },
+      scss_plugins: { files: scss_plugin_files, },
     },
 
     replace: {
@@ -196,8 +192,7 @@ module.exports = function (grunt) {
         options: {
           variables: {
             version: "<%= pkg.version %>",
-            js:
-              '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
+            js: '<%= grunt.file.read("build/js/selectize.js").replace(/\\n/g, "\\n\\t") %>',
             css: '<%= grunt.file.read("dist/css/selectize.css") %>',
           },
         },
@@ -235,36 +230,29 @@ module.exports = function (grunt) {
       options: {
         implementation: sass,
         style: "expanded",
+        sourceMap: true,
+        outputStyle: "compressed",
       },
       build: {
         files: [
           {
             "dist/css/selectize.css": ["src/scss/selectize.scss"],
-            "build/css/selectize.default.css": [
-              "src/scss/selectize.default.scss",
-            ],
-            "dist/css/selectize.bootstrap3.css": [
-              "src/scss/selectize.bootstrap3.scss",
-            ],
-            "dist/css/selectize.bootstrap4.css": [
-              "src/scss/selectize.bootstrap4.scss",
-            ],
+            "dist/css/selectize.default.css": ["src/scss/selectize.default.scss",],
+            "dist/css/selectize.bootstrap3.css": ["src/scss/selectize.bootstrap3.scss",],
+            "dist/css/selectize.bootstrap4.css": ["src/scss/selectize.bootstrap4.scss",],
           },
         ],
       },
     },
     less: {
-      options: {},
-      uncompressed: {
+      options: {
+        compress: true,
+        sourceMap: true,
+      },
+      compressed: {
         files: {
-          "dist/css/selectize.css": ["dist/less/selectize.less"],
-          "dist/css/selectize.default.css": [
-            "dist/less/selectize.default.less",
-          ],
           "dist/css/selectize.legacy.css": ["dist/less/selectize.legacy.less"],
-          "dist/css/selectize.bootstrap2.css": [
-            "dist/less/selectize.bootstrap2.tmp.less",
-          ],
+          "dist/css/selectize.bootstrap2.css": ["dist/less/selectize.bootstrap2.tmp.less",],
         },
       },
     },
@@ -274,14 +262,11 @@ module.exports = function (grunt) {
         separator: grunt.util.linefeed + grunt.util.linefeed,
       },
       js: {
-        files: {
-          "build/js/selectize.js": files_js,
-        },
+        files: {"build/js/selectize.js": files_js,},
       },
       less_plugins: {
         options: {
-          banner:
-            less_imports.join("\n") + grunt.util.linefeed + grunt.util.linefeed,
+          banner: less_imports.join("\n") + grunt.util.linefeed + grunt.util.linefeed,
         },
         files: {
           "dist/less/selectize.less": ["dist/less/selectize.less"],
@@ -304,16 +289,13 @@ module.exports = function (grunt) {
     uglify: {
       main: {
         options: {
-          banner:
-            "/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n",
+          banner: "/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n",
           report: "gzip",
           "ascii-only": true,
         },
         files: {
           "dist/js/selectize.min.js": ["build/js/selectize.js"],
-          "dist/js/standalone/selectize.js": [
-            "build/js/standalone/selectize.js",
-          ],
+          "dist/js/standalone/selectize.js": [ "build/js/standalone/selectize.js", ],
         },
       },
     },
