@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     "concat:less_theme_dependencies",
     "concat:less_plugins",
     "concat:js",
-    "less:compressed",
+    "less:build",
     "sass:build",
     "clean_bootstrap2_css",
     "replace",
@@ -230,7 +230,6 @@ module.exports = function (grunt) {
       options: {
         implementation: sass,
         style: "expanded",
-        sourceMap: true,
         outputStyle: "compressed",
       },
       build: {
@@ -246,10 +245,9 @@ module.exports = function (grunt) {
     },
     less: {
       options: {
-        compress: true,
-        sourceMap: true,
+        compress: false,
       },
-      compressed: {
+      build: {
         files: {
           "dist/css/selectize.legacy.css": ["dist/less/selectize.legacy.less"],
           "dist/css/selectize.bootstrap2.css": ["dist/less/selectize.bootstrap2.tmp.less",],
