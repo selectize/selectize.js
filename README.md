@@ -1,12 +1,14 @@
-→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
-
 # selectize.js
+→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
+\
 [![Build Status](http://img.shields.io/travis/selectize/selectize.js/master.svg?style=flat)](https://travis-ci.org/selectize/selectize.js)
 ![Node.js CI](https://github.com/selectize/selectize.js/workflows/Node.js%20CI/badge.svg)
 [![Coverage Status](http://img.shields.io/coveralls/selectize/selectize.js/master.svg?style=flat)](https://coveralls.io/r/selectize/selectize.js)
+\
+[![Discussion & Help](https://img.shields.io/badge/Discuss-Keybase-cc004c?style=flat)](https://keybase.io/team/selectize)
 
 Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
@@ -169,8 +171,8 @@ changed.
 
 ## License
 
-Copyright &copy; 2013–2016 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
-Copyright &copy; 2020 [Ris Adams](selectize@risadams.com) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
+Copyright &copy; 2013–2016 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)\
+Copyright &copy; 2020 Selectize Team & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 
