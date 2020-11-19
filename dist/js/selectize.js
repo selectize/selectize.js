@@ -2813,12 +2813,10 @@
 			if (!data_raw) {
 				var value = $.trim($input.val() || '');
 				if (!settings.allowEmptyOption && !value.length) return;
-				var regexStr = '(".*?"|[^"' + settings.delimiter + '\s]+)(?=\s*' + settings.delimiter + '|\s*$)'
-				var regExDelimiter = new RegExp(regexStr,'g');
-				values = value.match(regExDelimiter);
+				values = value.split(settings.delimiter);
 				for (i = 0, n = values.length; i < n; i++) {
 					option = {};
-					option[field_label] = values[i].replace(/"/g,'');
+					option[field_label] = values[i];
 					option[field_value] = values[i];
 					settings_element.options.push(option);
 				}
