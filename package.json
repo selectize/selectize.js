@@ -55,7 +55,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-phantomjs-launcher": "^1.0.4",
     "karma-safari-launcher": "^1.0.0",
-    "karma-sauce-launcher": "^4.3.3",
+    "karma-sauce-launcher": "^4.3.4",
     "load-grunt-tasks": "^5.1.0",
     "mocha": "^8.2.1",
     "popper.js": "1.16.1",
