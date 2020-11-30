@@ -805,6 +805,18 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Resets the number of max items to the given value
+	 * 
+	 * @param {number} value 
+	 */
+	setMaxItems: function(value){
+		if(value === 0) value = null; //reset to unlimited items.
+		this.settings.maxItems = value;
+		this.settings.mode = this.settings.mode || (this.settings.maxItems === 1 ? 'single' : 'multi');
+		this.refreshState();
+	},
+
+	/**
 	 * Sets the selected item.
 	 *
 	 * @param {object} $item

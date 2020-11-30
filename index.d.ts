@@ -562,6 +562,11 @@ declare namespace Selectize {
         setCaret(index: number): void;
 
         /**
+         * Updates the settings to allow the maximum item limit to be updated.
+         */
+        setMaxItems(value: number): void;
+
+        /**
          * Returns whether or not the user can select more items.
          */
         isFull(): boolean;

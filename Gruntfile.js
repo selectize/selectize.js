@@ -281,8 +281,13 @@ module.exports = function (grunt) {
         },
       },
     },
-    connect: {
-      keepalive: true,
+    connect: {      
+      server: {
+        options: {
+          port: 4000,
+          hostname: '*',
+        }
+      }
     },
     uglify: {
       main: {
