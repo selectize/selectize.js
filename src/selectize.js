@@ -414,6 +414,7 @@ $.extend(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
+		this.$input.trigger('input');
 		this.$input.trigger('change');
 	},
 
@@ -806,8 +807,8 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Resets the number of max items to the given value
-	 * 
-	 * @param {number} value 
+	 *
+	 * @param {number} value
 	 */
 	setMaxItems: function(value){
 		if(value === 0) value = null; //reset to unlimited items.
@@ -1385,7 +1386,7 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Clears all options.
-	 * 
+	 *
 	 * @param {boolean} silent
 	 */
 	clearOptions: function(silent) {
