@@ -69,7 +69,7 @@ module.exports = function (grunt) {
       modules.push(source);
     }
 
-    path = "build/js/selectize.js";
+    path = "dist/js/selectize.js";
     source = grunt.file
       .read(path)
       .replace(/define\((.*?)factory\);/, "define('selectize', $1factory);");
@@ -281,7 +281,7 @@ module.exports = function (grunt) {
         },
       },
     },
-    connect: {      
+    connect: {
       server: {
         options: {
           port: 4000,
