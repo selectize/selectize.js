@@ -1524,7 +1524,8 @@ $.extend(Selectize.prototype, {
 	 * @param {boolean} ignoreCase
 	 * @returns {object}
 	 */
-	getFirstItemMatchedByTextContent: function(textContent, ignoreCase = false) {
+	getFirstItemMatchedByTextContent: function(textContent, ignoreCase) {
+		ignoreCase = (ignoreCase !== null && ignoreCase === true) ? true : false;
 		return this.getElementWithTextContent(textContent, ignoreCase, this.$dropdown_content.find('[data-selectable]'));
 	},
 
