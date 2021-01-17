@@ -204,7 +204,7 @@ $.extend(Selectize.prototype, {
 			keyup     : function() { return self.onKeyUp.apply(self, arguments); },
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
-			blur      : function() { return self.onBlur.apply(self, arguments); },
+			blur      : function() { self.onBeforeBlur.apply(self, arguments);  return self.onBlur.apply(self, arguments); },
 			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
@@ -623,6 +623,18 @@ $.extend(Selectize.prototype, {
 		}
 
 		self.refreshState();
+	},
+
+	/**
+	 * Triggered before on <input> blur.
+	 *
+	 * @param {object} e
+	 * @param {Element} dest
+	 */
+	onBeforeBlur: function(e, dest) {
+		var self = this;
+		var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
+		self.setValue($matchedItem.attr('data-value'));
 	},
 
 	/**
