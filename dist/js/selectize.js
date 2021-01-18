@@ -912,6 +912,7 @@
 		 * input / select element.
 		 */
 		onChange: function() {
+			this.$input.trigger('input');
 			this.$input.trigger('change');
 		},
 	
@@ -1304,8 +1305,8 @@
 	
 		/**
 		 * Resets the number of max items to the given value
-		 * 
-		 * @param {number} value 
+		 *
+		 * @param {number} value
 		 */
 		setMaxItems: function(value){
 			if(value === 0) value = null; //reset to unlimited items.
@@ -1462,7 +1463,7 @@
 		 */
 		focus: function() {
 			var self = this;
-			if (self.isDisabled) return;
+			if (self.isDisabled) return self;
 	
 			self.ignoreFocus = true;
 			self.$control_input[0].focus();
@@ -1470,6 +1471,7 @@
 				self.ignoreFocus = false;
 				self.onFocus();
 			}, 0);
+			return self;
 		},
 	
 		/**
@@ -1480,6 +1482,7 @@
 		blur: function(dest) {
 			this.$control_input[0].blur();
 			this.onBlur(null, dest);
+			return this;
 		},
 	
 		/**
@@ -1883,7 +1886,7 @@
 	
 		/**
 		 * Clears all options.
-		 * 
+		 *
 		 * @param {boolean} silent
 		 */
 		clearOptions: function(silent) {
@@ -2069,6 +2072,7 @@
 			i = self.items.indexOf(value);
 	
 			if (i !== -1) {
+				self.trigger('item_before_remove', value, $item);
 				$item.remove();
 				if ($item.hasClass('active')) {
 					idx = self.$activeItems.indexOf($item[0]);
@@ -2308,7 +2312,7 @@
 				// Do not trigger blur while inside a blur event,
 				// this fixes some weird tabbing behavior in FF and IE.
 				// See #1164
-				if (!self.isBlurring) {
+				if (self.isBlurring) {
 					self.$control_input.blur(); // close keyboard on iOS
 				}
 			}
