@@ -18,6 +18,6 @@ jobs:
         stale-issue-label: 'no-issue-activity'
         stale-pr-label: 'no-pr-activity'
         exempt-issue-labels: 'awaiting-approval,work-in-progress,pending review,discussion'
-        exempt-pr-labels: 'awaiting-approval,work-in-progress,pending review,discussion':  
+        exempt-pr-labels: 'awaiting-approval,work-in-progress,pending review,discussion'
         days-before-stale: 90
         days-before-close: 5
