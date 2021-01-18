@@ -1811,7 +1811,7 @@ $.extend(Selectize.prototype, {
 			// Do not trigger blur while inside a blur event,
 			// this fixes some weird tabbing behavior in FF and IE.
 			// See #1164
-			if (!self.isBlurring) {
+			if (self.isBlurring) {
 				self.$control_input.blur(); // close keyboard on iOS
 			}
 		}
