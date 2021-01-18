@@ -762,6 +762,16 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Gets the value of input field of the control.
+	 *
+	 * @returns {string} value
+	 */
+	getTextboxValue: function() {
+		var $input = this.$control_input;
+		return $input.val();
+	},
+
+	/**
 	 * Sets the input field of the control to the specified value.
 	 *
 	 * @param {string} value
@@ -1456,6 +1466,34 @@ $.extend(Selectize.prototype, {
 
 		return $();
 	},
+	
+	/**
+	 * Finds the first element with a "textContent" property
+	 * that matches the given textContent value.
+	 *
+	 * @param {mixed} textContent
+	 * @param {boolean} ignoreCase
+	 * @param {object} $els
+	 * @return {object}
+	 */
+	getElementWithTextContent: function(textContent, ignoreCase ,$els) {
+		textContent = hash_key(textContent);
+
+		if (typeof textContent !== 'undefined' && textContent !== null) {
+			for (var i = 0, n = $els.length; i < n; i++) {
+				var eleTextContent = $els[i].textContent
+				if (ignoreCase == true) {
+					eleTextContent = (eleTextContent !== null) ? eleTextContent.toLowerCase() : null;
+					textContent = textContent.toLowerCase();
+				}
+				if (eleTextContent === textContent) {
+					return $($els[i]);
+				}
+			}
+		}
+
+		return $();
+	},
 
 	/**
 	 * Returns the jQuery element of the item
@@ -1466,6 +1504,19 @@ $.extend(Selectize.prototype, {
 	 */
 	getItem: function(value) {
 		return this.getElementWithValue(value, this.$control.children());
+	},
+
+	/**
+	 * Returns the jQuery element of the item
+	 * matching the given textContent.
+	 *
+	 * @param {string} value
+	 * @param {boolean} ignoreCase
+	 * @returns {object}
+	 */
+	getFirstItemMatchedByTextContent: function(textContent, ignoreCase) {
+		ignoreCase = (ignoreCase !== null && ignoreCase === true) ? true : false;
+		return this.getElementWithTextContent(textContent, ignoreCase, this.$dropdown_content.find('[data-selectable]'));
 	},
 
 	/**
