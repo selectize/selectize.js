@@ -162,7 +162,7 @@ To run Selectize locally:
 npm start
 ```
 
-You can then run the examples in `http://localhost:8000/examples/`.
+You can then run the examples in `http://localhost:4000/examples/`.
 
 However, be careful not to add the `dist/` files in your commit, as
 Grunt automatically regenerates the files in `dist/` as the source is
