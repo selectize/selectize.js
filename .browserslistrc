@@ -1,2 +1,7 @@
+[production]
 defaults
-IE >8
+> 2%
+ie 11
+
+[development]
+last 1 version
