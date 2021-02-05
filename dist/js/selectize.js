@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.13.0)
+ * selectize.js (v0.13.1)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  * Copyright (c) 2020 Selectize Team & contributors
  *

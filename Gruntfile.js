@@ -295,6 +295,7 @@ module.exports = function (grunt) {
           banner: "/*! selectize.js - v<%= pkg.version %> | https://github.com/selectize/selectize.js | Apache License (v2) */\n",
           report: "gzip",
           "ascii-only": true,
+          mangle: false
         },
         files: {
           "dist/js/selectize.min.js": ["build/js/selectize.js"],
