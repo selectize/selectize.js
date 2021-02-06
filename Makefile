@@ -1,6 +1,7 @@
 .PHONY: compile release test
 plugins=*
 GRUNT=node_modules/.bin/grunt
+CURRENT_VERSION := $(shell sed -n '/"version":/{s/.*"version": "\([^"]*\)".*/\1/p;q}' package.json)
 
 all: compile
 test:
@@ -16,7 +17,7 @@ ifeq ($(strip $(version)),)
 else
 	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' selectize.jquery.json
 	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' package.json
-	sed -i.bak 's/"version": "[^"]*"/"version": "$(version)"/' package-lock.json
+	sed -i.bak "s/\"version\": \"$(CURRENT_VERSION)\"/\"version\": \"$(version)\"/" package-lock.json
 	rm *.bak
 	make compile
 	npm test || exit 1
