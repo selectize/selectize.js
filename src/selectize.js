@@ -37,6 +37,7 @@ var Selectize = function($input, settings) {
 		hasOptions       : false,
 		currentResults   : null,
 		lastValue        : '',
+		lastValidValue   : '',
 		caretPos         : 0,
 		loading          : 0,
 		loadedSearches   : {},
@@ -253,6 +254,7 @@ $.extend(Selectize.prototype, {
 		$input.attr('tabindex', -1).hide().after(self.$wrapper);
 
 		if ($.isArray(settings.items)) {
+			self.lastValidValue = settings.items;
 			self.setValue(settings.items);
 			delete settings.items;
 		}
@@ -414,6 +416,10 @@ $.extend(Selectize.prototype, {
 	 * input / select element.
 	 */
 	onChange: function() {
+		var self = this;
+		if (self.getValue() !== "") {
+			self.lastValidValue = self.getValue();
+		}
 		this.$input.trigger('input');
 		this.$input.trigger('change');
 	},
