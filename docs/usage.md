@@ -418,23 +418,23 @@ $(function() {
 			<table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
-					<td valign="top">An option in the dropdown list of available options.</td>
+					<td valign="top">An option in the <br />dropdown list of <br />available options.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>item</code></td>
-					<td valign="top">An item the user has selected.</td>
+					<td valign="top">An item the user has <br />selected.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>option_create</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
+					<td valign="top">The "create new" option <br />at the bottom of the <br />dropdown. The data <br />contains one property :<br /> <code>input</code> (which is <br />what the  user has <br />typed).</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup_header</code></td>
-					<td valign="top">The header of an option group.</td>
+					<td valign="top">The header of an option <br />group.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup</code></td>
-					<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
+					<td valign="top">The wrapper for an <br />optgroup. The <code>html</code><br /> property in the data <br / will be the raw <br />html of the optgroup's <br />header and options.</td>
 				</tr>
 			</table>
 		</td>
