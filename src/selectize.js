@@ -137,7 +137,7 @@ $.extend(Selectize.prototype, {
 		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
-		$dropdown_content = $('<div tabindex="-1">').addClass(settings.dropdownContentClass).appendTo($dropdown);
+		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).attr('tabindex', '-1').appendTo($dropdown);
 
 		if(inputId = $input.attr('id')) {
 			$control_input.attr('id', inputId + '-selectized');
