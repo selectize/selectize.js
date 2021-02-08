@@ -1,6 +1,6 @@
-Selectize.define('autoselectoption_on_typed', function(options) {
+Selectize.define('auto_select_on_type', function(options) {
 	var self = this;
-	
+
 	self.onBlur = (function() {
 		var originalBlur = self.onBlur;
 		return function(e) {
