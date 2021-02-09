@@ -300,6 +300,7 @@ module.exports = function (grunt) {
         files: {
           "dist/js/selectize.min.js": ["build/js/selectize.js"],
           "dist/js/standalone/selectize.js": [ "build/js/standalone/selectize.js", ],
+          "dist/js/standalone/selectize.min.js": [ "build/js/standalone/selectize.js", ],
         },
       },
     },
