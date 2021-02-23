@@ -9,6 +9,7 @@ Selectize.defaults = {
 	persist: true,
 	diacritics: true,
 	create: false,
+	showAddOptionOnCreate: true,
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,

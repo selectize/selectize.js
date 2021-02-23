@@ -80,6 +80,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>showAddOptionOnCreate</code></td>
+		<td valign="top">Toggles whether to show 'Add ...option...' within the dropdown menu (if <code>create</code> setting is enabled). </td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
 		<td valign="top">
 			If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
