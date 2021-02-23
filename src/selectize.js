@@ -547,7 +547,7 @@ $.extend(Selectize.prototype, {
 						e.preventDefault();
 					}
 				}
-				if (self.settings.create && self.createItem()) {
+				if (self.settings.create && self.createItem() && self.settings.showAddOptionOnCreate) {
 					e.preventDefault();
 				}
 				return;
@@ -1191,12 +1191,14 @@ $.extend(Selectize.prototype, {
 		// add create option
 		has_create_option = self.canCreate(query);
 		if (has_create_option) {
-			$dropdown_content.prepend(self.render('option_create', {input: query}));
-			$create = $($dropdown_content[0].childNodes[0]);
+			if(self.settings.showAddOptionOnCreate) {
+				$dropdown_content.prepend(self.render('option_create', {input: query}));
+				$create = $($dropdown_content[0].childNodes[0]);
+			}
 		}
 
 		// activate
-		self.hasOptions = results.items.length > 0 || has_create_option;
+		self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate );
 		if (self.hasOptions) {
 			if (results.items.length > 0) {
 				$active_before = active_before && self.getOption(active_before);
