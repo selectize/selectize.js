@@ -1440,6 +1440,17 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
+	 * Returns the jQuery element of the first
+	 * selectable option.
+	 *
+	 * @return {object}
+	 */
+	getFirstOption: function() {
+		var $options = this.$dropdown.find('[data-selectable]');
+		return $options.length > 0 ? $options.eq(0) : $();
+	},
+
+	/**
 	 * Returns the jQuery element of the next or
 	 * previous selectable option.
 	 *
@@ -1966,7 +1977,7 @@ $.extend(Selectize.prototype, {
 		selection = getSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
-			option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+			option_select = self.getFirstOption().attr('data-value');
 		}
 
 		// determine items that will be removed
