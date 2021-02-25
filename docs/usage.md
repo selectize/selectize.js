@@ -166,6 +166,12 @@ $(function() {
 		<td valign="top"><code>60</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>dropdownOnBackspaceGotoTop</code></td>
+		<td valign="top">If an option is selected, the same option is highlighted/marked active in the dropdown, pressing backspace on the input control removes the option and in dropdown the previous element is highlight. When this option is set to `true` it shifts the highlight to the topmost option.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
 		<td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled. Useful when loading options dynamically while the user types a search / filter expression.</td>
 		<td valign="top"><code>int</code></td>
