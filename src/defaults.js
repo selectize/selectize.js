@@ -20,6 +20,8 @@ Selectize.defaults = {
 	selectOnTab: true,
 	preload: false,
 	allowEmptyOption: false,
+	showEmptyOptionInDropdown: false,
+	emptyOptionLabel: '--',
 	closeAfterSelect: false,
 
 	scrollDuration: 60,
