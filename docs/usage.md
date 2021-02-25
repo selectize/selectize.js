@@ -320,6 +320,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>formatValueToKey(key)</code></td>
+		<td valign="top">Function to generate <strong>key</strong> for a new item created from input when create is set to true, to generate a `'key' => 'value'` combination. Without using this function, it will result in `'value' => 'value'` combination. The provided function should return a <strong>key</strong> that is not object or function.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>onInitialize()</code></td>
 		<td valign="top">Invoked once the control is completely initialized.</td>
 		<td valign="top"><code>function</code></td>
