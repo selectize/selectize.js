@@ -99,6 +99,10 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   padding: 5px 0;
 }
 
+.#{$selectize}-dropdown-emptyoptionlabel {
+	text-align: center;
+}
+
 .#{$selectize}-input {
   min-height: $input-height;
   @include box-shadow($input-box-shadow);
