@@ -142,6 +142,18 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>showEmptyOptionInDropdown</code></td>
+		<td valign="top">If true, Selectize will show an option with value `""` in dropdown, if one does not exist; which is required when you want to select a empty option via `selectOnTab`. This requires `allowEmptyOption: true`.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>emptyOptionLabel</code></td>
+		<td valign="top">If `showEmptyOptionInDropdown: true` and an option with value `""` in dropdown does not exist, an option with `""` value is created, the label/text of the option can be set via this option, this requires `showEmptyOptionInDropdown: true`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'--'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>scrollDuration</code></td>
 		<td valign="top">The animation duration (in milliseconds) of the scroll animation triggered when going [up] and [down] in the options dropdown.</td>
 		<td valign="top"><code>int</code></td>
