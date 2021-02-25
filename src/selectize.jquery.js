@@ -139,6 +139,10 @@ $.fn.selectize = function(settings_user) {
 		if (!placeholder && !settings.allowEmptyOption) {
 			placeholder = $input.children('option[value=""]').text();
 		}
+		if (settings.allowEmptyOption && settings.showEmptyOptionInDropdown && !$input.children('option[value=""]').length) {
+			var input_html = $input.html();
+			$input.html('<option value="">'+settings.emptyOptionLabel+'</option>'+input_html);
+		}
 
 		var settings_element = {
 			'placeholder' : placeholder,

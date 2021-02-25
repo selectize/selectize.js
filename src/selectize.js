@@ -297,6 +297,7 @@ $.extend(Selectize.prototype, {
 	setupTemplates: function() {
 		var self = this;
 		var field_label = self.settings.labelField;
+		var field_value = self.settings.valueField;
 		var field_optgroup = self.settings.optgroupLabelField;
 
 		var templates = {
@@ -307,7 +308,7 @@ $.extend(Selectize.prototype, {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option">' + escape(data[field_label]) + '</div>';
+				return '<div class="option '+( data[field_value] === '' ? 'selectize-dropdown-emptyoptionlabel' : '')+'">' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
 				return '<div class="item">' + escape(data[field_label]) + '</div>';
