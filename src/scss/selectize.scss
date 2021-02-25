@@ -302,6 +302,10 @@ $select-spinner-border-color: $select-color-border;
   overflow-scrolling: touch;
 }
 
+.#{$selectize}-dropdown-emptyoptionlabel {
+	text-align: center;
+}
+
 .#{$selectize}-dropdown .spinner {
   display: inline-block;
   width: $select-spinner-size;
