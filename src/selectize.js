@@ -1967,7 +1967,11 @@ $.extend(Selectize.prototype, {
 		selection = getSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
-			option_select = self.getFirstOption().attr('data-value');
+			if (typeof self.settings.dropdownOnBackspaceGotoTop === 'boolean' && self.settings.dropdownOnBackspaceGotoTop) {
+				option_select = self.getFirstOption().attr('data-value');
+			} else {
+				option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+			}
 		}
 
 		// determine items that will be removed
