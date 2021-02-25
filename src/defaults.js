@@ -52,6 +52,7 @@ Selectize.defaults = {
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
+	formatValueToKey     : null, // function() { ... }
 	onInitialize         : null, // function() { ... }
 	onChange             : null, // function(value) { ... }
 	onItemAdd            : null, // function(value, $item) { ... }
