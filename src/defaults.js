@@ -26,7 +26,7 @@ Selectize.defaults = {
 	closeAfterSelect: false,
 
 	scrollDuration: 60,
-	dropdownOnBackspaceGotoTop: false,
+	deselectBehavior: 'previous', //top, previous
 	loadThrottle: 300,
 	loadingClass: 'loading',
 

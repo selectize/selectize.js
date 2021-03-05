@@ -1977,7 +1977,7 @@ $.extend(Selectize.prototype, {
 		selection = getSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
-			if (typeof self.settings.dropdownOnBackspaceGotoTop === 'boolean' && self.settings.dropdownOnBackspaceGotoTop) {
+			if (typeof self.settings.deselectBehavior === 'string' && self.settings.deselectBehavior === 'top') {
 				option_select = self.getFirstOption().attr('data-value');
 			} else {
 				option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
