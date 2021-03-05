@@ -148,10 +148,10 @@ $(function() {
 		<td valign="top"><code>60</code></td>
 	</tr>
 	<tr>
-		<td valign="top"><code>dropdownOnBackspaceGotoTop</code></td>
-		<td valign="top">If an option is selected, the same option is highlighted/marked active in the dropdown, pressing backspace on the input control removes the option and in dropdown the previous element is highlight. When this option is set to `true` it shifts the highlight to the topmost option.</td>
-		<td valign="top"><code>boolean</code></td>
-		<td valign="top"><code>false</code></td>
+		<td valign="top"><code>deselectBehavior</code></td>
+		<td valign="top">If an option is selected, the same option is highlighted/marked active in the dropdown, pressing backspace on the input control removes the option and in dropdown the previous element is highlight. When this option is set to `top` it shifts the highlight to the topmost option. Valid options are `top` and `previous`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>previous</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
