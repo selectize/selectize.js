@@ -121,7 +121,7 @@ $select-spinner-border-color: $select-color-border;
   padding: $select-padding-y $select-padding-x;
   display: inline-block;
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   z-index: 1;
   box-sizing: border-box;

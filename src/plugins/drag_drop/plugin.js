@@ -49,10 +49,12 @@ Selectize.define('drag_drop', function(options) {
 				disabled: self.isLocked,
 				start: function(e, ui) {
 					ui.placeholder.css('width', ui.helper.css('width'));
-					$control.css({overflow: 'visible'});
+					// $control.css({overflow: 'visible'});
+					$control.addClass('dragging');
 				},
 				stop: function() {
-					$control.css({overflow: 'hidden'});
+					// $control.css({overflow: 'hidden'});
+					$control.removeClass('dragging');
 					var active = self.$activeItems ? self.$activeItems.slice() : null;
 					var values = [];
 					$control.children('[data-value]').each(function() {
