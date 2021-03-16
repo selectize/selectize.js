@@ -1,7 +1,7 @@
 /**
  * Plugin: "drag_drop" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020 Selectize Team & contributors* 
+ * Copyright (c) 2020 Selectize Team & contributors*
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -58,8 +58,11 @@ Selectize.define('drag_drop', function(options) {
 					$control.children('[data-value]').each(function() {
 						values.push($(this).attr('data-value'));
 					});
+					self.isFocused = false;
 					self.setValue(values);
+					self.isFocused = true;
 					self.setActiveItem(active);
+					self.positionDropdown();
 				}
 			});
 		};
