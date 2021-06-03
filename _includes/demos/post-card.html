@@ -1,0 +1,15 @@
+<div class="col-md-6 col-lg-4">
+  <article class="post text-center mb-5">
+    <div class="post_media_wrapper">
+      <a class="title" href="{{ post.url | prepend: site.baseurl }}" title="{{ post.title }}">
+        <img class="img-fluid" loading="lazy" height="180" width="240" alt="thumbnail" src="{{ post.image | prepend: site.baseurl }}" />
+      </a>
+    </div>
+    <div class="entry-content clearfix">
+      <a href="{{ post.url | prepend: site.baseurl }}" title="{{ post.title }}">
+        <h4 class="post_title">{{ post.title }}</h4>
+      </a>
+      <p>{{ post.description }}</p>
+    </div>
+  </article>
+</div>

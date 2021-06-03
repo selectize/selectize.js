@@ -1,0 +1,52 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}" />
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#d21f79" />
+  <meta name="msapplication-TileColor" content="#da532c" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <link rel="stylesheet" href="{{ '/css/bootstrap.min.css' | prepend: site.baseurl }}" />
+  <link rel="stylesheet" href="{{ '/css/fa.all.min.css' | prepend: site.baseurl }}" />
+  <link rel="stylesheet" href="{{ '/css/jquery-ui.min.css' | prepend: site.baseurl }}" />
+  <link rel="stylesheet" href="{{ '/css/github.css' | prepend: site.baseurl }}" />
+  <link rel="stylesheet" href="{{ '/css/app.css' | prepend: site.baseurl }}" />
+
+  <link rel="stylesheet" href="{{ '/css/selectize.css' | prepend: site.baseurl }}" />
+
+  <link rel="stylesheet" href="{{ '/css/selectize.default.css' | prepend: site.baseurl }}"    data-theme="default" />
+  <link rel="stylesheet" href="{{ '/css/selectize.bootstrap2.css' | prepend: site.baseurl }}" data-theme="bootstrap2" disabled="disabled" />
+  <link rel="stylesheet" href="{{ '/css/selectize.bootstrap3.css' | prepend: site.baseurl }}" data-theme="bootstrap3" disabled="disabled" />
+  <link rel="stylesheet" href="{{ '/css/selectize.bootstrap4.css' | prepend: site.baseurl }}" data-theme="bootstrap4" disabled="disabled" />
+  <link rel="stylesheet" href="{{ '/css/selectize.legacy.css' | prepend: site.baseurl }}"     data-theme="legacy"     disabled="disabled" />
+
+  {% include scripts.html %}
+
+  <script>
+    var base_url = {{ site.baseurl | jsonify }};
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != "dataLayer" ? "&l=" + l : "";
+      j.async = true;
+      j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", "dataLayer", "GTM-T54K976");
+  </script>
+  <!-- End Google Tag Manager -->
+</head>

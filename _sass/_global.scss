@@ -1,0 +1,140 @@
+body {
+  position: relative;
+  color: $body;
+  font-family: $body-font;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $heading-font;
+  line-height: 1.5;
+}
+a {
+  color: $brand-primary;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  &:hover,
+  &:focus,
+  &:active {
+    color: darken($brand-primary, 10%);
+    text-decoration: none;
+  }
+}
+
+.link-muted {
+  color: $gray;
+}
+
+.link-reverse {
+  color: $white;
+  &:hover {
+    color: $white;
+    opacity: 0.7;
+  }
+}
+
+.my-lg {
+  margin-top: 5em !important;
+  margin-bottom: 5em !important;
+}
+
+.py-lg {
+  padding-top: 5em !important;
+  padding-bottom: 5em !important;
+}
+
+.mt-lg {
+  margin-top: 5em !important;
+}
+
+.mb-lg {
+  margin-bottom: 5em !important;
+}
+
+.pt-lg {
+  padding-top: 5em !important;
+}
+
+.pb-lg {
+  padding-bottom: 5em !important;
+}
+
+.mb-4 {
+  margin-bottom: 2rem !important;
+}
+
+.pa-2 {
+  padding: 2rem;
+}
+
+@include media-breakpoint-up(md) {
+  .my-md-lg {
+    margin-top: 5em !important;
+    margin-bottom: 5em !important;
+  }
+}
+
+.display-5 {
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.bg-light {
+  background-color: $gray-lightest !important;
+}
+
+.bg-white {
+  background-color: $white !important;
+}
+
+.bg-primary {
+  background-color: $brand-primary !important;
+}
+
+.bg-gradient {
+  background-image: linear-gradient(-152deg, $brand-primary 0%, $brand-secondary 65%);
+}
+
+.light-text {
+  color: darken($gray-lighter, 20%);
+}
+
+.text-inverse {
+  color: $white;
+}
+
+.form-control::placeholder {
+  color: $gray-light;
+  opacity: 0.5;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: $gray-light;
+  opacity: 0.5;
+}
+
+.text-muted {
+  color: lighten($body, 40%) !important;
+}
+
+.sans-serif-font {
+  font-family: $body-font !important;
+}
+
+.thin-font {
+  font-weight: 300 !important;
+}
+
+.section {
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+
+.section-title {
+  margin: 2em auto;
+}

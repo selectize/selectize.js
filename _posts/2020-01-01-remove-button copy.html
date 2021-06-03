@@ -1,0 +1,30 @@
+---
+layout: demo
+title: Remove Button
+author: ris
+image: "/images/hex-2.png"
+description: "This plugin adds classic a classic remove button to each item for behavior that mimics Select2 and Chosen."
+categories:
+  - plugins
+---
+
+<section class="demo plugin">
+  <div class="header">"remove_button"</div>
+  <div class="sandbox">
+    <label for="input-tags3">Tags:</label>
+    <input type="text" id="input-tags3" class="demo-default" value="science,biology,chemistry,physics" />
+  </div>
+  <script class="show">
+    $("#input-tags3").selectize({
+      plugins: ["remove_button"],
+      delimiter: ",",
+      persist: false,
+      create: function (input) {
+        return {
+          value: input,
+          text: input,
+        };
+      },
+    });
+  </script>
+</section>

@@ -1,0 +1,31 @@
+  <div class="container">
+    <div class="row justify-content-left">
+      <div class="entry-content">
+        <h2>Standard features</h2>
+        <p class="lead">These demos explain the basic and advanced features included with Selectize.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      {% comment %}
+      Display oldest demos first, then oldest plugins first
+      {% endcomment %}
+      {% for post in site.categories.demos reversed  %}
+        {% include demos/post-card.html %}
+      {% endfor %}
+    </div>
+
+    <div class="row justify-content-left">
+      <div class="entry-content">
+        <h3>Bundled Plugins</h3>
+        <p class="lead">Selectize is endlessly extensible.
+        These demos explain the features of the standard bundled plugins.</p>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for post in site.categories.plugins reversed  %}
+        {% include demos/post-card.html %}
+      {% endfor %}
+    </div>
+  </div>

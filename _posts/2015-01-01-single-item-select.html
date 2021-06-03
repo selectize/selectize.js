@@ -1,0 +1,28 @@
+---
+layout: demo
+title: Single Item Select
+author: ris
+image: "/images/tries-1.png"
+description: "The most vanilla of examples."
+categories:
+  - demos
+---
+
+<section class="demo" id="demo-single-item-select">
+  <div class="header">Single Item Select</div>
+  <div class="sandbox">
+    <label for="select-beast">Beast:</label>
+    <select id="select-beast" class="demo-default" placeholder="Select a person...">
+      <option value="">Select a person...</option>
+      <option value="1">Chuck Testa</option>
+      <option value="4">Sage Cattabriga-Alosa</option>
+      <option value="3">Nikola Tesla</option>
+    </select>
+  </div>
+  <script class="show">
+    $("#select-beast").selectize({
+      create: true,
+      sortField: "text",
+    });
+  </script>
+</section>

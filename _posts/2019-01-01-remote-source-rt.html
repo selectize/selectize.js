@@ -1,0 +1,74 @@
+---
+layout: demo
+title: Remote Source (Rotten Tomatoes)
+author: ris
+image: '/images/flower-1.png'
+description: 'This demo shows how to integrate third-party data from the Rotten Tomatoes API. Try searching for "Iron Man".
+						<strong>Note:</strong> if this doesn&amp;t work, it&amp;s because the API limit has been reached... try again later :)'
+categories:
+- demos
+---
+
+<section class="demo" id="demo-rotten-tomatoes">
+  <div class="header">Remote Source — Rotten Tomatoes</div>
+  <div class="sandbox">
+    <label for="select-movie">Movie:</label>
+    <select id="select-movie" class="movies" placeholder="Find a movie..."></select>
+  </div>
+
+  <script class="show">
+    $("#select-movie").selectize({
+      valueField: "title",
+      labelField: "title",
+      searchField: "title",
+      options: [],
+      create: false,
+      render: {
+        option: function (item, escape) {
+          var actors = [];
+          for (var i = 0, n = item.abridged_cast.length; i < n; i++) {
+            actors.push("<span>" + escape(item.abridged_cast[i].name) + "</span>");
+          }
+
+          return (
+            "<div>" +
+            '<img src="' +
+            escape(item.posters.thumbnail) +
+            '" alt="">' +
+            '<span class="title">' +
+            '<span class="name">' +
+            escape(item.title) +
+            "</span>" +
+            "</span>" +
+            '<span class="description">' +
+            escape(item.synopsis || "No synopsis available at this time.") +
+            "</span>" +
+            '<span class="actors">' +
+            (actors.length ? "Starring " + actors.join(", ") : "Actors unavailable") +
+            "</span>" +
+            "</div>"
+          );
+        },
+      },
+      load: function (query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+          url: "https://api.rottentomatoes.com/api/public/v1.0/movies.json",
+          type: "GET",
+          dataType: "jsonp",
+          data: {
+            q: query,
+            page_limit: 10,
+            apikey: "w82gs68n8m2gur98m6du5ugc",
+          },
+          error: function () {
+            callback();
+          },
+          success: function (res) {
+            callback(res.movies);
+          },
+        });
+      },
+    });
+  </script>
+</section>

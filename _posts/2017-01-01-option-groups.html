@@ -1,0 +1,37 @@
+---
+layout: demo
+title: Option Groups
+author: ris
+image: "/images/mesh-1.png"
+description: "Selectize supports &lt;optgroup&gt; rendering (as of v0.5.0)."
+categories:
+  - demos
+---
+
+<section class="demo" id="demo-optgroup">
+  <div class="header">Option Groups</div>
+  <div class="sandbox">
+    <label for="select-gear">Gear:</label>
+    <select id="select-gear" class="demo-default" placeholder="Select gear...">
+      <option value="">Select gear...</option>
+      <optgroup label="Climbing">
+        <option value="pitons">Pitons</option>
+        <option value="cams">Cams</option>
+        <option value="nuts">Nuts</option>
+        <option value="bolts">Bolts</option>
+        <option value="stoppers">Stoppers</option>
+        <option value="sling">Sling</option>
+      </optgroup>
+      <optgroup label="Skiing">
+        <option value="skis">Skis</option>
+        <option value="skins">Skins</option>
+        <option value="poles">Poles</option>
+      </optgroup>
+    </select>
+  </div>
+  <script class="show">
+    $("#select-gear").selectize({
+      sortField: "text",
+    });
+  </script>
+</section>

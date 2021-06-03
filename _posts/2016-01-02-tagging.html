@@ -1,0 +1,32 @@
+---
+layout: demo
+title: Tagging
+author: ris
+image: '/images/squares-1.png'
+description: 'Add and remove items in any order without touching your mouse.
+						Use your left/right arrow keys to move the caret (ibeam) between items. This
+						example is instantiated from a <code>&lt;input type="text"&gt;</code> element (note
+						that the value is represented as a string).'
+categories:
+- demos
+---
+
+<section class="demo" id="demo-tagging">
+  <div class="header">Tagging</div>
+  <div class="sandbox">
+    <label for="input-tags">Tags:</label>
+    <input type="text" id="input-tags" class="demo-default" value="neat,cool" />
+  </div>
+  <script class="show">
+    $("#input-tags").selectize({
+      delimiter: ",",
+      persist: false,
+      create: function (input) {
+        return {
+          value: input,
+          text: input,
+        };
+      },
+    });
+  </script>
+</section>

@@ -1,0 +1,85 @@
+---
+layout: demo
+title: Remote Source (Github)
+author: ris
+image: "/images/sand-1.png"
+description: "This demo shows how to integrate third-party data from the GitHub API."
+categories:
+  - demos
+---
+
+<section class="demo" id="demo-github">
+  <div class="header">Remote Source — Github</div>
+  <div class="sandbox">
+    <label for="select-repo">Repository:</label>
+    <select id="select-repo" class="repositories" placeholder="Pick a repository...">
+      <option
+        selected
+        value="https://github.com/selectize/selectize.js"
+        data-data='{"type":"repo","username":"selectize","name":"selectize.js","owner":"selectize","homepage":null,"description":"A highly customizable select control with autocomplete.","language":"JavaScript","watchers":310,"followers":12500,"forks":3600,"size":216,"open_issues":1,"score":14.659029,"has_downloads":true,"has_issues":true,"has_wiki":true,"fork":false,"private":false,"url":"https://github.com/brianreavis/selectize.js","created":"2012-08-29T18:31:57Z","created_at":"2012-08-29T18:31:57Z","pushed_at":"2013-05-05T19:13:48Z","pushed":"2013-05-05T19:13:48Z"}'
+      >
+        selectize.js
+      </option>
+    </select>
+  </div>
+  <script class="show">
+    $("#select-repo").selectize({
+      valueField: "url",
+      labelField: "name",
+      searchField: "name",
+      create: false,
+      render: {
+        option: function (item, escape) {
+          return (
+            "<div>" +
+            '<span class="title">' +
+            '<span class="name"><i class="icon ' +
+            (item.fork ? "fork" : "source") +
+            '"></i>' +
+            escape(item.name) +
+            "</span>" +
+            '<span class="by">' +
+            escape(item.username) +
+            "</span>" +
+            "</span>" +
+            '<span class="description">' +
+            escape(item.description) +
+            "</span>" +
+            '<ul class="meta">' +
+            (item.language ? '<li class="language">' + escape(item.language) + "</li>" : "") +
+            '<li class="watchers"><span>' +
+            escape(item.watchers) +
+            "</span> watchers</li>" +
+            '<li class="forks"><span>' +
+            escape(item.forks) +
+            "</span> forks</li>" +
+            '<li class="stars"><span>' +
+            escape(item.followers) +
+            "</span> stars</li>" +
+            "</ul>" +
+            "</div>"
+          );
+        },
+      },
+      score: function (search) {
+        var score = this.getScoreFunction(search);
+        return function (item) {
+          return score(item) * (1 + Math.min(item.watchers / 100, 1));
+        };
+      },
+      load: function (query, callback) {
+        if (!query.length) return callback();
+        $.ajax({
+          url: "https://api.github.com/legacy/repos/search/" + encodeURIComponent(query),
+          type: "GET",
+          error: function () {
+            callback();
+          },
+          success: function (res) {
+            callback(res.repositories.slice(0, 10));
+          },
+        });
+      },
+    });
+  </script>
+</section>

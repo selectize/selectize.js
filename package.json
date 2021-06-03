@@ -1,0 +1,19 @@
+{
+  "name": "@selectize/selectize.dev",
+  "version": "1.0.0",
+  "description": "documentation and demos for the selectize.js library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/risadams/selectize.dev.git"
+  },
+  "author": "Ris Adams",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/risadams/selectize.dev/issues"
+  },
+  "homepage": "https://github.com/risadams/selectize.dev#readme"
+}

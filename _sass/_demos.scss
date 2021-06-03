@@ -1,0 +1,227 @@
+.toggle-code {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  &::before {
+    margin-right: 5px;
+  }
+}
+.toggle-code.closed {
+  &::before {
+    content: "\25B6";
+  }
+}
+.toggle-code.open {
+  &::before {
+    content: "\25B2";
+  }
+}
+
+.selectize-control.repositories {
+  .selectize-dropdown {
+    [data-selectable] {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .by {
+      font-size: 11px;
+      opacity: 0.8;
+      &::before {
+        content: "by ";
+      }
+    }
+    .name {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .title {
+      display: block;
+    }
+    .description {
+      font-size: 12px;
+      display: block;
+      opacity: 0.5;
+      white-space: nowrap;
+      width: 100%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .meta {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      li {
+        margin: 0;
+        padding: 0;
+        display: inline;
+        margin-right: 10px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  &::before {
+    -moz-transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+    content: " ";
+    z-index: 2;
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 34px;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 0;
+    background: url(../images/spinner.gif);
+    background-size: 16px 16px;
+    opacity: 0;
+  }
+}
+.selectize-control.repositories.loading {
+  &::before {
+    opacity: 0.4;
+  }
+}
+.icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background-size: 16px 16px;
+  margin: 0 3px 0 0;
+}
+.icon.fork {
+  background-image: url(../images/repo-fork.png);
+}
+.icon.source {
+  background-image: url(../images/repo-source.png);
+}
+.selectize-control.movies {
+  .selectize-dropdown {
+    [data-selectable] {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      height: 60px;
+      position: relative;
+      -webkit-box-sizing: content-box;
+      box-sizing: content-box;
+      padding: 10px 10px 10px 60px;
+      &:last-child {
+        border-bottom: 0 none;
+      }
+    }
+    .by {
+      font-size: 11px;
+      opacity: 0.8;
+      &::before {
+        content: "by ";
+      }
+    }
+    .name {
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .description {
+      font-size: 12px;
+      color: #a0a0a0;
+      display: block;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .actors {
+      display: block;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 10px;
+      color: #a0a0a0;
+      span {
+        color: #606060;
+      }
+    }
+    .title {
+      display: block;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    img {
+      height: 60px;
+      left: 10px;
+      position: absolute;
+      border-radius: 3px;
+      background: rgba(0, 0, 0, 0.04);
+    }
+    .meta {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 10px;
+      li {
+        margin: 0;
+        padding: 0;
+        display: inline;
+        margin-right: 10px;
+        span {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  &::before {
+    -moz-transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+    content: " ";
+    z-index: 2;
+    position: absolute;
+    display: block;
+    top: 50%;
+    right: 34px;
+    width: 16px;
+    height: 16px;
+    margin: -8px 0 0 0;
+    background: url(../images/spinner.gif);
+    background-size: 16px 16px;
+    opacity: 0;
+  }
+}
+.selectize-control.movies.loading {
+  &::before {
+    opacity: 0.4;
+  }
+}
+.selectize-control.contacts {
+  .selectize-input {
+    [data-value] {
+      .email {
+        opacity: 0.5;
+        &:before {
+          content: "<";
+        }
+        &:after {
+          content: ">";
+        }
+      }
+      .name {
+        + {
+          .email {
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+  }
+  .selectize-dropdown {
+    .caption {
+      font-size: 12px;
+      display: block;
+      opacity: 0.5;
+    }
+  }
+}

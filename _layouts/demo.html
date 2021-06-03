@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include head.html %}
+  <body data-spy="scroll" data-target="#site-nav" data-offset="80" data-scroll-animation="true">
+    {% include analytics.html %}
+    {% include header.html %}
+
+    <section class="masthead sub-page text-center d-flex align-items-center mt-4">
+      <div class="container">
+        <h1 class="display-4">{{ page.title }}</h1>
+        <p class="lead my-4" data-wow-delay="0.5s">{{ page.description }}</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="entry-content">{{ content }}</div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-4">
+        <p class="lead">Theme Selector</p>
+      </div>
+      <div class="row justify-content-center">
+        <div class="btn-group square d-flex w-100 theme-selector" role="group" aria-label="Theme Switcher">
+          <button data-theme="default" type="button" class="btn btn-primary active w-100">Default</button>
+          <button data-theme="legacy" type="button" class="btn btn-secondary w-100">Legacy</button>
+          <button data-theme="bootstrap2" type="button" class="btn btn-secondary w-100"><i class="icon fab fa-bootstrap"></i>Bootstrap 2</button>
+          <button data-theme="bootstrap3" type="button" class="btn btn-secondary w-100"><i class="icon fab fa-bootstrap"></i>Bootstrap 3</button>
+          <button data-theme="bootstrap4" type="button" class="btn btn-secondary w-100"><i class="icon fab fa-bootstrap"></i>Bootstrap 4</button>
+        </div>
+      </div>
+      <div class="row my-4">
+        <a class="nav-link" href="{% link _pages/demos.html %}">← Back to Demos</a>
+      </div>
+    </div>
+
+    {% include footer.html %}
+    <script src="{{ '/js/app.js' | prepend: site.baseurl }}"></script>
+  </body>
+</html>

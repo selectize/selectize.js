@@ -1,0 +1,34 @@
+<header id="home">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="{% link index.html %}">
+        <img class="logo" src="/images/logo.svg" loading="lazy" alt="Selectize.js" />
+        <img class="wordmark" src="/images/wordmark.svg" loading="lazy" alt="Selectize.js" />
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#site-nav" aria-controls="site-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="site-nav">
+        <ul class="navbar-nav text-sm-left ml-auto">
+          {% for page in site.pages %}
+              {% unless page.name == '404.md' %}
+                {% if page.title %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
+                  </li>
+                {% endif %}
+              {% endunless %}
+            {% endfor %}
+
+          <li class="nav-item text-center">
+            <a href="https://keybase.io/team/selectize" class="btn align-middle btn-outline-primary my-2 my-lg-0">Discuss</a>
+          </li>
+          <li class="nav-item text-center">
+            <a href="https://github.com/selectize/selectize.js" class="btn align-middle btn-primary my-2 my-lg-0">View on Github</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
