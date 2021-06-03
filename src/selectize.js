@@ -1105,7 +1105,7 @@ $.extend(Selectize.prototype, {
 		}
 
 		var self              = this;
-		var query             = self.$control_input.val().trim();
+		var query             = (self.$control_input.val()).trim();
 		var results           = self.search(query);
 		var $dropdown_content = self.$dropdown_content;
 		var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
