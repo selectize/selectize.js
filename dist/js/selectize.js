@@ -799,6 +799,7 @@
 		setupTemplates: function() {
 			var self = this;
 			var field_label = self.settings.labelField;
+			var field_value = self.settings.valueField;
 			var field_optgroup = self.settings.optgroupLabelField;
 	
 			var templates = {
@@ -809,7 +810,7 @@
 					return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 				},
 				'option': function(data, escape) {
-					return '<div class="option">' + escape(data[field_label]) + '</div>';
+					return '<div class="option '+( data[field_value] === '' ? 'selectize-dropdown-emptyoptionlabel' : '')+'">' + escape(data[field_label]) + '</div>';
 				},
 				'item': function(data, escape) {
 					return '<div class="item">' + escape(data[field_label]) + '</div>';
@@ -949,7 +950,9 @@
 					var pastedText = self.$control_input.val();
 					if(!pastedText.match(self.settings.splitOn)){ return }
 	
-					var splitInput = $.trim(pastedText).split(self.settings.splitOn);
+					var splitInput = pastedText
+						.trim()
+						.split(self.settings.splitOn);
 					for (var i = 0, n = splitInput.length; i < n; i++) {
 						self.createItem(splitInput[i]);
 					}
@@ -1048,7 +1051,7 @@
 							e.preventDefault();
 						}
 					}
-					if (self.settings.create && self.createItem()) {
+					if (self.settings.create && self.createItem() && self.settings.showAddOptionOnCreate) {
 						e.preventDefault();
 					}
 					return;
@@ -1604,7 +1607,7 @@
 			}
 	
 			var self              = this;
-			var query             = $.trim(self.$control_input.val());
+			var query             = (self.$control_input.val()).trim();
 			var results           = self.search(query);
 			var $dropdown_content = self.$dropdown_content;
 			var active_before     = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
@@ -1692,16 +1695,18 @@
 			// add create option
 			has_create_option = self.canCreate(query);
 			if (has_create_option) {
-				$dropdown_content.prepend(self.render('option_create', {input: query}));
-				$create = $($dropdown_content[0].childNodes[0]);
+				if(self.settings.showAddOptionOnCreate) {
+					$dropdown_content.prepend(self.render('option_create', {input: query}));
+					$create = $($dropdown_content[0].childNodes[0]);
+				}
 			}
 	
 			// activate
-			self.hasOptions = results.items.length > 0 || has_create_option;
+			self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate );
 			if (self.hasOptions) {
 				if (results.items.length > 0) {
 					$active_before = active_before && self.getOption(active_before);
-					if ($active_before && $active_before.length) {
+					if (results.query !== "" && $active_before && $active_before.length) {
 						$active = $active_before;
 					} else if (self.settings.mode === 'single' && self.items.length) {
 						$active = self.getOption(self.items[0]);
@@ -1936,6 +1941,17 @@
 		 */
 		getOption: function(value) {
 			return this.getElementWithValue(value, this.$dropdown_content.find('[data-selectable]'));
+		},
+	
+		/**
+		 * Returns the jQuery element of the first
+		 * selectable option.
+		 *
+		 * @return {object}
+		 */
+		getFirstOption: function() {
+			var $options = this.$dropdown.find('[data-selectable]');
+			return $options.length > 0 ? $options.eq(0) : $();
 		},
 	
 		/**
@@ -2174,7 +2190,7 @@
 		createItem: function(input, triggerDropdown) {
 			var self  = this;
 			var caret = self.caretPos;
-			input = input || $.trim(self.$control_input.val() || '');
+			input = input || (self.$control_input.val() || '').trim();
 	
 			var callback = arguments[arguments.length - 1];
 			if (typeof callback !== 'function') callback = function() {};
@@ -2193,7 +2209,14 @@
 			var setup = (typeof self.settings.create === 'function') ? this.settings.create : function(input) {
 				var data = {};
 				data[self.settings.labelField] = input;
-				data[self.settings.valueField] = input;
+				var key = input;
+				if ( self.settings.formatValueToKey && typeof self.settings.formatValueToKey === 'function' ) {
+					key = self.settings.formatValueToKey.apply(this, [key]);
+					if (key === null || typeof key === 'undefined' || typeof key === 'object' || typeof key === 'function') {
+						throw new Error('Selectize "formatValueToKey" setting must be a function that returns a value other than object or function.');
+					}
+				}
+				data[self.settings.valueField] = key;
 				return data;
 			};
 	
@@ -2458,7 +2481,11 @@
 			selection = getSelection(self.$control_input[0]);
 	
 			if (self.$activeOption && !self.settings.hideSelected) {
-				option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+				if (typeof self.settings.deselectBehavior === 'string' && self.settings.deselectBehavior === 'top') {
+					option_select = self.getFirstOption().attr('data-value');
+				} else {
+					option_select = self.getAdjacentOption(self.$activeOption, -1).attr('data-value');
+				}
 			}
 	
 			// determine items that will be removed
@@ -2793,6 +2820,7 @@
 		persist: true,
 		diacritics: true,
 		create: false,
+		showAddOptionOnCreate: true,
 		createOnBlur: false,
 		createFilter: null,
 		highlight: true,
@@ -2804,9 +2832,12 @@
 		selectOnTab: true,
 		preload: false,
 		allowEmptyOption: false,
+		showEmptyOptionInDropdown: false,
+		emptyOptionLabel: '--',
 		closeAfterSelect: false,
 	
 		scrollDuration: 60,
+		deselectBehavior: 'previous', //top, previous
 		loadThrottle: 300,
 		loadingClass: 'loading',
 	
@@ -2836,6 +2867,7 @@
 		/*
 		load                 : null, // function(query, callback) { ... }
 		score                : null, // function(search) { ... }
+		formatValueToKey     : null, // function(key) { ... }
 		onInitialize         : null, // function() { ... }
 		onChange             : null, // function(value) { ... }
 		onItemAdd            : null, // function(value, $item) { ... }
@@ -2940,7 +2972,7 @@
 						var arr = optionsMap[value][field_optgroup];
 						if (!arr) {
 							optionsMap[value][field_optgroup] = group;
-						} else if (!Array.isArray(arr)) {
+						} else if (!$.isArray(arr)) {
 							optionsMap[value][field_optgroup] = [arr, group];
 						} else {
 							arr.push(group);
@@ -3005,6 +3037,10 @@
 			var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
 			if (!placeholder && !settings.allowEmptyOption) {
 				placeholder = $input.children('option[value=""]').text();
+			}
+			if (settings.allowEmptyOption && settings.showEmptyOptionInDropdown && !$input.children('option[value=""]').length) {
+				var input_html = $input.html();
+				$input.html('<option value="">'+settings.emptyOptionLabel+'</option>'+input_html);
 			}
 	
 			var settings_element = {
