@@ -13,8 +13,9 @@
  * governing permissions and limitations under the License.
  *
  * @author Brian Reavis <brian@thirdroute.com>
- * @author Ris Adams <selectize@risadams.com> 
+ * @author Ris Adams <selectize@risadams.com>
  */
+@use "sass:math";
 
 // base styles
 $selectize: "selectize" !default;
@@ -350,7 +351,7 @@ $select-spinner-border-color: $select-color-border;
     position: absolute;
     top: 50%;
     right: $select-arrow-offset;
-    margin-top: round((-1 * $select-arrow-size / 2));
+    margin-top: round(math.div(-1 * $select-arrow-size, 2));
     width: 0;
     height: 0;
     border-style: solid;
