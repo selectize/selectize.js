@@ -1,4 +1,7 @@
 # selectize.js
+
+![Selectize.js](docs/selectize-wordmark.png)
+
 → Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
 
 [![NPM version](http://img.shields.io/npm/v/selectize.svg?style=flat)](https://www.npmjs.org/package/selectize)
@@ -9,7 +12,7 @@
 \
 [![Discussion & Help](https://img.shields.io/badge/Discuss-Keybase-cc004c?style=flat)](https://keybase.io/team/selectize)
 
-Selectize is an extensible [jQuery](http://jquery.com/)-based custom &lt;select&gt; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
+Selectize is an extensible [jQuery](http://jquery.com/)-based custom `<select>`; UI control. It's useful for tagging, contact lists, country selectors, and so on. It clocks in at around ~7kb (gzipped). The goal is to provide a solid & usable experience with a clean and powerful API.
 
 - [Demos](http://selectize.github.io/selectize.js/)
 - [Changelog](https://github.com/selectize/selectize.js/releases)
@@ -171,7 +174,7 @@ changed.
 ## License
 
 Copyright &copy; 2013–2016 [Brian Reavis](http://twitter.com/brianreavis) & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)\
-Copyright &copy; 2020 Selectize Team & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
+Copyright &copy; 2020-2021 Selectize Team & [Contributors](https://github.com/selectize/selectize.js/graphs/contributors)
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
 
