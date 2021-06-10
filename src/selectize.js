@@ -614,7 +614,7 @@ $.extend(Selectize.prototype, {
 		var wasFocused = self.isFocused;
 
 		if (self.isDisabled) {
-			self.trigger('blur');
+			self.blur();
 			e && e.preventDefault();
 			return false;
 		}
@@ -667,7 +667,7 @@ $.extend(Selectize.prototype, {
 
 			self.isBlurring = false;
 			self.ignoreFocus = false;
-			self.trigger('blur');
+			self.blur();
 		};
 
 		self.isBlurring = true;
