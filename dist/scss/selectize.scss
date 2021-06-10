@@ -13,8 +13,9 @@
  * governing permissions and limitations under the License.
  *
  * @author Brian Reavis <brian@thirdroute.com>
- * @author Ris Adams <selectize@risadams.com> 
+ * @author Ris Adams <selectize@risadams.com>
  */
+@use "sass:math";
 
 // base styles
 $selectize: "selectize" !default;
@@ -76,7 +77,7 @@ $select-arrow-size: 5px !default;
 $select-arrow-color: #808080 !default;
 $select-arrow-offset: 15px !default;
 
-$select-caret-margin: 0 4px !default;
+$select-caret-margin: 0 0px !default;
 $select-caret-margin-rtl: 0 4px 0 -2px !default;
 
 $select-spinner-size: 30px;
@@ -302,6 +303,10 @@ $select-spinner-border-color: $select-color-border;
   overflow-scrolling: touch;
 }
 
+.#{$selectize}-dropdown-emptyoptionlabel {
+	text-align: center;
+}
+
 .#{$selectize}-dropdown .spinner {
   display: inline-block;
   width: $select-spinner-size;
@@ -346,7 +351,7 @@ $select-spinner-border-color: $select-color-border;
     position: absolute;
     top: 50%;
     right: $select-arrow-offset;
-    margin-top: round((-1 * $select-arrow-size / 2));
+    margin-top: round(math.div(-1 * $select-arrow-size, 2));
     width: 0;
     height: 0;
     border-style: solid;
