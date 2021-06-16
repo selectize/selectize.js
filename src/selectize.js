@@ -667,7 +667,7 @@ $.extend(Selectize.prototype, {
 
 			self.isBlurring = false;
 			self.ignoreFocus = false;
-			self.blur();
+			self.trigger('blur');
 		};
 
 		self.isBlurring = true;
