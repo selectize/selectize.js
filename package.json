@@ -59,7 +59,7 @@
     "load-grunt-tasks": "^5.1.0",
     "mocha": "^9.0.0",
     "popper.js": "1.16.1",
-    "sass": "1.35.2"
+    "sass": "1.37.1"
   },
   "optionalDependencies": {
     "jquery-ui": "^1.12.1"
