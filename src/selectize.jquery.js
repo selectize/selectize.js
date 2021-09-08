@@ -158,6 +158,7 @@ $.fn.selectize = function(settings_user) {
 		}
 
 		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+		instance.settings_user = settings_user;
 	});
 };
 
