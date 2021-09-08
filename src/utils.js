@@ -281,7 +281,8 @@ var autoGrow = function($input) {
 	var currentWidth = null;
 
 	var update = function(e, options) {
-		var value, keyCode, printable, placeholder, width;
+		var value, keyCode, printable, width;
+		var placeholder, placeholderWidth;
 		var shift, character, selection;
 		e = e || window.event || {};
 		options = options || {};
@@ -319,11 +320,13 @@ var autoGrow = function($input) {
 		}
 
 		placeholder = $input.attr('placeholder');
-		if (!value && placeholder) {
-			value = placeholder;
+		if (placeholder) {
+			placeholderWidth = measureString(placeholder, $input) + 4;
+		} else {
+			placeholderWidth = 0;
 		}
 
-		width = measureString(value, $input) + 4;
+		width = Math.max(measureString(value, $input), placeholderWidth) + 4;
 		if (width !== currentWidth) {
 			currentWidth = width;
 			$input.width(width);
