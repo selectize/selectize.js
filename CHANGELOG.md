@@ -4,6 +4,27 @@
 *  New feature: dynamically add option groups
 
    *@jackbentley*
+   
+## v0.13.0 · 03 11 2020
+
+* Support for Bootstrap v4.x.
+  * Adding SASS styles, LESS styles still available for bootstrap 2.x
+* Fixed bug (#851) for placeholder text clipping
+* Fixed bug (#870) for remove button plugin closing bootstrap modals
+
+   *@risadams*
+
+## v0.12.4, v0.12.5 · 27 June 2018
+
+*  Allow the dropdown to reopen on click if it is closed without losing focus
+   by closeAfterSelect: true
+
+   *@fishpercolator*
+
+
+*  Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
+
+   *(thanks @caseymct - #1079)*
 
 *  New feature: allow to disable single options or complete optgroups
 

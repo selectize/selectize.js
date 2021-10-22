@@ -61,8 +61,8 @@ var selectize = $select[0].selectize;
 		<td valign="top">Removes the option identified by the given value.</td>
 	</tr>
 	<tr>
-		<td valign="top"><code>clearOptions()</code></td>
-		<td valign="top">Removes all options from the control.</td>
+		<td valign="top"><code>clearOptions(silent)</code></td>
+		<td valign="top">Removes all options from the control, and resets/clears all selected items. If <code>silent</code> is truthy, no change event will be fired on the original input.</td>
 	</tr>
 	<tr>
 		<td valign="top"><code>getOption(value)</code></td>

@@ -80,6 +80,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>showAddOptionOnCreate</code></td>
+		<td valign="top">Toggles whether to show 'Add ...option...' within the dropdown menu (if <code>create</code> setting is enabled). </td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
 		<td valign="top">
 			If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).
@@ -121,13 +127,13 @@ $(function() {
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select. 1 makes the control mono-selection, null allows an unlimited number of items.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>1</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
-		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
+		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options. This defaults to <code>true</code> when in a multi-selection control, to <code>false</code> otherwise.</td>
 		<td valign="top"><code>boolean</code></td>
-		<td valign="top"><code>false</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>closeAfterSelect</code></td>
@@ -142,10 +148,28 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>showEmptyOptionInDropdown</code></td>
+		<td valign="top">If true, Selectize will show an option with value `""` in dropdown, if one does not exist; which is required when you want to select a empty option via `selectOnTab`. This requires `allowEmptyOption: true`.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>emptyOptionLabel</code></td>
+		<td valign="top">If `showEmptyOptionInDropdown: true` and an option with value `""` in dropdown does not exist, an option with `""` value is created, the label/text of the option can be set via this option, this requires `showEmptyOptionInDropdown: true`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'--'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>scrollDuration</code></td>
 		<td valign="top">The animation duration (in milliseconds) of the scroll animation triggered when going [up] and [down] in the options dropdown.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>60</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>deselectBehavior</code></td>
+		<td valign="top">If an option is selected, the same option is highlighted/marked active in the dropdown, pressing backspace on the input control removes the option and in dropdown the previous element is highlight. When this option is set to `top` it shifts the highlight to the topmost option. Valid options are `top` and `previous`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>previous</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
@@ -329,6 +353,12 @@ $(function() {
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>formatValueToKey(key)</code></td>
+		<td valign="top">Function to generate <strong>key</strong> for a new item created from input when create is set to true, to generate a `'key' => 'value'` combination. Without using this function, it will result in `'value' => 'value'` combination. The provided function should return a <strong>key</strong> that is not object or function.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>onInitialize()</code></td>
 		<td valign="top">Invoked once the control is completely initialized.</td>
 		<td valign="top"><code>function</code></td>
@@ -427,23 +457,23 @@ $(function() {
 			<table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
-					<td valign="top">An option in the dropdown list of available options.</td>
+					<td valign="top">An option in the <br />dropdown list of <br />available options.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>item</code></td>
-					<td valign="top">An item the user has selected.</td>
+					<td valign="top">An item the user has <br />selected.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>option_create</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
+					<td valign="top">The "create new" option <br />at the bottom of the <br />dropdown. The data <br />contains one property :<br /> <code>input</code> (which is <br />what the  user has <br />typed).</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup_header</code></td>
-					<td valign="top">The header of an option group.</td>
+					<td valign="top">The header of an option <br />group.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup</code></td>
-					<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
+					<td valign="top">The wrapper for an <br />optgroup. The <code>html</code><br /> property in the data <br / will be the raw <br />html of the optgroup's <br />header and options.</td>
 				</tr>
 			</table>
 		</td>

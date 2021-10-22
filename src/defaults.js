@@ -9,6 +9,7 @@ Selectize.defaults = {
 	persist: true,
 	diacritics: true,
 	create: false,
+	showAddOptionOnCreate: true,
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,
@@ -17,12 +18,15 @@ Selectize.defaults = {
 	maxItems: null,
 	hideSelected: null,
 	addPrecedence: false,
-	selectOnTab: false,
+	selectOnTab: true,
 	preload: false,
 	allowEmptyOption: false,
+	showEmptyOptionInDropdown: false,
+	emptyOptionLabel: '--',
 	closeAfterSelect: false,
 
 	scrollDuration: 60,
+	deselectBehavior: 'previous', //top, previous
 	loadThrottle: 300,
 	loadingClass: 'loading',
 
@@ -55,6 +59,7 @@ Selectize.defaults = {
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
+	formatValueToKey     : null, // function(key) { ... }
 	onInitialize         : null, // function() { ... }
 	onChange             : null, // function(value) { ... }
 	onItemAdd            : null, // function(value, $item) { ... }

@@ -1,0 +1,138 @@
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
+@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_nav-divider.scss";
+
+$select-font-family: inherit;
+$select-font-size: inherit;
+$select-line-height: $line-height-computed;
+
+$select-color-text: $text-color;
+$select-color-highlight: rgba(255, 237, 40, 0.4);
+$select-color-input: $input-bg;
+$select-color-input-full: $input-bg;
+$select-color-input-error: $state-danger-text;
+$select-color-input-error-focus: darken($select-color-input-error, 10%);
+$select-color-disabled: $input-bg;
+$select-color-item: #efefef;
+$select-color-item-border: rgba(0, 0, 0, 0);
+$select-color-item-active: $component-active-bg;
+$select-color-item-active-text: #fff;
+$select-color-item-active-border: rgba(0, 0, 0, 0);
+$select-color-optgroup: $dropdown-bg;
+$select-color-optgroup-text: $dropdown-header-color;
+$select-color-optgroup-border: $dropdown-divider-bg;
+$select-color-dropdown: $dropdown-bg;
+$select-color-dropdown-border-top: mix($input-border, $input-bg, 0.8);
+$select-color-dropdown-item-active: $dropdown-link-hover-bg;
+$select-color-dropdown-item-active-text: $dropdown-link-hover-color;
+$select-color-dropdown-item-create-active-text: $dropdown-link-hover-color;
+$select-opacity-disabled: 0.5;
+$select-shadow-input: none;
+$select-shadow-input-focus: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+$select-shadow-input-error: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+$select-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+  0 0 6px lighten($select-color-input-error, 20%);
+$select-border: 1px solid $input-border;
+$select-border-radius: $input-border-radius;
+
+$select-width-item-border: 0;
+$select-padding-x: $padding-base-horizontal;
+$select-padding-y: $padding-base-vertical;
+$select-padding-dropdown-item-x: $padding-base-horizontal;
+$select-padding-dropdown-item-y: 3px;
+$select-padding-item-x: 5px;
+$select-padding-item-y: 1px;
+$select-margin-item-x: 3px;
+$select-margin-item-y: 3px;
+
+$select-arrow-size: 5px;
+$select-arrow-color: $select-color-text;
+$select-arrow-offset: $select-padding-x + 5px;
+
+@import "selectize";
+
+.#{$selectize}-dropdown,
+.#{$selectize}-dropdown.form-control {
+  height: auto;
+  padding: 0;
+  margin: 2px 0 0 0;
+  z-index: $zindex-dropdown;
+  background: $select-color-dropdown;
+  border: 1px solid $dropdown-fallback-border;
+  border: 1px solid $dropdown-border;
+  border-radius: $border-radius-base;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+.#{$selectize}-dropdown {
+  .optgroup-header {
+    font-size: $font-size-small;
+    line-height: $line-height-base;
+  }
+  .optgroup:first-child:before {
+    display: none;
+  }
+  .optgroup:before {
+    content: " ";
+    display: block;
+    @include nav-divider();
+    margin-left: $select-padding-dropdown-item-x * -1;
+    margin-right: $select-padding-dropdown-item-x * -1;
+  }
+}
+
+.#{$selectize}-dropdown-content {
+  padding: 5px 0;
+}
+
+.#{$selectize}-dropdown-emptyoptionlabel {
+	text-align: center;
+}
+
+.#{$selectize}-input {
+  min-height: $input-height-base;
+
+  &.dropdown-active {
+    border-radius: $select-border-radius;
+  }
+  &.dropdown-active::before {
+    display: none;
+  }
+  &.focus {
+    $color: $input-border-focus;
+    $color-rgba: rgba(red($color), green($color), blue($color), 0.6);
+    border-color: $color;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px $color-rgba;
+  }
+}
+
+.has-error .#{$selectize}-input {
+  border-color: $select-color-input-error;
+  box-shadow: $select-shadow-input-error;
+
+  &:focus {
+    border-color: $select-color-input-error-focus;
+    box-shadow: $select-shadow-input-error-focus;
+  }
+}
+
+.#{$selectize}-control {
+  &.multi {
+    .#{$selectize}-input.has-items {
+      padding-left: $select-padding-x - $select-padding-item-x;
+      padding-right: $select-padding-x - $select-padding-item-x;
+    }
+    .#{$selectize}-input > div {
+      border-radius: $select-border-radius - 1px;
+    }
+  }
+}
+
+.form-control.#{$selectize}-control {
+  padding: 0;
+  height: auto;
+  border: none;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
