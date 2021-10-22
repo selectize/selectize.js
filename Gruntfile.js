@@ -116,31 +116,31 @@ module.exports = function (grunt) {
     files_js.push("src/plugins/" + selector_plugins + "/*.js");
 
     // less (css)
-    var matched_files = grunt.file.expand([
+    var matched_less_files = grunt.file.expand([
       "src/plugins/" + selector_plugins + "/plugin.less",
     ]);
-    for (var i = 0, n = matched_files.length; i < n; i++) {
-      var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
-      less_imports.push('@import "plugins/' + plugin_name + '";');
+    for (var i = 0, n = matched_less_files.length; i < n; i++) {
+      var plugin_less_name = matched_less_files[i].match(/src\/plugins\/(.+?)\//)[1];
+      less_imports.push('@import "plugins/' + plugin_less_name + '";');
       less_plugin_files.push({
-        src: matched_files[i],
-        dest: "dist/less/plugins/" + plugin_name + ".less",
+        src: matched_less_files[i],
+        dest: "dist/less/plugins/" + plugin_less_name + ".less",
       });
     }
 
     // scss (css)
-    var matched_files = grunt.file.expand([
+    var matched_scss_files = grunt.file.expand([
       "src/plugins/" + selector_plugins + "/plugin.scss",
     ]);
-    for (var i = 0, n = matched_files.length; i < n; i++) {
-      var plugin_name = matched_files[i].match(/src\/plugins\/(.+?)\//)[1];
+    for (var j = 0, o = matched_scss_files.length; j < o; j++) {
+      var plugin_scss_name = matched_scss_files[j].match(/src\/plugins\/(.+?)\//)[1];
       scss_plugin_files.push({
-        src: matched_files[i],
-        dest: "build/scss/plugins/" + plugin_name + ".scss",
+        src: matched_scss_files[j],
+        dest: "build/scss/plugins/" + plugin_scss_name + ".scss",
       });
       scss_plugin_files.push({
-        src: matched_files[i],
-        dest: "dist/scss/plugins/" + plugin_name + ".scss",
+        src: matched_scss_files[j],
+        dest: "dist/scss/plugins/" + plugin_scss_name + ".scss",
       });
     }
   })();
@@ -239,6 +239,7 @@ module.exports = function (grunt) {
             "dist/css/selectize.default.css": ["src/scss/selectize.default.scss",],
             "dist/css/selectize.bootstrap3.css": ["src/scss/selectize.bootstrap3.scss",],
             "dist/css/selectize.bootstrap4.css": ["src/scss/selectize.bootstrap4.scss",],
+            "dist/css/selectize.bootstrap5.css": ["src/scss/selectize.bootstrap5.scss",],
           },
         ],
       },
@@ -260,7 +261,7 @@ module.exports = function (grunt) {
         separator: grunt.util.linefeed + grunt.util.linefeed,
       },
       js: {
-        files: {"build/js/selectize.js": files_js,},
+        files: { "build/js/selectize.js": files_js, },
       },
       less_plugins: {
         options: {
@@ -299,8 +300,8 @@ module.exports = function (grunt) {
         },
         files: {
           "dist/js/selectize.min.js": ["build/js/selectize.js"],
-          "dist/js/standalone/selectize.js": [ "build/js/standalone/selectize.js", ],
-          "dist/js/standalone/selectize.min.js": [ "build/js/standalone/selectize.js", ],
+          "dist/js/standalone/selectize.js": ["build/js/standalone/selectize.js",],
+          "dist/js/standalone/selectize.min.js": ["build/js/standalone/selectize.js",],
         },
       },
     },

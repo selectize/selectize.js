@@ -3066,6 +3066,43 @@
 	};
 	
 	
+	Selectize.define("auto_position", function () {
+	  var self = this;
+	
+	  const POSITION = {
+	    top: 'top',
+	    bottom: 'bottom',
+	  };
+	
+	  self.positionDropdown = (function() {
+	    return function() {
+	      const $control = this.$control;
+	      const offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
+	      offset.top += $control.outerHeight(true);
+	
+	      const dropdownHeight = this.$dropdown.prop('scrollHeight') + 5; // 5 - padding value;
+	      const controlPosTop = this.$control.get(0).getBoundingClientRect().top;
+	      const wrapperHeight = this.$wrapper.height();
+	      const position = controlPosTop + dropdownHeight + wrapperHeight  > window.innerHeight ? POSITION.top : POSITION.bottom;
+	      const styles = {
+	        width: $control.outerWidth(),
+	        left: offset.left
+	      };
+	
+	      if (position === POSITION.top) {
+	        Object.assign(styles, {bottom: offset.top, top: 'unset', margin: '0 0 5px 0'});
+	        this.$dropdown.addClass('selectize-position-top');
+	      } else {
+	        Object.assign(styles, {top: offset.top, bottom: 'unset', margin: '5px 0 0 0'});
+	        this.$dropdown.removeClass('selectize-position-top');
+	      }
+	
+	      this.$dropdown.css(styles);
+	    }
+	  }());
+	});
+	
+	
 	Selectize.define('auto_select_on_type', function(options) {
 		var self = this;
 	
@@ -3458,6 +3495,48 @@
 	
 	});
 	
+	
+	Selectize.define('tag_limit', function (options) {
+	    const self = this
+	    options.tagLimit = options.tagLimit
+	    this.onBlur = (function (e) {
+	        const original = self.onBlur
+	
+	        return function (e) {
+	            original.apply(this, e);
+	            if (!e)
+	                return
+	            const $control = this.$control
+	            const $items = $control.find('.item')
+	            const limit = options.tagLimit
+	            if (limit === undefined || $items.length <= limit)
+	                return
+	
+	            $items.toArray().forEach((item, index) => {
+	                if (index < limit)
+	                    return
+	                $(item).hide()
+	            });
+	
+	            $control.append(`<span><b>+${$items.length - limit}</b></span>`)
+	        };
+	    })()
+	
+	    this.onFocus = (function (e) {
+	        const original = self.onFocus
+	
+	        return function (e) {
+	            original.apply(this, e);
+	            if (!e)
+	                return
+	            const $control = this.$control
+	            const $items = $control.find('.item')
+	            $items.show()
+	            $control.find('span').remove()
+	
+	        };
+	    })()
+	});
 
 	return Selectize;
 }));
