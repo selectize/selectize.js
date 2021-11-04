@@ -75,7 +75,7 @@ $(function () {
         lines[i] = lines[i].replace(new RegExp("^" + indent), "");
       }
 
-      var code = hljs.highlight("javascript", $.trim(lines.join("\n")).replace(/	/g, "    ")).value;
+      code = hljs.highlight("javascript", $.trim(lines.join("\n")).replace(/	/g, "    ")).value;
       $a = $('<a href="javascript:void(0)" class="toggle-code closed">Show Code</a>');
       $pre = $("<pre>")
         .hide()
