@@ -1,4 +1,4 @@
-name: Update CONTRIBUTORS file
+name: Update Contributors
 on:
   schedule:
     - cron: "0 0 1 * *"
@@ -7,15 +7,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: minicli/action-contributors@v3
-        name: "Update a projects CONTRIBUTORS file"
-      - name: Create a PR
-        uses: peter-evans/create-pull-request@v3
+      - uses: risadams/contributors-update@v3
         with:
-          commit-message: Update Contributors
-          title: "[automated] Update Contributors File"
-          token: ${{ secrets.GITHUB_TOKEN }}
-        env:
-          CONTRIB_REPOSITORY: 'selectize/selectize.js'
-          CONTRIB_OUTPUT_FILE: 'CONTRIBUTORS.md'
+          repo: selectize/selectize.js
+          exclude_bots: true
