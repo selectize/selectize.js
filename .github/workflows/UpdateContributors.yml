@@ -7,7 +7,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: risadams/contributors-update@v3
+      - uses: risadams/contributors-update@v3.1
         with:
           repo: selectize/selectize.js
           output: CONTRIBUTORS.md
