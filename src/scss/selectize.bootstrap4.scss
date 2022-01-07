@@ -1,6 +1,6 @@
-@import "../../node_modules/bootstrap4/scss/functions";
-@import "../../node_modules/bootstrap4/scss/variables";
-@import "../../node_modules/bootstrap4/scss/mixins";
+@import "../../vendor/bootstrap4/functions";
+@import "../../vendor/bootstrap4/variables";
+@import "../../vendor/bootstrap4/mixins";
 
 $enable-shadows: true !default;
 $select-font-family: inherit !default;

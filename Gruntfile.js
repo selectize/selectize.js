@@ -16,6 +16,8 @@ module.exports = function (grunt) {
   grunt.registerTask("configure", ["clean:pre"]);
 
   grunt.registerTask("compile", [
+    "copy:vendor",
+    "copy:vendor_dist",
     "copy:less",
     "copy:less_plugins",
     "copy:scss",
@@ -184,6 +186,32 @@ module.exports = function (grunt) {
         ],
       },
       scss_plugins: { files: scss_plugin_files, },
+      vendor: {
+        files: [
+          {
+            expand: true,
+            src: ["**"],
+            cwd: "node_modules/bootstrap4/scss/",
+            dest: "vendor/bootstrap4",
+          },
+          {
+            expand: true,
+            src: ["**"],
+            cwd: "node_modules/bootstrap5/scss/",
+            dest: "vendor/bootstrap5",
+          }
+        ]
+      },
+      vendor_dist: {
+        files: [
+          {
+            expand: true,
+            flatten: false,
+            src: ["vendor/**"],
+            dest: "dist",
+          },
+        ],
+      },
     },
 
     replace: {
