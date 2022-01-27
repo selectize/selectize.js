@@ -5,3 +5,4 @@ bower_components
 *.log
 .vscode
 build
+coverage/
