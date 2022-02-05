@@ -1544,7 +1544,7 @@ $.extend(Selectize.prototype, {
 	 * "Selects" multiple items at once. Adds them to the list
 	 * at the current caret position.
 	 *
-	 * @param {string} value
+	 * @param {string} values
 	 * @param {boolean} silent
 	 */
 	addItems: function(values, silent) {
@@ -1743,15 +1743,15 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Re-renders the selected item lists.
 	 */
-	refreshItems: function() {
+	refreshItems: function(silent) {
 		this.lastQuery = null;
 
 		if (this.isSetup) {
-			this.addItem(this.items);
+			this.addItem(this.items, silent);
 		}
 
 		this.refreshState();
-		this.updateOriginalInput();
+		this.updateOriginalInput({silent: silent});
 	},
 
 	/**
