@@ -38,6 +38,7 @@ var Selectize = function($input, settings) {
 		currentResults   : null,
 		lastValue        : '',
 		lastValidValue   : '',
+		lastOpenTarget   : false,
 		caretPos         : 0,
 		loading          : 0,
 		loadedSearches   : {},
@@ -192,7 +193,11 @@ $.extend(Selectize.prototype, {
 		});
 
 		$control_input.on({
-			mousedown : function(e) { e.stopPropagation(); },
+			mousedown : function(e) {
+				if (self.$control_input.val() !== '' || self.settings.openOnFocus) {
+					e.stopPropagation();
+				}
+			},
 			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			input     : function() { return self.onInput.apply(self, arguments); },
@@ -398,35 +403,39 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
-		if (self.isFocused) {
-			// retain focus by preventing native handling. if the
-			// event target is the input it should not be modified.
-			// otherwise, text selection within the input won't work.
-			if (e.target !== self.$control_input[0]) {
-				if (self.settings.mode === 'single') {
-					// toggle dropdown
-					self.isOpen ? self.close() : self.open();
-
-					// when closing the dropdown, we set a isDropdownClosing
-					// varible temporaily to prevent the dropdown from reopening
-					// from the onClick event
-					self.isDropdownClosing = true;
-					setTimeout(function() {
-						self.isDropdownClosing = false;
-					}, self.settings.closeDropdownThreshold);
-
-				} else if (!defaultPrevented) {
-					self.setActiveItem(null);
-				}
-				return false;
-			}
-		} else {
+		if (!self.isFocused) {
 			// give control focus
 			if (!defaultPrevented) {
 				window.setTimeout(function() {
 					self.focus();
 				}, 0);
 			}
+		}
+		// retain focus by preventing native handling. if the
+		// event target is the input it should not be modified.
+		// otherwise, text selection within the input won't work.
+		if (e.target !== self.$control_input[0] || self.$control_input.val() === '') {
+			if (self.settings.mode === 'single') {
+				// toggle dropdown
+				self.isOpen ? self.close() : self.open();
+			} else {
+				if (!defaultPrevented) {
+						self.setActiveItem(null);
+				}
+				if (!self.settings.openOnFocus) {
+					if (self.isOpen && e.target === self.lastOpenTarget) {
+						self.close();
+						self.lastOpenTarget = false;
+					} else if (!self.isOpen) {
+						self.refreshOptions();
+						self.open();
+						self.lastOpenTarget = e.target;
+					} else {
+						self.lastOpenTarget = e.target;
+					}
+				}
+			}
+			return false;
 		}
 	},
 
