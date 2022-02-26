@@ -312,7 +312,7 @@ $(function() {
 	</tr>
   <tr>
     <td valign="top"><code>nesting</td>
-    <td valign="top">If true, nested fields will be available for search using dot-notation to reference them (e.g. nested.property). _Warning: can reduce performance._</td>
+    <td valign="top">If true, nested fields will be available for search using dot-notation to reference them (e.g. nested.property). *Warning: can reduce performance.*</td>
     <td valign="top"><code>boolean</code></td>
     <td valign="top"><code>false</code></td>
   </tr>
