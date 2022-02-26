@@ -310,6 +310,12 @@ $(function() {
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'and'</code></td>
 	</tr>
+  <tr>
+    <td valign="top"><code>nesting</td>
+    <td valign="top">If true, nested fields will be available for search using dot-notation to reference them (e.g. nested.property). _Warning: can reduce performance._</td>
+    <td valign="top"><code>boolean</code></td>
+    <td valign="top"><code>false</code></td>
+  </tr>
 	<tr>
 		<td valign="top"><code>lockOptgroupOrder</td>
 		<td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
