@@ -14,13 +14,13 @@ Selectize.define('tag_limit', function (options) {
             if (limit === undefined || $items.length <= limit)
                 return
 
-            $items.toArray().forEach((item, index) => {
+            $items.toArray().forEach(function(item, index) {
                 if (index < limit)
                     return
                 $(item).hide()
             });
 
-            $control.append(`<span><b>+${$items.length - limit}</b></span>`)
+            $control.append('<span><b>' + ($items.length - limit) + '</b></span>')
         };
     })()
 
