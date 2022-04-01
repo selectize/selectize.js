@@ -30,4 +30,3 @@ Thank you to our top contributors!
  - @[paulkolbovich](https://github.com/paulkolbovich)
  - @[reklatsmasters](https://github.com/reklatsmasters)
  - @[ryanwersal](https://github.com/ryanwersal)
- - @[TiuSh](https://github.com/TiuSh)
