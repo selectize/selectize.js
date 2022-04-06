@@ -3,7 +3,7 @@ plugins=*
 GRUNT=node_modules/.bin/grunt
 CURRENT_VERSION := $(shell sed -n '/"version":/{s/.*"version": "\([^"]*\)".*/\1/p;q}' package.json)
 
-all: compile
+all: compile test
 test:
 	npm test
 compile:

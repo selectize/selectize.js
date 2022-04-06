@@ -96,7 +96,7 @@ module.exports = function (grunt) {
   ];
 
   var files_js_dependencies = [
-    "node_modules/sifter/sifter.js",
+    "node_modules/@selectize/sifter/sifter.js",
     "node_modules/microplugin/src/microplugin.js",
   ];
 

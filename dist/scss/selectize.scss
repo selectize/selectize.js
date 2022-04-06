@@ -1,5 +1,5 @@
 /**
- * selectize.css (v0.13.4)
+ * selectize.css (v0.13.5)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  * Copyright (c) 2020 Selectize Team & contributors
  *
@@ -61,7 +61,7 @@ $select-border: 1px solid $select-color-border !default;
 $select-dropdown-border: 1px solid $select-color-dropdown-border !default;
 $select-border-radius: 3px !default;
 
-$select-width-item-border: 0 !default;
+$select-width-item-border: 0px !default;
 $select-max-height-dropdown: 200px !default;
 
 $select-padding-x: 8px !default;
@@ -121,7 +121,7 @@ $select-spinner-border-color: $select-color-border;
   padding: $select-padding-y $select-padding-x;
   display: inline-block;
   width: 100%;
-  overflow: hidden;
+  // overflow: hidden;
   position: relative;
   z-index: 1;
   box-sizing: border-box;

@@ -1,5 +1,5 @@
 /**
- * selectize.js (v0.13.4)
+ * selectize.js (v0.13.5)
  * Copyright (c) 2013–2015 Brian Reavis & contributors
  * Copyright (c) 2020 Selectize Team & contributors
  *
@@ -423,7 +423,8 @@
 		var currentWidth = null;
 	
 		var update = function(e, options) {
-			var value, keyCode, printable, placeholder, width;
+			var value, keyCode, printable, width;
+			var placeholder, placeholderWidth;
 			var shift, character, selection;
 			e = e || window.event || {};
 			options = options || {};
@@ -461,11 +462,13 @@
 			}
 	
 			placeholder = $input.attr('placeholder');
-			if (!value && placeholder) {
-				value = placeholder;
+			if (placeholder) {
+				placeholderWidth = measureString(placeholder, $input) + 4;
+			} else {
+				placeholderWidth = 0;
 			}
 	
-			width = measureString(value, $input) + 4;
+			width = Math.max(measureString(value, $input), placeholderWidth) + 4;
 			if (width !== currentWidth) {
 				currentWidth = width;
 				$input.width(width);
@@ -682,7 +685,9 @@
 			if ($input.attr('autocapitalize')) {
 				$control_input.attr('autocapitalize', $input.attr('autocapitalize'));
 			}
-			$control_input[0].type = $input[0].type;
+			if ($input.is('input')) {
+				$control_input[0].type = $input[0].type;
+			}
 	
 			self.$wrapper          = $wrapper;
 			self.$control          = $control;
@@ -3168,23 +3173,29 @@
 					disabled: self.isLocked,
 					start: function(e, ui) {
 						ui.placeholder.css('width', ui.helper.css('width'));
-						$control.css({overflow: 'visible'});
+						// $control.css({overflow: 'visible'});
+						$control.addClass('dragging');
 					},
 					stop: function() {
-						$control.css({overflow: 'hidden'});
+						// $control.css({overflow: 'hidden'});
+						$control.removeClass('dragging');
 						var active = self.$activeItems ? self.$activeItems.slice() : null;
 						var values = [];
 						$control.children('[data-value]').each(function() {
 							values.push($(this).attr('data-value'));
 						});
+						self.isFocused = false;
 						self.setValue(values);
+						self.isFocused = true;
 						self.setActiveItem(active);
+						self.positionDropdown();
 					}
 				});
 			};
 		})();
 	
 	});
+	
 	
 	Selectize.define('dropdown_header', function(options) {
 		var self = this;
@@ -3511,13 +3522,13 @@
 	            if (limit === undefined || $items.length <= limit)
 	                return
 	
-	            $items.toArray().forEach((item, index) => {
+	            $items.toArray().forEach(function(item, index) {
 	                if (index < limit)
 	                    return
 	                $(item).hide()
 	            });
 	
-	            $control.append(`<span><b>+${$items.length - limit}</b></span>`)
+	            $control.append('<span><b>' + ($items.length - limit) + '</b></span>')
 	        };
 	    })()
 	
@@ -3536,6 +3547,7 @@
 	        };
 	    })()
 	});
+	
 
 	return Selectize;
 }));
