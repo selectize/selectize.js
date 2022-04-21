@@ -1,6 +1,12 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+## v0.13.1 · 21 04 2022
+
+* Added option to enable setting the first option in the list as active.
+
+   *@joshuan92*
+
 ## v0.13.0 · 03 11 2020
 
 * Support for Bootstrap v4.x.

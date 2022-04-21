@@ -24,6 +24,7 @@ Selectize.defaults = {
 	showEmptyOptionInDropdown: false,
 	emptyOptionLabel: '--',
 	closeAfterSelect: false,
+  setFirstOptionActive: false,
 
 	scrollDuration: 60,
 	deselectBehavior: 'previous', //top, previous
