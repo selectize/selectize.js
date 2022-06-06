@@ -1919,9 +1919,13 @@ $.extend(Selectize.prototype, {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 		offset.top += $control.outerHeight(true);
-
+		var w = $control[0].getBoundingClientRect().width;
+		if (this.settings.minWidth && this.settings.minWidth > w)
+		{
+			w = this.settings.minWidth;
+		}
 		this.$dropdown.css({
-			width : $control[0].getBoundingClientRect().width,
+			width : w,
 			top   : offset.top,
 			left  : offset.left
 		});
