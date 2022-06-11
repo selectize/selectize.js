@@ -54,7 +54,11 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom `<select>`;
 
 - [jquery-ui](https://github.com/jquery/jquery-ui) (required by `drag_drop` plugin)
 
-### Installation and files
+### Installation
+
+Selectize can be installed via NPM `npm isntall @selectize/selectize`
+
+#### Installing Manually
 
 All pre-built files needed to use Selectize can be found in the
 ["dist"](dist/) folder.
