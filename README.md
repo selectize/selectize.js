@@ -56,7 +56,7 @@ Selectize is an extensible [jQuery](http://jquery.com/)-based custom `<select>`;
 
 ### Installation
 
-Selectize can be installed via NPM `npm isntall @selectize/selectize`
+Selectize can be installed via NPM `npm install @selectize/selectize`
 
 #### Installing Manually
 
