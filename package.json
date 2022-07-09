@@ -1,10 +1,14 @@
 {
   "name": "@selectize/selectize.dev",
-  "version": "1.0.0",
+  "version": "22.07.09",
   "description": "documentation and demos for the selectize.js library",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:jekyll": "bundle exec jekyll build",
+    "build:tailwind": "tailwindcss -c ./tailwind.config.cjs -i src/css/app.css -o assets/css/app.css --minify",
+    "build:watch": "tailwindcss -c ./tailwind.config.cjs -i src/css/app.css -o assets/css/app.css --watch",
+    "serve": "bundle exec jekyll serve --host loopback.website --port 4000 --ssl-cert ./.ssl/loopback_website.crt --ssl-key ./.ssl/loopback_website.key",
+    "watch": "concurrently \"bundle exec jekyll serve  --host loopback.website --port 4000 --ssl-cert ./.ssl/loopback_website.crt --ssl-key ./.ssl/loopback_website.key\" \"tailwindcss -c ./tailwind.config.cjs -i src/css/app.css -o assets/css/app.css --minify --watch\" "
   },
   "repository": {
     "type": "git",
@@ -15,5 +19,15 @@
   "bugs": {
     "url": "https://github.com/risadams/selectize.dev/issues"
   },
-  "homepage": "https://github.com/risadams/selectize.dev#readme"
+  "homepage": "https://selectize.dev",
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/line-clamp": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.2",
+    "autoprefixer": "^10.4.7",
+    "concurrently": "^7.2.2",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.4"
+  }
 }

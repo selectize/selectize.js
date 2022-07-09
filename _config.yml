@@ -23,6 +23,11 @@ exclude:
   - SECURITY.md
   - SUPPORT.md
   - LICENSE
+  - node_modules
+  - postcss.config.js
+  - tailwind.config.cjs
+  - makefile
+
 
 sass:
   style: compressed
