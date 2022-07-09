@@ -6,3 +6,4 @@ bower_components
 .vscode
 build
 coverage/
+_site/
