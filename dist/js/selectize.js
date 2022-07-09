@@ -120,7 +120,15 @@
 		}
 	};
 	
-	var IS_MAC        = /Mac/.test(navigator.userAgent);
+	function uaDetect(platform, re) {
+	  if (navigator.userAgentData) {
+	    return platform === navigator.userAgentData.platform;
+	  }
+	
+	  return re.test(navigator.userAgent);
+	}
+	
+	var IS_MAC        = uaDetect("macOS", /Mac/);
 	
 	var KEY_A         = 65;
 	var KEY_COMMA     = 188;
@@ -143,7 +151,7 @@
 	var TAG_INPUT     = 2;
 	
 	// for now, android support in general is too spotty to support validity
-	var SUPPORTS_VALIDITY_API = !/android/i.test(window.navigator.userAgent) && !!document.createElement('input').validity;
+	var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.createElement('input').validity;
 	
 	
 	var isset = function(object) {
@@ -821,7 +829,7 @@
 					return '<div class="item">' + escape(data[field_label]) + '</div>';
 				},
 				'option_create': function(data, escape) {
-					return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+					return '<div class="create">Add <strong>' + escape(data.input) + '</strong>&#x2026;</div>';
 				}
 			};
 	
@@ -3061,6 +3069,7 @@
 			}
 	
 			instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+			instance.settings_user = settings_user;
 		});
 	};
 	
@@ -3212,7 +3221,7 @@
 					'<div class="' + data.headerClass + '">' +
 						'<div class="' + data.titleRowClass + '">' +
 							'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-							'<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' +
+							'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
 						'</div>' +
 					'</div>'
 				);
@@ -3229,6 +3238,7 @@
 		})();
 	
 	});
+	
 	
 	Selectize.define('optgroup_columns', function(options) {
 		var self = this;
@@ -3325,7 +3335,7 @@
 	
 	Selectize.define('remove_button', function(options) {
 		options = $.extend({
-				label     : '&times;',
+				label     : '&#xd7;',
 				title     : 'Remove',
 				className : 'remove',
 				append    : true
