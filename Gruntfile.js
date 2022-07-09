@@ -79,7 +79,9 @@ module.exports = function (grunt) {
 
     // write output
     path = "build/js/standalone/selectize.js";
+    path_dist = "dist/js/standalone/selectize.js";
     grunt.file.write(path, modules.join("\n\n"));
+    grunt.file.write(path_dist, modules.join("\n\n"));
     grunt.log.writeln('Built "' + path + '".');
   });
 
@@ -328,7 +330,6 @@ module.exports = function (grunt) {
         },
         files: {
           "dist/js/selectize.min.js": ["build/js/selectize.js"],
-          "dist/js/standalone/selectize.js": ["build/js/standalone/selectize.js",],
           "dist/js/standalone/selectize.min.js": ["build/js/standalone/selectize.js",],
         },
       },
