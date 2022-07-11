@@ -2,7 +2,7 @@
 
 ![Selectize.js](docs/selectize-wordmark.png)
 
-→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/issues/752)!
+→ Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/discussions/1678)!
 
 [![NPM version](http://img.shields.io/npm/v/@selectize/selectize.svg?style=flat)](https://www.npmjs.com/package/@selectize/selectize)
 [![CDNJS version](http://img.shields.io/cdnjs/v/selectize.js.svg?style=flat)](https://cdnjs.com/libraries/selectize.js)
