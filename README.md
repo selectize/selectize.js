@@ -79,6 +79,7 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
   - [selectize.default.less](dist/scss/selectize.default.scss) — Default theme
   - [selectize.bootstrap3.scss](dist/scss/selectize.bootstrap3.scss) - Bootstrap 3 theme
   - [selectize.bootstrap4.scss](dist/scss/selectize.bootstrap4.scss) - Bootstrap 4 theme
+  - [selectize.bootstrap5.scss](dist/scss/selectize.bootstrap5.scss) - Bootstrap 5 theme
   - [**plugins/**](dist/scss/plugins) — Individual plugin styles
 - [**less/**](dist/less)
   - [selectize.less](dist/less/selectize.less) — Core styles
@@ -92,6 +93,7 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
   - [selectize.bootstrap2.css](dist/css/selectize.bootstrap2.css) - Bootstrap 2 theme
   - [selectize.bootstrap3.css](dist/css/selectize.bootstrap3.css) - Bootstrap 3 theme
   - [selectize.bootstrap4.css](dist/css/selectize.bootstrap4.css) - Bootstrap 4 theme
+  - [selectize.bootstrap5.css](dist/css/selectize.bootstrap5.css) - Bootstrap 5 theme
 
 ### Usage
 
