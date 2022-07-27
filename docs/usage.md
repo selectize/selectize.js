@@ -142,6 +142,12 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>closeDropdownThreshold</code></td>
+		<td valign="top">The number of milliseconds to throttle the opening of the dropdown after it is closed by clicking on the control. Setting this to 0 will reopen the dropdown after clicking on the control when the dropdown is open. This does not affect multi-selects.</td>
+		<td valign="top"><code>int</code></td>
+		<td valign="top"><code>250</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>allowEmptyOption</code></td>
 		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
 		<td valign="top"><code>boolean</code></td>
