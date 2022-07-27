@@ -41,6 +41,7 @@ var Selectize = function($input, settings) {
 		caretPos         : 0,
 		loading          : 0,
 		loadedSearches   : {},
+    isDropdownClosing: false,
 
 		$activeOption    : null,
 		$activeItems     : [],
@@ -368,6 +369,12 @@ $.extend(Selectize.prototype, {
 	onClick: function(e) {
 		var self = this;
 
+    // if the dropdown is closing due to a mousedown, we don't want to
+    // refocus the element.
+    if (self.isDropdownClosing) {
+      return;
+    }
+
 		// necessary for mobile webkit devices (manual focus triggering
 		// is ignored unless invoked within a click event)
     // also necessary to reopen a dropdown that has been closed by
@@ -398,6 +405,15 @@ $.extend(Selectize.prototype, {
 				if (self.settings.mode === 'single') {
 					// toggle dropdown
 					self.isOpen ? self.close() : self.open();
+
+					// when closing the dropdown, we set a isDropdownClosing
+					// varible temporaily to prevent the dropdown from reopening
+					// from the onClick event
+					self.isDropdownClosing = true;
+					setTimeout(function() {
+						self.isDropdownClosing = false;
+					}, self.settings.closeDropdownThreshold);
+
 				} else if (!defaultPrevented) {
 					self.setActiveItem(null);
 				}
