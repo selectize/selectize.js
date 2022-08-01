@@ -3,8 +3,8 @@
 Thank you to our top contributors!
 
  - @[brianreavis](https://github.com/brianreavis)
- - @[joallard](https://github.com/joallard)
  - @[risadams](https://github.com/risadams)
+ - @[joallard](https://github.com/joallard)
  - @[sjhewitt](https://github.com/sjhewitt)
  - @[jhash](https://github.com/jhash)
  - @[Scottmitch](https://github.com/Scottmitch)
