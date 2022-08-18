@@ -25,10 +25,10 @@ MicroEvent.prototype = {
 		this._events[event].splice(this._events[event].indexOf(fct), 1);
 	},
 	trigger: function(event /* , args... */){
-		this._events = this._events || {};
-		if (event in this._events === false) return;
-		for (var i = 0; i < this._events[event].length; i++){
-			this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
+		const events = this._events = this._events || {};
+		if (event in events === false) return;
+		for (var i = 0; i < events[event].length; i++){
+			events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
 		}
 	}
 };
