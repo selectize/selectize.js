@@ -5,6 +5,7 @@
 * Fixed missing style for dropdown_header plugin *@fabienwnkl*
 * Fixed ([#1818](https://github.com/selectize/selectize.js/issues/1818))  Scroll left when I click on a selectized item and page is scrolled right  *@fabienwnkl*
 
+
 ## v0.13.0 · 03 11 2020
 
 * Support for Bootstrap v4.x.
