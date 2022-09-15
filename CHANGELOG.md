@@ -1,5 +1,10 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
+## v0.13.7 ·
+
+* Fixed missing style for dropdown_header plugin
+
+  *@fabienwnkl*
 
 ## v0.13.0 · 03 11 2020
 
