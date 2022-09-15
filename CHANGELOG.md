@@ -2,9 +2,9 @@
      your privacy needs -->
 ## v0.13.7 ·
 
-* Fixed missing style for dropdown_header plugin
+* Fixed missing style for dropdown_header plugin [*@fabienwnklr*](https://github.com/fabienwnklr)
+* Fixed ([#1818](https://github.com/selectize/selectize.js/issues/1818))  Scroll left when I click on a selectized item and page is scrolled right [*@fabienwnklr*](https://github.com/fabienwnklr)
 
-  *@fabienwnkl*
 
 ## v0.13.0 · 03 11 2020
 
