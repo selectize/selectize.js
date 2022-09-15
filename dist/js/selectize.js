@@ -98,10 +98,10 @@
 			this._events[event].splice(this._events[event].indexOf(fct), 1);
 		},
 		trigger: function(event /* , args... */){
-			this._events = this._events || {};
-			if (event in this._events === false) return;
-			for (var i = 0; i < this._events[event].length; i++){
-				this._events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
+			const events = this._events = this._events || {};
+			if (event in events === false) return;
+			for (var i = 0; i < events[event].length; i++){
+				events[event][i].apply(this, Array.prototype.slice.call(arguments, 1));
 			}
 		}
 	};
@@ -119,6 +119,7 @@
 			destObject.prototype[props[i]] = MicroEvent.prototype[props[i]];
 		}
 	};
+	
 	
 	function uaDetect(platform, re) {
 	  if (navigator.userAgentData) {
@@ -554,6 +555,7 @@
 			caretPos         : 0,
 			loading          : 0,
 			loadedSearches   : {},
+	    isDropdownClosing: false,
 	
 			$activeOption    : null,
 			$activeItems     : [],
@@ -756,7 +758,7 @@
 				}
 			});
 			$window.on('mousemove' + eventNS, function() {
-				self.ignoreHover = false;
+	      self.ignoreHover = self.settings.ignoreHover;
 			});
 	
 			// store original children and tab index so that they can be
@@ -881,6 +883,12 @@
 		onClick: function(e) {
 			var self = this;
 	
+	    // if the dropdown is closing due to a mousedown, we don't want to
+	    // refocus the element.
+	    if (self.isDropdownClosing) {
+	      return;
+	    }
+	
 			// necessary for mobile webkit devices (manual focus triggering
 			// is ignored unless invoked within a click event)
 	    // also necessary to reopen a dropdown that has been closed by
@@ -911,6 +919,15 @@
 					if (self.settings.mode === 'single') {
 						// toggle dropdown
 						self.isOpen ? self.close() : self.open();
+	
+						// when closing the dropdown, we set a isDropdownClosing
+						// varible temporaily to prevent the dropdown from reopening
+						// from the onClick event
+						self.isDropdownClosing = true;
+						setTimeout(function() {
+							self.isDropdownClosing = false;
+						}, self.settings.closeDropdownThreshold);
+	
 					} else if (!defaultPrevented) {
 						self.setActiveItem(null);
 					}
@@ -1481,7 +1498,7 @@
 			var self = this;
 	
 			self.setTextboxValue('');
-			self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : -10000});
+			self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : 0});
 			self.isInputHidden = true;
 		},
 	
@@ -1551,7 +1568,8 @@
 				fields      : settings.searchField,
 				conjunction : settings.searchConjunction,
 				sort        : sort,
-				nesting     : settings.nesting
+				nesting     : settings.nesting,
+	      filter      : settings.filter
 			};
 		},
 	
@@ -1922,7 +1940,7 @@
 		},
 	
 		/**
-		 * Clears all options.
+		 * Clears all options, including all selected items
 		 *
 		 * @param {boolean} silent
 		 */
@@ -2847,6 +2865,7 @@
 		showEmptyOptionInDropdown: false,
 		emptyOptionLabel: '--',
 		closeAfterSelect: false,
+	  closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 	
 		scrollDuration: 60,
 		deselectBehavior: 'previous', //top, previous
@@ -2883,7 +2902,7 @@
 		onInitialize         : null, // function() { ... }
 		onChange             : null, // function(value) { ... }
 		onItemAdd            : null, // function(value, $item) { ... }
-		onItemRemove         : null, // function(value) { ... }
+		onItemRemove         : null, // function(value, $item) { ... }
 		onClear              : null, // function() { ... }
 		onOptionAdd          : null, // function(value, data) { ... }
 		onOptionRemove       : null, // function(value) { ... }
