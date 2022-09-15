@@ -7,6 +7,7 @@ all: compile test
 test:
 	npm test
 compile:
+	npm i
 	rm -rf build
 	rm -rf dist
 	$(GRUNT) --plugins=$(plugins)
