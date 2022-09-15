@@ -984,7 +984,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		self.setTextboxValue('');
-		self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : -10000});
+		self.$control_input.css({opacity: 0, position: 'absolute', left: self.rtl ? 10000 : 0});
 		self.isInputHidden = true;
 	},
 
