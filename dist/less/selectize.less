@@ -187,6 +187,9 @@
 		-webkit-user-select: auto !important;
 		.selectize-box-shadow(none) !important;
 		&:focus { outline: none !important; }
+		&[placeholder] {
+      box-sizing: initial;
+    }
 	}
 }
 
@@ -226,8 +229,15 @@
 			.selectize-border-radius(1px);
 		}
 	}
-	[data-selectable], .optgroup-header {
+	.option, .optgroup-header {
 		padding: @selectize-padding-dropdown-item-y @selectize-padding-dropdown-item-x;
+	}
+	.option, [data-disabled], [data-disabled] [data-selectable].option {
+		cursor: inherit;
+		opacity: 0.5;
+	}
+	[data-selectable].option {
+		opacity: 1;
 	}
 	.optgroup:first-child .optgroup-header {
 		border-top: 0 none;

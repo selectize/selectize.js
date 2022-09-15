@@ -113,6 +113,36 @@ describe('Events', function() {
 		});
 	});
 
+	describe('input', function() {
+		it('should be triggered once before change', function(done) {
+			var test = setup_test('<select><option value="a" selected></option><option value="b"></option><option value="c"></option></select>', {});
+			var evt = '';
+			test.$select.on('change', function() { evt = evt + 'change'; });
+			test.$select.on('input', function() { evt = evt + 'input'; });
+			test.selectize.setValue('b');
+
+			window.setTimeout(function() {
+				expect(evt).to.be.equal('inputchange');
+				done();
+			}, 0);
+		});
+		it('should not be triggered when the selected item has not changed', function(done) {
+			var test = setup_test('<select><option value="a" selected="selected">a</option></select>');
+
+			var counter = 0;
+			test.$select.on('input', function() { counter++; });
+
+			syn.click(test.selectize.$control).delay(0, function() {
+				syn
+					.click($('[data-value="a"]', test.selectize.$dropdown))
+					.delay(0, function() {
+						expect(counter).to.be.equal(0);
+						done();
+					});
+			});
+		});
+	});
+
 	describe('item_add', function() {
 		it('should be triggered', function(done) {
 			var test = setup_test('<select><option value="a"></option><option value="b"></option><option value="c"></option></select>', {});
@@ -129,6 +159,25 @@ describe('Events', function() {
 				done();
 			});
 			test.selectize.addItem('b');
+		});
+	});
+
+	describe('item_before_remove', function() {
+		it('should be triggered', function(done) {
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('item_before_remove', function() {
+				done();
+			});
+			test.selectize.removeItem('a');
+		});
+		it('should contain item\'s value and element', function(done) {
+			var test = setup_test('<select multiple><option value="a" selected></option><option value="b" selected></option><option value="c"></option></select>', {});
+			test.selectize.on('item_before_remove', function(value, $item) {
+				expect(value).to.be.equal('b');
+				assert.equal($item.length, 1);
+				done();
+			});
+			test.selectize.removeItem('b');
 		});
 	});
 

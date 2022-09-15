@@ -37,12 +37,10 @@ $(function() {
 		<td valign="top">
 			An array of the initial options available to select; array
 			of objects.
-
 			By default this is populated from the original input
 			element.  If your element is a &lt;select&gt; with
 			&lt;option&gt;s specified this property gets populated
 			automatically.
-
 			Setting this property is convenient if you have your data as
 			an array and want to automatically generate the
 			&lt;option&gt;s.
@@ -80,6 +78,12 @@ $(function() {
 			text});</code>)</td>
 		<td valign="top"><code>boolean/function</code></td>
 		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>showAddOptionOnCreate</code></td>
+		<td valign="top">Toggles whether to show 'Add ...option...' within the dropdown menu (if <code>create</code> setting is enabled). </td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>true</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>createOnBlur</code></td>
@@ -123,13 +127,13 @@ $(function() {
 		<td valign="top"><code>maxItems</code></td>
 		<td valign="top">The max number of items the user can select. 1 makes the control mono-selection, null allows an unlimited number of items.</td>
 		<td valign="top"><code>int</code></td>
-		<td valign="top"><code>1</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>hideSelected</code></td>
-		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options.</td>
+		<td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options. This defaults to <code>true</code> when in a multi-selection control, to <code>false</code> otherwise.</td>
 		<td valign="top"><code>boolean</code></td>
-		<td valign="top"><code>false</code></td>
+		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>closeAfterSelect</code></td>
@@ -138,16 +142,40 @@ $(function() {
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>closeDropdownThreshold</code></td>
+		<td valign="top">The number of milliseconds to throttle the opening of the dropdown after it is closed by clicking on the control. Setting this to 0 will reopen the dropdown after clicking on the control when the dropdown is open. This does not affect multi-selects.</td>
+		<td valign="top"><code>int</code></td>
+		<td valign="top"><code>250</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>allowEmptyOption</code></td>
 		<td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>false</code></td>
 	</tr>
 	<tr>
+		<td valign="top"><code>showEmptyOptionInDropdown</code></td>
+		<td valign="top">If true, Selectize will show an option with value `""` in dropdown, if one does not exist; which is required when you want to select a empty option via `selectOnTab`. This requires `allowEmptyOption: true`.</td>
+		<td valign="top"><code>boolean</code></td>
+		<td valign="top"><code>false</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>emptyOptionLabel</code></td>
+		<td valign="top">If `showEmptyOptionInDropdown: true` and an option with value `""` in dropdown does not exist, an option with `""` value is created, the label/text of the option can be set via this option, this requires `showEmptyOptionInDropdown: true`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>'--'</code></td>
+	</tr>
+	<tr>
 		<td valign="top"><code>scrollDuration</code></td>
 		<td valign="top">The animation duration (in milliseconds) of the scroll animation triggered when going [up] and [down] in the options dropdown.</td>
 		<td valign="top"><code>int</code></td>
 		<td valign="top"><code>60</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>deselectBehavior</code></td>
+		<td valign="top">If an option is selected, the same option is highlighted/marked active in the dropdown, pressing backspace on the input control removes the option and in dropdown the previous element is highlight. When this option is set to `top` it shifts the highlight to the topmost option. Valid options are `top` and `previous`.</td>
+		<td valign="top"><code>string</code></td>
+		<td valign="top"><code>previous</code></td>
 	</tr>
 	<tr>
 		<td valign="top"><code>loadThrottle</code></td>
@@ -197,19 +225,15 @@ $(function() {
 		<td valign="top"><code>boolean</code></td>
 		<td valign="top"><code>true</code></td>
 	</tr>
-
-
 	<tr>
 		<th valign="top" colspan="4" align="left"><a href="#data_searching" name="data_searching">Data / Searching</a></th>
 	</tr>
-
 	<tr>
 		<th valign="top" align="left">Setting</th>
 		<th valign="top" align="left">Description</th>
 		<th valign="top" align="left">Type</th>
 		<th valign="top" align="left">Default</th>
 	</tr>
-
 	<tr>
 		<td valign="top"><code>options</code></td>
 		<td valign="top">See above</td>
@@ -274,9 +298,7 @@ $(function() {
 		<td valign="top"><code>sortField</code></td>
 		<td valign="top">
 			<p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
-
 			<p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
-
 			<p>You can override the `$score` function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.</p>
 		</td>
 		<td valign="top"><code>string|array</code></td>
@@ -294,6 +316,12 @@ $(function() {
 		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>'and'</code></td>
 	</tr>
+  <tr>
+    <td valign="top"><code>nesting</td>
+    <td valign="top">If true, nested fields will be available for search using dot-notation to reference them (e.g. nested.property). *Warning: can reduce performance.*</td>
+    <td valign="top"><code>boolean</code></td>
+    <td valign="top"><code>false</code></td>
+  </tr>
 	<tr>
 		<td valign="top"><code>lockOptgroupOrder</td>
 		<td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
@@ -325,6 +353,12 @@ $(function() {
 		<td valign="top"><code>score(search)</code></td>
 		<td valign="top">Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.</td>
 		<td valign="top"><code>function</code></td>
+		<td valign="top"><code>null</code></td>
+	</tr>
+	<tr>
+		<td valign="top"><code>formatValueToKey(key)</code></td>
+		<td valign="top">Function to generate <strong>key</strong> for a new item created from input when create is set to true, to generate a `'key' => 'value'` combination. Without using this function, it will result in `'value' => 'value'` combination. The provided function should return a <strong>key</strong> that is not object or function.</td>
+		<td valign="top"><code>string</code></td>
 		<td valign="top"><code>null</code></td>
 	</tr>
 	<tr>
@@ -420,30 +454,29 @@ $(function() {
 			Custom rendering functions. Each function should accept two
 			arguments: <code>data</code> and <code>escape</code> and return HTML (string
 			or DOM element) with a single root element.
-
 			The <code>escape</code> argument is a function that takes a string and
 			escapes all special HTML characters.
 			This is very important to use to prevent XSS vulnerabilities.
 			<table width="100%">
 				<tr>
 					<td valign="top"><code>option</code></td>
-					<td valign="top">An option in the dropdown list of available options.</td>
+					<td valign="top">An option in the <br />dropdown list of <br />available options.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>item</code></td>
-					<td valign="top">An item the user has selected.</td>
+					<td valign="top">An item the user has <br />selected.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>option_create</code></td>
-					<td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
+					<td valign="top">The "create new" option <br />at the bottom of the <br />dropdown. The data <br />contains one property :<br /> <code>input</code> (which is <br />what the  user has <br />typed).</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup_header</code></td>
-					<td valign="top">The header of an option group.</td>
+					<td valign="top">The header of an option <br />group.</td>
 				</tr>
 				<tr>
 					<td valign="top"><code>optgroup</code></td>
-					<td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
+					<td valign="top">The wrapper for an <br />optgroup. The <code>html</code><br /> property in the data <br / will be the raw <br />html of the optgroup's <br />header and options.</td>
 				</tr>
 			</table>
 		</td>

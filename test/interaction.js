@@ -41,23 +41,23 @@
 				});
 			});
 		});
-
-		it('should close and blur dropdown after selection made if closeAfterSelect: true and in single mode' , function(done) {
-			var test = setup_test('<select>' +
+    
+    it('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
+      var test = setup_test('<select multiple>' +
 				'<option value="a">A</option>' +
 				'<option value="b">B</option>' +
 				'</select>', {closeAfterSelect: true});
 
 			click(test.selectize.$control, function() {
-				expect(test.selectize.isOpen).to.be.equal(true);
-				expect(test.selectize.isFocused).to.be.equal(true);
 				click($('[data-value=a]', test.selectize.$dropdown_content), function() {
-					expect(test.selectize.isOpen).to.be.equal(false);
-					expect(test.selectize.isFocused).to.be.equal(false);
-					done();
+          click(test.selectize.$control, function () {
+  					expect(test.selectize.isOpen).to.be.equal(true);
+  					expect(test.selectize.isFocused).to.be.equal(true);
+  					done();
+          });
 				});
 			});
-		});
+    });
 
 		describe('clicking control', function() {
 

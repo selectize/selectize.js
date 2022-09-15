@@ -32,6 +32,8 @@
 					<input type="button" value="addOption()" id="button-addoption">
 					<input type="button" value="addItem()" id="button-additem">
 					<input type="button" value="setValue()" id="button-setvalue">
+					<input type="button" value="maxItems(2)" id="button-maxitems2">
+					<input type="button" value="maxItems(100)" id="button-maxitems100">
 				</div>
 				<script>
 				var $select = $('#select-tools').selectize({
@@ -69,6 +71,14 @@
 
 				$('#button-additem').on('click', function() {
 					control.addItem(2);
+				});
+
+				$('#button-maxitems2').on('click', function() {
+					control.setMaxItems(2);
+				});
+
+				$('#button-maxitems100').on('click', function() {
+					control.setMaxItems(100);
 				});
 
 				$('#button-setvalue').on('click', function() {

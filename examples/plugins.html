@@ -64,6 +64,21 @@
 			</div>
 
 			<div class="demo">
+				<h2>Plugin: "autofill_disable"</h2>
+				<div class="control-group">
+					<label for="input-sortable">Tags:</label>
+					<input type="text" id="auto-complete-off" class="demo-default" value="no,auto,complete">
+				</div>
+				<script>
+				$('#auto-complete-off').selectize({
+					plugins: ['autofill_disable'],
+					persist: false,
+					create: true
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "drag_drop"</h2>
 				<div class="control-group">
 					<label for="input-sortable">Tags:</label>
@@ -113,6 +128,33 @@
 				})
 				</script>
 			</div>
+
+      <div class="demo">
+        <h2>Plugin: "auto_position"</h2>
+        <div class="control-group">
+          <label for="auto_position">Single:</label>
+          <select id="auto_position" class="auto_position" placeholder="Select a language...">
+            <option value="txt">Text</option>
+            <option value="md">Markdown</option>
+            <option value="html">HTML</option>
+            <option value="php">PHP</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="js" selected>JavaScript</option>
+            <option value="c#">Ruby</option>
+            <option value="c#">VHDL</option>
+            <option value="c#">Verilog</option>
+            <option value="c#">C#</option>
+            <option value="c++">C/C++</option>
+          </select>
+        </div>
+        <script>
+          $('.auto_position').selectize({
+            sortField: 'text',
+            plugins: ['auto_position']
+          })
+        </script>
+      </div>
 		</div>
 	</body>
 </html>

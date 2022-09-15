@@ -1,6 +1,7 @@
 /**
  * Plugin: "dropdown_header" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -29,7 +30,7 @@ Selectize.define('dropdown_header', function(options) {
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
 						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&times;</a>' +
+						'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
 					'</div>' +
 				'</div>'
 			);
