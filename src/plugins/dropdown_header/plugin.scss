@@ -1,5 +1,5 @@
 .#{$selectize}-control {
-  .dropdown-header {
+  .#{$selectize}-dropdown-header {
     position: relative;
     padding: ($select-padding-dropdown-item-y * 2)
       $select-padding-dropdown-item-x;
@@ -7,7 +7,7 @@
     background: mix($select-color-dropdown, $select-color-border, 85%);
     border-radius: $select-border-radius $select-border-radius 0 0;
   }
-  .dropdown-header-close {
+  .#{$selectize}-dropdown-header-close {
     position: absolute;
     right: $select-padding-dropdown-item-x;
     top: 50%;
@@ -17,7 +17,7 @@
     line-height: 20px;
     font-size: 20px !important;
   }
-  .dropdown-header-close:hover {
+  .#{$selectize}-dropdown-header-close:hover {
     color: darken($select-color-text, 25%);
   }
 }
