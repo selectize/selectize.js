@@ -244,7 +244,7 @@ $.extend(Selectize.prototype, {
 			}
 		});
 		$window.on('mousemove' + eventNS, function() {
-			self.ignoreHover = false;
+      self.ignoreHover = self.settings.ignoreHover;
 		});
 
 		// store original children and tab index so that they can be
@@ -1054,7 +1054,8 @@ $.extend(Selectize.prototype, {
 			fields      : settings.searchField,
 			conjunction : settings.searchConjunction,
 			sort        : sort,
-			nesting     : settings.nesting
+			nesting     : settings.nesting,
+      filter      : settings.filter
 		};
 	},
 
@@ -1425,7 +1426,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Clears all options.
+	 * Clears all options, including all selected items
 	 *
 	 * @param {boolean} silent
 	 */
