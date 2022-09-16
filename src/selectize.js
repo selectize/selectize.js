@@ -1892,7 +1892,13 @@ $.extend(Selectize.prototype, {
 	open: function() {
 		var self = this;
 
-		if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
+		if (
+      self.isLocked ||
+      self.isOpen ||
+      (self.settings.mode === "multi" && self.isFull()) ||
+      self.$control_input.is(":invalid")
+    )
+      return;
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
