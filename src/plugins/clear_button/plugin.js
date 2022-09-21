@@ -23,12 +23,9 @@ Selectize.define("clear_button", function (options) {
       title: "Clear",
       className: "clear",
       libelle: "×",
-      static: false,
       html: function (data) {
         return (
-          '<a class="' +
-          data.className +
-          '" title="' + data.title + '">×</a>'
+          '<a class="' + data.className + '" title="' + data.title + '">×</a>'
         );
       },
     },
@@ -38,34 +35,35 @@ Selectize.define("clear_button", function (options) {
   self.setup = (function () {
     var original = self.setup;
     return function () {
-        original.apply(self, arguments);
-        self.$button_clear = $(options.html(options));
+      original.apply(self, arguments);
+      self.$button_clear = $(options.html(options));
 
-        if (options.static !== true) self.$wrapper.addClass("onhover");
-          if (self.settings.mode === "single") self.$wrapper.addClass("single");
+      if (self.settings.mode === "single") self.$wrapper.addClass("single");
 
-        self.$wrapper.append(self.$button_clear);
+      self.$wrapper.append(self.$button_clear);
 
-      
-        if (self.getValue() === '') {
+      if (self.getValue() === "" || self.getValue().length === 0) {
+        self.$wrapper.find("." + options.className).css("display", "none");
+      }
+
+      self.on("change", function () {
+        if (self.getValue() !== "" || self.getValue().length === 0) {
+          self.$wrapper.find("." + options.className).css("display", "");
+        } else {
           self.$wrapper.find("." + options.className).css("display", "none");
         }
+      });
 
-        self.on('change', function () {
-          if (self.getValue() !== '') {
-            self.$wrapper.find("." + options.className).css("display", "flex");
-          } else {
-            self.$wrapper.find("." + options.className).css("display", "none");
-          }
-        })
+      self.$wrapper.on("click", "." + options.className, function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
         
-        self.$wrapper.on("click", "." + options.className, function (e) {
-          e.preventDefault();
-          if (self.isLocked) return;
+        if (self.isLocked) return;
 
-          self.clear();
-          self.$wrapper.find("." + options.className).css("display", "none");
-        });
+        self.clear();
+        self.$wrapper.find("." + options.className).css("display", "none");
+      });
     };
   })();
 });
