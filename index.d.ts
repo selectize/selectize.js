@@ -261,6 +261,13 @@ declare namespace Selectize {
          */
         copyClassesToDropdown?: boolean;
 
+         /**
+         * Sets always the first option in the list as active.
+         *
+         * Default: false
+         */
+          setFirstOptionActive?: boolean;
+
         // Callbacks
         // ------------------------------------------------------------------------------------------------------------
 
