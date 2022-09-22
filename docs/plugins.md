@@ -13,7 +13,7 @@ complete control.
 - All plugins live in their own folders in ["src/plugins"](../src/plugins).
 - Plugin names should be in follow the format: `/[a-z_]+$`
 - JS source should live in a "plugin.js" file (required).
-- CSS should live in a "plugin.scss" file (optional) and include it into `src/scss/selectize.scss`. It will be bundled at build time.
+- CSS should live in a "plugin.less" and "plugin.scss" file (optional) if use SCSS file, include it into `src/scss/selectize.scss`. It will be bundled at build time.
 - Plugins are initialized right before the control is setup.
   This means that if you want to listen for events on any of the control's
   elements, you should override the `setup()` method (see ["DOM Events"](#dom-events)).
