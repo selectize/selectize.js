@@ -15,6 +15,29 @@
  * @author Brian Reavis <brian@thirdroute.com>
  * @author Ris Adams <selectize@risadams.com>
  */
+.selectize-control.plugin-clear_button .clear {
+  display: flex;
+  position: absolute;
+  height: 100%;
+  width: 25px;
+  top: 0;
+  right: calc(10px - 5px);
+  color: rgba(0, 0, 0);
+  opacity: 0.4;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+  font-size: 21px;
+  justify-content: center;
+  align-items: center;
+}
+.selectize-control.plugin-clear_button .clear:hover {
+  opacity: 1;
+}
+.selectize-control.plugin-clear_button.single .clear {
+  right: calc(10px - 5px + 1.5rem);
+}
 .selectize-control.plugin-drag_drop.multi > .selectize-input > div.ui-sortable-placeholder {
   visibility: visible !important;
   background: #f2f2f2 !important;
