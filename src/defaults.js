@@ -23,6 +23,7 @@ Selectize.defaults = {
 	allowEmptyOption: false,
 	showEmptyOptionInDropdown: false,
 	emptyOptionLabel: '--',
+  setFirstOptionActive: false,
 	closeAfterSelect: false,
   closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 
