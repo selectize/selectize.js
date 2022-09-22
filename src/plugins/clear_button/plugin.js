@@ -22,10 +22,10 @@ Selectize.define("clear_button", function (options) {
     {
       title: "Clear",
       className: "clear",
-      libelle: "×",
+      label: "×",
       html: function (data) {
         return (
-          '<a class="' + data.className + '" title="' + data.title + '">×</a>'
+          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
         );
       },
     },
@@ -58,7 +58,7 @@ Selectize.define("clear_button", function (options) {
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation();
-        
+
         if (self.isLocked) return;
 
         self.clear();
