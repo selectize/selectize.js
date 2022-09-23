@@ -20,6 +20,78 @@
 		<div id="wrapper">
 			<h1>Selectize.js</h1>
 
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-number">Beast: size by items count</label>
+					<select id="size-number" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-number').selectize({
+					size: 8
+				});
+				</script>
+			</div>
+
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-px">Beast: size by px height (also available with rem, em, vh)</label>
+					<select id="size-px" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-px').selectize({
+					size: '100px'
+				});
+				</script>
+			</div>
+
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-false">Beast: size false (auto)</label>
+					<select id="size-false" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-false').selectize({
+					size: false
+				});
+				</script>
+			</div>
+
 			<div class="demo">
 				<h2>&lt;input type="text"&gt;</h2>
 				<div class="control-group">

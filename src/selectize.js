@@ -1904,7 +1904,8 @@ $.extend(Selectize.prototype, {
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
-		self.$dropdown.css({visibility: 'hidden', display: 'block'});
+    self.$dropdown.css({ visibility: 'hidden', display: 'block' });
+    self.setupDropdownHeight();
 		self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
@@ -1955,6 +1956,29 @@ $.extend(Selectize.prototype, {
 			left  : offset.left
 		});
 	},
+
+  setupDropdownHeight: function () {
+    if (this.settings.size) {
+      var height = this.settings.size;
+
+      if (!isNaN(height)) {
+        var $items = this.$dropdown_content.children();
+        var totalHeight = 0;
+
+        $items.each(function (i, $item) {
+          if (i === height) return false;
+
+          totalHeight += $($item).outerHeight(true);
+        });
+
+        // Get padding top for subtract to global height to avoid seeing the next item
+        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
+        height = (totalHeight - padding) + 'px';
+      }
+
+      this.$dropdown_content.css({ height: height, maxHeight: 'none' });
+    }
+  },
 
 	/**
 	 * Resets / clears all selected items
