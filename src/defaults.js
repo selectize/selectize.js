@@ -55,6 +55,7 @@ Selectize.defaults = {
 
 	copyClassesToDropdown: true,
   size: false, // must be a number items displayed or height (px, em, rem, vh)
+  normalize: false,
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }

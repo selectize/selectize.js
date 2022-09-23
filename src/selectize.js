@@ -1091,7 +1091,8 @@ $.extend(Selectize.prototype, {
 		}
 
 		// perform search
-		if (query !== self.lastQuery) {
+    if (query !== self.lastQuery) {
+      if (settings.normalize) query = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 			self.lastQuery = query;
 			result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 			self.currentResults = result;
