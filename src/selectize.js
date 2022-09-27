@@ -1091,7 +1091,8 @@ $.extend(Selectize.prototype, {
 		}
 
 		// perform search
-		if (query !== self.lastQuery) {
+    if (query !== self.lastQuery) {
+      if (settings.normalize) query = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 			self.lastQuery = query;
 			result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 			self.currentResults = result;
@@ -1904,7 +1905,8 @@ $.extend(Selectize.prototype, {
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
-		self.$dropdown.css({visibility: 'hidden', display: 'block'});
+    self.$dropdown.css({ visibility: 'hidden', display: 'block' });
+    self.setupDropdownHeight();
 		self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
@@ -1955,6 +1957,29 @@ $.extend(Selectize.prototype, {
 			left  : offset.left
 		});
 	},
+
+  setupDropdownHeight: function () {
+    if (typeof this.settings.dropdownSize === 'object' && this.settings.dropdownSize.sizeType !== 'auto') {
+      var height = this.settings.dropdownSize.sizeValue;
+
+      if (this.settings.dropdownSize.sizeType === 'numberItems') {
+        var $items = this.$dropdown_content.children();
+        var totalHeight = 0;
+
+        $items.each(function (i, $item) {
+          if (i === height) return false;
+
+          totalHeight += $($item).outerHeight(true);
+        });
+
+        // Get padding top for subtract to global height to avoid seeing the next item
+        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
+        height = (totalHeight - padding) + 'px';
+      }
+
+      this.$dropdown_content.css({ height: height, maxHeight: 'none' });
+    }
+  },
 
 	/**
 	 * Resets / clears all selected items
