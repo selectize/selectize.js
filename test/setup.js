@@ -403,6 +403,54 @@
 			});
 		});
 
+    describe('<select> custom size (number)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+					'<option value="c">C</option>' +
+				'</select>', {
+          dropdownSize: { sizeType: 'numberItems', sizeValue: 1 }
+				});
+			});
+
+			it('should adapt dropdown height', function(done) {
+				test.selectize.focus();
+
+        window.setTimeout(function () {
+          var padding = test.selectize.$dropdown_content.css('padding-top') ? test.selectize.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
+          var heightExpected = test.selectize.$dropdown_content.find('.option').first().outerHeight(true) - padding;
+					expect(test.selectize.$dropdown_content.height()).to.be.equal(heightExpected);
+					done();
+				}, 0);
+			});
+    });
+
+    describe('<select> custom size (css height)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {
+          dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
+				});
+			});
+
+			it('should dropdown height to be equal 100', function(done) {
+				test.selectize.focus();
+
+				window.setTimeout(function () {
+					expect(test.selectize.$dropdown_content.height()).to.be.equal(100);
+					done();
+				}, 0);
+			});
+		});
+
 	});
 
 })();

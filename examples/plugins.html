@@ -22,6 +22,29 @@
 			<h1>Selectize.js</h1>
 
 			<div class="demo">
+				<h2>Plugin: "clear_button"</h2>
+				<div class="control-group">
+					<label for="clear-btn">Tags: Simple select</label>
+					<select id="clear-btn" class="clear-btn demo-default" name="clear-btn">
+						<option value="awesome">awesome</option>
+						<option value="neat">neat</option>
+					</select>
+				</div>
+				<div class="control-group">
+					<label for="clear-btn">Tags: Multiple select</label>
+					<select multiple id="clear-btn" class="clear-btn demo-default" name="clear-btn">
+						<option value="awesome">awesome</option>
+						<option value="neat">neat</option>
+					</select>
+				</div>
+				<script>
+				$('.clear-btn').selectize({
+					plugins: ['clear_button']
+				});
+				</script>
+			</div>
+
+			<div class="demo">
 				<h2>Plugin: "remove_button"</h2>
 				<div class="control-group">
 					<label for="input-tags">Tags:</label>

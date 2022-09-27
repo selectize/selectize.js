@@ -1091,7 +1091,8 @@ $.extend(Selectize.prototype, {
 		}
 
 		// perform search
-		if (query !== self.lastQuery) {
+    if (query !== self.lastQuery) {
+      if (settings.normalize) query = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 			self.lastQuery = query;
 			result = self.sifter.search(query, $.extend(options, {score: calculateScore}));
 			self.currentResults = result;
@@ -1221,22 +1222,24 @@ $.extend(Selectize.prototype, {
 		}
 
 		// activate
-		self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate );
+		self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate ) || self.settings.setFirstOptionActive;
 		if (self.hasOptions) {
-			if (results.items.length > 0) {
-				$active_before = active_before && self.getOption(active_before);
-				if (results.query !== "" && $active_before && $active_before.length) {
-					$active = $active_before;
-				} else if (self.settings.mode === 'single' && self.items.length) {
-					$active = self.getOption(self.items[0]);
-				}
-				if (!$active || !$active.length) {
-					if ($create && !self.settings.addPrecedence) {
-						$active = self.getAdjacentOption($create, 1);
-					} else {
-						$active = $dropdown_content.find('[data-selectable]:first');
-					}
-				}
+      if (results.items.length > 0) {
+        $active_before = active_before && self.getOption(active_before);
+        if (results.query !== "" && self.settings.setFirstOptionActive) {
+          $active = $dropdown_content.find('[data-selectable]:first')
+        } else if (results.query !== "" && $active_before && $active_before.length) {
+          $active = $active_before;
+        } else if (self.settings.mode === 'single' && self.items.length) {
+          $active = self.getOption(self.items[0]);
+        }
+        if (!$active || !$active.length) {
+          if ($create && !self.settings.addPrecedence) {
+            $active = self.getAdjacentOption($create, 1);
+          } else {
+            $active = $dropdown_content.find('[data-selectable]:first');
+          }
+        }
 			} else {
 				$active = $create;
 			}
@@ -1902,7 +1905,8 @@ $.extend(Selectize.prototype, {
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
-		self.$dropdown.css({visibility: 'hidden', display: 'block'});
+    self.$dropdown.css({ visibility: 'hidden', display: 'block' });
+    self.setupDropdownHeight();
 		self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
@@ -1922,7 +1926,7 @@ $.extend(Selectize.prototype, {
 			// this fixes some weird tabbing behavior in FF and IE.
 			// See #1164
 			if (self.isBlurring) {
-				self.$control_input.blur(); // close keyboard on iOS
+				self.$control_input[0].blur(); // close keyboard on iOS
 			}
 		}
 
@@ -1953,6 +1957,29 @@ $.extend(Selectize.prototype, {
 			left  : offset.left
 		});
 	},
+
+  setupDropdownHeight: function () {
+    if (typeof this.settings.dropdownSize === 'object' && this.settings.dropdownSize.sizeType !== 'auto') {
+      var height = this.settings.dropdownSize.sizeValue;
+
+      if (this.settings.dropdownSize.sizeType === 'numberItems') {
+        var $items = this.$dropdown_content.children();
+        var totalHeight = 0;
+
+        $items.each(function (i, $item) {
+          if (i === height) return false;
+
+          totalHeight += $($item).outerHeight(true);
+        });
+
+        // Get padding top for subtract to global height to avoid seeing the next item
+        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
+        height = (totalHeight - padding) + 'px';
+      }
+
+      this.$dropdown_content.css({ height: height, maxHeight: 'none' });
+    }
+  },
 
 	/**
 	 * Resets / clears all selected items

@@ -650,7 +650,7 @@
 	
 			$wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes).addClass(inputMode);
 			$control          = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
-			$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+			$control_input    = $('<input type="select-one" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 			$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 			$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
 			$dropdown_content = $('<div>').addClass(settings.dropdownContentClass).attr('tabindex', '-1').appendTo($dropdown);
@@ -705,10 +705,10 @@
 			self.$dropdown         = $dropdown;
 			self.$dropdown_content = $dropdown_content;
 	
-			$dropdown.on('mouseenter mousedown click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
+			$dropdown.on('mouseenter mousedown mouseup click', '[data-disabled]>[data-selectable]', function(e) { e.stopImmediatePropagation(); });
 			$dropdown.on('mouseenter', '[data-selectable]', function() { return self.onOptionHover.apply(self, arguments); });
-			$dropdown.on('mousedown click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
-			watchChildEvent($control, 'mousedown', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
+			$dropdown.on('mouseup click', '[data-selectable]', function() { return self.onOptionSelect.apply(self, arguments); });
+			watchChildEvent($control, 'mouseup', '*:not(input)', function() { return self.onItemSelect.apply(self, arguments); });
 			autoGrow($control_input);
 	
 			$control.on({
@@ -722,7 +722,7 @@
 				keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 				input     : function() { return self.onInput.apply(self, arguments); },
 				resize    : function() { self.positionDropdown.apply(self, []); },
-				blur      : function() { return self.onBlur.apply(self, arguments); },
+				// blur      : function() { return self.onBlur.apply(self, arguments); },
 				focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 				paste     : function() { return self.onPaste.apply(self, arguments); }
 			});
@@ -746,7 +746,8 @@
 						return false;
 					}
 					// blur on click outside
-					if (!self.$control.has(e.target).length && e.target !== self.$control[0]) {
+					// do not blur if the dropdown is clicked
+					if (!self.$dropdown.has(e.target).length && e.target !== self.$control[0]) {
 						self.blur(e.target);
 					}
 				}
@@ -1178,12 +1179,14 @@
 	
 			if (self.ignoreFocus) {
 				return;
-			} else if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
-				// necessary to prevent IE closing the dropdown when the scrollbar is clicked
-				self.ignoreBlur = true;
-				self.onFocus(e);
-				return;
 			}
+			// Bug fix do not blur dropdown here
+			// else if (!self.ignoreBlur && document.activeElement === self.$dropdown_content[0]) {
+			// 	// necessary to prevent IE closing the dropdown when the scrollbar is clicked
+			// 	self.ignoreBlur = true;
+			// 	self.onFocus(e);
+			// 	return;
+			// }
 	
 			var deactivate = function() {
 				self.close();
@@ -1732,22 +1735,24 @@
 			}
 	
 			// activate
-			self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate );
+			self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate ) || self.settings.setFirstOptionActive;
 			if (self.hasOptions) {
-				if (results.items.length > 0) {
-					$active_before = active_before && self.getOption(active_before);
-					if (results.query !== "" && $active_before && $active_before.length) {
-						$active = $active_before;
-					} else if (self.settings.mode === 'single' && self.items.length) {
-						$active = self.getOption(self.items[0]);
-					}
-					if (!$active || !$active.length) {
-						if ($create && !self.settings.addPrecedence) {
-							$active = self.getAdjacentOption($create, 1);
-						} else {
-							$active = $dropdown_content.find('[data-selectable]:first');
-						}
-					}
+	      if (results.items.length > 0) {
+	        $active_before = active_before && self.getOption(active_before);
+	        if (results.query !== "" && self.settings.setFirstOptionActive) {
+	          $active = $dropdown_content.find('[data-selectable]:first')
+	        } else if (results.query !== "" && $active_before && $active_before.length) {
+	          $active = $active_before;
+	        } else if (self.settings.mode === 'single' && self.items.length) {
+	          $active = self.getOption(self.items[0]);
+	        }
+	        if (!$active || !$active.length) {
+	          if ($create && !self.settings.addPrecedence) {
+	            $active = self.getAdjacentOption($create, 1);
+	          } else {
+	            $active = $dropdown_content.find('[data-selectable]:first');
+	          }
+	        }
 				} else {
 					$active = $create;
 				}
@@ -2403,7 +2408,13 @@
 		open: function() {
 			var self = this;
 	
-			if (self.isLocked || self.isOpen || (self.settings.mode === 'multi' && self.isFull())) return;
+			if (
+	      self.isLocked ||
+	      self.isOpen ||
+	      (self.settings.mode === "multi" && self.isFull()) ||
+	      self.$control_input.is(":invalid")
+	    )
+	      return;
 			self.focus();
 			self.isOpen = true;
 			self.refreshState();
@@ -2447,9 +2458,13 @@
 			var $control = this.$control;
 			var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 			offset.top += $control.outerHeight(true);
-	
+			var w = $control[0].getBoundingClientRect().width;
+			if (this.settings.minWidth && this.settings.minWidth > w)
+			{
+				w = this.settings.minWidth;
+			}
 			this.$dropdown.css({
-				width : $control[0].getBoundingClientRect().width,
+				width : w,
 				top   : offset.top,
 				left  : offset.left
 			});
@@ -2864,6 +2879,7 @@
 		allowEmptyOption: false,
 		showEmptyOptionInDropdown: false,
 		emptyOptionLabel: '--',
+	  setFirstOptionActive: false,
 		closeAfterSelect: false,
 	  closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 	
@@ -3162,6 +3178,60 @@
 	
 	      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
 	      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
+	    };
+	  })();
+	});
+	
+	
+	Selectize.define("clear_button", function (options) {
+	  var self = this;
+	
+	  options = $.extend(
+	    {
+	      title: "Clear",
+	      className: "clear",
+	      label: "×",
+	      html: function (data) {
+	        return (
+	          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
+	        );
+	      },
+	    },
+	    options
+	  );
+	
+	  self.setup = (function () {
+	    var original = self.setup;
+	    return function () {
+	      original.apply(self, arguments);
+	      self.$button_clear = $(options.html(options));
+	
+	      if (self.settings.mode === "single") self.$wrapper.addClass("single");
+	
+	      self.$wrapper.append(self.$button_clear);
+	
+	      if (self.getValue() === "" || self.getValue().length === 0) {
+	        self.$wrapper.find("." + options.className).css("display", "none");
+	      }
+	
+	      self.on("change", function () {
+	        if (self.getValue() !== "" || self.getValue().length === 0) {
+	          self.$wrapper.find("." + options.className).css("display", "");
+	        } else {
+	          self.$wrapper.find("." + options.className).css("display", "none");
+	        }
+	      });
+	
+	      self.$wrapper.on("click", "." + options.className, function (e) {
+	        e.preventDefault();
+	        e.stopImmediatePropagation();
+	        e.stopPropagation();
+	
+	        if (self.isLocked) return;
+	
+	        self.clear();
+	        self.$wrapper.find("." + options.className).css("display", "none");
+	      });
 	    };
 	  })();
 	});

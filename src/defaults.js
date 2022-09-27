@@ -23,6 +23,7 @@ Selectize.defaults = {
 	allowEmptyOption: false,
 	showEmptyOptionInDropdown: false,
 	emptyOptionLabel: '--',
+  setFirstOptionActive: false,
 	closeAfterSelect: false,
   closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 
@@ -53,7 +54,11 @@ Selectize.defaults = {
 	dropdownParent: null,
 
 	copyClassesToDropdown: true,
-
+  dropdownSize: {
+    sizeType: 'auto', // 'numberItems' or 'fixedHeight'
+    sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
+  },
+  normalize: false,
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
