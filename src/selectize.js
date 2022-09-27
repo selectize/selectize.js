@@ -1959,10 +1959,10 @@ $.extend(Selectize.prototype, {
 	},
 
   setupDropdownHeight: function () {
-    if (this.settings.size) {
-      var height = this.settings.size;
+    if (typeof this.settings.dropdownSize === 'object' && this.settings.dropdownSize.sizeType !== 'auto') {
+      var height = this.settings.dropdownSize.sizeValue;
 
-      if (!isNaN(height)) {
+      if (this.settings.dropdownSize.sizeType === 'numberItems') {
         var $items = this.$dropdown_content.children();
         var totalHeight = 0;
 

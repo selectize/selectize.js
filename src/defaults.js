@@ -54,7 +54,10 @@ Selectize.defaults = {
 	dropdownParent: null,
 
 	copyClassesToDropdown: true,
-  size: false, // must be a number items displayed or height (px, em, rem, vh)
+  dropdownSize: {
+    sizeType: 'auto', // 'numberItems' or 'fixedHeight'
+    sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
+  },
   normalize: false,
 	/*
 	load                 : null, // function(query, callback) { ... }

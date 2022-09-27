@@ -63,7 +63,7 @@
 				</div>
 				<script>
 				$('#size-number').selectize({
-					size: 8
+					dropdownSize: { sizeType: 'numberItems', sizeValue: 8 }
 				});
 				</script>
 			</div>
@@ -87,8 +87,8 @@
 				</div>
 				<script>
 				$('#size-px').selectize({
-					size: '100px'
-				});
+					dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
+        });
 				</script>
 			</div>
 
@@ -110,9 +110,7 @@
 					</select>
 				</div>
 				<script>
-				$('#size-false').selectize({
-					size: false
-				});
+				$('#size-false').selectize();
 				</script>
 			</div>
 

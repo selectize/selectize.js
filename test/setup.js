@@ -413,7 +413,7 @@
 					'<option value="b">B</option>' +
 					'<option value="c">C</option>' +
 				'</select>', {
-					size: 1
+          dropdownSize: { sizeType: 'numberItems', sizeValue: 1 }
 				});
 			});
 
@@ -437,11 +437,11 @@
 					'<option value="">Select an option...</option>' +
 					'<option value="a">A</option>' +
 				'</select>', {
-					size: '100px'
+          dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
 				});
 			});
 
-			it('should dropdown height to be equal 100px', function(done) {
+			it('should dropdown height to be equal 100', function(done) {
 				test.selectize.focus();
 
 				window.setTimeout(function () {
