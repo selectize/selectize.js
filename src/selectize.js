@@ -1926,7 +1926,7 @@ $.extend(Selectize.prototype, {
 			// this fixes some weird tabbing behavior in FF and IE.
 			// See #1164
 			if (self.isBlurring) {
-				self.$control_input.blur(); // close keyboard on iOS
+				self.$control_input[0].blur(); // close keyboard on iOS
 			}
 		}
 
