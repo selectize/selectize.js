@@ -22,10 +22,6 @@
     "type": "git",
     "url": "git://github.com/selectize/selectize.js.git"
   },
-  "dependencies": {
-    "@selectize/sifter": "^0.6.2",
-    "microplugin": "0.0.3"
-  },
   "devDependencies": {
     "@types/jquery": "^3.5.14",
     "bootstrap-sass": "^3.4.3",
