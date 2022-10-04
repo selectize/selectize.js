@@ -42,7 +42,10 @@ Selectize.define('dropdown_header', function(options) {
 		return function() {
 			original.apply(self, arguments);
 			self.$dropdown_header = $(options.html(options));
-			self.$dropdown.prepend(self.$dropdown_header);
+      self.$dropdown.prepend(self.$dropdown_header);
+      self.$dropdown_header.find('.' + options.closeClass).on('click', function () {
+        self.close();
+      });
 		};
 	})();
 
