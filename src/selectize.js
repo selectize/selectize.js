@@ -1963,18 +1963,25 @@ $.extend(Selectize.prototype, {
       var height = this.settings.dropdownSize.sizeValue;
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
-        var $items = this.$dropdown_content.children();
+        // retrieve all items (included optgroup but exept the container .optgroup)
+        var $items = this.$dropdown_content.find('*').not('.optgroup');
         var totalHeight = 0;
 
-        $items.each(function (i, $item) {
-          if (i === height) return false;
+        for (var i = 0; i < height; i++) {
+          var $item = $($items[i]);
 
-          totalHeight += $($item).outerHeight(true);
-        });
+          totalHeight += $($items[i]).outerHeight(true);
+          // If not selectable, it's an optgroup so we "ignore" for count items
+          if (typeof $item.data('selectable') == 'undefined') height++;
+
+        }
 
         // Get padding top for subtract to global height to avoid seeing the next item
         var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
         height = (totalHeight - padding) + 'px';
+      } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
+        console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
+        return;
       }
 
       this.$dropdown_content.css({ height: height, maxHeight: 'none' });
