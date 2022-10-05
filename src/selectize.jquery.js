@@ -73,7 +73,7 @@ $.fn.selectize = function(settings_user) {
 					var arr = optionsMap[value][field_optgroup];
 					if (!arr) {
 						optionsMap[value][field_optgroup] = group;
-					} else if (!$.isArray(arr)) {
+					} else if (!Array.isArray(arr)) {
 						optionsMap[value][field_optgroup] = [arr, group];
 					} else {
 						arr.push(group);
