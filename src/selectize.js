@@ -822,7 +822,7 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Resets the selected items to the given value.
 	 *
-	 * @param {mixed} value
+	 * @param {Array<String|Number>} value
 	 */
 	setValue: function(value, silent) {
 		var events = silent ? [] : ['change'];
@@ -1601,6 +1601,8 @@ $.extend(Selectize.prototype, {
 			var inputMode = self.settings.mode;
 			var i, active, value_next, wasFull;
 			value = hash_key(value);
+
+      if (value === '') return;
 
 			if (self.items.indexOf(value) !== -1) {
 				if (inputMode === 'single') self.close();
