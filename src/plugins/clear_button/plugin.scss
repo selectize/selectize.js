@@ -1,5 +1,6 @@
 .#{$selectize}-control.plugin-clear_button {
     .clear {
+        text-decoration: none;
         display: flex;
         position: absolute;
         height: 100%;
@@ -24,5 +25,5 @@
     &.single .clear {
         right: calc(#{$select-padding-x} - #{$select-padding-item-x} + 1.5rem);
     }
-    
+
 }
