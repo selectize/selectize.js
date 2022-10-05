@@ -21,7 +21,7 @@ $.fn.selectize = function(settings_user) {
 		var data_raw = $input.attr(attr_data);
 
 		if (!data_raw) {
-			var value = $.trim($input.val() || '');
+			var value = String.prototype.trim($input.val() || '');
 			if (!settings.allowEmptyOption && !value.length) return;
 			values = value.split(settings.delimiter);
 			for (i = 0, n = values.length; i < n; i++) {
