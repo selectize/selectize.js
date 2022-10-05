@@ -1973,8 +1973,10 @@ $.extend(Selectize.prototype, {
         }
 
         // Get padding top for add to global height
-        var padding = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
-        height = (totalHeight + padding*2) + 'px';
+        var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
+
+        height = (totalHeight + paddingTop + paddingBottom) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
         console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
         return;
