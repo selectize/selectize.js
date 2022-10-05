@@ -137,7 +137,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 
 .#{$selectize}-control {
   &.form-control-sm {
-    .#{$selectize}-input.has-items {
+    .#{$selectize}-input {
       min-height: $input-height-sm !important;
       height: $input-height-sm;
       padding: $input-padding-y-sm $input-padding-x-sm !important;
@@ -147,7 +147,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   }
 
   &.multi {
-    .#{$selectize}-input.has-items {
+    .#{$selectize}-input {
       height: auto;
       padding-left: calc(#{$select-padding-x} - #{$select-padding-item-x});
       padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
