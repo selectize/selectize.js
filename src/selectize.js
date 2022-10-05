@@ -1891,8 +1891,7 @@ $.extend(Selectize.prototype, {
 		if (
       self.isLocked ||
       self.isOpen ||
-      (self.settings.mode === "multi" && self.isFull()) ||
-      self.$control_input.is(":invalid")
+      (self.settings.mode === "multi" && self.isFull())
     )
       return;
 		self.focus();
