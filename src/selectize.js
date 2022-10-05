@@ -1199,7 +1199,11 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
-		}
+    }
+
+    if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
+      self.setupDropdownHeight();
+    }
 
 		// add create option
 		has_create_option = self.canCreate(query);
@@ -1953,11 +1957,14 @@ $.extend(Selectize.prototype, {
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
         // retrieve all items (included optgroup but exept the container .optgroup)
-        var $items = this.$dropdown_content.find('*').not('.optgroup');
+        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight');
         var totalHeight = 0;
+
 
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
+
+          if ($item.length === 0) break;
 
           totalHeight += $($items[i]).outerHeight(true);
           // If not selectable, it's an optgroup so we "ignore" for count items
@@ -1965,9 +1972,9 @@ $.extend(Selectize.prototype, {
 
         }
 
-        // Get padding top for subtract to global height to avoid seeing the next item
-        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
-        height = (totalHeight - padding) + 'px';
+        // Get padding top for add to global height
+        var padding = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        height = (totalHeight + padding*2) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
         console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
         return;
