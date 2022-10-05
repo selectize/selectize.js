@@ -12,7 +12,7 @@
   ],
   "main": "dist/js/selectize.js",
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-  "version": "0.13.6",
+  "version": "0.14.0",
   "author": "Brian Reavis <brian@thirdroute.com>",
   "contributors": [
     "Ris Adams <selectize@risadams.com>"
@@ -21,10 +21,6 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/selectize/selectize.js.git"
-  },
-  "dependencies": {
-    "@selectize/sifter": "^0.6.2",
-    "microplugin": "0.0.3"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.14",

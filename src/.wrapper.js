@@ -19,18 +19,18 @@
 /*jshint curly:false */
 /*jshint browser:true */
 
-(function(root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		define(['jquery','sifter','microplugin'], factory);
-	} else if (typeof module === 'object' && typeof module.exports === 'object') {
-		module.exports = factory(require('jquery'), require('sifter'), require('microplugin'));
-	} else {
-		root.Selectize = factory(root.jQuery, root.Sifter, root.MicroPlugin);
-	}
-}(this, function($, Sifter, MicroPlugin) {
-	'use strict';
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery'], factory);
+  } else if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = factory(require('jquery'));
+  } else {
+    root.Selectize = factory(root.jQuery);
+  }
+}(this, function ($) {
+  'use strict';
 
-	@@js
+  @@js
 
-	return Selectize;
+  return Selectize;
 }));

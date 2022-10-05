@@ -89,18 +89,7 @@ var Selectize = function($input, settings) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MicroEvent.mixin(Selectize);
-
-if(typeof MicroPlugin !== "undefined"){
-	MicroPlugin.mixin(Selectize);
-}else{
-	logError("Dependency MicroPlugin is missing",
-		{explanation:
-			"Make sure you either: (1) are using the \"standalone\" "+
-			"version of Selectize, or (2) require MicroPlugin before you "+
-			"load Selectize."}
-	);
-}
-
+MicroPlugin.mixin(Selectize);
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -2368,5 +2357,4 @@ $.extend(Selectize.prototype, {
 			&& (typeof filter !== 'string' || new RegExp(filter).test(input))
 			&& (!(filter instanceof RegExp) || filter.test(input));
 	}
-
 });

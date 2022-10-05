@@ -6,6 +6,7 @@ Thank you to our top contributors!
  - @[risadams](https://github.com/risadams)
  - @[joallard](https://github.com/joallard)
  - @[sjhewitt](https://github.com/sjhewitt)
+ - @[fabienwnklr](https://github.com/fabienwnklr)
  - @[jhash](https://github.com/jhash)
  - @[Scottmitch](https://github.com/Scottmitch)
  - @[rotdrop](https://github.com/rotdrop)
@@ -29,4 +30,3 @@ Thank you to our top contributors!
  - @[mikemaccana](https://github.com/mikemaccana)
  - @[paulkolbovich](https://github.com/paulkolbovich)
  - @[reklatsmasters](https://github.com/reklatsmasters)
- - @[ryanwersal](https://github.com/ryanwersal)
