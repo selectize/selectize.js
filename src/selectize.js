@@ -1199,7 +1199,11 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
-		}
+    }
+
+    if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
+      self.setupDropdownHeight();
+    }
 
 		// add create option
 		has_create_option = self.canCreate(query);
@@ -1952,18 +1956,30 @@ $.extend(Selectize.prototype, {
       var height = this.settings.dropdownSize.sizeValue;
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
-        var $items = this.$dropdown_content.children();
+        // retrieve all items (included optgroup but exept the container .optgroup)
+        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight');
         var totalHeight = 0;
 
-        $items.each(function (i, $item) {
-          if (i === height) return false;
 
-          totalHeight += $($item).outerHeight(true);
-        });
+        for (var i = 0; i < height; i++) {
+          var $item = $($items[i]);
 
-        // Get padding top for subtract to global height to avoid seeing the next item
-        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
-        height = (totalHeight - padding) + 'px';
+          if ($item.length === 0) break;
+
+          totalHeight += $($items[i]).outerHeight(true);
+          // If not selectable, it's an optgroup so we "ignore" for count items
+          if (typeof $item.data('selectable') == 'undefined') height++;
+
+        }
+
+        // Get padding top for add to global height
+        var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
+
+        height = (totalHeight + paddingTop + paddingBottom) + 'px';
+      } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
+        console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
+        return;
       }
 
       this.$dropdown_content.css({ height: height, maxHeight: 'none' });

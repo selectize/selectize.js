@@ -1,4 +1,4 @@
-.#{$selectize}-control {
+.#{$selectize}-dropdown.plugin-dropdown_header {
   .#{$selectize}-dropdown-header {
     position: relative;
     padding: ($select-padding-dropdown-item-y * 2)
@@ -16,6 +16,7 @@
     margin-top: -12px;
     line-height: 20px;
     font-size: 20px !important;
+    text-decoration: none;
   }
   .#{$selectize}-dropdown-header-close:hover {
     color: darken($select-color-text, 25%);
