@@ -51,14 +51,20 @@ $.fn.selectize = function(settings_user) {
 		var optionsMap = {};
 
 		var readData = function($el) {
-			var data = attr_data && $el.attr(attr_data);
+      var data = attr_data && $el.attr(attr_data);
+      var allData = $el.data();
       var obj = {};
 
-			if (typeof data === 'string' && data.length && isJSON(data)) {
-				return JSON.parse(data);
+			if (typeof data === 'string' && data.length) {
+        if (isJSON(data)) {
+          Object.assign(obj, JSON.parse(data))
+        } else {
+          obj[data] = data;
+        }
       }
 
-      obj[data] = data;
+
+      Object.assign(obj, allData);
 
 			return obj || null;
 		};
@@ -91,7 +97,9 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_disabled] = option[field_disabled] || $option.prop('disabled');
-			option[field_optgroup] = option[field_optgroup] || group;
+      option[field_optgroup] = option[field_optgroup] || group;
+      option.styles = $option.attr('style') || '';
+			option.classes = $option.attr('class') || '';
 
 			optionsMap[value] = option;
 			options.push(option);
