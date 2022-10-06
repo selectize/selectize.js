@@ -1666,7 +1666,8 @@ $.extend(Selectize.prototype, {
 		if (i !== -1) {
 			self.trigger('item_before_remove', value, $item);
 			$item.remove();
-			if ($item.hasClass('active')) {
+      if ($item.hasClass('active')) {
+        $item.removeClass('active');
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
 			}
