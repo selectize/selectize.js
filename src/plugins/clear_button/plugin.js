@@ -48,9 +48,9 @@ Selectize.define("clear_button", function (options) {
 
       self.on("change", function () {
         if (self.getValue() === "" || self.getValue().length === 0) {
-          self.$wrapper.find("." + options.className).css("display", "");
-        } else {
           self.$wrapper.find("." + options.className).css("display", "none");
+        } else {
+          self.$wrapper.find("." + options.className).css("display", "");
         }
       });
 
