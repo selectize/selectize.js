@@ -301,7 +301,11 @@ $.extend(Selectize.prototype, {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option '+( data[field_value] === '' ? 'selectize-dropdown-emptyoptionlabel' : '')+'">' + escape(data[field_label]) + '</div>';
+        var classes = data.classes ? ' ' + data.classes : '';
+        classes = data[field_value] === '' ? ' selectize-dropdown-emptyoptionlabel' : '';
+
+        var styles = data.styles ? ' style="' + data.styles +  '"': '';
+				return '<div' + styles + ' class="option' + classes + '">' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
 				return '<div class="item">' + escape(data[field_label]) + '</div>';
