@@ -346,16 +346,30 @@ var domToString = function(d) {
 	return tmp.innerHTML;
 };
 
-var logError = function(message, options){
-	if(!options) options = {};
-	var component = "Selectize";
+var logError = function (message, options) {
+  if (!options) options = {};
+  var component = "Selectize";
 
-	console.error(component + ": " + message)
+  console.error(component + ": " + message)
 
-	if(options.explanation){
-		// console.group is undefined in <IE11
-		if(console.group) console.group();
-		console.error(options.explanation);
-		if(console.group) console.groupEnd();
-	}
-}
+  if (options.explanation) {
+    // console.group is undefined in <IE11
+    if (console.group) console.group();
+    console.error(options.explanation);
+    if (console.group) console.groupEnd();
+  }
+};
+
+/**
+ *
+ * @param {any} data Data to testing
+ * @returns {Boolean} true if is an JSON object
+ */
+var isJSON = function (data) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
