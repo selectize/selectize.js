@@ -63,7 +63,7 @@ var Selectize = function($input, settings) {
 			self.registerOption(self.settings.options[i]);
 		}
 		delete self.settings.options;
-	}
+  }
 
 	// build optgroup table
 	if (self.settings.optgroups) {
@@ -353,7 +353,7 @@ $.extend(Selectize.prototype, {
 	 * Triggered when the main control element
 	 * has a click event.
 	 *
-	 * @param {object} e
+	 * @param {PointerEvent} e
 	 * @return {boolean}
 	 */
 	onClick: function(e) {
@@ -613,7 +613,7 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Triggered on <input> focus.
 	 *
-	 * @param {object} e (optional)
+	 * @param {FocusEvent} e (optional)
 	 * @returns {boolean}
 	 */
 	onFocus: function(e) {
@@ -1602,8 +1602,6 @@ $.extend(Selectize.prototype, {
 			var i, active, value_next, wasFull;
 			value = hash_key(value);
 
-      if (value === '') return;
-
 			if (self.items.indexOf(value) !== -1) {
 				if (inputMode === 'single') self.close();
 				return;
@@ -1613,10 +1611,10 @@ $.extend(Selectize.prototype, {
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			$item = $(self.render('item', self.options[value]));
+      $item = $(self.render('item', self.options[value]));
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
-			self.insertAtCaret($item);
+      self.insertAtCaret($item);
 			if (!self.isPending || (!wasFull && self.isFull())) {
 				self.refreshState();
 			}
@@ -2017,7 +2015,10 @@ $.extend(Selectize.prototype, {
 	 */
 	insertAtCaret: function($el) {
 		var caret = Math.min(this.caretPos, this.items.length);
-		var el = $el[0];
+    var el = $el[0];
+    /**
+     * @type {HTMLElement}
+     **/
 		var target = this.buffer || this.$control[0];
 
 		if (caret === 0) {

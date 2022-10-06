@@ -273,7 +273,7 @@ $select-spinner-border-color: $select-color-border;
     cursor: inherit;
     opacity: 0.5;
   }
-  [data-selectable].option:not(.selectize-dropdown-emptyoptionlabel) {
+  [data-selectable].option {
     opacity: 1;
     cursor: pointer;
   }
