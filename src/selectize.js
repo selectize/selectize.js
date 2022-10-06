@@ -302,7 +302,7 @@ $.extend(Selectize.prototype, {
 			},
 			'option': function(data, escape) {
         var classes = data.classes ? ' ' + data.classes : '';
-        classes = data[field_value] === '' ? ' selectize-dropdown-emptyoptionlabel' : '';
+        classes += data[field_value] === '' ? ' selectize-dropdown-emptyoptionlabel' : '';
 
         var styles = data.styles ? ' style="' + data.styles +  '"': '';
 				return '<div' + styles + ' class="option' + classes + '">' + escape(data[field_label]) + '</div>';
