@@ -52,10 +52,15 @@ $.fn.selectize = function(settings_user) {
 
 		var readData = function($el) {
 			var data = attr_data && $el.attr(attr_data);
-			if (typeof data === 'string' && data.length) {
+      var obj = {};
+
+			if (typeof data === 'string' && data.length && isJSON(data)) {
 				return JSON.parse(data);
-			}
-			return null;
+      }
+
+      obj[data] = data;
+
+			return obj || null;
 		};
 
 		var addOption = function($option, group) {
