@@ -12,8 +12,8 @@ $.fn.selectize = function(settings_user) {
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
-	 * @param {object} $input
-	 * @param {object} settings_element
+	 * @param {JQuery} $input
+	 * @param {Object} settings_element
 	 */
 	var init_textbox = function($input, settings_element) {
 		var i, n, values, option;
@@ -21,7 +21,7 @@ $.fn.selectize = function(settings_user) {
 		var data_raw = $input.attr(attr_data);
 
 		if (!data_raw) {
-			var value = String.prototype.trim($input.val() || '');
+			var value = ($input.val() || '').trim();
 			if (!settings.allowEmptyOption && !value.length) return;
 			values = value.split(settings.delimiter);
 			for (i = 0, n = values.length; i < n; i++) {

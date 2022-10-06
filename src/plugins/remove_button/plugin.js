@@ -15,7 +15,9 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
-Selectize.define('remove_button', function(options) {
+Selectize.define('remove_button', function (options) {
+  if (this.settings.mode === 'single') return;
+
 	options = $.extend({
 			label     : '&#xd7;',
 			title     : 'Remove',
