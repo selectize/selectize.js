@@ -1,6 +1,7 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+
 ## v0.14.0 · 02 10 2022
 
 - *Breaking change:* Removed the dependencies on MicroPlugin and Sifter - These are now included in the selectize package directly.
