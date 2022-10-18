@@ -829,6 +829,11 @@ $.extend(Selectize.prototype, {
 	 * @param {Array<String|Number>} value
 	 */
 	setValue: function(value, silent) {
+		const items = Array.isArray(value) ? value : [value];
+		if (items.join('') === this.items.join('')) {
+			return;
+		}
+
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
