@@ -189,6 +189,10 @@ var watchChildEvent = function($parent, event, selector, fn) {
  */
 var getSelection = function(input) {
 	var result = {};
+  if(input === undefined) {
+    console.warn('WARN getSelection cannot locate input control');
+    return result;
+  }
 	if ('selectionStart' in input) {
 		result.start = input.selectionStart;
 		result.length = input.selectionEnd - result.start;
@@ -238,12 +242,17 @@ var measureString = function(str, $parent) {
 	if (!Selectize.$testInput) {
 		Selectize.$testInput = $('<span />').css({
 			position: 'absolute',
-			top: -99999,
-			left: -99999,
 			width: 'auto',
 			padding: 0,
 			whiteSpace: 'pre'
-		}).appendTo('body');
+		});
+
+		$('<div />').css({
+			position: 'absolute',
+			width: 0,
+			height: 0,
+			overflow: 'hidden'
+		}).append(Selectize.$testInput).appendTo('body');
 	}
 
 	Selectize.$testInput.text(str);
@@ -272,7 +281,8 @@ var autoGrow = function($input) {
 	var currentWidth = null;
 
 	var update = function(e, options) {
-		var value, keyCode, printable, placeholder, width;
+		var value, keyCode, printable, width;
+		var placeholder, placeholderWidth;
 		var shift, character, selection;
 		e = e || window.event || {};
 		options = options || {};
@@ -310,11 +320,13 @@ var autoGrow = function($input) {
 		}
 
 		placeholder = $input.attr('placeholder');
-		if (!value && placeholder) {
-			value = placeholder;
+		if (placeholder) {
+			placeholderWidth = measureString(placeholder, $input) + 4;
+		} else {
+			placeholderWidth = 0;
 		}
 
-		width = measureString(value, $input) + 4;
+		width = Math.max(measureString(value, $input), placeholderWidth) + 4;
 		if (width !== currentWidth) {
 			currentWidth = width;
 			$input.width(width);
@@ -334,16 +346,30 @@ var domToString = function(d) {
 	return tmp.innerHTML;
 };
 
-var logError = function(message, options){
-	if(!options) options = {};
-	var component = "Selectize";
+var logError = function (message, options) {
+  if (!options) options = {};
+  var component = "Selectize";
 
-	console.error(component + ": " + message)
+  console.error(component + ": " + message)
 
-	if(options.explanation){
-		// console.group is undefined in <IE11
-		if(console.group) console.group();
-		console.error(options.explanation);
-		if(console.group) console.groupEnd();
-	}
-}
+  if (options.explanation) {
+    // console.group is undefined in <IE11
+    if (console.group) console.group();
+    console.error(options.explanation);
+    if (console.group) console.groupEnd();
+  }
+};
+
+/**
+ *
+ * @param {any} data Data to testing
+ * @returns {Boolean} true if is an JSON object
+ */
+var isJSON = function (data) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};

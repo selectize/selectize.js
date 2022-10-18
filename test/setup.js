@@ -87,10 +87,10 @@
 					optgroupValueField: 'val',
 					optgroupField: 'grp',
 					disabledField: 'dis'
-				});
+        });
 				assert.deepEqual(test.selectize.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: false, styles: '', classes: ''},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false, styles: '', classes: ''}
 				});
 				assert.deepEqual(test.selectize.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
@@ -111,10 +111,10 @@
 					optgroupValueField: 'val',
 					optgroupField: 'grp',
 					disabledField: 'dis'
-				});
+        });
 				assert.deepEqual(test.selectize.options, {
-					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true},
-					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false}
+					'a': {text: 'Item A', value: 'a', grp: ['Group 1', 'Group 2'], $order: 1, dis: true, styles: '', classes: ''},
+					'b': {text: 'Item B', value: 'b', grp: ['Group 1', 'Group 2'], $order: 2, dis: false, styles: '', classes: ''}
 				});
 				assert.deepEqual(test.selectize.optgroups, {
 					'Group 1': {label: 'Group 1', val: 'Group 1', $order: 3, dis: false},
@@ -210,7 +210,27 @@
 					expect(test.selectize.$dropdown.find('[data-selectable]')).to.has.length(1);
 					done();
 				}, 0);
-			});
+      });
+      it('should respect option style / class', function () {
+        var test;
+
+        beforeEach(function() {
+          test = setup_test('<select>' +
+            '<option value="a" style="color:red;" class="a">A</option>' +
+          '</select>', {
+            dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
+          });
+        });
+
+        it('should dropdown height to be equal 100', function(done) {
+          test.selectize.focus();
+
+          window.setTimeout(function () {
+            expect(test.selectize.$dropdown_content.find('.option').attr('style')).to.be.equal('color:red;');
+            expect(test.selectize.$dropdown_content.find('.option').hasClass('a')).to.be.equal(true);
+          }, 0);
+        });
+      });
 			describe('getValue()', function() {
 				it('should return "" when empty', function() {
 					var test = setup_test('<select>', {});
@@ -398,6 +418,54 @@
 
 				window.setTimeout(function() {
 					expect(test.selectize.$dropdown_content.find('.custom-option').length).to.be.equal(1);
+					done();
+				}, 0);
+			});
+		});
+
+    describe('<select> custom size (number)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+					'<option value="b">B</option>' +
+					'<option value="c">C</option>' +
+				'</select>', {
+          dropdownSize: { sizeType: 'numberItems', sizeValue: 1 }
+				});
+			});
+
+			it('should adapt dropdown height', function(done) {
+				test.selectize.focus();
+
+        window.setTimeout(function () {
+          var padding = test.selectize.$dropdown_content.css('padding-top') ? test.selectize.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
+          var heightExpected = test.selectize.$dropdown_content.find('.option').first().outerHeight(true) - padding;
+					expect(test.selectize.$dropdown_content.height()).to.be.equal(heightExpected);
+					done();
+				}, 0);
+			});
+    });
+
+    describe('<select> custom size (css height)', function() {
+			var test;
+
+			beforeEach(function() {
+				test = setup_test('<select>' +
+					'<option value="">Select an option...</option>' +
+					'<option value="a">A</option>' +
+				'</select>', {
+          dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
+				});
+			});
+
+			it('should dropdown height to be equal 100', function(done) {
+				test.selectize.focus();
+
+				window.setTimeout(function () {
+					expect(test.selectize.$dropdown_content.height()).to.be.equal(100);
 					done();
 				}, 0);
 			});

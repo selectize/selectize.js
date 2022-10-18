@@ -9,6 +9,7 @@ Selectize.defaults = {
 	persist: true,
 	diacritics: true,
 	create: false,
+	showAddOptionOnCreate: true,
 	createOnBlur: false,
 	createFilter: null,
 	highlight: true,
@@ -17,12 +18,17 @@ Selectize.defaults = {
 	maxItems: null,
 	hideSelected: null,
 	addPrecedence: false,
-	selectOnTab: false,
+	selectOnTab: true,
 	preload: false,
 	allowEmptyOption: false,
+	showEmptyOptionInDropdown: false,
+	emptyOptionLabel: '--',
+  setFirstOptionActive: false,
 	closeAfterSelect: false,
+  closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 
 	scrollDuration: 60,
+	deselectBehavior: 'previous', //top, previous
 	loadThrottle: 300,
 	loadingClass: 'loading',
 
@@ -48,14 +54,19 @@ Selectize.defaults = {
 	dropdownParent: null,
 
 	copyClassesToDropdown: true,
-
+  dropdownSize: {
+    sizeType: 'auto', // 'numberItems' or 'fixedHeight'
+    sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
+  },
+  normalize: false,
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
+	formatValueToKey     : null, // function(key) { ... }
 	onInitialize         : null, // function() { ... }
 	onChange             : null, // function(value) { ... }
 	onItemAdd            : null, // function(value, $item) { ... }
-	onItemRemove         : null, // function(value) { ... }
+	onItemRemove         : null, // function(value, $item) { ... }
 	onClear              : null, // function() { ... }
 	onOptionAdd          : null, // function(value, data) { ... }
 	onOptionRemove       : null, // function(value) { ... }

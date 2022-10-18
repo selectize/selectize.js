@@ -1,79 +1,94 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
-*  Fixed incorrect highlighting of options that were activated, removed
-   and then re-added in "multiple" mode (#1212 and #1216)
 
-   *@sustmi*
+## v0.14.0 · 02 10 2022
+
+- *Breaking change:* Removed the dependencies on MicroPlugin and Sifter - These are now included in the selectize package directly.
+
+- Fixed missing style for dropdown_header plugin [*@fabienwnklr*](https://github.com/fabienwnklr)
+- Fixed ([#1818](https://github.com/selectize/selectize.js/issues/1818)) Scroll left when I click on a selectized item and page is scrolled right [*@fabienwnklr*](https://github.com/fabienwnklr)
+- Added option to enable setting the first option in the list as active.
+
+  *@joshuan92*
+
+## v0.13.0 · 03 11 2020
+
+- Support for Bootstrap v4.x.
+  - Adding SASS styles, LESS styles still available for bootstrap 2.x
+- Fixed bug (#851) for placeholder text clipping
+- Fixed bug (#870) for remove button plugin closing bootstrap modals
+
+  *@risadams*
 
 ## v0.12.4, v0.12.5 · 27 June 2018
 
-*  Allow the dropdown to reopen on click if it is closed without losing focus
-   by closeAfterSelect: true
+- Allow the dropdown to reopen on click if it is closed without losing focus
+  by closeAfterSelect: true
 
-   *@fishpercolator*
+  *@fishpercolator*
 
+- Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
 
-*  Fixed bug making `clearOptions` function. Now it doesn't remove already selected options.
+  *(thanks @caseymct - #1079)*
 
-   *(thanks @caseymct - #1079)*
+- New feature: allow to disable single options or complete optgroups
 
-*  New feature: allow to disable single options or complete optgroups
-
-   *@zeitiger*
+  *@zeitiger*
 
 ## v0.12.3 · 24 August 2016
-*  Make `label[for]` work after applying Selectize (#755)
 
-   *Barrett Sonntag* (@barretts)
+- Make `label[for]` work after applying Selectize (#755)
 
-*  Output friendly error message when Microplguin is missing (#1137).
-   Special thanks to @styxxx for proposing the improvement.
+  *Barrett Sonntag* (@barretts)
 
-*  Add local server command `grunt server`.
+- Output friendly error message when Microplguin is missing (#1137).
+  Special thanks to @styxxx for proposing the improvement.
 
-*  Stop creating items automatically when text is pasted, only create
-   them when pasted text contains delimiter.
+- Add local server command `grunt server`.
 
-*  Fix regression 'Required fields can not be focusable' in Chrome
-	(#733)
+- Stop creating items automatically when text is pasted, only create
+  them when pasted text contains delimiter.
 
-*  Fix detection of Validity API, we had false negatives before.
+- Fix regression 'Required fields can not be focusable' in Chrome
+  (#733)
 
-   *Jonathan Allard* (@joallard)
+- Fix detection of Validity API, we had false negatives before.
 
-*  Fix open keyboard bug under iOS after closing selection (#1127)
+  *Jonathan Allard* (@joallard)
 
-   *@zeitiger*
+- Fix open keyboard bug under iOS after closing selection (#1127)
 
-*  Fix highlighting more than one character (#1099, #1098)
+  *@zeitiger*
 
-   *@skimi*
+- Fix highlighting more than one character (#1099, #1098)
 
+  *@skimi*
 
 ## v0.12.2 · 23 June 2016
-*  Fix issue preventing build ("Cannot assign to read only property
-   'subarray'") because of bug in uglifyjs. (#1072)
 
-   *@jaridmargolin*
+- Fix issue preventing build ("Cannot assign to read only property
+  'subarray'") because of bug in uglifyjs. (#1072)
 
-*  Fix tabbing issue (#877) on IE11. (#997)
+  *@jaridmargolin*
 
-   *@bwilson-ux*
+- Fix tabbing issue (#877) on IE11. (#997)
 
-*  Fix jQuery initialization for jQuery >= 1.9 (#1045)
+  *@bwilson-ux*
 
-   *@mpokrywka*
+- Fix jQuery initialization for jQuery >= 1.9 (#1045)
 
-*  Make `remove_button` work for single-option usage (#848)
+  *@mpokrywka*
 
-   *@ChoppyThing*
+- Make `remove_button` work for single-option usage (#848)
 
-*  Fixed bug that made `allowEmptyOption: true` useless (#739)
+  *@ChoppyThing*
 
-   *@mcavalletto*
+- Fixed bug that made `allowEmptyOption: true` useless (#739)
 
-*  Functions in option `render` can now return a DOM node in addition to
-   text. (#617)
+  *@mcavalletto*
 
-   *@topaxi*
+- Functions in option `render` can now return a DOM node in addition to
+  text. (#617)
+
+  *@topaxi*

@@ -1,0 +1,20 @@
+name: Update Contributors
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: risadams/contributors-update@v3.1.1
+        with:
+          repo: selectize/selectize.js
+          output: CONTRIBUTORS.md
+          exclude_bots: true
+      - name: Commit changes
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: CONTRIBUTORS.md
+          commit-msg: Update Contributors
+          github-token: ${{ secrets.GITHUB_TOKEN }}

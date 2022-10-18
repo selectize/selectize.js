@@ -20,6 +20,100 @@
 		<div id="wrapper">
 			<h1>Selectize.js</h1>
 
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+          <span>Search with any accent : <pre>["à", "è", "ì", "ò", "ù", "À", "È", "Ì", "Ò", "Ù", "á", "é", "í", "ó", "ú", "ý", "Á", "É", "Í", "Ó", "Ú", "Ý", "â", "ê", "î", "ô", "û", "Â", "Ê", "Î", "Ô", "Û", "ã", "ñ", "õ", "Õ", "Ã", "Ñ", "ä", "ë", "ï", "ö", "ü", "ÿ", "Ä", "Ë", "Ï", "Ö", "Ü", "Ÿ", "ç", "Ç", "å", "Å"];</pre></span>
+					<label for="normalize">Beast: Normalize: true / case insensitive</label>
+					<select id="normalize" class="demo-default">
+            <option value=""></option>
+            <option value="1">Awosome</option>
+            <option value="2">Beast</option>
+            <option value="3">Compatible</option>
+            <option value="4">Thomas Edison</option>
+            <option value="5">Nikola</option>
+            <option value="6">Selectize</option>
+            <option value="7">Javascript</option>
+					</select>
+				</div>
+				<script>
+          $('#normalize').selectize({
+            normalize: true
+          });
+
+				</script>
+			</div>
+
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-number">Beast: size by items count</label>
+					<select id="size-number" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-number').selectize({
+					dropdownSize: { sizeType: 'numberItems', sizeValue: 8 }
+				});
+				</script>
+			</div>
+
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-px">Beast: size by px height (also available with rem, em, vh)</label>
+					<select id="size-px" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-px').selectize({
+					dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
+        });
+				</script>
+			</div>
+
+      <div class="demo">
+				<h2>&lt;select&gt;</h2>
+				<div class="control-group">
+					<label for="size-false">Beast: size false (auto)</label>
+					<select id="size-false" class="demo-default" placeholder="Select a person...">
+						<option value="1">one</option>
+            <option value="2">two</option>
+            <option value="3">three</option>
+            <option value="4">four</option>
+            <option value="5">five</option>
+            <option value="6">six</option>
+            <option value="7">seven</option>
+            <option value="8">eight</option>
+            <option value="9">nine</option>
+            <option value="10">ten</option>
+					</select>
+				</div>
+				<script>
+				$('#size-false').selectize();
+				</script>
+			</div>
+
 			<div class="demo">
 				<h2>&lt;input type="text"&gt;</h2>
 				<div class="control-group">

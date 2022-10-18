@@ -25,6 +25,30 @@
 			});
 		});
 
+		describe('setMaxItems(2)', function(){
+			var test;
+			before(function(done) {
+				test = setup_test('<select>', {});
+				test.selectize.setMaxItems(2);
+				window.setTimeout(function() { done(); }, 5);
+			});
+			it('should set maxItems setting to 2', function() {
+				expect(test.selectize.settings.maxItems).to.be.equal(2);
+			});
+		});
+
+		describe('setMaxItems(0)', function(){
+			var test;
+			before(function(done) {
+				test = setup_test('<select>', {});
+				test.selectize.setMaxItems(0);
+				window.setTimeout(function() { done(); }, 5);
+			});
+			it('should set maxItems setting to null', function() {
+				expect(test.selectize.settings.maxItems).to.be.equal(null);
+			});
+		});
+
 		describe('enable()', function() {
 			var test;
 
@@ -49,11 +73,11 @@
 		});
 
 		describe('focus()', function() {
-			var test;
+			var test, self;
 
 			before(function(done) {
 				test = setup_test('<select>', {});
-				test.selectize.focus();
+				self = test.selectize.focus();
 				window.setTimeout(function() { done(); }, 5);
 			});
 
@@ -63,16 +87,19 @@
 			it('should give the control focus', function() {
 				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(true);
 			});
+			it('should return self to support chaining', function() {
+				expect(self.getValue()).to.be.equal('');
+			});
 		});
 
 		describe('blur()', function() {
-			var test;
+			var test, self;
 
 			before(function(done) {
 				test = setup_test('<select>', {});
 				test.selectize.focus();
 				window.setTimeout(function() {
-					test.selectize.blur();
+					self = test.selectize.blur();
 					window.setTimeout(done, 100);
 				}, 50);
 			});
@@ -81,6 +108,9 @@
 			});
 			it('should remove focus from the control', function() {
 				expect(has_focus(test.selectize.$control_input[0])).to.be.equal(false);
+			});
+			it('should return self to support chaining', function() {
+				expect(self.getValue()).to.be.equal('');
 			});
 		});
 
