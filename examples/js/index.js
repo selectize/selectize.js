@@ -7,6 +7,8 @@ $(function() {
 	var themes = ['default','legacy','bootstrap2','bootstrap3','bootstrap4','bootstrap5'];
 	$('head').append('<link rel="stylesheet" href="../dist/css/selectize.' + theme + '.css">');
 
+  if (theme === 'bootstrap5') $('head').append('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">');
+
 	var $themes = $('<div>').addClass('theme-selector').insertAfter('h1');
 	for (var i = 0; i < themes.length; i++) {
 		$themes.append('<a href="?theme=' + themes[i] + '"' + (themes[i] === theme ? ' class="active"' : '') + '>' + themes[i] + '</a>');

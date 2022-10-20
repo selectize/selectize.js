@@ -12,8 +12,8 @@ $.fn.selectize = function(settings_user) {
 	/**
 	 * Initializes selectize from a <input type="text"> element.
 	 *
-	 * @param {object} $input
-	 * @param {object} settings_element
+	 * @param {JQuery} $input
+	 * @param {Object} settings_element
 	 */
 	var init_textbox = function($input, settings_element) {
 		var i, n, values, option;
@@ -21,7 +21,7 @@ $.fn.selectize = function(settings_user) {
 		var data_raw = $input.attr(attr_data);
 
 		if (!data_raw) {
-			var value = $.trim($input.val() || '');
+			var value = ($input.val() || '').trim();
 			if (!settings.allowEmptyOption && !value.length) return;
 			values = value.split(settings.delimiter);
 			for (i = 0, n = values.length; i < n; i++) {
@@ -51,11 +51,22 @@ $.fn.selectize = function(settings_user) {
 		var optionsMap = {};
 
 		var readData = function($el) {
-			var data = attr_data && $el.attr(attr_data);
+      var data = attr_data && $el.attr(attr_data);
+      var allData = $el.data();
+      var obj = {};
+
 			if (typeof data === 'string' && data.length) {
-				return JSON.parse(data);
-			}
-			return null;
+        if (isJSON(data)) {
+          Object.assign(obj, JSON.parse(data))
+        } else {
+          obj[data] = data;
+        }
+      }
+
+
+      Object.assign(obj, allData);
+
+			return obj || null;
 		};
 
 		var addOption = function($option, group) {
@@ -73,7 +84,7 @@ $.fn.selectize = function(settings_user) {
 					var arr = optionsMap[value][field_optgroup];
 					if (!arr) {
 						optionsMap[value][field_optgroup] = group;
-					} else if (!$.isArray(arr)) {
+					} else if (!Array.isArray(arr)) {
 						optionsMap[value][field_optgroup] = [arr, group];
 					} else {
 						arr.push(group);
@@ -86,7 +97,9 @@ $.fn.selectize = function(settings_user) {
 			option[field_label]    = option[field_label] || $option.text();
 			option[field_value]    = option[field_value] || value;
 			option[field_disabled] = option[field_disabled] || $option.prop('disabled');
-			option[field_optgroup] = option[field_optgroup] || group;
+      option[field_optgroup] = option[field_optgroup] || group;
+      option.styles = $option.attr('style') || '';
+			option.classes = $option.attr('class') || '';
 
 			optionsMap[value] = option;
 			options.push(option);

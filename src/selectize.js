@@ -63,7 +63,7 @@ var Selectize = function($input, settings) {
 			self.registerOption(self.settings.options[i]);
 		}
 		delete self.settings.options;
-	}
+  }
 
 	// build optgroup table
 	if (self.settings.optgroups) {
@@ -89,18 +89,7 @@ var Selectize = function($input, settings) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 MicroEvent.mixin(Selectize);
-
-if(typeof MicroPlugin !== "undefined"){
-	MicroPlugin.mixin(Selectize);
-}else{
-	logError("Dependency MicroPlugin is missing",
-		{explanation:
-			"Make sure you either: (1) are using the \"standalone\" "+
-			"version of Selectize, or (2) require MicroPlugin before you "+
-			"load Selectize."}
-	);
-}
-
+MicroPlugin.mixin(Selectize);
 
 // methods
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -312,7 +301,11 @@ $.extend(Selectize.prototype, {
 				return '<div class="optgroup-header">' + escape(data[field_optgroup]) + '</div>';
 			},
 			'option': function(data, escape) {
-				return '<div class="option '+( data[field_value] === '' ? 'selectize-dropdown-emptyoptionlabel' : '')+'">' + escape(data[field_label]) + '</div>';
+        var classes = data.classes ? ' ' + data.classes : '';
+        classes += data[field_value] === '' ? ' selectize-dropdown-emptyoptionlabel' : '';
+
+        var styles = data.styles ? ' style="' + data.styles +  '"': '';
+				return '<div' + styles + ' class="option' + classes + '">' + escape(data[field_label]) + '</div>';
 			},
 			'item': function(data, escape) {
 				return '<div class="item">' + escape(data[field_label]) + '</div>';
@@ -364,7 +357,7 @@ $.extend(Selectize.prototype, {
 	 * Triggered when the main control element
 	 * has a click event.
 	 *
-	 * @param {object} e
+	 * @param {PointerEvent} e
 	 * @return {boolean}
 	 */
 	onClick: function(e) {
@@ -624,7 +617,7 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Triggered on <input> focus.
 	 *
-	 * @param {object} e (optional)
+	 * @param {FocusEvent} e (optional)
 	 * @returns {boolean}
 	 */
 	onFocus: function(e) {
@@ -833,9 +826,14 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Resets the selected items to the given value.
 	 *
-	 * @param {mixed} value
+	 * @param {Array<String|Number>} value
 	 */
 	setValue: function(value, silent) {
+		const items = Array.isArray(value) ? value : [value];
+		if (items.join('') === this.items.join('')) {
+			return;
+		}
+
 		var events = silent ? [] : ['change'];
 
 		debounce_events(this, events, function() {
@@ -1210,7 +1208,11 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
-		}
+    }
+
+    if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
+      self.setupDropdownHeight();
+    }
 
 		// add create option
 		has_create_option = self.canCreate(query);
@@ -1569,7 +1571,7 @@ $.extend(Selectize.prototype, {
 	 * "Selects" multiple items at once. Adds them to the list
 	 * at the current caret position.
 	 *
-	 * @param {string} value
+	 * @param {string} values
 	 * @param {boolean} silent
 	 */
 	addItems: function(values, silent) {
@@ -1618,10 +1620,10 @@ $.extend(Selectize.prototype, {
 			if (inputMode === 'single') self.clear(silent);
 			if (inputMode === 'multi' && self.isFull()) return;
 
-			$item = $(self.render('item', self.options[value]));
+      $item = $(self.render('item', self.options[value]));
 			wasFull = self.isFull();
 			self.items.splice(self.caretPos, 0, value);
-			self.insertAtCaret($item);
+      self.insertAtCaret($item);
 			if (!self.isPending || (!wasFull && self.isFull())) {
 				self.refreshState();
 			}
@@ -1673,9 +1675,11 @@ $.extend(Selectize.prototype, {
 		if (i !== -1) {
 			self.trigger('item_before_remove', value, $item);
 			$item.remove();
-			if ($item.hasClass('active')) {
+      if ($item.hasClass('active')) {
+        $item.removeClass('active');
 				idx = self.$activeItems.indexOf($item[0]);
 				self.$activeItems.splice(idx, 1);
+				$item.removeClass('active');
 			}
 
 			self.items.splice(i, 1);
@@ -1768,15 +1772,15 @@ $.extend(Selectize.prototype, {
 	/**
 	 * Re-renders the selected item lists.
 	 */
-	refreshItems: function() {
+	refreshItems: function(silent) {
 		this.lastQuery = null;
 
 		if (this.isSetup) {
-			this.addItem(this.items);
+			this.addItem(this.items, silent);
 		}
 
 		this.refreshState();
-		this.updateOriginalInput();
+		this.updateOriginalInput({silent: silent});
 	},
 
 	/**
@@ -1898,8 +1902,7 @@ $.extend(Selectize.prototype, {
 		if (
       self.isLocked ||
       self.isOpen ||
-      (self.settings.mode === "multi" && self.isFull()) ||
-      self.$control_input.is(":invalid")
+      (self.settings.mode === "multi" && self.isFull())
     )
       return;
 		self.focus();
@@ -1963,18 +1966,30 @@ $.extend(Selectize.prototype, {
       var height = this.settings.dropdownSize.sizeValue;
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
-        var $items = this.$dropdown_content.children();
+        // retrieve all items (included optgroup but exept the container .optgroup)
+        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight');
         var totalHeight = 0;
 
-        $items.each(function (i, $item) {
-          if (i === height) return false;
 
-          totalHeight += $($item).outerHeight(true);
-        });
+        for (var i = 0; i < height; i++) {
+          var $item = $($items[i]);
 
-        // Get padding top for subtract to global height to avoid seeing the next item
-        var padding = this.$dropdown_content.css('padding-top') ? this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1') : 0;
-        height = (totalHeight - padding) + 'px';
+          if ($item.length === 0) break;
+
+          totalHeight += $($items[i]).outerHeight(true);
+          // If not selectable, it's an optgroup so we "ignore" for count items
+          if (typeof $item.data('selectable') == 'undefined') height++;
+
+        }
+
+        // Get padding top for add to global height
+        var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
+
+        height = (totalHeight + paddingTop + paddingBottom) + 'px';
+      } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
+        console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
+        return;
       }
 
       this.$dropdown_content.css({ height: height, maxHeight: 'none' });
@@ -2011,7 +2026,10 @@ $.extend(Selectize.prototype, {
 	 */
 	insertAtCaret: function($el) {
 		var caret = Math.min(this.caretPos, this.items.length);
-		var el = $el[0];
+    var el = $el[0];
+    /**
+     * @type {HTMLElement}
+     **/
 		var target = this.buffer || this.$control[0];
 
 		if (caret === 0) {
@@ -2361,5 +2379,4 @@ $.extend(Selectize.prototype, {
 			&& (typeof filter !== 'string' || new RegExp(filter).test(input))
 			&& (!(filter instanceof RegExp) || filter.test(input));
 	}
-
 });
