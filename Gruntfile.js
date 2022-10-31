@@ -318,7 +318,7 @@ module.exports = function (grunt) {
     },
     watch: {
       files: ["src/**/*.js"],
-      tasks: ["concat:js", "build_standalone"],
+      tasks: ["compile"],
     },
   });
 };
