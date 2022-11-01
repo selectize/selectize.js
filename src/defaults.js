@@ -46,10 +46,10 @@ Selectize.defaults = {
 	searchConjunction: 'and',
 
 	mode: null,
-	wrapperClass: 'selectize-control',
-	inputClass: 'selectize-input',
-	dropdownClass: 'selectize-dropdown',
-	dropdownContentClass: 'selectize-dropdown-content',
+	wrapperClass: '',
+	inputClass: '',
+	dropdownClass: '',
+	dropdownContentClass: '',
 
 	dropdownParent: null,
 
