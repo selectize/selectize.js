@@ -51,7 +51,7 @@ const _compileLess = async () => {
     .pipe(concat('selectize.legacy.css'))
     .pipe(less({
       paths: ['lib', 'src/less'],
-      math: 'always' // <=== add this
+      math: 'always'
     }))
     .pipe(sourcemaps.init())
     .pipe(uglifycss())
@@ -68,7 +68,7 @@ const _compileLess = async () => {
     .pipe(concat('selectize.bootstrap2.css'))
     .pipe(less({
       paths: ['lib', 'src/less'],
-      math: 'always' // <=== add this
+      math: 'always'
     }))
     .pipe(sourcemaps.init())
     .pipe(uglifycss())
