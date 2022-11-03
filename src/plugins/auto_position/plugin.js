@@ -22,14 +22,22 @@ Selectize.define("auto_position", function () {
       };
 
       if (position === POSITION.top) {
-        Object.assign(styles, {bottom: offset.top, top: 'unset', margin: '0 0 5px 0'});
+        const styleToAdd = { bottom: offset.top, top: 'unset' };
+
+        if (this.settings.dropdownParent === 'body') {
+          styleToAdd.top = offset.top - this.$dropdown.prop('scrollHeight') - $control.outerHeight(true);
+          styleToAdd.bottom = 'unset';
+        }
+        Object.assign(styles, styleToAdd);
         this.$dropdown.addClass('selectize-position-top');
+        this.$control.addClass('selectize-position-top');
       } else {
-        Object.assign(styles, {top: offset.top, bottom: 'unset', margin: '5px 0 0 0'});
+        Object.assign(styles, { top: offset.top, bottom: 'unset' });
         this.$dropdown.removeClass('selectize-position-top');
+        this.$control.removeClass('selectize-position-top');
       }
 
       this.$dropdown.css(styles);
-    }
+    };
   }());
 });

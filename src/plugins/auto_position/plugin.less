@@ -1,0 +1,15 @@
+.selectize-dropdown.plugin-auto_position.selectize-position-top {
+  border-top: 1px solid @selectize-color-border;
+  border-bottom: 0 none;
+  border-radius: 3px 3px 0 0;
+}
+
+.selectize-control.plugin-auto_position .selectize-input.selectize-position-top.dropdown-active {
+  border-radius: 0 0 3px 3px;
+  border-top: 0 none;
+
+  &::before {
+    top: 0;
+    bottom: unset;
+  }
+}
