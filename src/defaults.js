@@ -59,6 +59,7 @@ Selectize.defaults = {
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
   normalize: false,
+  ignoreOnDropwdownHeight: 'img, i',
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
