@@ -6,7 +6,7 @@ $select-color-item-active: #92c836;
 $select-color-item-active-border: #00578d;
 $select-width-item-border: 1px;
 
-@import "selectize";
+@import "./selectize.scss";
 
 .#{$selectize}-control {
   &.multi {

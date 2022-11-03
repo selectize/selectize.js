@@ -1,5 +1,5 @@
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/_variables.scss";
-@import "../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins/_nav-divider.scss";
+@import "lib/bootstrap-sass/variables";
+@import "lib/bootstrap-sass/mixins/_nav-divider";
 
 $select-font-family: inherit;
 $select-font-size: inherit;
