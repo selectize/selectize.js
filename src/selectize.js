@@ -1971,6 +1971,7 @@ $.extend(Selectize.prototype, {
         var totalHeight = 0;
         var marginTop = 0;
         var marginBottom = 0;
+        var separatorHeight = 0;
 
 
         for (var i = 0; i < height; i++) {
@@ -1989,6 +1990,7 @@ $.extend(Selectize.prototype, {
               if (styles) {
                 marginTop = styles.marginTop ? Number(styles.marginTop.replace(/\W*(\w)\w*/g, '$1')) : 0;
                 marginBottom = styles.marginBottom ? Number(styles.marginBottom.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                separatorHeight = styles.borderTopWidth ? Number(styles.borderTopWidth.replace(/\W*(\w)\w*/g, '$1')) : 0;
               }
             }
             height++;
@@ -2000,7 +2002,7 @@ $.extend(Selectize.prototype, {
         var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
         var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
 
-        height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom) + 'px';
+        height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom + separatorHeight) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
         console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
         return;
