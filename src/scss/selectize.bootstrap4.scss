@@ -167,10 +167,20 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-radius: 0;
 }
 
-.input-group .#{$selectize}-input {
-  overflow: unset;
-  border-radius: 0 $select-border-radius $select-border-radius 0;
+.input-group>.input-group-append>.btn, .input-group>.form-control:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
+
+.input-group>.input-group-prepend>.btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+// .input-group .#{$selectize}-input {
+//   overflow: unset;
+//   border-radius: 0 $select-border-radius $select-border-radius 0;
+// }
 
 .#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
   border-top: $select-border!important;
