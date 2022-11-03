@@ -177,10 +177,22 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-bottom-right-radius: 0;
 }
 
-// .input-group .#{$selectize}-input:is(:last-child) {
-//   overflow: unset;
-//   border-radius: 0 $select-border-radius $select-border-radius 0;
-// }
+
+.input-group .#{$selectize}-control:not(:last-child) {
+  .#{$selectize}-input{
+    overflow: unset;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.input-group .#{$selectize}-control:not(:first-child) {
+  .#{$selectize}-input{
+    overflow: unset;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
 
 .#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
   border-top: $select-border!important;
