@@ -1,0 +1,29 @@
+.#{$selectize}-control.plugin-clear_button {
+    .clear {
+        text-decoration: none;
+        display: flex;
+        position: absolute;
+        height: 100%;
+        width: 25px;
+        top: 0;
+        right: calc(#{$select-padding-x} - #{$select-padding-item-x});
+        color: rgba(0, 0, 0);
+        opacity: 0.4;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        z-index: 1;
+        font-size: 21px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .clear:hover {
+        opacity: 1;
+    }
+
+    &.single .clear {
+        right: calc(#{$select-padding-x} - #{$select-padding-item-x} + 1.5rem);
+    }
+
+}

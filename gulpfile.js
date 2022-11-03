@@ -86,7 +86,7 @@ const _compileSass = async () => {
   ])
     .pipe(concat('selectize.css'))
     .pipe(sass({
-      includePaths: ['lib'],
+      includePaths: ['lib', 'src/scss'],
     }).on('error', sass.logError))
     .pipe(sourcemaps.init())
     .pipe(uglifycss())
@@ -102,7 +102,7 @@ const _compileSass = async () => {
   ])
     .pipe(concat('selectize.default.css'))
     .pipe(sass({
-      includePaths: ['lib'],
+      includePaths: ['lib', 'src/scss'],
     }).on('error', sass.logError))
     .pipe(sourcemaps.init())
     .pipe(uglifycss())
@@ -120,7 +120,7 @@ const _compileSass = async () => {
     ])
       .pipe(concat('selectize.bootstrap' + bs_version + '.css'))
       .pipe(sass({
-        includePaths: ['lib'],
+        includePaths: ['lib', 'src/scss'],
       }).on('error', sass.logError))
       .pipe(sourcemaps.init())
       .pipe(uglifycss())
