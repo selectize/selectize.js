@@ -95,6 +95,7 @@ $select-spinner-border-color: $select-color-border;
 @import "../plugins/optgroup_columns/plugin.scss";
 @import "../plugins/remove_button/plugin.scss";
 @import "../plugins/clear_button/plugin.scss";
+@import "../plugins/auto_position/plugin.scss";
 
 .#{$selectize}-control {
   position: relative;
