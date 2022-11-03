@@ -1967,18 +1967,32 @@ $.extend(Selectize.prototype, {
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
         // retrieve all items (included optgroup but exept the container .optgroup)
-        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight');
+        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight').not(this.settings.ignoreOnDropwdownHeight);
         var totalHeight = 0;
+        var marginTop = 0;
+        var marginBottom = 0;
 
 
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
 
-          if ($item.length === 0) break;
+          if ($item.length === 0) {
+            break;
+          }
 
-          totalHeight += $($items[i]).outerHeight(true);
+          totalHeight += $item.outerHeight(true);
           // If not selectable, it's an optgroup so we "ignore" for count items
-          if (typeof $item.data('selectable') == 'undefined') height++;
+          if (typeof $item.data('selectable') == 'undefined') {
+            if ($item.hasClass('optgroup-header')) {
+              var styles = window.getComputedStyle($item.parent()[0], ':before');
+
+              if (styles) {
+                marginTop = styles.marginTop ? Number(styles.marginTop.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                marginBottom = styles.marginBottom ? Number(styles.marginBottom.replace(/\W*(\w)\w*/g, '$1')) : 0;
+              }
+            }
+            height++;
+          }
 
         }
 
@@ -1986,7 +2000,7 @@ $.extend(Selectize.prototype, {
         var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
         var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
 
-        height = (totalHeight + paddingTop + paddingBottom) + 'px';
+        height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
         console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
         return;
