@@ -171,3 +171,13 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   overflow: unset;
   border-radius: 0 $select-border-radius $select-border-radius 0;
 }
+
+.#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
+  border-top: $select-border;
+  border-bottom: $select-border;
+  border-radius: $select-border-radius;
+}
+.#{selectize}-control.plugin-auto_position .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
+  border-radius: $select-border-radius;
+  border-top: $select-border;
+}
