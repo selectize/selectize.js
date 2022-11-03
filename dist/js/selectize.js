@@ -3860,6 +3860,37 @@ Selectize.define("auto_position", function () {
   }());
 });
 
+/**
+ * Plugin: "autofill_disable" (selectize.js)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Ris Adams <selectize@risadams.com>
+ */
+
+Selectize.define("autofill_disable", function (options) {
+  var self = this;
+
+  self.setup = (function () {
+    var original = self.setup;
+    return function () {
+      original.apply(self, arguments);
+
+      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
+      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
+    };
+  })();
+});
+
 Selectize.define('auto_select_on_type', function(options) {
 	var self = this;
 
@@ -3874,76 +3905,6 @@ Selectize.define('auto_select_on_type', function(options) {
 			return originalBlur.apply(this, arguments);
 		}
 	}());
-});
-
-/**
- * Plugin: "clear_button" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Fabien Winkler <fabien.winkler@outlook.fr>
- */
-
-Selectize.define("clear_button", function (options) {
-  var self = this;
-
-  options = $.extend(
-    {
-      title: "Clear",
-      className: "clear",
-      label: "×",
-      html: function (data) {
-        return (
-          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
-        );
-      },
-    },
-    options
-  );
-
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
-      self.$button_clear = $(options.html(options));
-
-      if (self.settings.mode === "single") self.$wrapper.addClass("single");
-
-      self.$wrapper.append(self.$button_clear);
-
-      if (self.getValue() === "" || self.getValue().length === 0) {
-        self.$wrapper.find("." + options.className).css("display", "none");
-      }
-
-      self.on("change", function () {
-        if (self.getValue() === "" || self.getValue().length === 0) {
-          self.$wrapper.find("." + options.className).css("display", "none");
-        } else {
-          self.$wrapper.find("." + options.className).css("display", "");
-        }
-      });
-
-      self.$wrapper.on("click", "." + options.className, function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-
-        if (self.isLocked) return;
-
-        self.clear();
-        self.$wrapper.find("." + options.className).css("display", "none");
-      });
-    };
-  })();
 });
 
 /**
@@ -4074,37 +4035,6 @@ Selectize.define('dropdown_header', function(options) {
 });
 
 /**
- * Plugin: "autofill_disable" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Ris Adams <selectize@risadams.com>
- */
-
-Selectize.define("autofill_disable", function (options) {
-  var self = this;
-
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
-
-      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
-      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
-    };
-  })();
-});
-
-/**
  * Plugin: "optgroup_columns" (selectize.js)
  * Copyright (c) 2013 Simon Hewitt & contributors
  * Copyright (c) 2020-2022 Selectize Team & contributors*
@@ -4215,51 +4145,6 @@ Selectize.define('optgroup_columns', function(options) {
 });
 
 /**
- * Plugin: "restore_on_backspace" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Brian Reavis <brian@thirdroute.com>
- */
-
-Selectize.define('restore_on_backspace', function(options) {
-	var self = this;
-
-	options.text = options.text || function(option) {
-		return option[this.settings.labelField];
-	};
-
-	this.onKeyDown = (function() {
-		var original = self.onKeyDown;
-		return function(e) {
-			var index, option;
-			if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
-				index = this.caretPos - 1;
-				if (index >= 0 && index < this.items.length) {
-					option = this.options[this.items[index]];
-					if (this.deleteSelection(e)) {
-						this.setTextboxValue(options.text.apply(this, [option]));
-						this.refreshOptions(true);
-					}
-					e.preventDefault();
-					return;
-				}
-			}
-			return original.apply(this, arguments);
-		};
-	})();
-});
-
-/**
  * Plugin: "remove_button" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
  * Copyright (c) 2020-2022 Selectize Team & contributors
@@ -4336,46 +4221,119 @@ Selectize.define('remove_button', function (options) {
     multiClose(this, options);
 });
 
-Selectize.define('select_on_focus', function(options) {
+/**
+ * Plugin: "clear_button" (selectize.js)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Fabien Winkler <fabien.winkler@outlook.fr>
+ */
+
+Selectize.define("clear_button", function (options) {
+  var self = this;
+
+  options = $.extend(
+    {
+      title: "Clear",
+      className: "clear",
+      label: "×",
+      html: function (data) {
+        return (
+          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
+        );
+      },
+    },
+    options
+  );
+
+  self.setup = (function () {
+    var original = self.setup;
+    return function () {
+      original.apply(self, arguments);
+      self.$button_clear = $(options.html(options));
+
+      if (self.settings.mode === "single") self.$wrapper.addClass("single");
+
+      self.$wrapper.append(self.$button_clear);
+
+      if (self.getValue() === "" || self.getValue().length === 0) {
+        self.$wrapper.find("." + options.className).css("display", "none");
+      }
+
+      self.on("change", function () {
+        if (self.getValue() === "" || self.getValue().length === 0) {
+          self.$wrapper.find("." + options.className).css("display", "none");
+        } else {
+          self.$wrapper.find("." + options.className).css("display", "");
+        }
+      });
+
+      self.$wrapper.on("click", "." + options.className, function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+
+        if (self.isLocked) return;
+
+        self.clear();
+        self.$wrapper.find("." + options.className).css("display", "none");
+      });
+    };
+  })();
+});
+
+/**
+ * Plugin: "restore_on_backspace" (selectize.js)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Brian Reavis <brian@thirdroute.com>
+ */
+
+Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 
-	self.on('focus', function() {
-		var originalFocus = self.onFocus;
-		return function(e) {
-			var value = self.getItem(self.getValue()).text();
-			self.clear();
-			self.setTextboxValue(value);
-			self.$control_input.select();
-			setTimeout( function () {
-				if (self.settings.selectOnTab) {
-					self.setActiveOption(self.getFirstItemMatchedByTextContent(value));
-				}
-				self.settings.score = null;
-			},0);
-			return originalFocus.apply(this, arguments);
-		};
-	}());
-
-	self.onBlur = (function() {
-		var originalBlur = self.onBlur;
-		return function(e) {
-			if (self.getValue() === "" && self.lastValidValue !== self.getValue()) {
-				self.setValue(self.lastValidValue);
-			}
-			setTimeout( function () {
-				self.settings.score = function() {
-					return function() {
-						return 1;
-					};
-				};
-			}, 0 );
-			return originalBlur.apply(this, arguments);
-		}
-	}());
-	self.settings.score = function() {
-		return function() { return 1; };
+	options.text = options.text || function(option) {
+		return option[this.settings.labelField];
 	};
 
+	this.onKeyDown = (function() {
+		var original = self.onKeyDown;
+		return function(e) {
+			var index, option;
+			if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
+				index = this.caretPos - 1;
+				if (index >= 0 && index < this.items.length) {
+					option = this.options[this.items[index]];
+					if (this.deleteSelection(e)) {
+						this.setTextboxValue(options.text.apply(this, [option]));
+						this.refreshOptions(true);
+					}
+					e.preventDefault();
+					return;
+				}
+			}
+			return original.apply(this, arguments);
+		};
+	})();
 });
 
 Selectize.define('tag_limit', function (options) {
@@ -4418,6 +4376,48 @@ Selectize.define('tag_limit', function (options) {
 
         };
     })()
+});
+
+Selectize.define('select_on_focus', function(options) {
+	var self = this;
+
+	self.on('focus', function() {
+		var originalFocus = self.onFocus;
+		return function(e) {
+			var value = self.getItem(self.getValue()).text();
+			self.clear();
+			self.setTextboxValue(value);
+			self.$control_input.select();
+			setTimeout( function () {
+				if (self.settings.selectOnTab) {
+					self.setActiveOption(self.getFirstItemMatchedByTextContent(value));
+				}
+				self.settings.score = null;
+			},0);
+			return originalFocus.apply(this, arguments);
+		};
+	}());
+
+	self.onBlur = (function() {
+		var originalBlur = self.onBlur;
+		return function(e) {
+			if (self.getValue() === "" && self.lastValidValue !== self.getValue()) {
+				self.setValue(self.lastValidValue);
+			}
+			setTimeout( function () {
+				self.settings.score = function() {
+					return function() {
+						return 1;
+					};
+				};
+			}, 0 );
+			return originalBlur.apply(this, arguments);
+		}
+	}());
+	self.settings.score = function() {
+		return function() { return 1; };
+	};
+
 });
 
   return Selectize;

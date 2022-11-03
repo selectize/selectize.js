@@ -77,7 +77,7 @@
     "test": "karma start",
     "build": "gulp",
     "clean": "rm -rf dist build node_modules",
-    "start": "concurrently \"gulp watch\" \"http-server -p 4000 -o ./examples --cors\"",
+    "start": "concurrently \"npm run watch\" \"http-server -p 4000 -o ./examples --cors\"",
     "watch": "gulp watch"
   },
   "engines": {
