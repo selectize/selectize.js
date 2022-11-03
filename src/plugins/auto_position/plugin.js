@@ -25,7 +25,7 @@ Selectize.define("auto_position", function () {
         const styleToAdd = { bottom: offset.top, top: 'unset' };
 
         if (this.settings.dropdownParent === 'body') {
-          styleToAdd.top = offset.top - this.$dropdown.prop('scrollHeight') - $control.outerHeight(true);
+          styleToAdd.top = offset.top - this.$dropdown.outerHeight(true) - $control.outerHeight(true);
           styleToAdd.bottom = 'unset';
         }
         Object.assign(styles, styleToAdd);
