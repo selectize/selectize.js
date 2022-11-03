@@ -27,7 +27,7 @@ const copySrc = async () => {
     setTimeout(async () => { await _minifyScripts(); }, 1000);
   }, 1000);
 };
-const watchFiles = async () => watch(['src/**/*.{js,css}']).on('change', series(loadDependencies, copyDependencies, copySrc));
+const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
 
 async function _copyLibs() {
   'use strict';
