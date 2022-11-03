@@ -1,6 +1,6 @@
 .PHONY: compile release test
 plugins=*
-GRUNT=node_modules/.bin/grunt
+GULP=node_modules/.bin/gulp
 CURRENT_VERSION := $(shell sed -n '/"version":/{s/.*"version": "\([^"]*\)".*/\1/p;q}' package.json)
 
 all: compile test
@@ -8,9 +8,9 @@ test:
 	npm test
 compile:
 	npm i
-	rm -rf build
 	rm -rf dist
-	$(GRUNT) --plugins=$(plugins)
+	$(GULP) loadDependencies
+	$(GULP) --plugins=$(plugins)
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
