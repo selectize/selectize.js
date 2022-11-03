@@ -1,5 +1,4 @@
 .PHONY: compile release test
-plugins=*
 GULP=node_modules/.bin/gulp
 CURRENT_VERSION := $(shell sed -n '/"version":/{s/.*"version": "\([^"]*\)".*/\1/p;q}' package.json)
 
@@ -10,7 +9,7 @@ compile:
 	npm i
 	rm -rf dist
 	$(GULP) loadDependencies
-	$(GULP) --plugins=$(plugins)
+	$(GULP)
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
