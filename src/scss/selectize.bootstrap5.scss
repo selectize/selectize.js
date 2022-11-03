@@ -173,11 +173,11 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
-  border-top: $select-border;
-  border-bottom: $select-border;
-  border-radius: $select-border-radius;
+  border-top: $select-border!important;
+  border-bottom: $select-border!important;
+  border-radius: $select-border-radius!important;
 }
 .#{selectize}-control.plugin-auto_position .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
-  border-radius: $select-border-radius;
-  border-top: $select-border;
+  border-radius: $select-border-radius!important;
+  border-top: $select-border!important;
 }
