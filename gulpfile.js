@@ -80,7 +80,9 @@ const _compileLess = async () => {
 }
 
 const _compileSass = async () => {
-  src(['src/scss/**.scss']).pipe(dest('dist/scss'));
+  src(['src/scss/**.scss'])
+    .pipe(replace(/\.\.\/plugins\/(.+)\/plugin.scss/g, 'plugins/$1.scss')) // fix relative paths GH#1886
+    .pipe(dest('dist/scss'));
   src(['src/plugins/**/*.scss']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/scss/plugins'));
 
   src([
