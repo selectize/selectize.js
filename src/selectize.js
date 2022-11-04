@@ -1866,16 +1866,15 @@ $.extend(Selectize.prototype, {
 			});
 
 			self.items.forEach(function(item) {
-				value = escape_html(item);
-				label = escape_html(self.options[item][self.settings.labelField] || '');
+				label = self.options[item][self.settings.labelField] || '';
 
-				values.push(value);
+				values.push(item);
 
-				if (existing.indexOf(value) != -1) {
+				if (existing.indexOf(item) != -1) {
 					return;
 				}
 
-				fresh.push('<option value="' + value + '" selected="selected">' + label + '</option>');
+				fresh.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
 			});
 
 			old = existing.filter(function(value) {

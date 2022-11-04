@@ -167,17 +167,39 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-radius: 0;
 }
 
-.input-group .#{$selectize}-input {
-  overflow: unset;
-  border-radius: 0 $select-border-radius $select-border-radius 0;
+.input-group>.input-group-append>.btn, .input-group>.form-control:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-group>.input-group-prepend>.btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+.input-group .#{$selectize}-control:not(:last-child) {
+  .#{$selectize}-input{
+    overflow: unset;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.input-group .#{$selectize}-control:not(:first-child) {
+  .#{$selectize}-input{
+    overflow: unset;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }
 
 .#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
-  border-top: $select-border;
-  border-bottom: $select-border;
-  border-radius: $select-border-radius;
+  border-top: $select-border!important;
+  border-bottom: $select-border!important;
+  border-radius: $select-border-radius!important;
 }
 .#{selectize}-control.plugin-auto_position .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
-  border-radius: $select-border-radius;
-  border-top: $select-border;
+  border-radius: $select-border-radius!important;
+  border-top: $select-border!important;
 }
