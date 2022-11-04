@@ -160,7 +160,7 @@ $select-spinner-border-color: $select-color-border;
   }
   .#{$selectize}-control.multi &.disabled > div {
     &,
-    &.active {
+    &.selected {
       color: lighten(
         desaturate($select-color-item-text, 100%),
         $select-lighten-disabled-item-text
@@ -269,15 +269,20 @@ $select-spinner-border-color: $select-color-border;
     background: $select-color-optgroup;
     cursor: default;
   }
-  .active {
-    background-color: $select-color-dropdown-item-active;
-    color: $select-color-dropdown-item-active-text;
+  .selected {
+    background-color: $select-color-item-active;
+    color: $select-color-item-active-text;
     &.create {
       color: $select-color-dropdown-item-create-active-text;
     }
   }
   .create {
     color: $select-color-dropdown-item-create-text;
+  }
+
+  .active:not(.selected) {
+    background: $select-color-dropdown-item-active;
+    color: $select-color-dropdown-item-active-text;
   }
 }
 
