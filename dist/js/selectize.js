@@ -1398,8 +1398,15 @@ $.extend(Selectize.prototype, {
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
-		this.revertSettings = {
-			$children : $input.children().detach(),
+		// Detach children outside of DOM to prevent slowdown on large selects
+    var inputPlaceholder = $('<div></div>');
+		var inputChildren = $input.children().detach();
+
+    $input.replaceWith(inputPlaceholder);
+    inputPlaceholder.replaceWith($input);
+
+    this.revertSettings = {
+			$children : inputChildren,
 			tabindex  : $input.attr('tabindex')
 		};
 
@@ -3858,6 +3865,53 @@ $.fn.selectize.support = {
   validity: SUPPORTS_VALIDITY_API
 };
 
+/**
+ * Plugin: "autofill_disable" (selectize.js)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Ris Adams <selectize@risadams.com>
+ */
+
+Selectize.define("autofill_disable", function (options) {
+  var self = this;
+
+  self.setup = (function () {
+    var original = self.setup;
+    return function () {
+      original.apply(self, arguments);
+
+      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
+      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
+    };
+  })();
+});
+
+Selectize.define('auto_select_on_type', function(options) {
+	var self = this;
+
+	self.onBlur = (function() {
+		var originalBlur = self.onBlur;
+		return function(e) {
+			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
+			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
+			{
+				self.setValue($matchedItem.attr('data-value'));
+			}
+			return originalBlur.apply(this, arguments);
+		}
+	}());
+});
+
 Selectize.define("auto_position", function () {
   var self = this;
 
@@ -3900,53 +3954,6 @@ Selectize.define("auto_position", function () {
       this.$dropdown.css(styles);
     };
   }());
-});
-
-Selectize.define('auto_select_on_type', function(options) {
-	var self = this;
-
-	self.onBlur = (function() {
-		var originalBlur = self.onBlur;
-		return function(e) {
-			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
-			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
-			{
-				self.setValue($matchedItem.attr('data-value'));
-			}
-			return originalBlur.apply(this, arguments);
-		}
-	}());
-});
-
-/**
- * Plugin: "autofill_disable" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Ris Adams <selectize@risadams.com>
- */
-
-Selectize.define("autofill_disable", function (options) {
-  var self = this;
-
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
-
-      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
-      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
-    };
-  })();
 });
 
 /**
