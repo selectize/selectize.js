@@ -2093,7 +2093,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
 			if (typeof self.settings.deselectBehavior === 'string' && self.settings.deselectBehavior === 'top') {
@@ -2172,7 +2172,7 @@ $.extend(Selectize.prototype, {
 		if (self.rtl) direction *= -1;
 
 		tail = direction > 0 ? 'last' : 'first';
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.isFocused && !self.isInputHidden) {
 			valueLength = self.$control_input.val().length;
