@@ -1,5 +1,5 @@
 /**
- * Selectize (vundefined)
+ * Selectize (v0.15.0)
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
@@ -3011,19 +3011,44 @@ $.extend(Selectize.prototype, {
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {
-		var i, n, options, label, self = this;
+		var i, n, existing, fresh, old, $options, label, value, values, self = this;
 		opts = opts || {};
 
 		if (self.tagType === TAG_SELECT) {
-			options = [];
-			for (i = 0, n = self.items.length; i < n; i++) {
-				label = self.options[self.items[i]][self.settings.labelField] || '';
-				options.push('<option value="' + escape_html(self.items[i]) + '" selected="selected">' + escape_html(label) + '</option>');
+			$options  = self.$input.find('option');
+			existing  = [];
+			fresh     = [];
+			old       = [];
+			values    = [];
+
+			$options.get().forEach(function(option) {
+				existing.push(option.value);
+			});
+
+			self.items.forEach(function(item) {
+				label = self.options[item][self.settings.labelField] || '';
+
+				values.push(item);
+
+				if (existing.indexOf(item) != -1) {
+					return;
+				}
+
+				fresh.push('<option value="' + escape_html(item) + '" selected="selected">' + escape_html(label) + '</option>');
+			});
+
+			old = existing.filter(function(value) {
+				return values.indexOf(value) < 0;
+			}).map(function(value) {
+				return 'option[value="' + value + '"]';
+			});
+
+			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {
+				fresh.push('<option value="" selected="selected"></option>');
 			}
-			if (!options.length && !this.$input.attr('multiple')) {
-				options.push('<option value="" selected="selected"></option>');
-			}
-			self.$input.html(options.join(''));
+
+			self.$input.find(old.join(', ')).remove();
+			self.$input.append(fresh.join(''));
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
@@ -3127,18 +3152,34 @@ $.extend(Selectize.prototype, {
 
       if (this.settings.dropdownSize.sizeType === 'numberItems') {
         // retrieve all items (included optgroup but exept the container .optgroup)
-        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight');
+        var $items = this.$dropdown_content.find('*').not('.optgroup, .highlight').not(this.settings.ignoreOnDropwdownHeight);
         var totalHeight = 0;
+        var marginTop = 0;
+        var marginBottom = 0;
+        var separatorHeight = 0;
 
 
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
 
-          if ($item.length === 0) break;
+          if ($item.length === 0) {
+            break;
+          }
 
-          totalHeight += $($items[i]).outerHeight(true);
+          totalHeight += $item.outerHeight(true);
           // If not selectable, it's an optgroup so we "ignore" for count items
-          if (typeof $item.data('selectable') == 'undefined') height++;
+          if (typeof $item.data('selectable') == 'undefined') {
+            if ($item.hasClass('optgroup-header')) {
+              var styles = window.getComputedStyle($item.parent()[0], ':before');
+
+              if (styles) {
+                marginTop = styles.marginTop ? Number(styles.marginTop.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                marginBottom = styles.marginBottom ? Number(styles.marginBottom.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                separatorHeight = styles.borderTopWidth ? Number(styles.borderTopWidth.replace(/\W*(\w)\w*/g, '$1')) : 0;
+              }
+            }
+            height++;
+          }
 
         }
 
@@ -3146,7 +3187,7 @@ $.extend(Selectize.prototype, {
         var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
         var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
 
-        height = (totalHeight + paddingTop + paddingBottom) + 'px';
+        height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom + separatorHeight) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
         console.warn('Selectize.js - Value of "sizeType" must be "fixedHeight" or "numberItems');
         return;
@@ -3602,6 +3643,7 @@ Selectize.defaults = {
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
   normalize: false,
+  ignoreOnDropwdownHeight: 'img, i',
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
@@ -3634,64 +3676,64 @@ Selectize.defaults = {
 	}
 };
 
-$.fn.selectize = function(settings_user) {
-	var defaults             = $.fn.selectize.defaults;
-	var settings             = $.extend({}, defaults, settings_user);
-	var attr_data            = settings.dataAttr;
-	var field_label          = settings.labelField;
-	var field_value          = settings.valueField;
-	var field_disabled       = settings.disabledField;
-	var field_optgroup       = settings.optgroupField;
-	var field_optgroup_label = settings.optgroupLabelField;
-	var field_optgroup_value = settings.optgroupValueField;
+$.fn.selectize = function (settings_user) {
+  var defaults = $.fn.selectize.defaults;
+  var settings = $.extend({}, defaults, settings_user);
+  var attr_data = settings.dataAttr;
+  var field_label = settings.labelField;
+  var field_value = settings.valueField;
+  var field_disabled = settings.disabledField;
+  var field_optgroup = settings.optgroupField;
+  var field_optgroup_label = settings.optgroupLabelField;
+  var field_optgroup_value = settings.optgroupValueField;
 
-	/**
-	 * Initializes selectize from a <input type="text"> element.
-	 *
-	 * @param {JQuery} $input
-	 * @param {Object} settings_element
-	 */
-	var init_textbox = function($input, settings_element) {
-		var i, n, values, option;
+  /**
+   * Initializes selectize from a <input type="text"> element.
+   *
+   * @param {JQuery} $input
+   * @param {Object} settings_element
+   */
+  var init_textbox = function ($input, settings_element) {
+    var i, n, values, option;
 
-		var data_raw = $input.attr(attr_data);
+    var data_raw = $input.attr(attr_data);
 
-		if (!data_raw) {
-			var value = ($input.val() || '').trim();
-			if (!settings.allowEmptyOption && !value.length) return;
-			values = value.split(settings.delimiter);
-			for (i = 0, n = values.length; i < n; i++) {
-				option = {};
-				option[field_label] = values[i];
-				option[field_value] = values[i];
-				settings_element.options.push(option);
-			}
-			settings_element.items = values;
-		} else {
-			settings_element.options = JSON.parse(data_raw);
-			for (i = 0, n = settings_element.options.length; i < n; i++) {
-				settings_element.items.push(settings_element.options[i][field_value]);
-			}
-		}
-	};
+    if (!data_raw) {
+      var value = ($input.val() || '').trim();
+      if (!settings.allowEmptyOption && !value.length) return;
+      values = value.split(settings.delimiter);
+      for (i = 0, n = values.length; i < n; i++) {
+        option = {};
+        option[field_label] = values[i];
+        option[field_value] = values[i];
+        settings_element.options.push(option);
+      }
+      settings_element.items = values;
+    } else {
+      settings_element.options = JSON.parse(data_raw);
+      for (i = 0, n = settings_element.options.length; i < n; i++) {
+        settings_element.items.push(settings_element.options[i][field_value]);
+      }
+    }
+  };
 
-	/**
-	 * Initializes selectize from a <select> element.
-	 *
-	 * @param {object} $input
-	 * @param {object} settings_element
-	 */
-	var init_select = function($input, settings_element) {
-		var i, n, tagName, $children, order = 0;
-		var options = settings_element.options;
-		var optionsMap = {};
+  /**
+   * Initializes selectize from a <select> element.
+   *
+   * @param {object} $input
+   * @param {object} settings_element
+   */
+  var init_select = function ($input, settings_element) {
+    var i, n, tagName, $children, order = 0;
+    var options = settings_element.options;
+    var optionsMap = {};
 
-		var readData = function($el) {
+    var readData = function ($el) {
       var data = attr_data && $el.attr(attr_data);
       var allData = $el.data();
       var obj = {};
 
-			if (typeof data === 'string' && data.length) {
+      if (typeof data === 'string' && data.length) {
         if (isJSON(data)) {
           Object.assign(obj, JSON.parse(data))
         } else {
@@ -3702,118 +3744,119 @@ $.fn.selectize = function(settings_user) {
 
       Object.assign(obj, allData);
 
-			return obj || null;
-		};
+      return obj || null;
+    };
 
-		var addOption = function($option, group) {
-			$option = $($option);
+    var addOption = function ($option, group) {
+      $option = $($option);
 
-			var value = hash_key($option.val());
-			if (!value && !settings.allowEmptyOption) return;
+      var value = hash_key($option.val());
+      if (!value && !settings.allowEmptyOption) return;
 
-			// if the option already exists, it's probably been
-			// duplicated in another optgroup. in this case, push
-			// the current group to the "optgroup" property on the
-			// existing option so that it's rendered in both places.
-			if (optionsMap.hasOwnProperty(value)) {
-				if (group) {
-					var arr = optionsMap[value][field_optgroup];
-					if (!arr) {
-						optionsMap[value][field_optgroup] = group;
-					} else if (!Array.isArray(arr)) {
-						optionsMap[value][field_optgroup] = [arr, group];
-					} else {
-						arr.push(group);
-					}
-				}
-				return;
-			}
+      // if the option already exists, it's probably been
+      // duplicated in another optgroup. in this case, push
+      // the current group to the "optgroup" property on the
+      // existing option so that it's rendered in both places.
+      if (optionsMap.hasOwnProperty(value)) {
+        if (group) {
+          var arr = optionsMap[value][field_optgroup];
+          if (!arr) {
+            optionsMap[value][field_optgroup] = group;
+          } else if (!Array.isArray(arr)) {
+            optionsMap[value][field_optgroup] = [arr, group];
+          } else {
+            arr.push(group);
+          }
+        }
+        return;
+      }
 
-			var option             = readData($option) || {};
-			option[field_label]    = option[field_label] || $option.text();
-			option[field_value]    = option[field_value] || value;
-			option[field_disabled] = option[field_disabled] || $option.prop('disabled');
+      var option = readData($option) || {};
+      option[field_label] = option[field_label] || $option.text();
+      option[field_value] = option[field_value] || value;
+      option[field_disabled] = option[field_disabled] || $option.prop('disabled');
       option[field_optgroup] = option[field_optgroup] || group;
       option.styles = $option.attr('style') || '';
-			option.classes = $option.attr('class') || '';
+      option.classes = $option.attr('class') || '';
 
-			optionsMap[value] = option;
-			options.push(option);
+      optionsMap[value] = option;
+      options.push(option);
 
-			if ($option.is(':selected')) {
-				settings_element.items.push(value);
-			}
-		};
+      if ($option.is(':selected')) {
+        settings_element.items.push(value);
+      }
+    };
 
-		var addGroup = function($optgroup) {
-			var i, n, id, optgroup, $options;
+    var addGroup = function ($optgroup) {
+      var i, n, id, optgroup, $options;
 
-			$optgroup = $($optgroup);
-			id = $optgroup.attr('label');
+      $optgroup = $($optgroup);
+      id = $optgroup.attr('label');
 
-			if (id) {
-				optgroup = readData($optgroup) || {};
-				optgroup[field_optgroup_label] = id;
-				optgroup[field_optgroup_value] = id;
-				optgroup[field_disabled] = $optgroup.prop('disabled');
-				settings_element.optgroups.push(optgroup);
-			}
+      if (id) {
+        optgroup = readData($optgroup) || {};
+        optgroup[field_optgroup_label] = id;
+        optgroup[field_optgroup_value] = id;
+        optgroup[field_disabled] = $optgroup.prop('disabled');
+        settings_element.optgroups.push(optgroup);
+      }
 
-			$options = $('option', $optgroup);
-			for (i = 0, n = $options.length; i < n; i++) {
-				addOption($options[i], id);
-			}
-		};
+      $options = $('option', $optgroup);
+      for (i = 0, n = $options.length; i < n; i++) {
+        addOption($options[i], id);
+      }
+    };
 
-		settings_element.maxItems = $input.attr('multiple') ? null : 1;
+    settings_element.maxItems = $input.attr('multiple') ? null : 1;
 
-		$children = $input.children();
-		for (i = 0, n = $children.length; i < n; i++) {
-			tagName = $children[i].tagName.toLowerCase();
-			if (tagName === 'optgroup') {
-				addGroup($children[i]);
-			} else if (tagName === 'option') {
-				addOption($children[i]);
-			}
-		}
-	};
+    $children = $input.children();
+    for (i = 0, n = $children.length; i < n; i++) {
+      tagName = $children[i].tagName.toLowerCase();
+      if (tagName === 'optgroup') {
+        addGroup($children[i]);
+      } else if (tagName === 'option') {
+        addOption($children[i]);
+      }
+    }
+  };
 
-	return this.each(function() {
-		if (this.selectize) return;
+  return this.each(function () {
+    if (this.selectize) return;
 
-		var instance;
-		var $input = $(this);
-		var tag_name = this.tagName.toLowerCase();
-		var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
-		if (!placeholder && !settings.allowEmptyOption) {
-			placeholder = $input.children('option[value=""]').text();
-		}
-		if (settings.allowEmptyOption && settings.showEmptyOptionInDropdown && !$input.children('option[value=""]').length) {
-			var input_html = $input.html();
-			$input.html('<option value="">'+settings.emptyOptionLabel+'</option>'+input_html);
-		}
+    var instance;
+    var $input = $(this);
+    var tag_name = this.tagName.toLowerCase();
+    var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+    if (!placeholder && !settings.allowEmptyOption) {
+      placeholder = $input.children('option[value=""]').text();
+    }
+    if (settings.allowEmptyOption && settings.showEmptyOptionInDropdown && !$input.children('option[value=""]').length) {
+      var input_html = $input.html();
+      var label = escape_html(settings.emptyOptionLabel || '--');
+      $input.html('<option value="">' + label + '</option>' + input_html);
+    }
 
-		var settings_element = {
-			'placeholder' : placeholder,
-			'options'     : [],
-			'optgroups'   : [],
-			'items'       : []
-		};
+    var settings_element = {
+      'placeholder': placeholder,
+      'options': [],
+      'optgroups': [],
+      'items': []
+    };
 
-		if (tag_name === 'select') {
-			init_select($input, settings_element);
-		} else {
-			init_textbox($input, settings_element);
-		}
+    if (tag_name === 'select') {
+      init_select($input, settings_element);
+    } else {
+      init_textbox($input, settings_element);
+    }
 
-		instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
-		instance.settings_user = settings_user;
-	});
+    instance = new Selectize($input, $.extend(true, {}, defaults, settings_element, settings_user));
+    instance.settings_user = settings_user;
+  });
 };
 
 $.fn.selectize.defaults = Selectize.defaults;
 $.fn.selectize.support = {
-	validity: SUPPORTS_VALIDITY_API
+  validity: SUPPORTS_VALIDITY_API
 };
 
 Selectize.define("auto_position", function () {
@@ -3860,6 +3903,22 @@ Selectize.define("auto_position", function () {
   }());
 });
 
+Selectize.define('auto_select_on_type', function(options) {
+	var self = this;
+
+	self.onBlur = (function() {
+		var originalBlur = self.onBlur;
+		return function(e) {
+			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
+			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
+			{
+				self.setValue($matchedItem.attr('data-value'));
+			}
+			return originalBlur.apply(this, arguments);
+		}
+	}());
+});
+
 /**
  * Plugin: "autofill_disable" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
@@ -3891,20 +3950,74 @@ Selectize.define("autofill_disable", function (options) {
   })();
 });
 
-Selectize.define('auto_select_on_type', function(options) {
-	var self = this;
+/**
+ * Plugin: "clear_button" (selectize.js)
+ * Copyright (c) 2013 Brian Reavis & contributors
+ * Copyright (c) 2020-2022 Selectize Team & contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at:
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ * ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ *
+ * @author Fabien Winkler <fabien.winkler@outlook.fr>
+ */
 
-	self.onBlur = (function() {
-		var originalBlur = self.onBlur;
-		return function(e) {
-			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
-			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
-			{
-				self.setValue($matchedItem.attr('data-value'));
-			}
-			return originalBlur.apply(this, arguments);
-		}
-	}());
+Selectize.define("clear_button", function (options) {
+  var self = this;
+
+  options = $.extend(
+    {
+      title: "Clear",
+      className: "clear",
+      label: "×",
+      html: function (data) {
+        return (
+          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
+        );
+      },
+    },
+    options
+  );
+
+  self.setup = (function () {
+    var original = self.setup;
+    return function () {
+      original.apply(self, arguments);
+      self.$button_clear = $(options.html(options));
+
+      if (self.settings.mode === "single") self.$wrapper.addClass("single");
+
+      self.$wrapper.append(self.$button_clear);
+
+      if (self.getValue() === "" || self.getValue().length === 0) {
+        self.$wrapper.find("." + options.className).css("display", "none");
+      }
+
+      self.on("change", function () {
+        if (self.getValue() === "" || self.getValue().length === 0) {
+          self.$wrapper.find("." + options.className).css("display", "none");
+        } else {
+          self.$wrapper.find("." + options.className).css("display", "");
+        }
+      });
+
+      self.$wrapper.on("click", "." + options.className, function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+
+        if (self.isLocked) return;
+
+        self.clear();
+        self.$wrapper.find("." + options.className).css("display", "none");
+      });
+    };
+  })();
 });
 
 /**
@@ -4222,76 +4335,6 @@ Selectize.define('remove_button', function (options) {
 });
 
 /**
- * Plugin: "clear_button" (selectize.js)
- * Copyright (c) 2013 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at:
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- *
- * @author Fabien Winkler <fabien.winkler@outlook.fr>
- */
-
-Selectize.define("clear_button", function (options) {
-  var self = this;
-
-  options = $.extend(
-    {
-      title: "Clear",
-      className: "clear",
-      label: "×",
-      html: function (data) {
-        return (
-          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
-        );
-      },
-    },
-    options
-  );
-
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
-      self.$button_clear = $(options.html(options));
-
-      if (self.settings.mode === "single") self.$wrapper.addClass("single");
-
-      self.$wrapper.append(self.$button_clear);
-
-      if (self.getValue() === "" || self.getValue().length === 0) {
-        self.$wrapper.find("." + options.className).css("display", "none");
-      }
-
-      self.on("change", function () {
-        if (self.getValue() === "" || self.getValue().length === 0) {
-          self.$wrapper.find("." + options.className).css("display", "none");
-        } else {
-          self.$wrapper.find("." + options.className).css("display", "");
-        }
-      });
-
-      self.$wrapper.on("click", "." + options.className, function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-
-        if (self.isLocked) return;
-
-        self.clear();
-        self.$wrapper.find("." + options.className).css("display", "none");
-      });
-    };
-  })();
-});
-
-/**
  * Plugin: "restore_on_backspace" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
  * Copyright (c) 2020-2022 Selectize Team & contributors
@@ -4336,48 +4379,6 @@ Selectize.define('restore_on_backspace', function(options) {
 	})();
 });
 
-Selectize.define('tag_limit', function (options) {
-    const self = this
-    options.tagLimit = options.tagLimit
-    this.onBlur = (function (e) {
-        const original = self.onBlur
-
-        return function (e) {
-            original.apply(this, e);
-            if (!e)
-                return
-            const $control = this.$control
-            const $items = $control.find('.item')
-            const limit = options.tagLimit
-            if (limit === undefined || $items.length <= limit)
-                return
-
-            $items.toArray().forEach(function(item, index) {
-                if (index < limit)
-                    return
-                $(item).hide()
-            });
-
-            $control.append('<span><b>' + ($items.length - limit) + '</b></span>')
-        };
-    })()
-
-    this.onFocus = (function (e) {
-        const original = self.onFocus
-
-        return function (e) {
-            original.apply(this, e);
-            if (!e)
-                return
-            const $control = this.$control
-            const $items = $control.find('.item')
-            $items.show()
-            $control.find('span').remove()
-
-        };
-    })()
-});
-
 Selectize.define('select_on_focus', function(options) {
 	var self = this;
 
@@ -4418,6 +4419,48 @@ Selectize.define('select_on_focus', function(options) {
 		return function() { return 1; };
 	};
 
+});
+
+Selectize.define('tag_limit', function (options) {
+    const self = this
+    options.tagLimit = options.tagLimit
+    this.onBlur = (function (e) {
+        const original = self.onBlur
+
+        return function (e) {
+            original.apply(this, e);
+            if (!e)
+                return
+            const $control = this.$control
+            const $items = $control.find('.item')
+            const limit = options.tagLimit
+            if (limit === undefined || $items.length <= limit)
+                return
+
+            $items.toArray().forEach(function(item, index) {
+                if (index < limit)
+                    return
+                $(item).hide()
+            });
+
+            $control.append('<span><b>' + ($items.length - limit) + '</b></span>')
+        };
+    })()
+
+    this.onFocus = (function (e) {
+        const original = self.onFocus
+
+        return function (e) {
+            original.apply(this, e);
+            if (!e)
+                return
+            const $control = this.$control
+            const $items = $control.find('.item')
+            $items.show()
+            $control.find('span').remove()
+
+        };
+    })()
 });
 
   return Selectize;

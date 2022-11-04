@@ -9,7 +9,7 @@ compile:
 	npm i
 	rm -rf dist
 	$(GULP) loadDependencies
-	$(GULP)
+	npm run build
 release:
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
