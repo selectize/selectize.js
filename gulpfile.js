@@ -9,7 +9,7 @@ const sass = gulpSass(dartSass);
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
-const wrapper = require('gulp-wrapper');
+const wrapper = require('@risadams/gulp-wrapper');
 
 const del = require('del');
 const { src, dest, series, watch } = require('gulp');

@@ -971,10 +971,10 @@ var watchChildEvent = function ($parent, event, selector, fn) {
  * @param {object} input
  * @returns {object}
  */
-var getSelection = function (input) {
+var getInputSelection = function (input) {
   var result = {};
   if (input === undefined) {
-    console.warn('WARN getSelection cannot locate input control');
+    console.warn('WARN getInputSelection cannot locate input control');
     return result;
   }
   if ('selectionStart' in input) {
@@ -1086,7 +1086,7 @@ var autoGrow = function ($input) {
       );
 
       if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
-        selection = getSelection($input[0]);
+        selection = getInputSelection($input[0]);
         if (selection.length) {
           value = value.substring(0, selection.start) + value.substring(selection.start + selection.length);
         } else if (keyCode === KEY_BACKSPACE && selection.start) {
@@ -3253,7 +3253,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
 			if (typeof self.settings.deselectBehavior === 'string' && self.settings.deselectBehavior === 'top') {
@@ -3332,7 +3332,7 @@ $.extend(Selectize.prototype, {
 		if (self.rtl) direction *= -1;
 
 		tail = direction > 0 ? 'last' : 'first';
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.isFocused && !self.isInputHidden) {
 			valueLength = self.$control_input.val().length;
@@ -3859,6 +3859,22 @@ $.fn.selectize.support = {
   validity: SUPPORTS_VALIDITY_API
 };
 
+Selectize.define('auto_select_on_type', function(options) {
+	var self = this;
+
+	self.onBlur = (function() {
+		var originalBlur = self.onBlur;
+		return function(e) {
+			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
+			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
+			{
+				self.setValue($matchedItem.attr('data-value'));
+			}
+			return originalBlur.apply(this, arguments);
+		}
+	}());
+});
+
 Selectize.define("auto_position", function () {
   var self = this;
 
@@ -3903,22 +3919,6 @@ Selectize.define("auto_position", function () {
   }());
 });
 
-Selectize.define('auto_select_on_type', function(options) {
-	var self = this;
-
-	self.onBlur = (function() {
-		var originalBlur = self.onBlur;
-		return function(e) {
-			var $matchedItem = self.getFirstItemMatchedByTextContent(self.lastValue, true);
-			if (typeof $matchedItem.attr('data-value') !== 'undefined' && self.getValue() !== $matchedItem.attr('data-value'))
-			{
-				self.setValue($matchedItem.attr('data-value'));
-			}
-			return originalBlur.apply(this, arguments);
-		}
-	}());
-});
-
 /**
  * Plugin: "autofill_disable" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
@@ -3951,7 +3951,7 @@ Selectize.define("autofill_disable", function (options) {
 });
 
 /**
- * Plugin: "clear_button" (selectize.js)
+ * Plugin: "dropdown_header" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
  * Copyright (c) 2020-2022 Selectize Team & contributors
  *
@@ -3964,60 +3964,43 @@ Selectize.define("autofill_disable", function (options) {
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Fabien Winkler <fabien.winkler@outlook.fr>
+ * @author Brian Reavis <brian@thirdroute.com>
  */
 
-Selectize.define("clear_button", function (options) {
-  var self = this;
+Selectize.define('dropdown_header', function(options) {
+	var self = this;
 
-  options = $.extend(
-    {
-      title: "Clear",
-      className: "clear",
-      label: "×",
-      html: function (data) {
-        return (
-          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
-        );
-      },
-    },
-    options
-  );
+	options = $.extend({
+		title         : 'Untitled',
+		headerClass   : 'selectize-dropdown-header',
+		titleRowClass : 'selectize-dropdown-header-title',
+		labelClass    : 'selectize-dropdown-header-label',
+		closeClass    : 'selectize-dropdown-header-close',
 
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
-      self.$button_clear = $(options.html(options));
+		html: function(data) {
+			return (
+				'<div class="' + data.headerClass + '">' +
+					'<div class="' + data.titleRowClass + '">' +
+						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
+						'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
+					'</div>' +
+				'</div>'
+			);
+		}
+	}, options);
 
-      if (self.settings.mode === "single") self.$wrapper.addClass("single");
-
-      self.$wrapper.append(self.$button_clear);
-
-      if (self.getValue() === "" || self.getValue().length === 0) {
-        self.$wrapper.find("." + options.className).css("display", "none");
-      }
-
-      self.on("change", function () {
-        if (self.getValue() === "" || self.getValue().length === 0) {
-          self.$wrapper.find("." + options.className).css("display", "none");
-        } else {
-          self.$wrapper.find("." + options.className).css("display", "");
-        }
+	self.setup = (function() {
+		var original = self.setup;
+		return function() {
+			original.apply(self, arguments);
+			self.$dropdown_header = $(options.html(options));
+      self.$dropdown.prepend(self.$dropdown_header);
+      self.$dropdown_header.find('.' + options.closeClass).on('click', function () {
+        self.close();
       });
+		};
+	})();
 
-      self.$wrapper.on("click", "." + options.className, function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-
-        if (self.isLocked) return;
-
-        self.clear();
-        self.$wrapper.find("." + options.className).css("display", "none");
-      });
-    };
-  })();
 });
 
 /**
@@ -4095,7 +4078,7 @@ Selectize.define('drag_drop', function(options) {
 });
 
 /**
- * Plugin: "dropdown_header" (selectize.js)
+ * Plugin: "clear_button" (selectize.js)
  * Copyright (c) 2013 Brian Reavis & contributors
  * Copyright (c) 2020-2022 Selectize Team & contributors
  *
@@ -4108,43 +4091,60 @@ Selectize.define('drag_drop', function(options) {
  * ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  *
- * @author Brian Reavis <brian@thirdroute.com>
+ * @author Fabien Winkler <fabien.winkler@outlook.fr>
  */
 
-Selectize.define('dropdown_header', function(options) {
-	var self = this;
+Selectize.define("clear_button", function (options) {
+  var self = this;
 
-	options = $.extend({
-		title         : 'Untitled',
-		headerClass   : 'selectize-dropdown-header',
-		titleRowClass : 'selectize-dropdown-header-title',
-		labelClass    : 'selectize-dropdown-header-label',
-		closeClass    : 'selectize-dropdown-header-close',
+  options = $.extend(
+    {
+      title: "Clear",
+      className: "clear",
+      label: "×",
+      html: function (data) {
+        return (
+          '<a class="' + data.className + '" title="' + data.title + '"> ' + data.label + '</a>'
+        );
+      },
+    },
+    options
+  );
 
-		html: function(data) {
-			return (
-				'<div class="' + data.headerClass + '">' +
-					'<div class="' + data.titleRowClass + '">' +
-						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
-					'</div>' +
-				'</div>'
-			);
-		}
-	}, options);
+  self.setup = (function () {
+    var original = self.setup;
+    return function () {
+      original.apply(self, arguments);
+      self.$button_clear = $(options.html(options));
 
-	self.setup = (function() {
-		var original = self.setup;
-		return function() {
-			original.apply(self, arguments);
-			self.$dropdown_header = $(options.html(options));
-      self.$dropdown.prepend(self.$dropdown_header);
-      self.$dropdown_header.find('.' + options.closeClass).on('click', function () {
-        self.close();
+      if (self.settings.mode === "single") self.$wrapper.addClass("single");
+
+      self.$wrapper.append(self.$button_clear);
+
+      if (self.getValue() === "" || self.getValue().length === 0) {
+        self.$wrapper.find("." + options.className).css("display", "none");
+      }
+
+      self.on("change", function () {
+        if (self.getValue() === "" || self.getValue().length === 0) {
+          self.$wrapper.find("." + options.className).css("display", "none");
+        } else {
+          self.$wrapper.find("." + options.className).css("display", "");
+        }
       });
-		};
-	})();
 
+      self.$wrapper.on("click", "." + options.className, function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        e.stopPropagation();
+
+        if (self.isLocked) return;
+
+        self.clear();
+        self.$wrapper.find("." + options.className).css("display", "none");
+      });
+    };
+  })();
 });
 
 /**

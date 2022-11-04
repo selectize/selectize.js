@@ -27,6 +27,7 @@
     "dist/*"
   ],
   "devDependencies": {
+    "@risadams/gulp-wrapper": "1.0.0",
     "@types/jquery": "^3.5.14",
     "bootstrap-sass": "^3.4.3",
     "bootstrap2": "npm:bootstrap-2.3.2@1.0.0",
@@ -48,7 +49,6 @@
     "gulp-uglify": "3.0.2",
     "gulp-uglifycss": "1.1.0",
     "gulp-watch": "5.0.1",
-    "gulp-wrapper": "1.0.0",
     "http-server": "14.1.1",
     "jquery": "^3.6.1",
     "jshint": "^2.13.5",
