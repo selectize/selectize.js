@@ -187,10 +187,10 @@ var watchChildEvent = function ($parent, event, selector, fn) {
  * @param {object} input
  * @returns {object}
  */
-var getSelection = function (input) {
+var getInputSelection = function (input) {
   var result = {};
   if (input === undefined) {
-    console.warn('WARN getSelection cannot locate input control');
+    console.warn('WARN getInputSelection cannot locate input control');
     return result;
   }
   if ('selectionStart' in input) {
@@ -302,7 +302,7 @@ var autoGrow = function ($input) {
       );
 
       if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
-        selection = getSelection($input[0]);
+        selection = getInputSelection($input[0]);
         if (selection.length) {
           value = value.substring(0, selection.start) + value.substring(selection.start + selection.length);
         } else if (keyCode === KEY_BACKSPACE && selection.start) {
