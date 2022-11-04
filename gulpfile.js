@@ -168,6 +168,10 @@ const _minifyScripts = async () =>
     'src/plugins/**/*.js',
   ])
     .pipe(concat('selectize.min.js'))
+    .pipe(wrapper({
+      header: amd_header,
+      footer: amd_footer
+    }))
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write())
@@ -205,8 +209,7 @@ const license_header = `/**
  */
 `;
 
-const amd_header = `
-(function (root, factory) {
+const amd_header = `(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
   } else if (typeof module === 'object' && typeof module.exports === 'object') {
