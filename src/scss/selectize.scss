@@ -326,7 +326,7 @@ $select-spinner-border-color: $select-color-border;
     cursor: pointer;
   }
   &.input-active,
-  &.input-active input {
+  &.input-active input:not(:read-only) {
     cursor: text;
   }
 
