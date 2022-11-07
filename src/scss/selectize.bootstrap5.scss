@@ -29,7 +29,7 @@ $select-color-dropdown: $dropdown-bg !default;
 $select-color-dropdown-border-top: mix(
   $input-border-color,
   $input-bg,
-  0.8
+  80%
 ) !default;
 $select-color-dropdown-item-active: $dropdown-link-hover-bg !default;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color !default;
