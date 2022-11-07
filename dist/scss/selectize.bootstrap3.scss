@@ -21,7 +21,7 @@ $select-color-optgroup: $dropdown-bg;
 $select-color-optgroup-text: $dropdown-header-color;
 $select-color-optgroup-border: $dropdown-divider-bg;
 $select-color-dropdown: $dropdown-bg;
-$select-color-dropdown-border-top: mix($input-border, $input-bg, 0.8);
+$select-color-dropdown-border-top: mix($input-border, $input-bg, 80%);
 $select-color-dropdown-item-active: $dropdown-link-hover-bg;
 $select-color-dropdown-item-active-text: $dropdown-link-hover-color;
 $select-color-dropdown-item-create-active-text: $dropdown-link-hover-color;
