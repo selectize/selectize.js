@@ -1548,7 +1548,7 @@ define('syn/key', [
     'syn/typeable',
     'syn/browsers'
 ], function (syn) {
-    var h = syn.helpers, getSelection = function (el) {
+    var h = syn.helpers, getInputSelection = function (el) {
             var real, r, start;
             if (el.selectionStart !== undefined) {
                 if (document.activeElement && document.activeElement !== el && el.selectionStart === el.selectionEnd && el.selectionStart === 0) {
@@ -1752,7 +1752,7 @@ define('syn/key', [
         },
         getText: function (el) {
             if (syn.typeable.test(el)) {
-                var sel = getSelection(el);
+                var sel = getInputSelection(el);
                 return el.value.substring(sel.start, sel.end);
             }
             var win = syn.helpers.getWindow(el);
@@ -2120,7 +2120,7 @@ define('syn/key', [
                 syn.trigger(element, 'keyup', options.replace('-up', ''));
                 return callback(true, element);
             }
-            var activeElement = h.getWindow(element).document.activeElement, caret = syn.typeable.test(element) && getSelection(element), key = convert[options] || options, runDefaults = syn.trigger(element, 'keydown', key), getDefault = syn.key.getDefault, prevent = syn.key.browser.prevent, defaultResult, keypressOptions = syn.key.options(key, 'keypress');
+            var activeElement = h.getWindow(element).document.activeElement, caret = syn.typeable.test(element) && getInputSelection(element), key = convert[options] || options, runDefaults = syn.trigger(element, 'keydown', key), getDefault = syn.key.getDefault, prevent = syn.key.browser.prevent, defaultResult, keypressOptions = syn.key.options(key, 'keypress');
             if (runDefaults) {
                 if (!keypressOptions) {
                     defaultResult = getDefault(key).call(element, keypressOptions, h.getWindow(element), key, undefined, caret);

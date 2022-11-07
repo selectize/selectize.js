@@ -1,5 +1,7 @@
 const concat = require('gulp-concat');
 const dartSass = require('sass');
+const del = require('del');
+const fs = require('fs');
 const gulpSass = require('gulp-sass');
 const less = require('gulp-less');
 const path = require('path');
@@ -9,22 +11,34 @@ const sass = gulpSass(dartSass);
 const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
-const wrapper = require('gulp-wrapper');
+const wrapper = require('@risadams/gulp-wrapper');
 
-const del = require('del');
 const { src, dest, series, watch } = require('gulp');
-
-// Tasks
 
 const cleanLibs = async () => del('dist/**/*');
 const loadDependencies = async () => await _copyLibs();
 const copyDependencies = async () => src(['lib/**/*']).pipe(dest('dist/lib'));
 const copySrc = async () => {
+
+  let scripts = [
+    'src/contrib/*.js',
+    'src/constants.js',
+    'src/utils.js',
+    'src/selectize.js',
+    'src/defaults.js',
+    'src/selectize.jquery.js'
+  ];
+
+  // Add in all plugin scripts in a predictable order
+  fs.readdirSync('src/plugins').sort().forEach((file) => {
+    scripts.push(`src/plugins/${file}/plugin.js`);
+  });
+
   setTimeout(async () => {
     await _compileLess();
     await _compileSass();
-    await _compileJavascript();
-    setTimeout(async () => { await _minifyScripts(); }, 1000);
+    await _compileJavascript(scripts);
+    await _minifyScripts(scripts);
   }, 1000);
 };
 const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
@@ -80,7 +94,9 @@ const _compileLess = async () => {
 }
 
 const _compileSass = async () => {
-  src(['src/scss/**.scss']).pipe(dest('dist/scss'));
+  src(['src/scss/**.scss'])
+    .pipe(replace(/\.\.\/plugins\/(.+)\/plugin.scss/g, 'plugins/$1.scss')) // fix relative paths GH#1886
+    .pipe(dest('dist/scss'));
   src(['src/plugins/**/*.scss']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/scss/plugins'));
 
   src([
@@ -135,16 +151,8 @@ const _compileSass = async () => {
   }
 }
 
-const _compileJavascript = async () =>
-  src([
-    'src/contrib/*.js',
-    'src/constants.js',
-    'src/utils.js',
-    'src/selectize.js',
-    'src/defaults.js',
-    'src/selectize.jquery.js',
-    'src/plugins/**/*.js',
-  ])
+const _compileJavascript = async (scripts) =>
+  src(scripts)
     .pipe(concat('selectize.js'))
     .pipe(wrapper({
       header: amd_header,
@@ -155,17 +163,13 @@ const _compileJavascript = async () =>
     .pipe(replace(/@@version/g, getVersion()))
     .pipe(dest('dist/js'));
 
-const _minifyScripts = async () =>
-  src([
-    'src/contrib/*.js',
-    'src/constants.js',
-    'src/utils.js',
-    'src/selectize.js',
-    'src/defaults.js',
-    'src/selectize.jquery.js',
-    'src/plugins/**/*.js',
-  ])
+const _minifyScripts = async (scripts) =>
+  src(scripts)
     .pipe(concat('selectize.min.js'))
+    .pipe(wrapper({
+      header: amd_header,
+      footer: amd_footer
+    }))
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write())
@@ -203,8 +207,7 @@ const license_header = `/**
  */
 `;
 
-const amd_header = `
-(function (root, factory) {
+const amd_header = `(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['jquery'], factory);
   } else if (typeof module === 'object' && typeof module.exports === 'object') {

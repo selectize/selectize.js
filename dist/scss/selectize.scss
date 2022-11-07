@@ -73,12 +73,12 @@ $select-spinner-border-color: $select-color-border;
   background-repeat: repeat-x;
 }
 
-@import "../plugins/drag_drop/plugin.scss";
-@import "../plugins/dropdown_header/plugin.scss";
-@import "../plugins/optgroup_columns/plugin.scss";
-@import "../plugins/remove_button/plugin.scss";
-@import "../plugins/clear_button/plugin.scss";
-@import "../plugins/auto_position/plugin.scss";
+@import "plugins/drag_drop.scss";
+@import "plugins/dropdown_header.scss";
+@import "plugins/optgroup_columns.scss";
+@import "plugins/remove_button.scss";
+@import "plugins/clear_button.scss";
+@import "plugins/auto_position.scss";
 
 .#{$selectize}-control {
   position: relative;

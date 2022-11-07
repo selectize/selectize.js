@@ -38,6 +38,7 @@ var Selectize = function($input, settings) {
 		currentResults   : null,
 		lastValue        : '',
 		lastValidValue   : '',
+		lastOpenTarget   : false,
 		caretPos         : 0,
 		loading          : 0,
 		loadedSearches   : {},
@@ -192,7 +193,11 @@ $.extend(Selectize.prototype, {
 		});
 
 		$control_input.on({
-			mousedown : function(e) { e.stopPropagation(); },
+			mousedown : function(e) {
+				if (self.$control_input.val() !== '' || self.settings.openOnFocus) {
+					e.stopPropagation();
+				}
+			},
 			keydown   : function() { return self.onKeyDown.apply(self, arguments); },
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			input     : function() { return self.onInput.apply(self, arguments); },
@@ -239,8 +244,15 @@ $.extend(Selectize.prototype, {
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
-		this.revertSettings = {
-			$children : $input.children().detach(),
+		// Detach children outside of DOM to prevent slowdown on large selects
+    var inputPlaceholder = $('<div></div>');
+		var inputChildren = $input.children().detach();
+
+    $input.replaceWith(inputPlaceholder);
+    inputPlaceholder.replaceWith($input);
+
+    this.revertSettings = {
+			$children : inputChildren,
 			tabindex  : $input.attr('tabindex')
 		};
 
@@ -391,35 +403,39 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
-		if (self.isFocused) {
-			// retain focus by preventing native handling. if the
-			// event target is the input it should not be modified.
-			// otherwise, text selection within the input won't work.
-			if (e.target !== self.$control_input[0]) {
-				if (self.settings.mode === 'single') {
-					// toggle dropdown
-					self.isOpen ? self.close() : self.open();
-
-					// when closing the dropdown, we set a isDropdownClosing
-					// varible temporaily to prevent the dropdown from reopening
-					// from the onClick event
-					self.isDropdownClosing = true;
-					setTimeout(function() {
-						self.isDropdownClosing = false;
-					}, self.settings.closeDropdownThreshold);
-
-				} else if (!defaultPrevented) {
-					self.setActiveItem(null);
-				}
-				return false;
-			}
-		} else {
+		if (!self.isFocused) {
 			// give control focus
 			if (!defaultPrevented) {
 				window.setTimeout(function() {
 					self.focus();
 				}, 0);
 			}
+		}
+		// retain focus by preventing native handling. if the
+		// event target is the input it should not be modified.
+		// otherwise, text selection within the input won't work.
+		if (e.target !== self.$control_input[0] || self.$control_input.val() === '') {
+			if (self.settings.mode === 'single') {
+				// toggle dropdown
+				self.isOpen ? self.close() : self.open();
+			} else {
+				if (!defaultPrevented) {
+						self.setActiveItem(null);
+				}
+				if (!self.settings.openOnFocus) {
+					if (self.isOpen && e.target === self.lastOpenTarget) {
+						self.close();
+						self.lastOpenTarget = false;
+					} else if (!self.isOpen) {
+						self.refreshOptions();
+						self.open();
+						self.lastOpenTarget = e.target;
+					} else {
+						self.lastOpenTarget = e.target;
+					}
+				}
+			}
+			return false;
 		}
 	},
 
@@ -2093,7 +2109,7 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		direction = (e && e.keyCode === KEY_BACKSPACE) ? -1 : 1;
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.$activeOption && !self.settings.hideSelected) {
 			if (typeof self.settings.deselectBehavior === 'string' && self.settings.deselectBehavior === 'top') {
@@ -2172,7 +2188,7 @@ $.extend(Selectize.prototype, {
 		if (self.rtl) direction *= -1;
 
 		tail = direction > 0 ? 'last' : 'first';
-		selection = getSelection(self.$control_input[0]);
+		selection = getInputSelection(self.$control_input[0]);
 
 		if (self.isFocused && !self.isInputHidden) {
 			valueLength = self.$control_input.val().length;
