@@ -36,7 +36,7 @@
     "bootstrap5": "npm:bootstrap@5.2.2",
     "chai": "4.3.4",
     "concurrently": "^7.5.0",
-    "del": "^6.1.1",
+    "del": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
