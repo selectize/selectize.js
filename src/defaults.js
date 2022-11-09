@@ -1,65 +1,67 @@
 Selectize.count = 0;
 Selectize.defaults = {
-	options: [],
-	optgroups: [],
+  options: [],
+  optgroups: [],
 
-	plugins: [],
-	delimiter: ',',
-	splitOn: null, // regexp or string for splitting up values from a paste command
-	persist: true,
-	diacritics: true,
-	create: false,
-	showAddOptionOnCreate: true,
-	createOnBlur: false,
-	createFilter: null,
-	highlight: true,
-	openOnFocus: true,
-	maxOptions: 1000,
-	maxItems: null,
-	hideSelected: null,
-	addPrecedence: false,
-	selectOnTab: true,
-	preload: false,
-	allowEmptyOption: false,
-	showEmptyOptionInDropdown: false,
-	emptyOptionLabel: '--',
+  plugins: [],
+  delimiter: ',',
+  splitOn: null, // regexp or string for splitting up values from a paste command
+  persist: true,
+  diacritics: true,
+  create: false,
+  showAddOptionOnCreate: true,
+  createOnBlur: false,
+  createFilter: null,
+  highlight: true,
+  openOnFocus: true,
+  maxOptions: 1000,
+  maxItems: null,
+  hideSelected: null,
+  addPrecedence: false,
+  selectOnTab: true,
+  preload: false,
+  allowEmptyOption: false,
+  showEmptyOptionInDropdown: false,
+  emptyOptionLabel: '--',
   setFirstOptionActive: false,
-	closeAfterSelect: false,
+  closeAfterSelect: false,
   closeDropdownThreshold: 250, // number of ms to prevent reopening of dropdown after mousedown
 
-	scrollDuration: 60,
-	deselectBehavior: 'previous', //top, previous
-	loadThrottle: 300,
-	loadingClass: 'loading',
+  scrollDuration: 60,
+  deselectBehavior: 'previous', //top, previous
+  loadThrottle: 300,
+  loadingClass: 'loading',
 
-	dataAttr: 'data-data',
-	optgroupField: 'optgroup',
-	valueField: 'value',
-	labelField: 'text',
-	disabledField: 'disabled',
-	optgroupLabelField: 'label',
-	optgroupValueField: 'value',
-	lockOptgroupOrder: false,
+  dataAttr: 'data-data',
+  optgroupField: 'optgroup',
+  valueField: 'value',
+  labelField: 'text',
+  disabledField: 'disabled',
+  optgroupLabelField: 'label',
+  optgroupValueField: 'value',
+  lockOptgroupOrder: false,
 
-	sortField: '$order',
-	searchField: ['text'],
-	searchConjunction: 'and',
+  sortField: '$order',
+  searchField: ['text'],
+  searchConjunction: 'and',
+  respect_word_boundaries: true,
 
-	mode: null,
-	wrapperClass: '',
-	inputClass: '',
-	dropdownClass: '',
-	dropdownContentClass: '',
+  mode: null,
+  wrapperClass: '',
+  inputClass: '',
+  dropdownClass: '',
+  dropdownContentClass: '',
 
-	dropdownParent: null,
+  dropdownParent: null,
 
-	copyClassesToDropdown: true,
+  copyClassesToDropdown: true,
   dropdownSize: {
     sizeType: 'auto', // 'numberItems' or 'fixedHeight'
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
   normalize: false,
   ignoreOnDropwdownHeight: 'img, i',
+  search: true,
 	/*
 	load                 : null, // function(query, callback) { ... }
 	score                : null, // function(search) { ... }
@@ -81,13 +83,13 @@ Selectize.defaults = {
 	onDelete             : null, // function(values) { ... }
 	*/
 
-	render: {
-		/*
-		item: null,
-		optgroup: null,
-		optgroup_header: null,
-		option: null,
-		option_create: null
-		*/
-	}
+  render: {
+    /*
+    item: null,
+    optgroup: null,
+    optgroup_header: null,
+    option: null,
+    option_create: null
+    */
+  }
 };
