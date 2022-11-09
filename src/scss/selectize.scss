@@ -160,7 +160,7 @@ $select-spinner-border-color: $select-color-border;
   }
   .#{$selectize}-control.multi &.disabled > div {
     &,
-    &.selected {
+    &.active {
       color: lighten(
         desaturate($select-color-item-text, 100%),
         $select-lighten-disabled-item-text
@@ -269,7 +269,7 @@ $select-spinner-border-color: $select-color-border;
     background: $select-color-optgroup;
     cursor: default;
   }
-  .selected {
+  .active {
     background-color: $select-color-item-active;
     color: $select-color-item-active-text;
     &.create {
