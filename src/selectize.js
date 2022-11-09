@@ -1072,7 +1072,8 @@ $.extend(Selectize.prototype, {
 			conjunction : settings.searchConjunction,
 			sort        : sort,
 			nesting     : settings.nesting,
-      filter      : settings.filter
+      filter      : settings.filter,
+      respect_word_boundaries : settings.respect_word_boundaries
 		};
 	},
 
