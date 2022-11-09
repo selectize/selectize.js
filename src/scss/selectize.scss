@@ -276,6 +276,11 @@ $select-spinner-border-color: $select-color-border;
       color: $select-color-dropdown-item-create-active-text;
     }
   }
+
+  .selected {
+    background-color: $select-color-item-active;
+    color: $select-color-item-active-text;
+  }
   .create {
     color: $select-color-dropdown-item-create-text;
   }
