@@ -154,27 +154,25 @@ const _compileLess = async () => {
   src(['src/less/**.less']).pipe(dest('dist/less'));
   src(['src/plugins/**/*.less']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/less/plugins'));
 
-  src([
-    'src/less/selectize.less',
-    'src/plugins/**/*.less'
-  ])
+  let plugin_styles = [];
+
+  // Add in all plugin styles in a predictable order
+  fs.readdirSync('src/plugins').sort().forEach((file) => {
+    const path = `src/plugins/${file}/plugin.less`;
+    if (fs.existsSync(path)) {
+      plugin_styles.push(path);
+    }
+  });
+
+  src(['src/less/selectize.less', ...plugin_styles])
     .pipe(concat('selectize.legacy.css'))
-    .pipe(less({
-      paths: ['lib', 'src/less'],
-      math: 'always'
-    }))
+    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
     .pipe(__wrapStyles())
     .pipe(dest('dist/css'));
 
-  src([
-    'src/less/selectize.bootstrap2.less',
-    'src/plugins/**/*.less'
-  ])
+  src(['src/less/selectize.bootstrap2.less', ...plugin_styles])
     .pipe(concat('selectize.bootstrap2.css'))
-    .pipe(less({
-      paths: ['lib', 'src/less'],
-      math: 'always'
-    }))
+    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
     .pipe(__wrapStyles())
     .pipe(dest('dist/css'));
 }
@@ -185,38 +183,33 @@ const _compileSass = async () => {
     .pipe(dest('dist/scss'));
   src(['src/plugins/**/*.scss']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/scss/plugins'));
 
-  src([
-    'src/scss/selectize.scss',
-    'src/plugins/**/*.scss'
-  ])
+  let plugin_styles = [];
+
+  // Add in all plugin styles in a predictable order
+  fs.readdirSync('src/plugins').sort().forEach((file) => {
+    const path = `src/plugins/${file}/plugin.scss`;
+    if (fs.existsSync(path)) {
+      plugin_styles.push(path);
+    }
+  });
+
+  src(['src/scss/selectize.scss', ...plugin_styles])
     .pipe(concat('selectize.css'))
-    .pipe(sass({
-      includePaths: ['lib', 'src/scss'],
-    }).on('error', sass.logError))
+    .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
     .pipe(__wrapStyles())
     .pipe(dest('dist/css'));
 
-  src([
-    'src/scss/selectize.default.scss',
-    'src/plugins/**/*.scss'
-  ])
+  src(['src/scss/selectize.default.scss', ...plugin_styles])
     .pipe(concat('selectize.default.css'))
-    .pipe(sass({
-      includePaths: ['lib', 'src/scss'],
-    }).on('error', sass.logError))
+    .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
     .pipe(__wrapStyles())
     .pipe(dest('dist/css'));
 
   // build the bootstrap base sccss styles
   for (let bs_version = 3; bs_version <= 5; bs_version++) {
-    src([
-      'src/scss/selectize.bootstrap' + bs_version + '.scss',
-      'src/plugins/**/*.scss'
-    ])
+    src(['src/scss/selectize.bootstrap' + bs_version + '.scss', ...plugin_styles])
       .pipe(concat('selectize.bootstrap' + bs_version + '.css'))
-      .pipe(sass({
-        includePaths: ['lib', 'src/scss'],
-      }).on('error', sass.logError))
+      .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
       .pipe(__wrapStyles())
       .pipe(dest('dist/css'));
   }
