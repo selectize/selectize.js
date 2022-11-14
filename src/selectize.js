@@ -161,6 +161,7 @@ $.extend(Selectize.prototype, {
     // to have an identical rendering to a simple select (usefull for mobile device and do not open keyboard)
     if (!self.settings.search) {
       $control_input.attr('readonly', true);
+	  $control_input.attr('inputmode', 'none');
       $control.css('cursor', 'pointer');
     }
 
