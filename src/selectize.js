@@ -158,6 +158,13 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+    // to have an identical rendering to a simple select (usefull for mobile device and do not open keyboard)
+    if (!self.settings.search) {
+      $control_input.attr('readonly', true);
+	  $control_input.attr('inputmode', 'none');
+      $control.css('cursor', 'pointer');
+    }
+
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
 			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');

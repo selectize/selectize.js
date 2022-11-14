@@ -632,6 +632,23 @@
 					});
 					test.selectize.search('hello');
 				}).to.not.throw(Error);
+      });
+      it('should normalize a string', function () {
+        var test;
+
+        beforeEach(function() {
+          test = setup_test('<select>' +
+            '<option value="a">A</option>' +
+          '</select>', { normalize: true });
+        });
+
+        it('should return query satinized', function() {
+          var query = test.selectize.search('héllo').query;
+
+          window.setTimeout(function () {
+            expect(query).to.be.equal('hello');
+          }, 0);
+        });
 			});
 		});
 

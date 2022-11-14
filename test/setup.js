@@ -217,17 +217,33 @@
         beforeEach(function() {
           test = setup_test('<select>' +
             '<option value="a" style="color:red;" class="a">A</option>' +
-          '</select>', {
-            dropdownSize: { sizeType: 'fixedHeight', sizeValue: 100 }
-          });
+          '</select>');
         });
 
-        it('should dropdown height to be equal 100', function(done) {
+        it('should dropdown height to be equal 100', function() {
           test.selectize.focus();
 
           window.setTimeout(function () {
             expect(test.selectize.$dropdown_content.find('.option').attr('style')).to.be.equal('color:red;');
             expect(test.selectize.$dropdown_content.find('.option').hasClass('a')).to.be.equal(true);
+          }, 0);
+        });
+      });
+
+      it('should respect input readonly (option search = false)', function () {
+        var test;
+
+        beforeEach(function() {
+          test = setup_test('<select>' +
+            '<option value="a">A</option>' +
+          '</select>', { search: false });
+        });
+
+        it('should readonly on input and cursor pointer on input and control element', function () {
+          window.setTimeout(function () {
+            expect(test.selectize.$dropdown_input.attr('readonly')).to.be.equal('readonly');
+            expect(test.selectize.$dropdown_input.css('cursor')).to.be.equal('pointer');
+            expect(test.selectize.$control.css('cursor')).to.be.equal('pointer');
           }, 0);
         });
       });
@@ -470,7 +486,6 @@
 				}, 0);
 			});
 		});
-
 	});
 
 })();
