@@ -21,7 +21,6 @@ else
 	rm *.bak
 	make compile
 	npm test || exit 1
-	cp dist/js/standalone/selectize.js ../.selectize.js
 	git add .
 	git commit -a -m "Released $(version)."
 	git tag v$(version)
