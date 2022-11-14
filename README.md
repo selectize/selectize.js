@@ -89,7 +89,7 @@ The available options are [documented here](https://selectize.dev/docs.html).
 
 When issuing a pull request:
 
-- please **do not include/commit changes in the `dist/` folder** to avoid
+- please **do not include/commit changes in the `dist/` or `lib/` folders** to avoid
   merge conflicts. A good way to include the right files is to use
   `git gui` or `git add` when committing to select the files you want to
   add to your commit.

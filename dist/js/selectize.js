@@ -1317,6 +1317,13 @@ $.extend(Selectize.prototype, {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
 
+    // to have an identical rendering to a simple select (usefull for mobile device and do not open keyboard)
+    if (!self.settings.search) {
+      $control_input.attr('readonly', true);
+	  $control_input.attr('inputmode', 'none');
+      $control.css('cursor', 'pointer');
+    }
+
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
 			var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -3661,26 +3668,27 @@ Selectize.defaults = {
   },
   normalize: false,
   ignoreOnDropwdownHeight: 'img, i',
-  /*
-  load                 : null, // function(query, callback) { ... }
-  score                : null, // function(search) { ... }
-  formatValueToKey     : null, // function(key) { ... }
-  onInitialize         : null, // function() { ... }
-  onChange             : null, // function(value) { ... }
-  onItemAdd            : null, // function(value, $item) { ... }
-  onItemRemove         : null, // function(value, $item) { ... }
-  onClear              : null, // function() { ... }
-  onOptionAdd          : null, // function(value, data) { ... }
-  onOptionRemove       : null, // function(value) { ... }
-  onOptionClear        : null, // function() { ... }
-  onOptionGroupAdd     : null, // function(id, data) { ... }
-  onOptionGroupRemove  : null, // function(id) { ... }
-  onOptionGroupClear   : null, // function() { ... }
-  onDropdownOpen       : null, // function($dropdown) { ... }
-  onDropdownClose      : null, // function($dropdown) { ... }
-  onType               : null, // function(str) { ... }
-  onDelete             : null, // function(values) { ... }
-  */
+  search: true,
+	/*
+	load                 : null, // function(query, callback) { ... }
+	score                : null, // function(search) { ... }
+	formatValueToKey     : null, // function(key) { ... }
+	onInitialize         : null, // function() { ... }
+	onChange             : null, // function(value) { ... }
+	onItemAdd            : null, // function(value, $item) { ... }
+	onItemRemove         : null, // function(value, $item) { ... }
+	onClear              : null, // function() { ... }
+	onOptionAdd          : null, // function(value, data) { ... }
+	onOptionRemove       : null, // function(value) { ... }
+	onOptionClear        : null, // function() { ... }
+	onOptionGroupAdd     : null, // function(id, data) { ... }
+	onOptionGroupRemove  : null, // function(id) { ... }
+	onOptionGroupClear   : null, // function() { ... }
+	onDropdownOpen       : null, // function($dropdown) { ... }
+	onDropdownClose      : null, // function($dropdown) { ... }
+	onType               : null, // function(str) { ... }
+	onDelete             : null, // function(values) { ... }
+	*/
 
   render: {
     /*
