@@ -224,6 +224,9 @@ const _compileJavascript = async (scripts) =>
 const _minifyScripts = async (scripts) =>
   src(scripts)
     .pipe(concat('selectize.min.js'))
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(sourcemaps.write())
     .pipe(__wrapScripts())
     .pipe(dest('dist/js'));
 
