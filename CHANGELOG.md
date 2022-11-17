@@ -1,7 +1,14 @@
+# Changelog
+
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
-## v0.15.0 · 03 11 2022
+## v0.15.1 · 17 11 2022
+
+- New feature: dynamically add option groups
+  _@jackbentley_
+
+## v0.15.0 · 14 11 2022
 
 ### Breaking changes
 
