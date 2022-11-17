@@ -7,10 +7,6 @@ all: compile test ## (default) Run Compile and test targets
 test: ## runs all tests (equivalent to `npm test`)
 	npm test
 compile: ## compile the project, update package versions if specified, installs dependencies, and builds the project
-	@echo "making v${version}"
-	sed -i 's/"version": "[^"]*"/"version": "$(version)"/' selectize.jquery.json
-	sed -i 's/"version": "[^"]*"/"version": "$(version)"/' package.json
-	sed -i "s/\"version\": \"$(CURRENT_VERSION)\"/\"version\": \"$(version)\"/" package-lock.json
 	npm i
 	rm -rf dist
 	$(GULP) loadDependencies
@@ -20,6 +16,9 @@ ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."
 	@echo "\033[1;30mmake release version=1.0.0\033[0;39m"
 else
+	sed -i 's/"version": "[^"]*"/"version": "$(version)"/' selectize.jquery.json
+	sed -i 's/"version": "[^"]*"/"version": "$(version)"/' package.json
+	sed -i "s/\"version\": \"$(CURRENT_VERSION)\"/\"version\": \"$(version)\"/" package-lock.json
 	make compile
 	npm test || exit 1
 	git add .
