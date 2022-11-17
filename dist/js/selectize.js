@@ -1,5 +1,5 @@
 /**
- * Selectize (v0.15.0)
+ * Selectize (v0.15.1)
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
@@ -2331,7 +2331,13 @@ $.extend(Selectize.prototype, {
 
 			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
 				optgroup = optgroups[j];
-				if (!self.optgroups.hasOwnProperty(optgroup)) {
+				if (!self.optgroups.hasOwnProperty(optgroup) && typeof self.settings.optionGroupRegister === 'function') {
+					var regGroup;
+					if (regGroup = self.settings.optionGroupRegister.apply(self, [optgroup])) {
+						self.registerOptionGroup(regGroup);
+					}
+				}
+        if (!self.optgroups.hasOwnProperty(optgroup)) {
 					optgroup = '';
 				}
 				if (!groups.hasOwnProperty(optgroup)) {
@@ -3669,26 +3675,28 @@ Selectize.defaults = {
   normalize: false,
   ignoreOnDropwdownHeight: 'img, i',
   search: true,
-	/*
-	load                 : null, // function(query, callback) { ... }
-	score                : null, // function(search) { ... }
-	formatValueToKey     : null, // function(key) { ... }
-	onInitialize         : null, // function() { ... }
-	onChange             : null, // function(value) { ... }
-	onItemAdd            : null, // function(value, $item) { ... }
-	onItemRemove         : null, // function(value, $item) { ... }
-	onClear              : null, // function() { ... }
-	onOptionAdd          : null, // function(value, data) { ... }
-	onOptionRemove       : null, // function(value) { ... }
-	onOptionClear        : null, // function() { ... }
-	onOptionGroupAdd     : null, // function(id, data) { ... }
-	onOptionGroupRemove  : null, // function(id) { ... }
-	onOptionGroupClear   : null, // function() { ... }
-	onDropdownOpen       : null, // function($dropdown) { ... }
-	onDropdownClose      : null, // function($dropdown) { ... }
-	onType               : null, // function(str) { ... }
-	onDelete             : null, // function(values) { ... }
-	*/
+
+  /*
+  load                 : null, // function(query, callback) { ... }
+  score                : null, // function(search) { ... }
+  formatValueToKey     : null, // function(key) { ... }
+  optionGroupRegister  : null, // function(optgroup) to register dynamically created option groups
+  onInitialize         : null, // function() { ... }
+  onChange             : null, // function(value) { ... }
+  onItemAdd            : null, // function(value, $item) { ... }
+  onItemRemove         : null, // function(value, $item) { ... }
+  onClear              : null, // function() { ... }
+  onOptionAdd          : null, // function(value, data) { ... }
+  onOptionRemove       : null, // function(value) { ... }
+  onOptionClear        : null, // function() { ... }
+  onOptionGroupAdd     : null, // function(id, data) { ... }
+  onOptionGroupRemove  : null, // function(id) { ... }
+  onOptionGroupClear   : null, // function() { ... }
+  onDropdownOpen       : null, // function($dropdown) { ... }
+  onDropdownClose      : null, // function($dropdown) { ... }
+  onType               : null, // function(str) { ... }
+  onDelete             : null, // function(values) { ... }
+  */
 
   render: {
     /*
