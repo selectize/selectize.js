@@ -9,7 +9,6 @@ const path = require('path');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const sass = gulpSass(dartSass);
-const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
@@ -138,9 +137,7 @@ const __wrapScripts = lazypipe()
   ;
 
 const __wrapStyles = lazypipe()
-  .pipe(sourcemaps.init)
   .pipe(uglifycss)
-  .pipe(sourcemaps.write)
   .pipe(wrapper, { header: license_header })
   .pipe(replace, /@@YEAR/g, getYear())
   .pipe(replace, /@@version/g, getVersion())
@@ -224,9 +221,7 @@ const _compileJavascript = async (scripts) =>
 const _minifyScripts = async (scripts) =>
   src(scripts)
     .pipe(concat('selectize.min.js'))
-    .pipe(sourcemaps.init())
     .pipe(uglify())
-    .pipe(sourcemaps.write())
     .pipe(__wrapScripts())
     .pipe(dest('dist/js'));
 
