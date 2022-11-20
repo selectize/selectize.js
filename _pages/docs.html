@@ -16,13 +16,16 @@ image: "/images/pages/about.jpg"
     <p>
       All pre-built files needed to use Selectize can be found in the dist folder.
       <br />
-
-      If you're looking to get started with minimal fuss, include
-      <em>standalone/selectize.min.js</em> (bundles Sifter and Microplugin dependencies).
-
-      <br />
-      Selectize is available at <a href="https://cdnjs.com/libraries/selectize.js">cdnjs</a>.
+      Selectize is available through npm or at <a href="https://cdnjs.com/libraries/selectize.js">cdnjs</a>.
+      <br/>
+      <br/>
+      <h4>Install via npm:</h4>
+      <code>
+        npm install @selectize/selectize
+      </code>
     </p>
+    <br />
+    <h4>Basic Usage</h4>
     <div class="highlight-script">
       <pre>
         <code class="javascript hljs">
@@ -48,11 +51,16 @@ image: "/images/pages/about.jpg"
       <dt>Config / configuration</dt>
       <dd>the initial settings of Selectize, given at initialization.</dd>
       <dt>Settings</dt>
-      <dd>the current settings of Selectize, might be updated. Accessible with the <code>setting</code> property of the Selectize object.</dd>
+      <dd>the current settings of Selectize, might be updated. Accessible with the <code>setting</code> property of the
+        Selectize object.</dd>
       <dt>Options</dt>
       <dd>
-        the list of objects to display. Each object must have a property with an unique <strong>value</strong> to identify the option; the property name is defined by the <code>valueField</code> setting. Option objects must also have a property with the <strong>label</strong> to display (as tag, in the drop down, etc.); the property name is defined by the <code>labelField</code> setting. The
-        options can have other properties, ignored, unless referenced by other settings, like <code>sortField</code> or <code>searchField</code>.
+        the list of objects to display. Each object must have a property with an unique <strong>value</strong> to
+        identify the option; the property name is defined by the <code>valueField</code> setting. Option objects must
+        also have a property with the <strong>label</strong> to display (as tag, in the drop down, etc.); the property
+        name is defined by the <code>labelField</code> setting. The
+        options can have other properties, ignored, unless referenced by other settings, like <code>sortField</code> or
+        <code>searchField</code>.
       </dd>
       <dt>items</dt>
       <dd>the list of selected options. Or more exactly, the list of the values of the selected options.</dd>
@@ -81,41 +89,57 @@ image: "/images/pages/about.jpg"
         <tr>
           <td valign="top"><code>options</code></td>
           <td valign="top">
-            An array of the initial options available to select; array of objects. By default this is populated from the original input element. If your element is a &lt;select&gt; with &lt;option&gt;s specified this property gets populated automatically. Setting this property is convenient if you have your data as an array and want to automatically generate the &lt;option&gt;s.
+            An array of the initial options available to select; array of objects. By default this is populated from the
+            original input element. If your element is a &lt;select&gt; with &lt;option&gt;s specified this property
+            gets populated automatically. Setting this property is convenient if you have your data as an array and want
+            to automatically generate the &lt;option&gt;s.
           </td>
           <td valign="top"><code>array</code></td>
           <td valign="top"><code>[]</code></td>
         </tr>
         <tr>
           <td valign="top"><code>items</code></td>
-          <td valign="top">An array of the initial selected values. By default this is populated from the original input element.</td>
+          <td valign="top">An array of the initial selected values. By default this is populated from the original input
+            element.</td>
           <td valign="top"><code>array</code></td>
           <td valign="top"><code>[]</code></td>
         </tr>
         <tr>
           <td valign="top"><code>delimiter</code></td>
-          <td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the items are added at once. The delimiter is also used in the <code>getValue</code> API call on a text &lt;input&gt; tag to separate the multiple values.</td>
+          <td valign="top">The string to separate items by. When typing an item in a multi-selection control allowing
+            creation, then the delimiter, the item is added. If you paste delimiter-separated items in such control, the
+            items are added at once. The delimiter is also used in the <code>getValue</code> API call on a text
+            &lt;input&gt; tag to separate the multiple values.</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>','</code></td>
         </tr>
         <tr>
           <td valign="top"><code>create</code></td>
           <td valign="top">
-            Allows the user to create new items that aren't in the initial list of options. This setting can be any of the following: <code>true</code>, <code>false</code> (disabled), or a function to process input. The function can take one of two forms: synchronous (with signature <code>function(input){}</code> or asynchronous (with signature <code>function(input, callback)</code>. In the
-            synchronous case, the function should <code>return</code> an object for the options (eg, with defaults: <code>return { 'value': value, 'text': text };</code>). The asynchronous version should invoke the callback with the result in the same format as the object above (eg, <code>callback( { 'value': value, 'text': text});</code>)
+            Allows the user to create new items that aren't in the initial list of options. This setting can be any of
+            the following: <code>true</code>, <code>false</code> (disabled), or a function to process input. The
+            function can take one of two forms: synchronous (with signature <code>function(input){}</code> or
+            asynchronous (with signature <code>function(input, callback)</code>. In the
+            synchronous case, the function should <code>return</code> an object for the options (eg, with defaults:
+            <code>return { 'value': value, 'text': text };</code>). The asynchronous version should invoke the callback
+            with the result in the same format as the object above (eg,
+            <code>callback( { 'value': value, 'text': text});</code>)
           </td>
           <td valign="top"><code>boolean/function</code></td>
           <td valign="top"><code>false</code></td>
         </tr>
         <tr>
           <td valign="top"><code>createOnBlur</code></td>
-          <td valign="top">If true, when user exits the field (clicks outside of input), a new option is created and selected (if <code>create</code> setting is enabled).</td>
+          <td valign="top">If true, when user exits the field (clicks outside of input), a new option is created and
+            selected (if <code>create</code> setting is enabled).</td>
           <td valign="top"><code>boolean</code></td>
           <td valign="top"><code>false</code></td>
         </tr>
         <tr>
           <td valign="top"><code>createFilter</code></td>
-          <td valign="top">Specifies a RegExp or a string containing a regular expression that the current search filter must match to be allowed to be created. May also be a predicate function that takes the filter text and returns whether it is allowed.</td>
+          <td valign="top">Specifies a RegExp or a string containing a regular expression that the current search filter
+            must match to be allowed to be created. May also be a predicate function that takes the filter text and
+            returns whether it is allowed.</td>
           <td valign="top"><code>RegExp|string|function</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
@@ -127,7 +151,8 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <td valign="top"><code>persist</code></td>
-          <td valign="top">If false, items created by the user will not show up as available options once they are unselected.</td>
+          <td valign="top">If false, items created by the user will not show up as available options once they are
+            unselected.</td>
           <td valign="top"><code>boolean</code></td>
           <td valign="top"><code>true</code></td>
         </tr>
@@ -145,13 +170,16 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr name="user-content-maxitems">
           <td valign="top"><code>maxItems</code></td>
-          <td valign="top">The max number of items the user can select. 1 makes the control mono-selection, null allows an unlimited number of items.</td>
+          <td valign="top">The max number of items the user can select. 1 makes the control mono-selection, null allows
+            an unlimited number of items.</td>
           <td valign="top"><code>int</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
         <tr>
           <td valign="top"><code>hideSelected</code></td>
-          <td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of available options. This defaults to <code>true</code> when in a multi-selection control, to <code>false</code> otherwise.</td>
+          <td valign="top">If true, the items that are currently selected will not be shown in the dropdown list of
+            available options. This defaults to <code>true</code> when in a multi-selection control, to
+            <code>false</code> otherwise.</td>
           <td valign="top"><code>boolean</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
@@ -163,43 +191,53 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <td valign="top"><code>allowEmptyOption</code></td>
-          <td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false to accomodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.</td>
+          <td valign="top">If true, Selectize will treat any options with a "" value like normal. This defaults to false
+            to accomodate the common &lt;select&gt; practice of having the first empty option to act as a placeholder.
+          </td>
           <td valign="top"><code>boolean</code></td>
           <td valign="top"><code>false</code></td>
         </tr>
         <tr>
           <td valign="top"><code>scrollDuration</code></td>
-          <td valign="top">The animation duration (in milliseconds) of the scroll animation triggered when going [up] and [down] in the options dropdown.</td>
+          <td valign="top">The animation duration (in milliseconds) of the scroll animation triggered when going [up]
+            and [down] in the options dropdown.</td>
           <td valign="top"><code>int</code></td>
           <td valign="top"><code>60</code></td>
         </tr>
         <tr>
           <td valign="top"><code>loadThrottle</code></td>
-          <td valign="top">The number of milliseconds to wait before requesting options from the server or null. If null, throttling is disabled. Useful when loading options dynamically while the user types a search / filter expression.</td>
+          <td valign="top">The number of milliseconds to wait before requesting options from the server or null. If
+            null, throttling is disabled. Useful when loading options dynamically while the user types a search / filter
+            expression.</td>
           <td valign="top"><code>int</code></td>
           <td valign="top"><code>300</code></td>
         </tr>
         <tr>
           <td valign="top"><code>loadingClass</code></td>
-          <td valign="top">The class name added to the wrapper element while awaiting the fulfillment of load requests.</td>
+          <td valign="top">The class name added to the wrapper element while awaiting the fulfillment of load requests.
+          </td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>'loading'</code></td>
         </tr>
         <tr>
           <td valign="top"><code>placeholder</code></td>
-          <td valign="top">The placeholder of the control (displayed when nothing is selected / typed). Defaults to input element's placeholder, unless this one is specified.</td>
+          <td valign="top">The placeholder of the control (displayed when nothing is selected / typed). Defaults to
+            input element's placeholder, unless this one is specified.</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>undefined</code></td>
         </tr>
         <tr>
           <td valign="top"><code>preload</code></td>
-          <td valign="top">If true, the <code>load</code> function will be called upon control initialization (with an empty search). Alternatively it can be set to <code>'focus'</code> to call the <code>load</code> function when control receives focus.</td>
+          <td valign="top">If true, the <code>load</code> function will be called upon control initialization (with an
+            empty search). Alternatively it can be set to <code>'focus'</code> to call the <code>load</code> function
+            when control receives focus.</td>
           <td valign="top"><code>boolean/string</code></td>
           <td valign="top"><code>false</code></td>
         </tr>
         <tr>
           <td valign="top"><code>dropdownParent</code></td>
-          <td valign="top">The element the dropdown menu is appended to. This should be <code>'body'</code> or <code>null</code>. If null, the dropdown will be appended as a child of the Selectize control.</td>
+          <td valign="top">The element the dropdown menu is appended to. This should be <code>'body'</code> or
+            <code>null</code>. If null, the dropdown will be appended as a child of the Selectize control.</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
@@ -245,7 +283,8 @@ image: "/images/pages/about.jpg"
         <tr>
           <td valign="top"><code>optgroups</code></td>
           <td valign="top">
-            Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s this property gets populated automatically. Make sure each object in the array has a property named whatever
+            Option groups that options will be bucketed into. If your element is a &lt;select&gt; with &lt;optgroup&gt;s
+            this property gets populated automatically. Make sure each object in the array has a property named whatever
             <code>optgroupValueField</code> is set to.
           </td>
           <td valign="top"><code>array</code></td>
@@ -271,13 +310,15 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <td valign="top"><code>labelField</code></td>
-          <td valign="top">The name of the property to render as an option / item label (not needed when custom rendering functions are defined).</td>
+          <td valign="top">The name of the property to render as an option / item label (not needed when custom
+            rendering functions are defined).</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>'text'</code></td>
         </tr>
         <tr>
           <td valign="top"><code>optgroupLabelField</code></td>
-          <td valign="top">The name of the property to render as an option group label (not needed when custom rendering functions are defined).</td>
+          <td valign="top">The name of the property to render as an option group label (not needed when custom rendering
+            functions are defined).</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>'label'</code></td>
         </tr>
@@ -296,9 +337,13 @@ image: "/images/pages/about.jpg"
         <tr>
           <td valign="top"><code>sortField</code></td>
           <td valign="top">
-            <p>A single field or an array of fields to sort by. Each item in the array should be an object containing at least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code> or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
-            <p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).</p>
-            <p>You can override the `$score` function. For more information, see the <a href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.</p>
+            <p>A single field or an array of fields to sort by. Each item in the array should be an object containing at
+              least a <code>field</code> property. Optionally, <code>direction</code> can be set to <code>'asc'</code>
+              or <code>'desc'</code>. The order of the array defines the sort precedence.</p>
+            <p>Unless present, a special `$score` field will be automatically added to the beginning of the sort list.
+              This will make results sorted primarily by match quality (descending).</p>
+            <p>You can override the `$score` function. For more information, see the <a
+                href="https://github.com/brianreavis/sifter.js#sifterjs">sifter documentation</a>.</p>
           </td>
           <td valign="top"><code>string|array</code></td>
           <td valign="top"><code>'$order'</code></td>
@@ -311,13 +356,15 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <td valign="top"><code>searchConjunction</code></td>
-          <td valign="top">When searching for multiple terms (separated by space), this is the operator used. Can be <code>'and'</code> or <code>'or'</code> .</td>
+          <td valign="top">When searching for multiple terms (separated by space), this is the operator used. Can be
+            <code>'and'</code> or <code>'or'</code> .</td>
           <td valign="top"><code>string</code></td>
           <td valign="top"><code>'and'</code></td>
         </tr>
         <tr>
           <td valign="top"><code>lockOptgroupOrder</code></td>
-          <td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.</td>
+          <td valign="top">If truthy, Selectize will make all optgroups be in the same order as they were added (by the
+            `$order` property). Otherwise, it will order based on the score of the results in each.</td>
           <td valign="top"><code>boolean</code></td>
           <td valign="top"><code>false</code></td>
         </tr>
@@ -344,15 +391,20 @@ image: "/images/pages/about.jpg"
       <tbody>
         <tr>
           <td valign="top"><code>load(query, callback)</code></td>
-          <td valign="top">Invoked when new options should be loaded from the server. Called with the current query string and a callback function to call with the results when they are loaded (or nothing when an error arises).</td>
+          <td valign="top">Invoked when new options should be loaded from the server. Called with the current query
+            string and a callback function to call with the results when they are loaded (or nothing when an error
+            arises).</td>
           <td valign="top"><code>function</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
         <tr>
           <td valign="top"><code>score(search)</code></td>
           <td valign="top">
-            Overrides the scoring function used to sort available options. The provided function should return a <strong>function</strong> that returns a number greater than or equal to zero to represent the <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The <code>search</code> argument is a <a href="#search">Search</a> object. For an
-            example, see the <a href="https://github.com/brianreavis/selectize.js/blob/master/examples/github.html">"GitHub" example</a>.
+            Overrides the scoring function used to sort available options. The provided function should return a
+            <strong>function</strong> that returns a number greater than or equal to zero to represent the
+            <code>score</code> of an item (the function's first argument). If 0, the option is declared not a match. The
+            <code>search</code> argument is a <a href="#search">Search</a> object. For an
+            example, see the "GitHub" example.
           </td>
           <td valign="top"><code>function</code></td>
           <td valign="top"><code>null</code></td>
@@ -437,7 +489,8 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <td valign="top"><code>onLoad(data)</code></td>
-          <td valign="top">Invoked when new options have been loaded and added to the control (via the <code>load</code> option or <code>load</code> API method).</td>
+          <td valign="top">Invoked when new options have been loaded and added to the control (via the <code>load</code>
+            option or <code>load</code> API method).</td>
           <td valign="top"><code>function</code></td>
           <td valign="top"><code>null</code></td>
         </tr>
@@ -447,38 +500,43 @@ image: "/images/pages/about.jpg"
           <th valign="top" colspan="4" align="left">Rendering</th>
         </tr>
       </thead>
-        <tr>
-          <td valign="top"><code>render</code></td>
-          <td valign="top">
-            Custom rendering functions. Each function should accept two arguments: <code>data</code> and <code>escape</code> and return HTML (string or DOM element) with a single root element. The <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This is very important to use to prevent XSS vulnerabilities.
-            <table width="100%">
-              <tbody>
-                <tr>
-                  <td valign="top"><code>option</code></td>
-                  <td valign="top">An option in the dropdown list of available options.</td>
-                </tr>
-                <tr>
-                  <td valign="top"><code>item</code></td>
-                  <td valign="top">An item the user has selected.</td>
-                </tr>
-                <tr>
-                  <td valign="top"><code>option_create</code></td>
-                  <td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property: <code>input</code> (which is what the user has typed).</td>
-                </tr>
-                <tr>
-                  <td valign="top"><code>optgroup_header</code></td>
-                  <td valign="top">The header of an option group.</td>
-                </tr>
-                <tr>
-                  <td valign="top"><code>optgroup</code></td>
-                  <td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw html of the optgroup's header and options.</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-          <td valign="top"><code>object</code></td>
-          <td valign="top"></td>
-        </tr>
+      <tr>
+        <td valign="top"><code>render</code></td>
+        <td valign="top">
+          Custom rendering functions. Each function should accept two arguments: <code>data</code> and
+          <code>escape</code> and return HTML (string or DOM element) with a single root element. The
+          <code>escape</code> argument is a function that takes a string and escapes all special HTML characters. This
+          is very important to use to prevent XSS vulnerabilities.
+          <table width="100%">
+            <tbody>
+              <tr>
+                <td valign="top"><code>option</code></td>
+                <td valign="top">An option in the dropdown list of available options.</td>
+              </tr>
+              <tr>
+                <td valign="top"><code>item</code></td>
+                <td valign="top">An item the user has selected.</td>
+              </tr>
+              <tr>
+                <td valign="top"><code>option_create</code></td>
+                <td valign="top">The "create new" option at the bottom of the dropdown. The data contains one property:
+                  <code>input</code> (which is what the user has typed).</td>
+              </tr>
+              <tr>
+                <td valign="top"><code>optgroup_header</code></td>
+                <td valign="top">The header of an option group.</td>
+              </tr>
+              <tr>
+                <td valign="top"><code>optgroup</code></td>
+                <td valign="top">The wrapper for an optgroup. The <code>html</code> property in the data will be the raw
+                  html of the optgroup's header and options.</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td valign="top"><code>object</code></td>
+        <td valign="top"></td>
+      </tr>
       </tbody>
     </table>
   </section>
@@ -538,9 +596,7 @@ image: "/images/pages/about.jpg"
       <tbody>
         <tr>
           <th valign="top" colspan="3" align="left">
-            <a href="#methods_options" name="user-content-methods_options"
-              >Options</a
-            >
+            <a href="#methods_options" name="user-content-methods_options">Options</a>
           </th>
         </tr>
         <tr>
@@ -655,9 +711,7 @@ image: "/images/pages/about.jpg"
         </tr>
         <tr>
           <th valign="top" colspan="3" align="left">
-            <a href="#methods_items" name="user-content-methods_optgroups"
-              >Optgroups</a
-            >
+            <a href="#methods_items" name="user-content-methods_optgroups">Optgroups</a>
           </th>
         </tr>
         <tr>
@@ -692,164 +746,159 @@ image: "/images/pages/about.jpg"
 
     <table width="100%" class="table table-striped">
       <tbody>
-    <tr>
-      <th valign="top" colspan="3" align="left">
-        <a href="#methods_events" name="user-content-methods_events"
-          >Events</a
-        >
-      </th>
-    </tr>
-    <tr>
-      <th valign="top" width="120px" align="left">Method</th>
-      <th valign="top" align="left">Description</th>
-    </tr>
-    <tr>
-      <td valign="top"><code>on(event, handler)</code></td>
-      <td valign="top">Adds an event listener.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>off(event, handler)</code></td>
-      <td valign="top">Removes an event listener.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>off(event)</code></td>
-      <td valign="top">Removes all event listeners.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>trigger(event, ...)</code></td>
-      <td valign="top">Triggers event listeners.</td>
-    </tr>
-    <tr>
-      <th valign="top" colspan="3" align="left">
-        <a href="#methods_dropdown" name="user-content-methods_dropdown"
-          >Dropdown</a
-        >
-      </th>
-    </tr>
-    <tr>
-      <th valign="top" width="120px" align="left">Method</th>
-      <th valign="top" align="left">Description</th>
-    </tr>
-    <tr>
-      <td valign="top"><code>open()</code></td>
-      <td valign="top">
-        Shows the autocomplete dropdown containing the available options.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>close()</code></td>
-      <td valign="top">Closes the autocomplete dropdown menu.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>positionDropdown()</code></td>
-      <td valign="top">
-        Calculates and applies the appropriate position of the dropdown.
-      </td>
-    </tr>
-    <tr>
-      <th valign="top" colspan="3" align="left">
-        <a href="#methods_other" name="user-content-methods_other">Other</a>
-      </th>
-    </tr>
-    <tr>
-      <th valign="top" width="120px" align="left">Method</th>
-      <th valign="top" align="left">Description</th>
-    </tr>
-    <tr>
-      <td valign="top"><code>destroy()</code></td>
-      <td valign="top">
-        Destroys the control and unbinds event listeners so that it can be
-        garbage collected.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>load(fn)</code></td>
-      <td valign="top">
-        Loads options by invoking the provided function. The function should
-        accept one argument (callback) and invoke the callback with the
-        results once they are available.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>focus()</code></td>
-      <td valign="top">Brings the control into focus.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>blur()</code></td>
-      <td valign="top">Forces the control out of focus.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>lock()</code></td>
-      <td valign="top">
-        Disables user input on the control (note: the control can still
-        receive focus).
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>unlock()</code></td>
-      <td valign="top">Re-enables user input on the control.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>disable()</code></td>
-      <td valign="top">
-        Disables user input on the control completely. While disabled, it
-        cannot receive focus.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>enable()</code></td>
-      <td valign="top">
-        Enables the control so that it can respond to focus and user input.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>getValue()</code></td>
-      <td valign="top">
-        Returns the value of the control. If multiple items can be selected
-        with a "select" input tag (e.g.
-        <a href="/selectize/selectize.js/blob/master/docs/usage.md#maxItems"
-          >&lt;select multiple&gt;</a
-        >), this returns an array. Otherwise, returns a string (separated by
-        <code>delimiter</code> if "multiple").
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>setValue(value, silent)</code></td>
-      <td valign="top">Resets the selected items to the given value.</td>
-    </tr>
-    <tr>
-      <td valign="top"><code>setCaret(index)</code></td>
-      <td valign="top">
-        Moves the caret to the specified position (<code>index</code> being
-        the index in the list of selected items).
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>isFull()</code></td>
-      <td valign="top">
-        Returns whether or not the user can select more items.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>clearCache(template)</code></td>
-      <td valign="top">
-        Clears the render cache. Takes an optional template argument (e.g.
-        <code>option</code> , <code>item</code>) to clear only that cache.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>updatePlaceholder()</code></td>
-      <td valign="top">
-        When the `settings.placeholder` value is changed, the new
-        placeholder will be displayed.
-      </td>
-    </tr>
-    <tr>
-      <td valign="top"><code>setTextboxValue(str)</code></td>
-      <td valign="top">Sets the value of the input field.</td>
-    </tr>
-  </tbody>
-</table>
+        <tr>
+          <th valign="top" colspan="3" align="left">
+            <a href="#methods_events" name="user-content-methods_events">Events</a>
+          </th>
+        </tr>
+        <tr>
+          <th valign="top" width="120px" align="left">Method</th>
+          <th valign="top" align="left">Description</th>
+        </tr>
+        <tr>
+          <td valign="top"><code>on(event, handler)</code></td>
+          <td valign="top">Adds an event listener.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>off(event, handler)</code></td>
+          <td valign="top">Removes an event listener.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>off(event)</code></td>
+          <td valign="top">Removes all event listeners.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>trigger(event, ...)</code></td>
+          <td valign="top">Triggers event listeners.</td>
+        </tr>
+        <tr>
+          <th valign="top" colspan="3" align="left">
+            <a href="#methods_dropdown" name="user-content-methods_dropdown">Dropdown</a>
+          </th>
+        </tr>
+        <tr>
+          <th valign="top" width="120px" align="left">Method</th>
+          <th valign="top" align="left">Description</th>
+        </tr>
+        <tr>
+          <td valign="top"><code>open()</code></td>
+          <td valign="top">
+            Shows the autocomplete dropdown containing the available options.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>close()</code></td>
+          <td valign="top">Closes the autocomplete dropdown menu.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>positionDropdown()</code></td>
+          <td valign="top">
+            Calculates and applies the appropriate position of the dropdown.
+          </td>
+        </tr>
+        <tr>
+          <th valign="top" colspan="3" align="left">
+            <a href="#methods_other" name="user-content-methods_other">Other</a>
+          </th>
+        </tr>
+        <tr>
+          <th valign="top" width="120px" align="left">Method</th>
+          <th valign="top" align="left">Description</th>
+        </tr>
+        <tr>
+          <td valign="top"><code>destroy()</code></td>
+          <td valign="top">
+            Destroys the control and unbinds event listeners so that it can be
+            garbage collected.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>load(fn)</code></td>
+          <td valign="top">
+            Loads options by invoking the provided function. The function should
+            accept one argument (callback) and invoke the callback with the
+            results once they are available.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>focus()</code></td>
+          <td valign="top">Brings the control into focus.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>blur()</code></td>
+          <td valign="top">Forces the control out of focus.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>lock()</code></td>
+          <td valign="top">
+            Disables user input on the control (note: the control can still
+            receive focus).
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>unlock()</code></td>
+          <td valign="top">Re-enables user input on the control.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>disable()</code></td>
+          <td valign="top">
+            Disables user input on the control completely. While disabled, it
+            cannot receive focus.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>enable()</code></td>
+          <td valign="top">
+            Enables the control so that it can respond to focus and user input.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>getValue()</code></td>
+          <td valign="top">
+            Returns the value of the control. If multiple items can be selected
+            with a "select" input tag (e.g.
+            <a href="/selectize/selectize.js/blob/master/docs/usage.md#maxItems">&lt;select multiple&gt;</a>), this
+            returns an array. Otherwise, returns a string (separated by
+            <code>delimiter</code> if "multiple").
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>setValue(value, silent)</code></td>
+          <td valign="top">Resets the selected items to the given value.</td>
+        </tr>
+        <tr>
+          <td valign="top"><code>setCaret(index)</code></td>
+          <td valign="top">
+            Moves the caret to the specified position (<code>index</code> being
+            the index in the list of selected items).
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>isFull()</code></td>
+          <td valign="top">
+            Returns whether or not the user can select more items.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>clearCache(template)</code></td>
+          <td valign="top">
+            Clears the render cache. Takes an optional template argument (e.g.
+            <code>option</code> , <code>item</code>) to clear only that cache.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>updatePlaceholder()</code></td>
+          <td valign="top">
+            When the `settings.placeholder` value is changed, the new
+            placeholder will be displayed.
+          </td>
+        </tr>
+        <tr>
+          <td valign="top"><code>setTextboxValue(str)</code></td>
+          <td valign="top">Sets the value of the input field.</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 </div>
 
@@ -911,32 +960,33 @@ image: "/images/pages/about.jpg"
       and allows for addons to be sanely isolated. The plugin system isn't meant
       to be sexy; it's lean, makes very few assumptions, and gives the developer
       complete control.</p>
-      <p><a href="https://github.com/selectize/selectize.js/tree/master/src/plugins"><strong>Example Plugins</strong></a></p>
-      <p><strong>A few notes:</strong></p>
-      <ul>
+    <p><a href="https://github.com/selectize/selectize.js/tree/master/src/plugins"><strong>Example Plugins</strong></a>
+    </p>
+    <p><strong>A few notes:</strong></p>
+    <ul>
       <li>All plugins live in their own folders in "src/plugins".</li>
       <li>Plugin names should be in follow the format: <code>/[a-z_]+$</code></li>
       <li>JS source should live in a "plugin.js" file (required).</li>
       <li>CSS should live in a "plugin.less" file (optional). It will be bundled at build time.</li>
       <li>Plugins are initialized right before the control is setup.
-      This means that if you want to listen for events on any of the control's
-      elements, you should override the <code>setup()</code> method.</li>
-      </ul>
+        This means that if you want to listen for events on any of the control's
+        elements, you should override the <code>setup()</code> method.</li>
+    </ul>
 
-      <h3>Boilerplate</h3>
-      <div class="highlight highlight-source-js position-relative">
-        <pre><span class="pl-v">Selectize</span><span class="pl-kos">.</span><span class="pl-en">define</span><span class="pl-kos">(</span><span class="pl-s">'plugin_name'</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <h3>Boilerplate</h3>
+    <div class="highlight highlight-source-js position-relative">
+      <pre><span class="pl-v">Selectize</span><span class="pl-kos">.</span><span class="pl-en">define</span><span class="pl-kos">(</span><span class="pl-s">'plugin_name'</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-c">// options: plugin-specific options</span>
         <span class="pl-c">// this: Selectize instance</span>
         <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre>
-      </div>
+    </div>
 
-      <h4>Adding dependencies</h4>
-      <div class="highlight highlight-source-js position-relative">
-        <pre><span class="pl-v">Selectize</span><span class="pl-kos">.</span><span class="pl-en">define</span><span class="pl-kos">(</span><span class="pl-s">'plugin_name'</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
+    <h4>Adding dependencies</h4>
+    <div class="highlight highlight-source-js position-relative">
+      <pre><span class="pl-v">Selectize</span><span class="pl-kos">.</span><span class="pl-en">define</span><span class="pl-kos">(</span><span class="pl-s">'plugin_name'</span><span class="pl-kos">,</span> <span class="pl-k">function</span><span class="pl-kos">(</span><span class="pl-s1">options</span><span class="pl-kos">)</span> <span class="pl-kos">{</span>
         <span class="pl-smi">this</span><span class="pl-kos">.</span><span class="pl-en">require</span><span class="pl-kos">(</span><span class="pl-s">'another_plugin'</span><span class="pl-kos">)</span><span class="pl-kos">;</span>
         <span class="pl-kos">}</span><span class="pl-kos">)</span><span class="pl-kos">;</span></pre>
-      </div>
+    </div>
   </section>
 </div>
 
