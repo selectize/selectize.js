@@ -691,7 +691,7 @@ var escape_regex = function (str) {
   return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
 
-var is_array = Array.isArray || (typeof $ !== 'undefined' && $.isArray) || function (object) {
+var is_array = Array.isArray || function (object) {
   return Object.prototype.toString.call(object) === '[object Array]';
 };
 
@@ -725,28 +725,24 @@ var DIACRITICS = {
 
 var asciifold = (function () {
   var i, n, k, chunk;
-  var foreignletters = '';
+  var i18nChars = '';
   var lookup = {};
   for (k in DIACRITICS) {
     if (DIACRITICS.hasOwnProperty(k)) {
       chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
-      foreignletters += chunk;
+      i18nChars += chunk;
       for (i = 0, n = chunk.length; i < n; i++) {
         lookup[chunk.charAt(i)] = k;
       }
     }
   }
-  var regexp = new RegExp('[' + foreignletters + ']', 'g');
+  var regexp = new RegExp('[' + i18nChars + ']', 'g');
   return function (str) {
-    return str.replace(regexp, function (foreignletter) {
-      return lookup[foreignletter];
+    return str.replace(regexp, function (i18nChar) {
+      return lookup[i18nChar];
     }).toLowerCase();
   };
 })();
-
-
-	// export
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function uaDetect(platform, re) {
   if (navigator.userAgentData) {
@@ -3657,7 +3653,8 @@ Selectize.defaults = {
   sortField: '$order',
   searchField: ['text'],
   searchConjunction: 'and',
-  respect_word_boundaries: true,
+  respect_word_boundaries: false, // Originally defaulted to true, but breaks unicode support. See #1916 & https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
+  normalize: true,
 
   mode: null,
   wrapperClass: '',
@@ -3672,7 +3669,7 @@ Selectize.defaults = {
     sizeType: 'auto', // 'numberItems' or 'fixedHeight'
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
-  normalize: false,
+
   ignoreOnDropwdownHeight: 'img, i',
   search: true,
 

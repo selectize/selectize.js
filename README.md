@@ -121,7 +121,7 @@ changed.
 Please ensure all the tests pass:
 
 ```sh
-npm test # phantomjs
+npm test # defaults to ChromHeadless
 BROWSERS=Firefox npm test
 BROWSERS=Firefox,Chrome npm test
 BROWSERS=Firefox,Chrome,Safari npm test

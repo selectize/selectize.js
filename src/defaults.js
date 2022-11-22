@@ -44,7 +44,8 @@ Selectize.defaults = {
   sortField: '$order',
   searchField: ['text'],
   searchConjunction: 'and',
-  respect_word_boundaries: true,
+  respect_word_boundaries: false, // Originally defaulted to true, but breaks unicode support. See #1916 & https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
+  normalize: true,
 
   mode: null,
   wrapperClass: '',
@@ -59,7 +60,7 @@ Selectize.defaults = {
     sizeType: 'auto', // 'numberItems' or 'fixedHeight'
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
-  normalize: false,
+
   ignoreOnDropwdownHeight: 'img, i',
   search: true,
 

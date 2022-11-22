@@ -430,7 +430,7 @@ var escape_regex = function (str) {
   return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
 
-var is_array = Array.isArray || (typeof $ !== 'undefined' && $.isArray) || function (object) {
+var is_array = Array.isArray || function (object) {
   return Object.prototype.toString.call(object) === '[object Array]';
 };
 
@@ -464,25 +464,21 @@ var DIACRITICS = {
 
 var asciifold = (function () {
   var i, n, k, chunk;
-  var foreignletters = '';
+  var i18nChars = '';
   var lookup = {};
   for (k in DIACRITICS) {
     if (DIACRITICS.hasOwnProperty(k)) {
       chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
-      foreignletters += chunk;
+      i18nChars += chunk;
       for (i = 0, n = chunk.length; i < n; i++) {
         lookup[chunk.charAt(i)] = k;
       }
     }
   }
-  var regexp = new RegExp('[' + foreignletters + ']', 'g');
+  var regexp = new RegExp('[' + i18nChars + ']', 'g');
   return function (str) {
-    return str.replace(regexp, function (foreignletter) {
-      return lookup[foreignletter];
+    return str.replace(regexp, function (i18nChar) {
+      return lookup[i18nChar];
     }).toLowerCase();
   };
 })();
-
-
-	// export
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
