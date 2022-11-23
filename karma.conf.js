@@ -1,9 +1,9 @@
 module.exports = function (config) {
   var targets = {
-    'phantomjs': ['PhantomJS']
+    'ChromeHeadless': ['ChromeHeadless']
   };
 
-  var browsers = targets[process.env.TARGET || 'phantomjs'];
+  var browsers = targets[process.env.TARGET || 'ChromeHeadless'];
   if (process.env.BROWSERS) {
     browsers = process.env.BROWSERS.split(',');
   }

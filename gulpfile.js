@@ -3,18 +3,22 @@ const dartSass = require('sass');
 const del = require('del');
 const fs = require('fs');
 const gulpSass = require('gulp-sass');
+const lazypipe = require('lazypipe');
 const less = require('gulp-less');
 const path = require('path');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const sass = gulpSass(dartSass);
-const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
 
 const { src, dest, series, watch } = require('gulp');
 
+
+// ----------------------------------------
+// Internal task definitions
+// ----------------------------------------
 const cleanLibs = async () => del('dist/**/*');
 const loadDependencies = async () => await _copyLibs();
 const copyDependencies = async () => src(['lib/**/*']).pipe(dest('dist/lib'));
@@ -42,141 +46,8 @@ const copySrc = async () => {
   }, 1000);
 };
 const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
+// ----------------------------------------
 
-async function _copyLibs() {
-  'use strict';
-
-  src(['node_modules/bootstrap2/less/**/**.*']).pipe(dest('lib/bootstrap2'));
-  src(['node_modules/bootstrap3/less/**/**.*']).pipe(dest('lib/bootstrap3'));
-  src(['node_modules/bootstrap4/scss/**/**.*']).pipe(dest('lib/bootstrap4'));
-  src(['node_modules/bootstrap5/scss/**/**.*']).pipe(dest('lib/bootstrap5'));
-
-  src(['node_modules/bootstrap-sass/assets/stylesheets/bootstrap/**/**.*']).pipe(dest('lib/bootstrap-sass'));
-}
-
-const _compileLess = async () => {
-  src(['src/less/**.less']).pipe(dest('dist/less'));
-  src(['src/plugins/**/*.less']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/less/plugins'));
-
-  src([
-    'src/less/selectize.less',
-    'src/plugins/**/*.less'
-  ])
-    .pipe(concat('selectize.legacy.css'))
-    .pipe(less({
-      paths: ['lib', 'src/less'],
-      math: 'always'
-    }))
-    .pipe(sourcemaps.init())
-    .pipe(uglifycss())
-    .pipe(sourcemaps.write())
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/css'));
-
-  src([
-    'src/less/selectize.bootstrap2.less',
-    'src/plugins/**/*.less'
-  ])
-    .pipe(concat('selectize.bootstrap2.css'))
-    .pipe(less({
-      paths: ['lib', 'src/less'],
-      math: 'always'
-    }))
-    .pipe(sourcemaps.init())
-    .pipe(uglifycss())
-    .pipe(sourcemaps.write())
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/css'));
-}
-
-const _compileSass = async () => {
-  src(['src/scss/**.scss'])
-    .pipe(replace(/\.\.\/plugins\/(.+)\/plugin.scss/g, 'plugins/$1.scss')) // fix relative paths GH#1886
-    .pipe(dest('dist/scss'));
-  src(['src/plugins/**/*.scss']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/scss/plugins'));
-
-  src([
-    'src/scss/selectize.scss',
-    'src/plugins/**/*.scss'
-  ])
-    .pipe(concat('selectize.css'))
-    .pipe(sass({
-      includePaths: ['lib', 'src/scss'],
-    }).on('error', sass.logError))
-    .pipe(sourcemaps.init())
-    .pipe(uglifycss())
-    .pipe(sourcemaps.write())
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/css'));
-
-  src([
-    'src/scss/selectize.default.scss',
-    'src/plugins/**/*.scss'
-  ])
-    .pipe(concat('selectize.default.css'))
-    .pipe(sass({
-      includePaths: ['lib', 'src/scss'],
-    }).on('error', sass.logError))
-    .pipe(sourcemaps.init())
-    .pipe(uglifycss())
-    .pipe(sourcemaps.write())
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/css'));
-
-  // build the bootstrap base sccss styles
-  for (let bs_version = 3; bs_version <= 5; bs_version++) {
-    src([
-      'src/scss/selectize.bootstrap' + bs_version + '.scss',
-      'src/plugins/**/*.scss'
-    ])
-      .pipe(concat('selectize.bootstrap' + bs_version + '.css'))
-      .pipe(sass({
-        includePaths: ['lib', 'src/scss'],
-      }).on('error', sass.logError))
-      .pipe(sourcemaps.init())
-      .pipe(uglifycss())
-      .pipe(sourcemaps.write())
-      .pipe(wrapper({ header: license_header }))
-      .pipe(replace(/@@YEAR/g, getYear()))
-      .pipe(replace(/@@version/g, getVersion()))
-      .pipe(dest('dist/css'));
-  }
-}
-
-const _compileJavascript = async (scripts) =>
-  src(scripts)
-    .pipe(concat('selectize.js'))
-    .pipe(wrapper({
-      header: amd_header,
-      footer: amd_footer
-    }))
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/js'));
-
-const _minifyScripts = async (scripts) =>
-  src(scripts)
-    .pipe(concat('selectize.min.js'))
-    .pipe(wrapper({
-      header: amd_header,
-      footer: amd_footer
-    }))
-    .pipe(sourcemaps.init())
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(wrapper({ header: license_header }))
-    .pipe(replace(/@@YEAR/g, getYear()))
-    .pipe(replace(/@@version/g, getVersion()))
-    .pipe(dest('dist/js'));
 
 // Helper methods and constants
 const getYear = () => new Date().getFullYear();
@@ -223,6 +94,136 @@ const amd_footer = `
   return Selectize;
 }));
 `
+
+async function _copyLibs() {
+  'use strict';
+
+  src(['node_modules/bootstrap2/less/**/**.*']).pipe(dest('lib/bootstrap2'));
+  src(['node_modules/bootstrap3/less/**/**.*']).pipe(dest('lib/bootstrap3'));
+  src(['node_modules/bootstrap4/scss/**/**.*'])
+    .pipe(__fixScssDeprecations())
+    .pipe(dest('lib/bootstrap4'));
+
+  src(['node_modules/bootstrap5/scss/**/**.*'])
+    .pipe(__fixScssDeprecations())
+    .pipe(dest('lib/bootstrap5'));
+
+  src(['node_modules/bootstrap-sass/assets/stylesheets/bootstrap/**/**.*']).pipe(dest('lib/bootstrap-sass'));
+}
+
+
+
+// ----------------------------------------
+// re-usable pipelines
+const __fixScssDeprecations = lazypipe()
+  .pipe(replace, /\$spacer \/ 2/g, 'calc($spacer /2)')
+  .pipe(replace, /\$input-padding-y \/ 2/g, 'calc($input-padding-y / 2)')
+  .pipe(replace, /\$custom-control-indicator-size \/ 2/g, 'calc($custom-control-indicator-size / 2)')
+  .pipe(replace, /\$grid-gutter-width \/ 2/g, 'calc($grid-gutter-width / 2)')
+  .pipe(replace, /1 \/ \$rfs-rem-value/g, 'calc(1 / $rfs-rem-value)')
+  .pipe(replace, /\$rfs-breakpoint \/ \(\$rfs-breakpoint \* 0 \+ 1\)/g, 'calc($rfs-breakpoint / ($rfs-breakpoint * 0 + 1px))')
+  .pipe(replace, /\(\$nav-link-height - \$navbar-brand-height\) \/ 2/g, 'calc(($nav-link-height - $navbar-brand-height))')
+  .pipe(replace, /\$rfs-base-font-size \/ \(\$rfs-base-font-size \* 0 \+ calc\(1 \/ \$rfs-rem-value\)\)/g, 'calc($rfs-base-font-size / ($rfs-base-font-size * 0 + calc(1px / $rfs-rem-value)))')
+  ;
+
+const __wrapScripts = lazypipe()
+  .pipe(wrapper, {
+    header: amd_header,
+    footer: amd_footer
+  })
+  .pipe(wrapper, { header: license_header })
+  .pipe(replace, /@@YEAR/g, getYear())
+  .pipe(replace, /@@version/g, getVersion())
+  ;
+
+const __wrapStyles = lazypipe()
+  .pipe(uglifycss)
+  .pipe(wrapper, { header: license_header })
+  .pipe(replace, /@@YEAR/g, getYear())
+  .pipe(replace, /@@version/g, getVersion())
+  ;
+
+
+// ----------------------------------------
+// task internals
+
+const _compileLess = async () => {
+  src(['src/less/**.less']).pipe(dest('dist/less'));
+  src(['src/plugins/**/*.less']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/less/plugins'));
+
+  let plugin_styles = [];
+
+  // Add in all plugin styles in a predictable order
+  fs.readdirSync('src/plugins').sort().forEach((file) => {
+    const path = `src/plugins/${file}/plugin.less`;
+    if (fs.existsSync(path)) {
+      plugin_styles.push(path);
+    }
+  });
+
+  src(['src/less/selectize.less', ...plugin_styles])
+    .pipe(concat('selectize.legacy.css'))
+    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
+    .pipe(__wrapStyles())
+    .pipe(dest('dist/css'));
+
+  src(['src/less/selectize.bootstrap2.less', ...plugin_styles])
+    .pipe(concat('selectize.bootstrap2.css'))
+    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
+    .pipe(__wrapStyles())
+    .pipe(dest('dist/css'));
+}
+
+const _compileSass = async () => {
+  src(['src/scss/**.scss'])
+    .pipe(replace(/\.\.\/plugins\/(.+)\/plugin.scss/g, 'plugins/$1.scss')) // fix relative paths GH#1886
+    .pipe(dest('dist/scss'));
+  src(['src/plugins/**/*.scss']).pipe(rename(renameFileToParentDirName)).pipe(dest('dist/scss/plugins'));
+
+  let plugin_styles = [];
+
+  // Add in all plugin styles in a predictable order
+  fs.readdirSync('src/plugins').sort().forEach((file) => {
+    const path = `src/plugins/${file}/plugin.scss`;
+    if (fs.existsSync(path)) {
+      plugin_styles.push(path);
+    }
+  });
+
+  src(['src/scss/selectize.scss', ...plugin_styles])
+    .pipe(concat('selectize.css'))
+    .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
+    .pipe(__wrapStyles())
+    .pipe(dest('dist/css'));
+
+  src(['src/scss/selectize.default.scss', ...plugin_styles])
+    .pipe(concat('selectize.default.css'))
+    .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
+    .pipe(__wrapStyles())
+    .pipe(dest('dist/css'));
+
+  // build the bootstrap base sccss styles
+  for (let bs_version = 3; bs_version <= 5; bs_version++) {
+    src(['src/scss/selectize.bootstrap' + bs_version + '.scss', ...plugin_styles])
+      .pipe(concat('selectize.bootstrap' + bs_version + '.css'))
+      .pipe(sass({ includePaths: ['lib', 'src/scss'], }).on('error', sass.logError))
+      .pipe(__wrapStyles())
+      .pipe(dest('dist/css'));
+  }
+}
+
+const _compileJavascript = async (scripts) =>
+  src(scripts)
+    .pipe(concat('selectize.js'))
+    .pipe(__wrapScripts())
+    .pipe(dest('dist/js'));
+
+const _minifyScripts = async (scripts) =>
+  src(scripts)
+    .pipe(concat('selectize.min.js'))
+    .pipe(uglify())
+    .pipe(__wrapScripts())
+    .pipe(dest('dist/js'));
 
 // public task definitions
 exports.default = series(copyDependencies, copySrc);

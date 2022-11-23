@@ -89,7 +89,7 @@ The available options are [documented here](https://selectize.dev/docs.html).
 
 When issuing a pull request:
 
-- please **do not include/commit changes in the `dist/` folder** to avoid
+- please **do not include/commit changes in the `dist/` or `lib/` folders** to avoid
   merge conflicts. A good way to include the right files is to use
   `git gui` or `git add` when committing to select the files you want to
   add to your commit.
@@ -121,7 +121,7 @@ changed.
 Please ensure all the tests pass:
 
 ```sh
-npm test # phantomjs
+npm test # defaults to ChromHeadless
 BROWSERS=Firefox npm test
 BROWSERS=Firefox,Chrome npm test
 BROWSERS=Firefox,Chrome,Safari npm test

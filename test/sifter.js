@@ -201,7 +201,13 @@
         var result = sifter.search('John Sm', { fields: 'name', respect_word_boundaries: true });
         assert.equal(result.items.length, 1);
 
+        var result = sifter.search('jÖhn Sm', { fields: 'name', respect_word_boundaries: true });
+        assert.equal(result.items.length, 1);
+
         var result = sifter.search('ohn Smith', { fields: 'name', respect_word_boundaries: true, conjunction: 'and' });
+        assert.equal(result.items.length, 0);
+
+        var result = sifter.search('Øhn Smith', { fields: 'name', respect_word_boundaries: true, conjunction: 'and' });
         assert.equal(result.items.length, 0);
       });
 

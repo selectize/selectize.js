@@ -1,5 +1,5 @@
 /**
- * Selectize (v0.15.0)
+ * Selectize (v0.15.2)
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
@@ -691,7 +691,7 @@ var escape_regex = function (str) {
   return (str + '').replace(/([.?*+^$[\]\\(){}|-])/g, '\\$1');
 };
 
-var is_array = Array.isArray || (typeof $ !== 'undefined' && $.isArray) || function (object) {
+var is_array = Array.isArray || function (object) {
   return Object.prototype.toString.call(object) === '[object Array]';
 };
 
@@ -725,28 +725,24 @@ var DIACRITICS = {
 
 var asciifold = (function () {
   var i, n, k, chunk;
-  var foreignletters = '';
+  var i18nChars = '';
   var lookup = {};
   for (k in DIACRITICS) {
     if (DIACRITICS.hasOwnProperty(k)) {
       chunk = DIACRITICS[k].substring(2, DIACRITICS[k].length - 1);
-      foreignletters += chunk;
+      i18nChars += chunk;
       for (i = 0, n = chunk.length; i < n; i++) {
         lookup[chunk.charAt(i)] = k;
       }
     }
   }
-  var regexp = new RegExp('[' + foreignletters + ']', 'g');
+  var regexp = new RegExp('[' + i18nChars + ']', 'g');
   return function (str) {
-    return str.replace(regexp, function (foreignletter) {
-      return lookup[foreignletter];
+    return str.replace(regexp, function (i18nChar) {
+      return lookup[i18nChar];
     }).toLowerCase();
   };
 })();
-
-
-	// export
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 function uaDetect(platform, re) {
   if (navigator.userAgentData) {
@@ -1316,6 +1312,13 @@ $.extend(Selectize.prototype, {
 		if (self.settings.placeholder) {
 			$control_input.attr('placeholder', settings.placeholder);
 		}
+
+    // to have an identical rendering to a simple select (usefull for mobile device and do not open keyboard)
+    if (!self.settings.search) {
+      $control_input.attr('readonly', true);
+	  $control_input.attr('inputmode', 'none');
+      $control.css('cursor', 'pointer');
+    }
 
 		// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
 		if (!self.settings.splitOn && self.settings.delimiter) {
@@ -2324,7 +2327,13 @@ $.extend(Selectize.prototype, {
 
 			for (j = 0, k = optgroups && optgroups.length; j < k; j++) {
 				optgroup = optgroups[j];
-				if (!self.optgroups.hasOwnProperty(optgroup)) {
+				if (!self.optgroups.hasOwnProperty(optgroup) && typeof self.settings.optionGroupRegister === 'function') {
+					var regGroup;
+					if (regGroup = self.settings.optionGroupRegister.apply(self, [optgroup])) {
+						self.registerOptionGroup(regGroup);
+					}
+				}
+        if (!self.optgroups.hasOwnProperty(optgroup)) {
 					optgroup = '';
 				}
 				if (!groups.hasOwnProperty(optgroup)) {
@@ -3644,7 +3653,8 @@ Selectize.defaults = {
   sortField: '$order',
   searchField: ['text'],
   searchConjunction: 'and',
-  respect_word_boundaries: true,
+  respect_word_boundaries: false, // Originally defaulted to true, but breaks unicode support. See #1916 & https://stackoverflow.com/questions/10590098/javascript-regexp-word-boundaries-unicode-characters
+  normalize: true,
 
   mode: null,
   wrapperClass: '',
@@ -3659,12 +3669,15 @@ Selectize.defaults = {
     sizeType: 'auto', // 'numberItems' or 'fixedHeight'
     sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
   },
-  normalize: false,
+
   ignoreOnDropwdownHeight: 'img, i',
+  search: true,
+
   /*
   load                 : null, // function(query, callback) { ... }
   score                : null, // function(search) { ... }
   formatValueToKey     : null, // function(key) { ... }
+  optionGroupRegister  : null, // function(optgroup) to register dynamically created option groups
   onInitialize         : null, // function() { ... }
   onChange             : null, // function(value) { ... }
   onItemAdd            : null, // function(value, $item) { ... }
