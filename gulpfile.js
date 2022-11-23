@@ -13,7 +13,7 @@ const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
 
-const { src, dest, series, watch } = require('gulp');
+const { src, dest, series, watch, parallel } = require('gulp');
 
 
 // ----------------------------------------
@@ -49,6 +49,9 @@ const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change
 const forwardToDocs = async () => {
   src(['dist/css/**/*']).pipe(dest('docs/static/css'));
   src(['dist/js/**/*']).pipe(dest('docs/static/js'));
+}
+const generateJsDoc = async () => {
+  //TODO generate mardown from jsdoc in code, and copy to doc folder
 }
 // ----------------------------------------
 
@@ -225,6 +228,6 @@ const _minifyScripts = async (scripts) =>
 
 // public task definitions
 exports.default = series(copyDependencies, copySrc);
-exports.docs = series(forwardToDocs);
+exports.docs = parallel(generateJsDoc, forwardToDocs);
 exports.loadDependencies = series(cleanLibs, loadDependencies);
 exports.watch = series(watchFiles);

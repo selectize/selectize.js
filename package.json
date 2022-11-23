@@ -74,7 +74,7 @@
   "scripts": {
     "test": "karma start",
     "build": "gulp",
-    "clean": "rm -rf dist build node_modules",
+    "clean": "rm -rf dist build node_modules && cd docs && npm run clear",
     "docs": "gulp docs",
     "start": "cd docs && npm run start",
     "watch": "gulp watch"
