@@ -3,6 +3,7 @@ const dartSass = require('sass');
 const del = require('del');
 const fs = require('fs');
 const gulpSass = require('gulp-sass');
+const jsdoc2md = require("jsdoc-to-markdown");
 const lazypipe = require('lazypipe');
 const less = require('gulp-less');
 const path = require('path');
@@ -12,6 +13,9 @@ const sass = gulpSass(dartSass);
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
+
+const { resolve } = require('path');
+const { readdir } = require('fs').promises;
 
 const { src, dest, series, watch, parallel } = require('gulp');
 
@@ -51,7 +55,34 @@ const forwardToDocs = async () => {
   src(['dist/js/**/*']).pipe(dest('docs/static/js'));
 }
 const generateJsDoc = async () => {
-  //TODO generate mardown from jsdoc in code, and copy to doc folder
+  (async () => {
+    for await (const file of getFiles('src')) {
+      if (path.extname(file) === '.js') {
+        let basename = path.basename(file, '.js');
+        if (basename === 'plugin') basename = `${path.dirname(file).split(path.sep).pop()} Plugin`;
+
+        const output = `docs/docs/API/${basename}.md`;
+        const toAdd = `---
+title: ${basename}
+description: API Reference for ${basename}
+---
+# API Documentation for ${basename}\n
+        `;
+
+        const data = await jsdoc2md.render({
+          files: file,
+          "no-gfm": false,
+          "global-index-format": "none",
+          "module-index-format": "none",
+        });
+        let sanatizedData = toAdd + data
+          .replace(/<code>/g, "`")
+          .replace(/<\/code>/g, "`")
+          .replace(/<[^>]*>?/gm, "");;
+        fs.writeFileSync(output, sanatizedData);
+      }
+    }
+  })();
 }
 // ----------------------------------------
 
@@ -62,6 +93,18 @@ const getVersion = () => process.env.npm_package_version;
 const renameFileToParentDirName = (filepath) => {
   filepath.basename = path.basename(filepath.dirname);
   filepath.dirname = path.dirname(filepath.dirname);
+}
+
+async function* getFiles(dir) {
+  const dirents = await readdir(dir, { withFileTypes: true });
+  for (const dirent of dirents) {
+    const res = resolve(dir, dirent.name);
+    if (dirent.isDirectory()) {
+      yield* getFiles(res);
+    } else {
+      yield res;
+    }
+  }
 }
 
 const license_header = `/**
