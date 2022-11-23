@@ -76,7 +76,7 @@
     "build": "gulp",
     "clean": "rm -rf dist build node_modules && cd docs && npm run clear",
     "docs": "gulp docs",
-    "start": "cd docs && npm run start",
+    "start": "cd docs && HTTPS=true SSL_CRT_FILE=.ssl/loopback_website.crt SSL_KEY_FILE=.ssl/loopback_website.key npm run start -- --host=loopback.website --port=4000",
     "watch": "gulp watch"
   },
   "engines": {
