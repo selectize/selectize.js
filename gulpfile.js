@@ -165,12 +165,6 @@ const _compileLess = async () => {
     }
   });
 
-  src(['src/less/selectize.less', ...plugin_styles])
-    .pipe(concat('selectize.legacy.css'))
-    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
-    .pipe(__wrapStyles())
-    .pipe(dest('dist/css'));
-
   src(['src/less/selectize.bootstrap2.less', ...plugin_styles])
     .pipe(concat('selectize.bootstrap2.css'))
     .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))

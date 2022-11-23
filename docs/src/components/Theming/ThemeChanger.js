@@ -6,7 +6,6 @@ import Head from '@docusaurus/Head';
 export default function ThemeChanger() {
   const themes = [
     { src: "default", label: "Selectize", icon: "fak fa-selectize" },
-    { src: "legacy", label: "Legacy", icon: "fak fa-selectize" },
     { src: "bootstrap2", label: "Bootstrap 2", icon: "fa-duotone fa-square-b" },
     { src: "bootstrap3", label: "Bootstrap 3", icon: "fa-duotone fa-square-b" },
     { src: "bootstrap4", label: "Bootstrap 4", icon: "fa-duotone fa-square-b" },

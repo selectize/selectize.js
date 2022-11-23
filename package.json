@@ -35,7 +35,6 @@
     "bootstrap4": "npm:bootstrap@4.6.0",
     "bootstrap5": "npm:bootstrap@5.2.2",
     "chai": "4.3.4",
-    "concurrently": "^7.5.0",
     "del": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
@@ -48,7 +47,6 @@
     "gulp-uglify": "3.0.2",
     "gulp-uglifycss": "1.1.0",
     "gulp-watch": "5.0.1",
-    "http-server": "14.1.1",
     "jquery": "^3.6.1",
     "jshint": "^2.13.5",
     "karma": "6.4.1",
@@ -78,7 +76,7 @@
     "build": "gulp",
     "clean": "rm -rf dist build node_modules",
     "docs": "gulp docs",
-    "start": "concurrently \"npm run watch\" \"http-server -p 4000 -o ./examples --cors\"",
+    "start": "cd docs && npm run start",
     "watch": "gulp watch"
   },
   "engines": {
