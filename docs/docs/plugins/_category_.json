@@ -1,0 +1,12 @@
+{
+  "position": 300,
+  "label": "Plugins",
+  "collapsible": true,
+  "collapsed": true,
+  "className": "test",
+  "link": {
+    "type": "generated-index",
+    "title": "Plugins",
+    "description": "These demos explain how to work with the bundled plugins, and how to write your own plugins."
+  }
+}

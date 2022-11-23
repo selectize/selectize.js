@@ -46,6 +46,10 @@ const copySrc = async () => {
   }, 1000);
 };
 const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
+const forwardToDocs = async () => {
+  src(['dist/css/**/*']).pipe(dest('docs/static/css'));
+  src(['dist/js/**/*']).pipe(dest('docs/static/js'));
+}
 // ----------------------------------------
 
 
@@ -227,5 +231,6 @@ const _minifyScripts = async (scripts) =>
 
 // public task definitions
 exports.default = series(copyDependencies, copySrc);
+exports.docs = series(forwardToDocs);
 exports.loadDependencies = series(cleanLibs, loadDependencies);
 exports.watch = series(watchFiles);

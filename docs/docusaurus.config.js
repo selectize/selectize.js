@@ -46,7 +46,7 @@ const config = {
   ],
 
   plugins: [
-    async function loadTailwindCss(context, options) {
+    async function loadTailwindCss() {
       return {
         name: "docusaurus-tailwindcss",
         configurePostCss(postcssOptions) {
@@ -57,6 +57,13 @@ const config = {
         },
       };
     },
+  ],
+
+  scripts: [
+    "https://code.jquery.com/jquery-3.6.1.min.js",
+    "https://code.jquery.com/ui/1.13.2/jquery-ui.min.js",
+    "https://kit.fontawesome.com/109d56cc28.js",
+    "/js/selectize.min.js",
   ],
 
   themeConfig:
@@ -90,8 +97,16 @@ const config = {
             title: "Docs",
             items: [
               {
-                label: "Introduction",
-                to: "/docs",
+                label: "Get Started",
+                to: "/docs/intro",
+              },
+              {
+                label: "Events",
+                to: "/docs/events",
+              },
+              {
+                label: "API",
+                to: "/docs/api",
               },
             ],
           },
@@ -100,7 +115,11 @@ const config = {
             items: [
               {
                 label: "Examples",
-                to: "/docs/demos",
+                to: "/docs/category/demos",
+              },
+              {
+                label: "Plugins",
+                to: "/docs/category/plugins",
               },
             ],
           },
@@ -129,7 +148,7 @@ const config = {
                 href: 'https://github.com/selectize/selectize.js',
               },
               {
-                label: 'Privacy',
+                label: 'Privacy Policy',
                 href: 'https://github.com/selectize/selectize.js',
               },
               {
