@@ -134,7 +134,7 @@ To run Selectize locally:
 npm start
 ```
 
-You can then run the examples at `http://localhost:4000/`.
+You can then run the examples at `https://loopback.website:4000/`.
 
 ## License
 

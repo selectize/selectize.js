@@ -19,6 +19,7 @@ $(function () {
 const tabs = [
   { name: 'selectize.js', isActive: true },
   { name: 'package.json', isActive: false },
+  { name: 'application.js', isActive: false },
 ]
 
 function TrafficLightsIcon(props) {
@@ -35,23 +36,23 @@ export function Hero() {
   return (
     <div className="overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.5rem] dark:pb-32 dark:pt-[4.5rem] dark:lg:mt-[-4.75rem] dark:lg:pt-[4.75rem]">
       <div className="py-16 sm:px-2 lg:relative lg:py-20 lg:px-0">
-        <div className="mx-auto grid grid-cols-1 items-center gap-y-16 gap-x-8 px-4 lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
+        <div className="grid items-center grid-cols-1 px-4 mx-auto gap-y-16 gap-x-8 lg:grid-cols-2 lg:px-8 xl:gap-x-16 xl:px-12">
           <div className="relative z-10 md:text-center lg:text-left">
             <img
-              className="absolute bottom-full right-full -mr-72 -mb-56 opacity-50"
+              className="absolute -mb-56 opacity-50 bottom-full right-full -mr-72"
               src={blurCyanImage}
               alt=""
               width={530}
               height={530}
             />
             <div className="relative">
-              <p className="inline bg-gradient-to-r from-indigo-200 via-cyan-400 to-indigo-200 bg-clip-text font-display text-5xl tracking-tight text-transparent">
+              <p className="inline text-5xl tracking-tight text-transparent bg-gradient-to-r from-indigo-200 via-cyan-400 to-indigo-200 bg-clip-text font-display">
                 Selectize
               </p>
-              <p className="mt-3 text-2xl tracking-tight text-slate-400 font-sans">
+              <p className="mt-3 font-sans text-2xl tracking-tight text-slate-400">
                 Selectize is the hybrid of a textbox and &lt;select&gt; box. It's jQuery-based and it's useful for tagging, contact lists, country selectors, and so on.
               </p>
-              <div className="mt-8 flex gap-4 md:justify-center lg:justify-start">
+              <div className="flex gap-4 mt-8 md:justify-center lg:justify-start">
                 <Button href="/docs/intro">Get started</Button>
                 <Button href="https://github.com/selectize/selectize.js" variant="secondary">View on GitHub</Button>
               </div>
@@ -79,11 +80,11 @@ export function Hero() {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-300 via-cyan-300/70 to-indigo-300 opacity-10 blur-lg" />
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-cyan-300 via-cyan-300/70 to-indigo-300 opacity-10" />
               <div className="relative rounded-2xl bg-[#0A101F]/80 ring-1 ring-white/10 backdrop-blur">
-                <div className="absolute -top-px left-20 right-11 h-px bg-gradient-to-r from-cyan-300/0 via-cyan-300/70 to-cyan-300/0" />
-                <div className="absolute -bottom-px left-11 right-20 h-px bg-gradient-to-r from-indigo-400/0 via-indigo-400 to-indigo-400/0" />
-                <div className="pl-4 pt-4">
+                <div className="absolute h-px -top-px left-20 right-11 bg-gradient-to-r from-cyan-300/0 via-cyan-300/70 to-cyan-300/0" />
+                <div className="absolute h-px -bottom-px left-11 right-20 bg-gradient-to-r from-indigo-400/0 via-indigo-400 to-indigo-400/0" />
+                <div className="pt-4 pl-4">
                   <TrafficLightsIcon className="h-2.5 w-auto stroke-slate-500/30" />
-                  <div className="mt-4 flex space-x-2 text-xs">
+                  <div className="flex mt-4 space-x-2 text-xs">
                     {tabs.map((tab) => (
                       <div
                         key={tab.name}
@@ -105,10 +106,10 @@ export function Hero() {
                       </div>
                     ))}
                   </div>
-                  <div className="mt-6 flex items-start px-1 text-sm">
+                  <div className="flex items-start px-1 mt-6 text-sm">
                     <div
                       aria-hidden="true"
-                      className="select-none border-r border-slate-300/5 pr-4 font-mono text-slate-600"
+                      className="pr-4 font-mono border-r select-none border-slate-300/5 text-slate-600"
                     >
                       {Array.from({
                         length: code.split('\n').length,

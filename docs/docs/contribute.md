@@ -1,3 +1,6 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Contributing to Selectize
 
 First off, thanks for taking the time to contribute! ❤️
@@ -12,21 +15,10 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 > - Refer this project in your project's readme
 > - Mention the project at local meetups and tell your friends/colleagues
 
-## Table of Contents
-
-- [Code of Conduct](#code-of-conduct)
-- [I Have a Question](#i-have-a-question)
-- [I Want To Contribute](#i-want-to-contribute)
-- [Reporting Bugs](#reporting-bugs)
-- [Suggesting Enhancements](#suggesting-enhancements)
-- [Your First Code Contribution](#your-first-code-contribution)
-- [Improving The Documentation](#improving-the-documentation)
-- [Commit Messages](#commit-messages)
-
 ## Code of Conduct
 
 This project and everyone participating in it is governed by the
-[Selectize Code of Conduct](CODE_OF_CONDUCT.md).
+[Contributor Code of Conduct](/code-of-conduct).
 By participating, you are expected to uphold this code. Please report unacceptable behavior
 to the [maintainers](selectize@risadams.com).
 
@@ -57,7 +49,7 @@ We will then take care of the issue as soon as possible.
 A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
 
 - Make sure that you are using the latest version.
-- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](https://selectize.dev). If you are looking for support, you might want to check [this section](#i-have-a-question)).
+- Determine if your bug is a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](https://selectize.dev). If you are looking for support, you might want to check [this section](#i-have-a-question)).
 - To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](https://github.com/selectize/selectize.jsissues?q=label%3Abug).
 - Make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
 - Collect information about the bug:
@@ -82,7 +74,7 @@ Once it's filed:
 
 - The project team will label the issue accordingly.
 - A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
-- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
+- If the team can reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
 
 ### Suggesting Enhancements
 
@@ -113,15 +105,60 @@ Compile Javascript, SCSS and LESS in the `/src` directory to JavaScript and CSS 
 
 Running `make` will build the project, run all tests, and update the distribution files in `/dist`.
 
+<Tabs>
+<TabItem value="npm" label="npm">
+
+```bash
+npm run build
+
+# Or to specify one or more specific browsers
+BROWSERS=Firefox,Chrome,Safari npm test
+```
+
+</TabItem>
+<TabItem value="yarn" label="yarn">
+
+```bash
+yarn build
+```
+
+</TabItem>
+</Tabs>
+
+#### Functional and Unit Tests
+
+Please ensure all the tests pass:
+
+<Tabs>
+<TabItem value="npm" label="npm">
+
+```bash
+npm run test
+```
+
+</TabItem>
+<TabItem value="yarn" label="yarn">
+
+```bash
+yarn test
+```
+
+</TabItem>
+</Tabs>
+
 #### Local Environment
 
 Running `npm start` on your repo will start a web server allowing you to view a local copy of this documentation, where you can test your changes against our example pages.
 
 If you are adding a new plugin, you should also add a corresponding example page to the `/docs/docs/plugins` directory.
 
-You can then run the examples at `http://localhost:4000/`.
+You can then run the examples at `https://loopback.website:4000/`.
 
 ### Improving The Documentation
+
+If you are a new contributor and want to help improve the documentation, you can edit the documentation files in the `/docs` directory.
+
+We are actively looking for additional help in building new examples or providing translations of the documentation.
 
 ### Commit Messages
 
