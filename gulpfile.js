@@ -66,8 +66,7 @@ const generateJsDoc = async () => {
 title: ${basename}
 description: API Reference for ${basename}
 ---
-# API Documentation for ${basename}\n
-        `;
+# API Documentation for ${basename}\n`;
 
         const data = await jsdoc2md.render({
           files: file,
@@ -75,10 +74,24 @@ description: API Reference for ${basename}
           "global-index-format": "none",
           "module-index-format": "none",
         });
-        let sanatizedData = toAdd + data
-          .replace(/<code>/g, "`")
-          .replace(/<\/code>/g, "`")
-          .replace(/<[^>]*>?/gm, "");;
+
+        // If no data, no comments found so useless to build file..
+        if (data === '') {
+          if (fs.existsSync(output)) {
+            fs.unlink(output, err => {
+              if (err) {
+                throw err;
+              }
+            });
+          }
+
+          continue;
+        }
+
+
+        const sanatizedData = toAdd + data;
+          // .replace(/<code>/g, "`")
+          // .replace(/<\/code>/g, "`");
         fs.writeFileSync(output, sanatizedData);
       }
     }
