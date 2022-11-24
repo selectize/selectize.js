@@ -109,7 +109,7 @@ var once = function (fn) {
  * every `delay` milliseconds (invoked on the falling edge).
  *
  * @param {function} fn
- * @param {int} delay
+ * @param {number} delay
  * @returns {function}
  */
 var debounce = function (fn, delay) {
@@ -232,7 +232,7 @@ var transferStyles = function ($from, $to, properties) {
  *
  * @param {string} str
  * @param {object} $parent
- * @returns {int}
+ * @returns {number}
  */
 var measureString = function (str, $parent) {
   if (!str) {

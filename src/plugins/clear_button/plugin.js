@@ -16,11 +16,31 @@
  */
 
 /**
- * @param {object} options Object of options
- * @param {string} options.title (default: "Clear") Title for the clear button
- * @param {string} options.className (default : "clear") Class name for the clear button
- * @param {string} options.label (default: "×") Label for the clear button
- * @param {function} options.html Method used for rendering
+ * @author [Fabien Winkler](https://github.com/fabienwnklr)
+ * @typedef {object} options Object of options available for "clear_button" plugin
+ * @param {string} [title=Clear] Title for the clear button
+ * @param {string} [className=clear] Class name for the clear button
+ * @param {string} [label=×] [props=data] Label for the clear button
+ * @param {function} [html] Method used for rendering
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      clear_button: {
+ *        title: 'Custom title',
+ *        className: 'custom-class',
+ *        label: 'custom label',
+ *        html: (data) => {
+ *          return (
+ *            `<a class="${data.className}" title="${data.title}">${data.label}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
  */
 Selectize.define("clear_button", function (options) {
   var self = this;
