@@ -2,6 +2,9 @@
 sidebar_position: 1
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Getting Started with Selectize
 
 Selectize is a JavaScript library that provides a rich user experience for selecting items from a list. It supports single and multi-value selections, searching, tagging, remote data sets, and infinite scrolling.
@@ -14,10 +17,32 @@ Selectize requires jQuery. We also include styles for bootstrap, but also provid
 
 If you want to use the Drag & Drop plugin, you'll need jQuery UI.
 
-### Install with npm
+### Install with npm / yarn
+
+<Tabs>
+<TabItem value="npm" label="npm">
 
 ```bash
-npm install @selectize/selectize
+npm i @selectize/selectize
+```
+
+</TabItem>
+<TabItem value="yarn" label="yarn">
+
+```bash
+yarn add @selectize/selectize
+```
+
+</TabItem>
+</Tabs>
+
+### Install with cdn
+
+The fastest way to add Selectize into your project is to just include the js and css from jsDelivr.
+
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.css" integrity="sha512-ikoGg2i+6jXI1u0qXylbyIb+9f9/z/fVQR4kor0Dmt3oTIb/ZnOZ33POmdUitzXTDrd5XCpQUhsiXnl/oTuiHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/standalone/selectize.min.js" integrity="sha512-EZjqrrnoamnlzX1VpHSu7mCYXpbVJdqeJBbpPIHdfH/AtF8Lp/jKrCzYqzKSuVjxriFkEWR0I3qoT2evvrvRmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
 ## Usage

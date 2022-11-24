@@ -15,6 +15,13 @@
  * @author Fabien Winkler <fabien.winkler@outlook.fr>
  */
 
+/**
+ * @param {object} options Object of options
+ * @param {string} options.title (default: "Clear") Title for the clear button
+ * @param {string} options.className (default : "clear") Class name for the clear button
+ * @param {string} options.label (default: "×") Label for the clear button
+ * @param {function} options.html Method used for rendering
+ */
 Selectize.define("clear_button", function (options) {
   var self = this;
 

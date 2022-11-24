@@ -35,8 +35,7 @@ export default function MaxItems() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`
-<select multiple>
+        {`<select multiple>
   <option value=""></option>
   <option value="1">Awesome</option>
   <option value="2">Beast</option>

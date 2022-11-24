@@ -41,16 +41,15 @@ export default function Tagging() {
         {`<input type="text" id="input-tags" value="awesome,neasted,beast" />`}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`
-$("#input-tags").selectize({
-    delimiter: ",",
-    persist: false,
-    create: function (input) {
-        return {
-            value: input,
-            text: input,
-        };
-    },
+        {`$("#input-tags").selectize({
+  delimiter: ",",
+  persist: false,
+  create: function (input) {
+    return {
+        value: input,
+        text: input,
+    };
+  },
 });`}
       </CodeBlock>
     </div>

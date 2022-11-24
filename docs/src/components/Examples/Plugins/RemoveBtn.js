@@ -48,29 +48,27 @@ export default function RemoveButton() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`
-<select id="remove-button">
-    <option value="1" selected>Awosome</option>
-    <option value="2" selected>Beast</option>
-    <option value="3" selected>Compatible</option>
-    <option value="4">Thomas Edison</option>
-    <option value="5">Nikola</option>
-    <option value="6">Selectize</option>
-    <option value="7">Javascript</option>
+        {`<select id="remove-button">
+  <option value="1" selected>Awosome</option>
+  <option value="2" selected>Beast</option>
+  <option value="3" selected>Compatible</option>
+  <option value="4">Thomas Edison</option>
+  <option value="5">Nikola</option>
+  <option value="6">Selectize</option>
+  <option value="7">Javascript</option>
 </select>`}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`
-$("#remove-button").selectize({
-    plugins: ["remove_button"],
-    delimiter: ",",
-    persist: false,
-    create: function (input) {
+        {`$("#remove-button").selectize({
+  plugins: ["remove_button"],
+  delimiter: ",",
+  persist: false,
+  create: function (input) {
     return {
         value: input,
         text: input,
     };
-    },
+  },
 });`}
       </CodeBlock>
     </div>

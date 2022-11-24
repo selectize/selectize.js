@@ -108,23 +108,20 @@ export default function EmailContact() {
         {`<select id="select-to" class="contacts" placeholder="Pick some people..."></select>`}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`
-const REGEX_EMAIL =
-    "([a-z0-9!#$%&'*+/=?^_\`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@" +
-    "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
+        {`const REGEX_EMAIL = "([a-z0-9!#$%&'*+/=?^_\`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*@" + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)";
 
 $("#select-to").selectize({
-    persist: false,
-    maxItems: null,
-    valueField: "email",
-    labelField: "name",
-    searchField: ["name", "email"],
-    options: [
+  persist: false,
+  maxItems: null,
+  valueField: "email",
+  labelField: "name",
+  searchField: ["name", "email"],
+  options: [
     { email: "brian@thirdroute.com", name: "Brian Reavis" },
     { email: "nikola@tesla.com", name: "Nikola Tesla" },
     { email: "someone@gmail.com" },
-    ],
-    render: {
+  ],
+  render: {
     item: function (item, escape) {
         return (
         "<div>" +
@@ -151,8 +148,8 @@ $("#select-to").selectize({
         "</div>"
         );
     },
-    },
-    createFilter: function (input) {
+  },
+  createFilter: function (input) {
     var match, regex;
 
     // email@address.com
@@ -166,8 +163,8 @@ $("#select-to").selectize({
     if (match) return !this.options.hasOwnProperty(match[2]);
 
     return false;
-    },
-    create: function (input) {
+  },
+  create: function (input) {
     if (new RegExp("^" + REGEX_EMAIL + "$", "i").test(input)) {
         return { email: input };
     }
@@ -182,13 +179,12 @@ $("#select-to").selectize({
     }
     alert("Invalid email address.");
     return false;
-    },
+  },
 });
         `}
       </CodeBlock>
       <CodeBlock className="language-css" title="CSS">
-        {`
-.selectize-control.contacts .selectize-input > div .email {
+        {`.selectize-control.contacts .selectize-input > div .email {
   opacity: 0.8;
 }
 .selectize-control.contacts .selectize-input > div .name + .email {
