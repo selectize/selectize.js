@@ -90,8 +90,6 @@ description: API Reference for ${basename}
 
 
         const sanatizedData = toAdd + data;
-          // .replace(/<code>/g, "`")
-          // .replace(/<\/code>/g, "`");
         fs.writeFileSync(output, sanatizedData);
       }
     }
