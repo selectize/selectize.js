@@ -15,6 +15,37 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Available options for dropdown_header plugin
+ * @param {string} [title=Untitled] Title of dropdown_header
+ * @param {string} [headerClass=selectize-dropdown-header] Class of dropdown_header
+ * @param {string} [titleRowClass=selectize-dropdown-header-title] Class for title row
+ * @param {string} [labelClass=selectize-dropdown-header-label] Class for label
+ * @param {string} [closeClass=selectize-dropdown-header-close] Class for dropdown_header close button
+ * @param {function} [html] Method for custom rendering of dropdown_header
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      dropdown_header: {
+ *        title: 'Custom title',
+ *        headerClass: 'custom-header-class',
+ *        labelClass: 'custom-label-class',
+ *        closeClass: 'custom-close-class',
+ *        html: (data) => {
+ *          // data contain all options values
+ *          return (
+ *            `<a class="${data.labelClass}" title="${data.title}">${data.title}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('dropdown_header', function(options) {
 	var self = this;
 

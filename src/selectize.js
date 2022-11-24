@@ -461,7 +461,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> paste.
+	 * Triggered on `<input>` paste.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -494,7 +494,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keypress.
+	 * Triggered on `<input>` keypress.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -510,7 +510,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keydown.
+	 * Triggered on `<input>` keydown.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -601,7 +601,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> input.
+	 * Triggered on `<input>` input.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -638,7 +638,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> focus.
+	 * Triggered on `<input>` focus.
 	 *
 	 * @param {FocusEvent} e (optional)
 	 * @returns {boolean}
@@ -669,7 +669,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> blur.
+	 * Triggered on `<input>` blur.
 	 *
 	 * @param {object} e
 	 * @param {Element} dest
@@ -832,7 +832,7 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Returns the value of the control. If multiple items
-	 * can be selected (e.g. <select multiple>), this returns
+	 * can be selected `(e.g. <select multiple>)`, this returns
 	 * an array. If only one item can be selected, this
 	 * returns a string.
 	 *
@@ -1877,7 +1877,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Refreshes the original <select> or <input>
+	 * Refreshes the original `<select>` or `<input>`
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {

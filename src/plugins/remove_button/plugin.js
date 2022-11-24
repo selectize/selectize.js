@@ -15,6 +15,14 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Object of options available for "remove_button" plugin
+ * @param {string} [label=&#xd7;] The label value for remove button
+ * @param {string} [title=Remove] The Title value for remove button
+ * @param {string} [className=remove] Class name for remove button
+ * @param {boolean} [append=true] Append remove button to item
+ */
 Selectize.define('remove_button', function (options) {
   if (this.settings.mode === 'single') return;
 

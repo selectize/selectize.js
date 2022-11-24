@@ -15,6 +15,26 @@
  * @author Simon Hewitt <si@sjhewitt.co.uk>
  */
 
+/**
+ * @author [Simon Hewitt](https://github.com/sjhewitt)
+ * @typedef {Object} options Available options for optgroup_columns plugin
+ * @param {boolean} [equalizeWidth=true]
+ * @param {boolean} [equalizeHeight=true]
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      optgroup_columns: {
+ *        equalizeWidth: false,
+ *        equalizeHeight: false,
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
