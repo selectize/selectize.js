@@ -30,8 +30,7 @@ export default function Basics() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`
-<select id="normalize">
+        {`<select id="normalize">
   <option value=""></option>
   <option value="1">Awesome</option>
   <option value="2">Beast</option>

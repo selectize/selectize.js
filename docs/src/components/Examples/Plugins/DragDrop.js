@@ -36,8 +36,7 @@ export default function DragNDrop() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`
-<select id="DragNDrop" multiple>
+        {`<select id="DragNDrop" multiple>
   <option value="1" selected>Awosome</option>
   <option value="2" selected>Beast</option>
   <option value="3" selected>Compatible</option>
@@ -48,8 +47,7 @@ export default function DragNDrop() {
 </select>`}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`
-$("#DragNDrop").selectize({
+        {`$("#DragNDrop").selectize({
   plugins: ["drag_drop"],
 });`}
       </CodeBlock>
