@@ -3,21 +3,20 @@ title: utils
 description: API Reference for utils
 ---
 # API Documentation for utils
+<a name="isset"></a>
 
-        
-
-## isset(object) ⇒ `boolean`
+## isset(object) ⇒ <code>boolean</code>
 Determines if the provided value has been defined.
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| object | `mixed` | 
+| object | <code>mixed</code> | 
 
+<a name="hash_key"></a>
 
-
-## hash\_key(value) ⇒ `string` \| `null`
+## hash\_key(value) ⇒ <code>string</code> \| <code>null</code>
 Converts a scalar to its best string representation
 for hash keys and HTML attribute values.
 
@@ -34,44 +33,44 @@ Transformations:
 
 | Param | Type |
 | --- | --- |
-| value | `string` | 
+| value | <code>string</code> | 
 
+<a name="escape_html"></a>
 
-
-## escape\_html(str) ⇒ `string`
+## escape\_html(str) ⇒ <code>string</code>
 Escapes a string for use within HTML.
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| str | `string` | 
+| str | <code>string</code> | 
 
+<a name="escape_replace"></a>
 
-
-## escape\_replace(str) ⇒ `string`
+## escape\_replace(str) ⇒ <code>string</code>
 Escapes "$" characters in replacement strings.
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| str | `string` | 
+| str | <code>string</code> | 
 
+<a name="once"></a>
 
-
-## once(fn) ⇒ `function`
+## once(fn) ⇒ <code>function</code>
 Wraps `fn` so that it can only be invoked once.
 
 **Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| fn | `function` | 
+| fn | <code>function</code> | 
 
+<a name="debounce"></a>
 
-
-## debounce(fn, delay) ⇒ `function`
+## debounce(fn, delay) ⇒ <code>function</code>
 Wraps `fn` so that it can only be called once
 every `delay` milliseconds (invoked on the falling edge).
 
@@ -79,10 +78,10 @@ every `delay` milliseconds (invoked on the falling edge).
 
 | Param | Type |
 | --- | --- |
-| fn | `function` | 
-| delay | `int` | 
+| fn | <code>function</code> | 
+| delay | <code>number</code> | 
 
-
+<a name="debounce_events"></a>
 
 ## debounce\_events(self, types, fn)
 Debounce all fired events types listed in `types`
@@ -92,11 +91,11 @@ while executing the provided `fn`.
 
 | Param | Type |
 | --- | --- |
-| self | `object` | 
-| types | `array` | 
-| fn | `function` | 
+| self | <code>object</code> | 
+| types | <code>array</code> | 
+| fn | <code>function</code> | 
 
-
+<a name="watchChildEvent"></a>
 
 ## watchChildEvent($parent, event, selector, fn)
 A workaround for http://bugs.jquery.com/ticket/6696
@@ -105,14 +104,14 @@ A workaround for http://bugs.jquery.com/ticket/6696
 
 | Param | Type | Description |
 | --- | --- | --- |
-| $parent | `object` | Parent element to listen on. |
-| event | `string` | Event name. |
-| selector | `string` | Descendant selector to filter by. |
-| fn | `function` | Event handler. |
+| $parent | <code>object</code> | Parent element to listen on. |
+| event | <code>string</code> | Event name. |
+| selector | <code>string</code> | Descendant selector to filter by. |
+| fn | <code>function</code> | Event handler. |
 
+<a name="getInputSelection"></a>
 
-
-## getInputSelection(input) ⇒ `object`
+## getInputSelection(input) ⇒ <code>object</code>
 Determines the current selection within a text input control.
 Returns an object containing:
   - start
@@ -122,9 +121,9 @@ Returns an object containing:
 
 | Param | Type |
 | --- | --- |
-| input | `object` | 
+| input | <code>object</code> | 
 
-
+<a name="transferStyles"></a>
 
 ## transferStyles($from, $to, properties)
 Copies CSS properties from one element to another.
@@ -133,13 +132,13 @@ Copies CSS properties from one element to another.
 
 | Param | Type |
 | --- | --- |
-| $from | `object` | 
-| $to | `object` | 
-| properties | `array` | 
+| $from | <code>object</code> | 
+| $to | <code>object</code> | 
+| properties | <code>array</code> | 
 
+<a name="measureString"></a>
 
-
-## measureString(str, $parent) ⇒ `int`
+## measureString(str, $parent) ⇒ <code>number</code>
 Measures the width of a string within a
 parent element (in pixels).
 
@@ -147,10 +146,10 @@ parent element (in pixels).
 
 | Param | Type |
 | --- | --- |
-| str | `string` | 
-| $parent | `object` | 
+| str | <code>string</code> | 
+| $parent | <code>object</code> | 
 
-
+<a name="autoGrow"></a>
 
 ## autoGrow($input)
 Sets up an input to grow horizontally as the user
@@ -163,15 +162,15 @@ $input.trigger('update');
 
 | Param | Type |
 | --- | --- |
-| $input | `object` | 
+| $input | <code>object</code> | 
 
+<a name="isJSON"></a>
 
-
-## isJSON(data) ⇒ `Boolean`
+## isJSON(data) ⇒ <code>Boolean</code>
 **Kind**: global function  
-**Returns**: `Boolean` - true if is an JSON object  
+**Returns**: <code>Boolean</code> - true if is an JSON object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | `any` | Data to testing |
+| data | <code>any</code> | Data to testing |
 

@@ -1,7 +1,0 @@
----
-title: auto_position Plugin
-description: API Reference for auto_position Plugin
----
-# API Documentation for auto_position Plugin
-
-        
