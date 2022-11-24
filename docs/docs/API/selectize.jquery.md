@@ -1,7 +1,0 @@
----
-title: selectize.jquery
-description: API Reference for selectize.jquery
----
-# API Documentation for selectize.jquery
-
-        

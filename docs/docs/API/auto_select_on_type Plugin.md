@@ -1,7 +1,0 @@
----
-title: auto_select_on_type Plugin
-description: API Reference for auto_select_on_type Plugin
----
-# API Documentation for auto_select_on_type Plugin
-
-        
