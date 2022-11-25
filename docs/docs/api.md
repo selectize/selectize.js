@@ -2,6 +2,7 @@
 title: API Methods
 sidebar_position: 5
 description: api reference
+displayed_sidebar: apiSidebar
 ---
 
 # API Methods
