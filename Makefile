@@ -11,6 +11,7 @@ compile: ## compile the project, update package versions if specified, installs 
 	rm -rf dist
 	$(GULP) loadDependencies
 	npm run build
+	$(GULP) docs
 release: ## make release version=x.x.x -- commit, tag, and npm publish the specified version
 ifeq ($(strip $(version)),)
 	@echo "\033[31mERROR:\033[0;39m No version provided."

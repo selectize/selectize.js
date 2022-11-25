@@ -15,6 +15,33 @@
  * @author Fabien Winkler <fabien.winkler@outlook.fr>
  */
 
+/**
+ * @author [Fabien Winkler](https://github.com/fabienwnklr)
+ * @typedef {object} options Object of options available for "clear_button" plugin
+ * @param {string} [title=Clear] Title for the clear button
+ * @param {string} [className=clear] Class name for the clear button
+ * @param {string} [label=×] [props=data] Label for the clear button
+ * @param {function} [html] Method used for rendering
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      clear_button: {
+ *        title: 'Custom title',
+ *        className: 'custom-class',
+ *        label: 'custom label',
+ *        html: (data) => {
+ *          return (
+ *            `<a class="${data.className}" title="${data.title}">${data.label}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define("clear_button", function (options) {
   var self = this;
 

@@ -3,6 +3,7 @@ const dartSass = require('sass');
 const del = require('del');
 const fs = require('fs');
 const gulpSass = require('gulp-sass');
+const jsdoc2md = require("jsdoc-to-markdown");
 const lazypipe = require('lazypipe');
 const less = require('gulp-less');
 const path = require('path');
@@ -13,7 +14,10 @@ const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
 
-const { src, dest, series, watch } = require('gulp');
+const { resolve } = require('path');
+const { readdir } = require('fs').promises;
+
+const { src, dest, series, watch, parallel } = require('gulp');
 
 
 // ----------------------------------------
@@ -46,6 +50,51 @@ const copySrc = async () => {
   }, 1000);
 };
 const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
+const forwardToDocs = async () => {
+  src(['dist/css/**/*']).pipe(dest('docs/static/css'));
+  src(['dist/js/**/*']).pipe(dest('docs/static/js'));
+}
+const generateJsDoc = async () => {
+  (async () => {
+    for await (const file of getFiles('src')) {
+      if (path.extname(file) === '.js') {
+        let basename = path.basename(file, '.js');
+        if (basename === 'plugin') basename = `${path.dirname(file).split(path.sep).pop()} Plugin`;
+
+        const output = `docs/docs/API/${basename}.md`;
+        const toAdd = `---
+title: ${basename}
+description: API Reference for ${basename}
+---
+# API Documentation for ${basename}\n`;
+
+        const data = await jsdoc2md.render({
+          files: file,
+          "no-gfm": false,
+          "global-index-format": "none",
+          "module-index-format": "none",
+        });
+
+        // If no data, no comments found so useless to build file..
+        if (data === '') {
+          if (fs.existsSync(output)) {
+            fs.unlink(output, err => {
+              if (err) {
+                throw err;
+              }
+            });
+          }
+
+          continue;
+        }
+
+
+        const sanatizedData = toAdd + data;
+        fs.writeFileSync(output, sanatizedData);
+      }
+    }
+  })();
+}
 // ----------------------------------------
 
 
@@ -55,6 +104,18 @@ const getVersion = () => process.env.npm_package_version;
 const renameFileToParentDirName = (filepath) => {
   filepath.basename = path.basename(filepath.dirname);
   filepath.dirname = path.dirname(filepath.dirname);
+}
+
+async function* getFiles(dir) {
+  const dirents = await readdir(dir, { withFileTypes: true });
+  for (const dirent of dirents) {
+    const res = resolve(dir, dirent.name);
+    if (dirent.isDirectory()) {
+      yield* getFiles(res);
+    } else {
+      yield res;
+    }
+  }
 }
 
 const license_header = `/**
@@ -161,12 +222,6 @@ const _compileLess = async () => {
     }
   });
 
-  src(['src/less/selectize.less', ...plugin_styles])
-    .pipe(concat('selectize.legacy.css'))
-    .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
-    .pipe(__wrapStyles())
-    .pipe(dest('dist/css'));
-
   src(['src/less/selectize.bootstrap2.less', ...plugin_styles])
     .pipe(concat('selectize.bootstrap2.css'))
     .pipe(less({ paths: ['lib', 'src/less'], math: 'always' }))
@@ -227,5 +282,6 @@ const _minifyScripts = async (scripts) =>
 
 // public task definitions
 exports.default = series(copyDependencies, copySrc);
+exports.docs = parallel(generateJsDoc, forwardToDocs);
 exports.loadDependencies = series(cleanLibs, loadDependencies);
 exports.watch = series(watchFiles);
