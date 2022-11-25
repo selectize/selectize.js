@@ -130,11 +130,11 @@ const config = {
             items: [
               {
                 label: "Examples",
-                to: "/docs/category/demos",
+                to: "/docs/demos",
               },
               {
                 label: "Plugins",
-                to: "/docs/category/plugins",
+                to: "/docs/plugins",
               },
             ],
           },
