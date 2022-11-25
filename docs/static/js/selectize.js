@@ -752,29 +752,86 @@ function uaDetect(platform, re) {
   return re.test(navigator.userAgent);
 }
 
+/**
+ * @var {boolean} IS_MAC Check if device is a Mac
+ */
 var IS_MAC        = uaDetect("macOS", /Mac/);
-
-var KEY_A         = 65;
+/**
+ * @var {number} KEY_A
+ */
+var KEY_A = 65;
+/**
+ * @var {number} KEY_COMMA
+ */
 var KEY_COMMA     = 188;
+/**
+ * @var {number} KEY_RETURN
+ */
 var KEY_RETURN    = 13;
+/**
+ * @var {number} KEY_ESC
+ */
 var KEY_ESC       = 27;
+/**
+ * @var {number} KEY_LEFT
+ */
 var KEY_LEFT      = 37;
+/**
+ * @var {number} KEY_UP
+ */
 var KEY_UP        = 38;
+/**
+ * @var {number} KEY_P
+ */
 var KEY_P         = 80;
+/**
+ * @var {number} KEY_RIGHT
+ */
 var KEY_RIGHT     = 39;
+/**
+ * @var {number} KEY_DOWN
+ */
 var KEY_DOWN      = 40;
+/**
+ * @var {number} KEY_N
+ */
 var KEY_N         = 78;
+/**
+ * @var {number} KEY_BACKSPACE
+ */
 var KEY_BACKSPACE = 8;
+/**
+ * @var {number} KEY_DELETE
+ */
 var KEY_DELETE    = 46;
+/**
+ * @var {number} KEY_SHIFT
+ */
 var KEY_SHIFT     = 16;
+/**
+ * @var {number} KEY_CMD
+ */
 var KEY_CMD       = IS_MAC ? 91 : 17;
+/**
+ * @var {number} KEY_CTRL
+ */
 var KEY_CTRL      = IS_MAC ? 18 : 17;
+/**
+ * @var {number} KEY_TAB
+ */
 var KEY_TAB       = 9;
-
+/**
+ * @var {number} TAG_SELECT
+ */
 var TAG_SELECT    = 1;
+/**
+ * @var {number} TAG_INPUT
+ */
 var TAG_INPUT     = 2;
 
-// for now, android support in general is too spotty to support validity
+/**
+ * @var {number} SUPPORTS_VALIDITY_API Check if device support validity api, for now, android support in general is too spotty to support validity
+ */
 var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.createElement('input').validity;
 
 /**
@@ -888,7 +945,7 @@ var once = function (fn) {
  * every `delay` milliseconds (invoked on the falling edge).
  *
  * @param {function} fn
- * @param {int} delay
+ * @param {number} delay
  * @returns {function}
  */
 var debounce = function (fn, delay) {
@@ -1011,7 +1068,7 @@ var transferStyles = function ($from, $to, properties) {
  *
  * @param {string} str
  * @param {object} $parent
- * @returns {int}
+ * @returns {number}
  */
 var measureString = function (str, $parent) {
   if (!str) {
@@ -1616,7 +1673,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> paste.
+	 * Triggered on `<input>` paste.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1649,7 +1706,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keypress.
+	 * Triggered on `<input>` keypress.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1665,7 +1722,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keydown.
+	 * Triggered on `<input>` keydown.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1756,7 +1813,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> input.
+	 * Triggered on `<input>` input.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1793,7 +1850,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> focus.
+	 * Triggered on `<input>` focus.
 	 *
 	 * @param {FocusEvent} e (optional)
 	 * @returns {boolean}
@@ -1824,7 +1881,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> blur.
+	 * Triggered on `<input>` blur.
 	 *
 	 * @param {object} e
 	 * @param {Element} dest
@@ -1987,7 +2044,7 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Returns the value of the control. If multiple items
-	 * can be selected (e.g. <select multiple>), this returns
+	 * can be selected `(e.g. <select multiple>)`, this returns
 	 * an array. If only one item can be selected, this
 	 * returns a string.
 	 *
@@ -3032,7 +3089,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Refreshes the original <select> or <input>
+	 * Refreshes the original `<select>` or `<input>`
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {
@@ -3997,6 +4054,33 @@ Selectize.define("autofill_disable", function (options) {
  * @author Fabien Winkler <fabien.winkler@outlook.fr>
  */
 
+/**
+ * @author [Fabien Winkler](https://github.com/fabienwnklr)
+ * @typedef {object} options Object of options available for "clear_button" plugin
+ * @param {string} [title=Clear] Title for the clear button
+ * @param {string} [className=clear] Class name for the clear button
+ * @param {string} [label=×] [props=data] Label for the clear button
+ * @param {function} [html] Method used for rendering
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      clear_button: {
+ *        title: 'Custom title',
+ *        className: 'custom-class',
+ *        label: 'custom label',
+ *        html: (data) => {
+ *          return (
+ *            `<a class="${data.className}" title="${data.title}">${data.label}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define("clear_button", function (options) {
   var self = this;
 
@@ -4141,6 +4225,37 @@ Selectize.define('drag_drop', function(options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Available options for dropdown_header plugin
+ * @param {string} [title=Untitled] Title of dropdown_header
+ * @param {string} [headerClass=selectize-dropdown-header] Class of dropdown_header
+ * @param {string} [titleRowClass=selectize-dropdown-header-title] Class for title row
+ * @param {string} [labelClass=selectize-dropdown-header-label] Class for label
+ * @param {string} [closeClass=selectize-dropdown-header-close] Class for dropdown_header close button
+ * @param {function} [html] Method for custom rendering of dropdown_header
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      dropdown_header: {
+ *        title: 'Custom title',
+ *        headerClass: 'custom-header-class',
+ *        labelClass: 'custom-label-class',
+ *        closeClass: 'custom-close-class',
+ *        html: (data) => {
+ *          // data contain all options values
+ *          return (
+ *            `<a class="${data.labelClass}" title="${data.title}">${data.title}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('dropdown_header', function(options) {
 	var self = this;
 
@@ -4194,6 +4309,26 @@ Selectize.define('dropdown_header', function(options) {
  * @author Simon Hewitt <si@sjhewitt.co.uk>
  */
 
+/**
+ * @author [Simon Hewitt](https://github.com/sjhewitt)
+ * @typedef {Object} options Available options for optgroup_columns plugin
+ * @param {boolean} [equalizeWidth=true]
+ * @param {boolean} [equalizeHeight=true]
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      optgroup_columns: {
+ *        equalizeWidth: false,
+ *        equalizeHeight: false,
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
@@ -4304,6 +4439,14 @@ Selectize.define('optgroup_columns', function(options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Object of options available for "remove_button" plugin
+ * @param {string} [label=&#xd7;] The label value for remove button
+ * @param {string} [title=Remove] The Title value for remove button
+ * @param {string} [className=remove] Class name for remove button
+ * @param {boolean} [append=true] Append remove button to item
+ */
 Selectize.define('remove_button', function (options) {
   if (this.settings.mode === 'single') return;
 
@@ -4381,6 +4524,11 @@ Selectize.define('remove_button', function (options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](htts://github.com/brianreavis)
+ * @typedef {Object} options Object of options available on restore_on_backspace plugin
+ * @param {string} text Text to set on restore
+ */
 Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 
@@ -4451,6 +4599,10 @@ Selectize.define('select_on_focus', function(options) {
 
 });
 
+/**
+ * @typedef {Object} options Object of available options for tag_limit plugin
+ * @param {number} tagLimit Number of limit tag to display
+ */
 Selectize.define('tag_limit', function (options) {
     const self = this
     options.tagLimit = options.tagLimit

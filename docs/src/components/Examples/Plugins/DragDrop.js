@@ -25,7 +25,7 @@ export default function DragNDrop() {
         </h4>
 
         <select id="DragNDrop" multiple defaultValue={defaultValue}>
-          <option value="1">Awosome</option>
+          <option value="1">Awesome</option>
           <option value="2">Beast</option>
           <option value="3">Compatible</option>
           <option value="4">Thomas Edison</option>
@@ -37,7 +37,7 @@ export default function DragNDrop() {
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="DragNDrop" multiple>
-  <option value="1" selected>Awosome</option>
+  <option value="1" selected>Awesome</option>
   <option value="2" selected>Beast</option>
   <option value="3" selected>Compatible</option>
   <option value="4">Thomas Edison</option>

@@ -25,7 +25,7 @@ export default function ClearButton() {
 
         <select id="clearButton">
           <option value=""></option>
-          <option value="1">Awosome</option>
+          <option value="1">Awesome</option>
           <option value="2">Beast</option>
           <option value="3">Compatible</option>
           <option value="4">Thomas Edison</option>
@@ -38,7 +38,7 @@ export default function ClearButton() {
       <CodeBlock className="language-html" title="Html">
         {`<select id="clearButton">
   <option value=''></option>
-  <option value='1'>Awosome</option>
+  <option value='1'>Awesome</option>
   <option value='2'>Beast</option>
   <option value='3'>Compatible</option>
   <option value='4'>Thomas Edison</option>

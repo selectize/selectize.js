@@ -32,7 +32,7 @@ export default function RemoveButton() {
 
         <select id="remove-button" multiple>
           <option value="1" selected>
-            Awosome
+            Awesome
           </option>
           <option value="2" selected>
             Beast
@@ -49,7 +49,7 @@ export default function RemoveButton() {
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="remove-button">
-  <option value="1" selected>Awosome</option>
+  <option value="1" selected>Awesome</option>
   <option value="2" selected>Beast</option>
   <option value="3" selected>Compatible</option>
   <option value="4">Thomas Edison</option>
