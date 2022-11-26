@@ -86,6 +86,21 @@ const config = {
             position: 'left',
             label: 'Get Started',
           },
+          {
+            to: 'docs/demos/',
+            position: 'left',
+            label: 'Examples',
+          },
+          {
+            type: 'doc',
+            docId: 'api',
+            position: 'left',
+            label: 'API Documentation',
+          },
+          {
+            type: 'docsVersionDropdown',
+            position: 'right',
+          },
           { href: 'https://github.com/selectize/selectize.js/discussions', label: 'Community', position: 'right' },
           { href: 'https://github.com/selectize/selectize.js', label: 'GitHub', position: 'right', },
         ],
@@ -115,11 +130,11 @@ const config = {
             items: [
               {
                 label: "Examples",
-                to: "/docs/category/demos",
+                to: "/docs/demos",
               },
               {
                 label: "Plugins",
-                to: "/docs/category/plugins",
+                to: "/docs/plugins",
               },
             ],
           },

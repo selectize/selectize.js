@@ -1,6 +1,4 @@
 import React from 'react';
-
-
 import Layout from '@theme/Layout';
 import HomepageFeatures from '@site/src/components/HomepageFeatures';
 
@@ -10,7 +8,7 @@ export default function Home() {
   return (
     <Layout
       title={``}
-      description="">
+      description="Documentation and demos for the selectize.js library">
       <Hero />
       <main>
         <HomepageFeatures />
