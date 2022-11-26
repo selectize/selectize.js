@@ -152,24 +152,34 @@ MicroEvent.mixin = function (destObject) {
  * @author Ris Adams <selectize@risadams.com>
  */
 
+/**
+ * Keep code modularized & extensible.
+ * MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library.
+ *  Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
+ *
+ * @class MicroPlugin
+ * @constructor
+ * @param {array|object} items
+ * @param {object} items
+ */
 var MicroPlugin = {};
 MicroPlugin.mixin = function (Interface) {
+
+  /**
+   * @memberof MicroPlugin
+   */
   Interface.plugins = {};
 
   /**
    * Initializes the listed plugins (with options).
    * Acceptable formats:
    *
-   * List (without options):
-   *   ['a', 'b', 'c']
-   *
-   * List (with options):
-   *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
-   *
-   * Hash (with options):
-   *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+   * - List (without options): - `['a', 'b', 'c']`
+   * - List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`
+   * - Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
    *
    * @param {mixed} plugins
+   * @memberof MicroPlugin
    */
   Interface.prototype.initializePlugins = function (plugins) {
     var i, n, key;
@@ -183,7 +193,7 @@ MicroPlugin.mixin = function (Interface) {
       loaded: {}
     };
 
-    if (utils.isArray(plugins)) {
+    if (isArray(plugins)) {
       for (i = 0, n = plugins.length; i < n; i++) {
         if (typeof plugins[i] === 'string') {
           queue.push(plugins[i]);
@@ -206,6 +216,12 @@ MicroPlugin.mixin = function (Interface) {
     }
   };
 
+
+  /** Loads a plugin.
+   * @param {string} name - The name of the plugin to load.
+   *
+   * @memberof MicroPlugin
+   */
   Interface.prototype.loadPlugin = function (name) {
     var self = this;
     var plugins = self.plugins;
@@ -224,6 +240,7 @@ MicroPlugin.mixin = function (Interface) {
    * Initializes a plugin.
    *
    * @param {string} name
+   * @memberof MicroPlugin
    */
   Interface.prototype.require = function (name) {
     var self = this;
@@ -244,6 +261,8 @@ MicroPlugin.mixin = function (Interface) {
    *
    * @param {string} name
    * @param {function} fn
+   *
+   * @memberof MicroPlugin
    */
   Interface.define = function (name, fn) {
     Interface.plugins[name] = {
@@ -251,12 +270,6 @@ MicroPlugin.mixin = function (Interface) {
       'fn': fn
     };
   };
-};
-
-var utils = {
-  isArray: Array.isArray || function (vArg) {
-    return Object.prototype.toString.call(vArg) === '[object Array]';
-  }
 };
 
 
@@ -279,9 +292,13 @@ var utils = {
  */
 
 /**
- * Textually searches arrays and hashes of objects
- * by property (or multiple properties). Designed
- * specifically for autocomplete.
+ * Sifter is a client and server-side library (via UMD) for textually searching arrays and hashes of objects by property – or multiple properties. It's designed specifically for autocomplete. The process is three-step: score, filter, sort.
+ *  - **Supports díåcritîçs.** - For example, if searching for "montana" and an item in the set has a value of "montaña", it will still be matched. Sorting will also play nicely with diacritics
+ *  - **Smart scoring.** - Items are scored / sorted intelligently depending on where a match is found in the string (how close to the beginning) and what percentage of the string matches.
+ *  - **Multi-field sorting**. - When scores aren't enough to go by – like when getting results for an empty query – it can sort by one or more fields. For example, sort by a person's first name and last name without actually merging the properties to a single string.
+ *  - **Nested properties.** - Allows to search and sort on nested properties so you can perform search on complex objects without flattening them simply by using dot-notation to reference fields (ie. nested.property).
+ *
+ * @class Sifter
  *
  * @constructor
  * @param {array|object} items
@@ -744,37 +761,86 @@ var asciifold = (function () {
   };
 })();
 
-function uaDetect(platform, re) {
-  if (navigator.userAgentData) {
-    return platform === navigator.userAgentData.platform;
-  }
-
-  return re.test(navigator.userAgent);
-}
-
-var IS_MAC        = uaDetect("macOS", /Mac/);
-
-var KEY_A         = 65;
-var KEY_COMMA     = 188;
-var KEY_RETURN    = 13;
-var KEY_ESC       = 27;
-var KEY_LEFT      = 37;
-var KEY_UP        = 38;
-var KEY_P         = 80;
-var KEY_RIGHT     = 39;
-var KEY_DOWN      = 40;
-var KEY_N         = 78;
+/**
+ * @var {boolean} IS_MAC Check if device is a Mac
+ */
+var IS_MAC = uaDetect("macOS", /Mac/);
+/**
+ * @var {number} KEY_A
+ */
+var KEY_A = 65;
+/**
+ * @var {number} KEY_COMMA
+ */
+var KEY_COMMA = 188;
+/**
+ * @var {number} KEY_RETURN
+ */
+var KEY_RETURN = 13;
+/**
+ * @var {number} KEY_ESC
+ */
+var KEY_ESC = 27;
+/**
+ * @var {number} KEY_LEFT
+ */
+var KEY_LEFT = 37;
+/**
+ * @var {number} KEY_UP
+ */
+var KEY_UP = 38;
+/**
+ * @var {number} KEY_P
+ */
+var KEY_P = 80;
+/**
+ * @var {number} KEY_RIGHT
+ */
+var KEY_RIGHT = 39;
+/**
+ * @var {number} KEY_DOWN
+ */
+var KEY_DOWN = 40;
+/**
+ * @var {number} KEY_N
+ */
+var KEY_N = 78;
+/**
+ * @var {number} KEY_BACKSPACE
+ */
 var KEY_BACKSPACE = 8;
-var KEY_DELETE    = 46;
-var KEY_SHIFT     = 16;
-var KEY_CMD       = IS_MAC ? 91 : 17;
-var KEY_CTRL      = IS_MAC ? 18 : 17;
-var KEY_TAB       = 9;
+/**
+ * @var {number} KEY_DELETE
+ */
+var KEY_DELETE = 46;
+/**
+ * @var {number} KEY_SHIFT
+ */
+var KEY_SHIFT = 16;
+/**
+ * @var {number} KEY_CMD
+ */
+var KEY_CMD = IS_MAC ? 91 : 17;
+/**
+ * @var {number} KEY_CTRL
+ */
+var KEY_CTRL = IS_MAC ? 18 : 17;
+/**
+ * @var {number} KEY_TAB
+ */
+var KEY_TAB = 9;
+/**
+ * @var {number} TAG_SELECT
+ */
+var TAG_SELECT = 1;
+/**
+ * @var {number} TAG_INPUT
+ */
+var TAG_INPUT = 2;
 
-var TAG_SELECT    = 1;
-var TAG_INPUT     = 2;
-
-// for now, android support in general is too spotty to support validity
+/**
+ * @var {number} SUPPORTS_VALIDITY_API Check if device support validity api, for now, android support in general is too spotty to support validity
+ */
 var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.createElement('input').validity;
 
 /**
@@ -786,6 +852,18 @@ var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.creat
 var isset = function (object) {
   return typeof object !== 'undefined';
 };
+
+/**
+ * This is a polyfill for the Array.isArray function.
+ * Determines whether the passed obect is an Array.
+ *
+ * @param {object} vArg
+ * @returns {Boolean} returns true if the passed object is an Array.
+ *
+ */
+var isArray = Array.isArray || function (vArg) {
+  return Object.prototype.toString.call(vArg) === '[object Array]';
+}
 
 /**
  * Converts a scalar to its best string representation
@@ -888,7 +966,7 @@ var once = function (fn) {
  * every `delay` milliseconds (invoked on the falling edge).
  *
  * @param {function} fn
- * @param {int} delay
+ * @param {number} delay
  * @returns {function}
  */
 var debounce = function (fn, delay) {
@@ -1011,7 +1089,7 @@ var transferStyles = function ($from, $to, properties) {
  *
  * @param {string} str
  * @param {object} $parent
- * @returns {int}
+ * @returns {number}
  */
 var measureString = function (str, $parent) {
   if (!str) {
@@ -1140,18 +1218,35 @@ var logError = function (message, options) {
 };
 
 /**
+ * Determines whether or not the `data` argument is a valid JSON string.
  *
- * @param {any} data Data to testing
+ * @param {String} data Data to test
  * @returns {Boolean} true if is an JSON object
  */
 var isJSON = function (data) {
   try {
-    JSON.parse(str);
+    JSON.parse(data);
   } catch (e) {
     return false;
   }
   return true;
 };
+
+/**
+ * If the browser supports the User-Agent Client Hint, then return the platform name, otherwise return
+ * the result of a regular expression test on the user agent string
+ *
+ * @param platform - The platform you want to detect.
+ * @param re - A regular expression that matches the user agent string.
+ * @returns {Boolean} A boolean value.
+ */
+function uaDetect(platform, re) {
+  if (navigator.userAgentData) {
+    return platform === navigator.userAgentData.platform;
+  }
+
+  return re.test(navigator.userAgent);
+}
 
 var Selectize = function($input, settings) {
 	var key, i, n, dir, input, self = this;
@@ -1616,7 +1711,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> paste.
+	 * Triggered on `<input>` paste.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1649,7 +1744,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keypress.
+	 * Triggered on `<input>` keypress.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1665,7 +1760,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> keydown.
+	 * Triggered on `<input>` keydown.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1756,7 +1851,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> input.
+	 * Triggered on `<input>` input.
 	 *
 	 * @param {object} e
 	 * @returns {boolean}
@@ -1793,7 +1888,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> focus.
+	 * Triggered on `<input>` focus.
 	 *
 	 * @param {FocusEvent} e (optional)
 	 * @returns {boolean}
@@ -1824,7 +1919,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Triggered on <input> blur.
+	 * Triggered on `<input>` blur.
 	 *
 	 * @param {object} e
 	 * @param {Element} dest
@@ -1987,7 +2082,7 @@ $.extend(Selectize.prototype, {
 
 	/**
 	 * Returns the value of the control. If multiple items
-	 * can be selected (e.g. <select multiple>), this returns
+	 * can be selected `(e.g. <select multiple>)`, this returns
 	 * an array. If only one item can be selected, this
 	 * returns a string.
 	 *
@@ -3032,7 +3127,7 @@ $.extend(Selectize.prototype, {
 	},
 
 	/**
-	 * Refreshes the original <select> or <input>
+	 * Refreshes the original `<select>` or `<input>`
 	 * element to reflect the current state.
 	 */
 	updateOriginalInput: function(opts) {
@@ -3997,6 +4092,33 @@ Selectize.define("autofill_disable", function (options) {
  * @author Fabien Winkler <fabien.winkler@outlook.fr>
  */
 
+/**
+ * @author [Fabien Winkler](https://github.com/fabienwnklr)
+ * @typedef {object} options Object of options available for "clear_button" plugin
+ * @param {string} [title=Clear] Title for the clear button
+ * @param {string} [className=clear] Class name for the clear button
+ * @param {string} [label=×] [props=data] Label for the clear button
+ * @param {function} [html] Method used for rendering
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      clear_button: {
+ *        title: 'Custom title',
+ *        className: 'custom-class',
+ *        label: 'custom label',
+ *        html: (data) => {
+ *          return (
+ *            `<a class="${data.className}" title="${data.title}">${data.label}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define("clear_button", function (options) {
   var self = this;
 
@@ -4141,6 +4263,37 @@ Selectize.define('drag_drop', function(options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Available options for dropdown_header plugin
+ * @param {string} [title=Untitled] Title of dropdown_header
+ * @param {string} [headerClass=selectize-dropdown-header] Class of dropdown_header
+ * @param {string} [titleRowClass=selectize-dropdown-header-title] Class for title row
+ * @param {string} [labelClass=selectize-dropdown-header-label] Class for label
+ * @param {string} [closeClass=selectize-dropdown-header-close] Class for dropdown_header close button
+ * @param {function} [html] Method for custom rendering of dropdown_header
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      dropdown_header: {
+ *        title: 'Custom title',
+ *        headerClass: 'custom-header-class',
+ *        labelClass: 'custom-label-class',
+ *        closeClass: 'custom-close-class',
+ *        html: (data) => {
+ *          // data contain all options values
+ *          return (
+ *            `<a class="${data.labelClass}" title="${data.title}">${data.title}</a>`;
+ *        }
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('dropdown_header', function(options) {
 	var self = this;
 
@@ -4194,6 +4347,26 @@ Selectize.define('dropdown_header', function(options) {
  * @author Simon Hewitt <si@sjhewitt.co.uk>
  */
 
+/**
+ * @author [Simon Hewitt](https://github.com/sjhewitt)
+ * @typedef {Object} options Available options for optgroup_columns plugin
+ * @param {boolean} [equalizeWidth=true]
+ * @param {boolean} [equalizeHeight=true]
+ *
+ * @example
+ * ```js
+ * $('select').selectize({
+ *  plugins: [
+ *    {
+ *      optgroup_columns: {
+ *        equalizeWidth: false,
+ *        equalizeHeight: false,
+ *     }
+ *   }
+ *  ]
+ * });
+ * ```
+ */
 Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
@@ -4304,6 +4477,14 @@ Selectize.define('optgroup_columns', function(options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](https://github.com/brianreavis)
+ * @typedef {Object} options Object of options available for "remove_button" plugin
+ * @param {string} [label=&#xd7;] The label value for remove button
+ * @param {string} [title=Remove] The Title value for remove button
+ * @param {string} [className=remove] Class name for remove button
+ * @param {boolean} [append=true] Append remove button to item
+ */
 Selectize.define('remove_button', function (options) {
   if (this.settings.mode === 'single') return;
 
@@ -4381,6 +4562,11 @@ Selectize.define('remove_button', function (options) {
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](htts://github.com/brianreavis)
+ * @typedef {Object} options Object of options available on restore_on_backspace plugin
+ * @param {string} text Text to set on restore
+ */
 Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 
@@ -4451,6 +4637,10 @@ Selectize.define('select_on_focus', function(options) {
 
 });
 
+/**
+ * @typedef {Object} options Object of available options for tag_limit plugin
+ * @param {number} tagLimit Number of limit tag to display
+ */
 Selectize.define('tag_limit', function (options) {
     const self = this
     options.tagLimit = options.tagLimit

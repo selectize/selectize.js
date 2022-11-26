@@ -14,7 +14,15 @@
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebars = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
-  docsSidebar: ["intro", "usage","events", "glossary", "code-of-conduct", "contribute", "plugins"],
+  docsSidebar: ["intro",
+    "usage",
+    "events",
+    "glossary",
+    "contribute",
+    "plugins",
+    "code-of-conduct",
+    "license",
+  ],
   demoSidebar: [
     {
       type: "category",
@@ -40,7 +48,7 @@ const sidebars = {
     },
     {
       type: "category",
-      label: "Selectize demos plugins",
+      label: "Selectize plugin demos",
       link: {
         type: "generated-index",
         title: "Examples using plugins",

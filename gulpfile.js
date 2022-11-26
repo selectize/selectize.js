@@ -49,7 +49,7 @@ const copySrc = async () => {
     await _minifyScripts(scripts);
   }, 1000);
 };
-const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc));
+const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc, generateJsDoc, forwardToDocs));
 const forwardToDocs = async () => {
   src(['dist/css/**/*']).pipe(dest('docs/static/css'));
   src(['dist/js/**/*']).pipe(dest('docs/static/js'));
@@ -61,7 +61,7 @@ const generateJsDoc = async () => {
         let basename = path.basename(file, '.js');
         if (basename === 'plugin') basename = `${path.dirname(file).split(path.sep).pop()} Plugin`;
 
-        const output = `docs/docs/API/${basename}.md`;
+        const output = `docs/docs/API/${basename}.mdx`;
         const toAdd = `---
 title: ${basename}
 description: API Reference for ${basename}

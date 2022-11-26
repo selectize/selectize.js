@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Selectize',
-  tagline: 'Dinosaurs are cool',
+  tagline: '',
   url: 'https://selectize.dev',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -34,6 +34,12 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: 'Current Version (0.15.x)',
+            },
+          },
         },
         blog: {
           showReadingTime: true,
@@ -160,7 +166,7 @@ const config = {
             items: [
               {
                 label: 'License',
-                href: 'https://github.com/selectize/selectize.js',
+                to: '/docs/license',
               },
               {
                 label: 'Privacy Policy',

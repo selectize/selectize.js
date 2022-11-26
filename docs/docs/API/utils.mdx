@@ -3,6 +3,19 @@ title: utils
 description: API Reference for utils
 ---
 # API Documentation for utils
+<a name="isArray"></a>
+
+## isArray ⇒ <code>Boolean</code>
+This is a polyfill for the Array.isArray function.
+Determines whether the passed obect is an Array.
+
+**Kind**: global variable  
+**Returns**: <code>Boolean</code> - returns true if the passed object is an Array.  
+
+| Param | Type |
+| --- | --- |
+| vArg | <code>object</code> | 
+
 <a name="isset"></a>
 
 ## isset(object) ⇒ <code>boolean</code>
@@ -167,10 +180,26 @@ $input.trigger('update');
 <a name="isJSON"></a>
 
 ## isJSON(data) ⇒ <code>Boolean</code>
+Determines whether or not the `data` argument is a valid JSON string.
+
 **Kind**: global function  
 **Returns**: <code>Boolean</code> - true if is an JSON object  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| data | <code>any</code> | Data to testing |
+| data | <code>String</code> | Data to test |
+
+<a name="uaDetect"></a>
+
+## uaDetect(platform, re) ⇒ <code>Boolean</code>
+If the browser supports the User-Agent Client Hint, then return the platform name, otherwise return
+the result of a regular expression test on the user agent string
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - A boolean value.  
+
+| Param | Description |
+| --- | --- |
+| platform | The platform you want to detect. |
+| re | A regular expression that matches the user agent string. |
 

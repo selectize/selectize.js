@@ -8,31 +8,31 @@ description: API Reference for selectize
 ## setup()
 Creates all elements and sets up event bindings.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="setupTemplates"></a>
 
 ## setupTemplates()
 Sets up default rendering functions.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="setupCallbacks"></a>
 
 ## setupCallbacks()
 Maps fired events to callbacks provided
 in the settings used when creating the control.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="onClick"></a>
 
 ## onClick(e) ⇒ <code>boolean</code>
 Triggered when the main control element
 has a click event.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>PointerEvent</code> |
+| e | <code>PointerEvent</code> | 
 
 <a name="onMouseDown"></a>
 
@@ -40,11 +40,11 @@ has a click event.
 Triggered when the main control element
 has a mouse down event.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onChange"></a>
 
@@ -53,50 +53,50 @@ Triggered when the value of the control has been changed.
 This should propagate the event to the original DOM
 input / select element.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="onPaste"></a>
 
 ## onPaste(e) ⇒ <code>boolean</code>
 Triggered on `<input>` paste.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onKeyPress"></a>
 
 ## onKeyPress(e) ⇒ <code>boolean</code>
 Triggered on `<input>` keypress.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onKeyDown"></a>
 
 ## onKeyDown(e) ⇒ <code>boolean</code>
 Triggered on `<input>` keydown.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onInput"></a>
 
 ## onInput(e) ⇒ <code>boolean</code>
 Triggered on `<input>` input.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onSearchChange"></a>
 
@@ -106,18 +106,18 @@ Invokes the user-provide option provider / loader.
 Note: this function is debounced in the Selectize
 constructor (by `settings.loadThrottle` milliseconds)
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
+| value | <code>string</code> | 
 
 <a name="onFocus"></a>
 
 ## onFocus(e) ⇒ <code>boolean</code>
 Triggered on `<input>` focus.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -128,12 +128,12 @@ Triggered on `<input>` focus.
 ## onBlur(e, dest)
 Triggered on `<input>` blur.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
-| dest | <code>Element</code> |
+| e | <code>object</code> | 
+| dest | <code>Element</code> | 
 
 <a name="onOptionHover"></a>
 
@@ -141,11 +141,11 @@ Triggered on `<input>` blur.
 Triggered when the user rolls over
 an option in the autocomplete dropdown menu.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onOptionSelect"></a>
 
@@ -153,11 +153,11 @@ an option in the autocomplete dropdown menu.
 Triggered when the user clicks on an option
 in the autocomplete dropdown menu.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="onItemSelect"></a>
 
@@ -165,11 +165,11 @@ in the autocomplete dropdown menu.
 Triggered when the user clicks on an item
 that has been selected.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| e | <code>object</code> |
+| e | <code>object</code> | 
 
 <a name="load"></a>
 
@@ -178,29 +178,29 @@ Invokes the provided method that provides
 results to a callback---which are then added
 as options to the control.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| fn | <code>function</code> |
+| fn | <code>function</code> | 
 
 <a name="getTextboxValue"></a>
 
 ## getTextboxValue() ⇒ <code>string</code>
 Gets the value of input field of the control.
 
-**Kind**: global function
-**Returns**: <code>string</code> - value
+**Kind**: global function  
+**Returns**: <code>string</code> - value  
 <a name="setTextboxValue"></a>
 
 ## setTextboxValue(value)
 Sets the input field of the control to the specified value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
+| value | <code>string</code> | 
 
 <a name="getValue"></a>
 
@@ -210,35 +210,35 @@ can be selected `(e.g. <select multiple>)`, this returns
 an array. If only one item can be selected, this
 returns a string.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="setValue"></a>
 
 ## setValue(value)
 Resets the selected items to the given value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>Array.&lt;(String\|Number)&gt;</code> |
+| value | <code>Array.&lt;(String\|Number)&gt;</code> | 
 
 <a name="setMaxItems"></a>
 
 ## setMaxItems(value)
 Resets the number of max items to the given value
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>number</code> |
+| value | <code>number</code> | 
 
 <a name="setActiveItem"></a>
 
 ## setActiveItem($item, e)
 Sets the selected item.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -251,49 +251,49 @@ Sets the selected item.
 Sets the selected item in the dropdown menu
 of available options.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| $object | <code>object</code> |
-| scroll | <code>boolean</code> |
-| animate | <code>boolean</code> |
+| $object | <code>object</code> | 
+| scroll | <code>boolean</code> | 
+| animate | <code>boolean</code> | 
 
 <a name="selectAll"></a>
 
 ## selectAll()
 Selects all items (CTRL + A).
 
-**Kind**: global function
+**Kind**: global function  
 <a name="hideInput"></a>
 
 ## hideInput()
 Hides the input element out of view, while
 retaining its focus.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="showInput"></a>
 
 ## showInput()
 Restores input visibility.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="focus"></a>
 
 ## focus()
 Gives the control focus.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="blur"></a>
 
 ## blur(dest)
 Forces the control out of focus.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| dest | <code>Element</code> |
+| dest | <code>Element</code> | 
 
 <a name="getScoreFunction"></a>
 
@@ -302,12 +302,12 @@ Returns a function that scores an object
 to show how good of a match it is to the
 provided query.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| query | <code>string</code> |
-| options | <code>object</code> |
+| query | <code>string</code> | 
+| options | <code>object</code> | 
 
 <a name="getSearchOptions"></a>
 
@@ -315,8 +315,8 @@ provided query.
 Returns search options for sifter (the system
 for scoring and sorting results).
 
-**Kind**: global function
-**See**: https://github.com/brianreavis/sifter.js
+**Kind**: global function  
+**See**: https://github.com/brianreavis/sifter.js  
 <a name="search"></a>
 
 ## search(query) ⇒ <code>object</code>
@@ -330,11 +330,11 @@ Returns an object containing:
   - total {int}
   - items {array}
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| query | <code>string</code> |
+| query | <code>string</code> | 
 
 <a name="refreshOptions"></a>
 
@@ -342,11 +342,11 @@ Returns an object containing:
 Refreshes the list of available options shown
 in the autocomplete dropdown menu.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| triggerDropdown | <code>boolean</code> |
+| triggerDropdown | <code>boolean</code> | 
 
 <a name="addOption"></a>
 
@@ -360,33 +360,33 @@ Usage:
 
   this.addOption(data)
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| data | <code>object</code> \| <code>array</code> |
+| data | <code>object</code> \| <code>array</code> | 
 
 <a name="registerOption"></a>
 
 ## registerOption(data) ⇒ <code>boolean</code> \| <code>string</code>
 Registers an option to the pool of options.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| data | <code>object</code> |
+| data | <code>object</code> | 
 
 <a name="registerOptionGroup"></a>
 
 ## registerOptionGroup(data) ⇒ <code>boolean</code> \| <code>string</code>
 Registers an option group to the pool of option groups.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| data | <code>object</code> |
+| data | <code>object</code> | 
 
 <a name="addOptionGroup"></a>
 
@@ -394,30 +394,30 @@ Registers an option group to the pool of option groups.
 Registers a new optgroup for options
 to be bucketed into.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| id | <code>string</code> |
-| data | <code>object</code> |
+| id | <code>string</code> | 
+| data | <code>object</code> | 
 
 <a name="removeOptionGroup"></a>
 
 ## removeOptionGroup(id)
 Removes an existing option group.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| id | <code>string</code> |
+| id | <code>string</code> | 
 
 <a name="clearOptionGroups"></a>
 
 ## clearOptionGroups()
 Clears all existing option groups.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="updateOption"></a>
 
 ## updateOption(value, data)
@@ -425,35 +425,35 @@ Updates an option available for selection. If
 it is visible in the selected items or options
 dropdown, it will be re-rendered automatically.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
-| data | <code>object</code> |
+| value | <code>string</code> | 
+| data | <code>object</code> | 
 
 <a name="removeOption"></a>
 
 ## removeOption(value, silent)
 Removes a single option.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
-| silent | <code>boolean</code> |
+| value | <code>string</code> | 
+| silent | <code>boolean</code> | 
 
 <a name="clearOptions"></a>
 
 ## clearOptions(silent)
 Clears all options, including all selected items
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| silent | <code>boolean</code> |
+| silent | <code>boolean</code> | 
 
 <a name="getOption"></a>
 
@@ -461,11 +461,11 @@ Clears all options, including all selected items
 Returns the jQuery element of the option
 matching the given value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
+| value | <code>string</code> | 
 
 <a name="getFirstOption"></a>
 
@@ -473,14 +473,14 @@ matching the given value.
 Returns the jQuery element of the first
 selectable option.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="getAdjacentOption"></a>
 
 ## getAdjacentOption($option, direction) ⇒ <code>object</code>
 Returns the jQuery element of the next or
 previous selectable option.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -493,12 +493,12 @@ previous selectable option.
 Finds the first element with a "data-value" attribute
 that matches the given value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>mixed</code> |
-| $els | <code>object</code> |
+| value | <code>mixed</code> | 
+| $els | <code>object</code> | 
 
 <a name="getElementWithTextContent"></a>
 
@@ -506,13 +506,13 @@ that matches the given value.
 Finds the first element with a "textContent" property
 that matches the given textContent value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| textContent | <code>mixed</code> |
-| ignoreCase | <code>boolean</code> |
-| $els | <code>object</code> |
+| textContent | <code>mixed</code> | 
+| ignoreCase | <code>boolean</code> | 
+| $els | <code>object</code> | 
 
 <a name="getItem"></a>
 
@@ -520,11 +520,11 @@ that matches the given textContent value.
 Returns the jQuery element of the item
 matching the given value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
+| value | <code>string</code> | 
 
 <a name="getFirstItemMatchedByTextContent"></a>
 
@@ -532,12 +532,12 @@ matching the given value.
 Returns the jQuery element of the item
 matching the given textContent.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
-| ignoreCase | <code>boolean</code> |
+| value | <code>string</code> | 
+| ignoreCase | <code>boolean</code> | 
 
 <a name="addItems"></a>
 
@@ -545,12 +545,12 @@ matching the given textContent.
 "Selects" multiple items at once. Adds them to the list
 at the current caret position.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| values | <code>string</code> |
-| silent | <code>boolean</code> |
+| values | <code>string</code> | 
+| silent | <code>boolean</code> | 
 
 <a name="addItem"></a>
 
@@ -558,12 +558,12 @@ at the current caret position.
 "Selects" an item. Adds it to the list
 at the current caret position.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
-| silent | <code>boolean</code> |
+| value | <code>string</code> | 
+| silent | <code>boolean</code> | 
 
 <a name="removeItem"></a>
 
@@ -571,11 +571,11 @@ at the current caret position.
 Removes the selected item matching
 the provided value.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
+| value | <code>string</code> | 
 
 <a name="createItem"></a>
 
@@ -587,27 +587,27 @@ for the new item, given the user input.
 Once this completes, it will be added
 to the item list.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| value | <code>string</code> |
-| [triggerDropdown] | <code>boolean</code> |
-| [callback] | <code>function</code> |
+| value | <code>string</code> | 
+| [triggerDropdown] | <code>boolean</code> | 
+| [callback] | <code>function</code> | 
 
 <a name="refreshItems"></a>
 
 ## refreshItems()
 Re-renders the selected item lists.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="refreshState"></a>
 
 ## refreshState()
 Updates all state-dependent attributes
 and CSS classes.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="refreshValidityState"></a>
 
 ## refreshValidityState()
@@ -618,65 +618,65 @@ for the error to be displayed at the right place. `required` also
 needs to be temporarily deactivated on the input since the input is
 hidden and can't show errors.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="refreshClasses"></a>
 
 ## refreshClasses()
 Updates all state-dependent CSS classes.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="isFull"></a>
 
 ## isFull() ⇒ <code>boolean</code>
 Determines whether or not more items can be added
 to the control without exceeding the user-defined maximum.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="updateOriginalInput"></a>
 
 ## updateOriginalInput()
 Refreshes the original `<select>` or `<input>`
 element to reflect the current state.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="updatePlaceholder"></a>
 
 ## updatePlaceholder()
 Shows/hide the input placeholder depending
 on if there items in the list already.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="open"></a>
 
 ## open()
 Shows the autocomplete dropdown containing
 the available options.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="close"></a>
 
 ## close()
 Closes the autocomplete dropdown menu.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="positionDropdown"></a>
 
 ## positionDropdown()
 Calculates and applies the appropriate
 position of the dropdown.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="clear"></a>
 
 ## clear(silent)
 Resets / clears all selected items
 from the control.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| silent | <code>boolean</code> |
+| silent | <code>boolean</code> | 
 
 <a name="insertAtCaret"></a>
 
@@ -684,22 +684,22 @@ from the control.
 A helper method for inserting an element
 at the current caret position.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| $el | <code>object</code> |
+| $el | <code>object</code> | 
 
 <a name="insertAtCaret..target"></a>
 
 ### insertAtCaret~target : <code>HTMLElement</code>
-**Kind**: inner property of [<code>insertAtCaret</code>](#insertAtCaret)
+**Kind**: inner property of [<code>insertAtCaret</code>](#insertAtCaret)  
 <a name="deleteSelection"></a>
 
 ## deleteSelection(e) ⇒ <code>boolean</code>
 Removes the current selected item(s).
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -714,7 +714,7 @@ on the `direction` argument).
 > 0 - right
 < 0 - left
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -726,7 +726,7 @@ on the `direction` argument).
 ## advanceCaret(direction, e)
 Moves the caret left / right.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -738,11 +738,11 @@ Moves the caret left / right.
 ## setCaret(i)
 Moves the caret to the specified index.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| i | <code>int</code> |
+| i | <code>int</code> | 
 
 <a name="lock"></a>
 
@@ -750,27 +750,27 @@ Moves the caret to the specified index.
 Disables user input on the control. Used while
 items are being asynchronously created.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="unlock"></a>
 
 ## unlock()
 Re-enables user input on the control.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="disable"></a>
 
 ## disable()
 Disables user input on the control completely.
 While disabled, it cannot receive focus.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="enable"></a>
 
 ## enable()
 Enables the control so that it can respond
 to focus and user input.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="destroy"></a>
 
 ## destroy()
@@ -778,19 +778,19 @@ Completely destroys the control and
 unbinds all event listeners so that it can
 be garbage collected.
 
-**Kind**: global function
+**Kind**: global function  
 <a name="render"></a>
 
 ## render(templateName, data) ⇒ <code>string</code>
 A helper method for rendering "item" and
 "option" templates, given the data.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| templateName | <code>string</code> |
-| data | <code>object</code> |
+| templateName | <code>string</code> | 
+| data | <code>object</code> | 
 
 <a name="clearCache"></a>
 
@@ -799,11 +799,11 @@ Clears the render cache for a template. If
 no template is given, clears all render
 caches.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| templateName | <code>string</code> |
+| templateName | <code>string</code> | 
 
 <a name="canCreate"></a>
 
@@ -811,9 +811,9 @@ caches.
 Determines whether or not to display the
 create item prompt, given a user input.
 
-**Kind**: global function
+**Kind**: global function  
 
 | Param | Type |
 | --- | --- |
-| input | <code>string</code> |
+| input | <code>string</code> | 
 

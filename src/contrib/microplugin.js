@@ -16,24 +16,34 @@
  * @author Ris Adams <selectize@risadams.com>
  */
 
+/**
+ * Keep code modularized & extensible.
+ * MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library.
+ *  Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
+ *
+ * @class MicroPlugin
+ * @constructor
+ * @param {array|object} items
+ * @param {object} items
+ */
 var MicroPlugin = {};
 MicroPlugin.mixin = function (Interface) {
+
+  /**
+   * @memberof MicroPlugin
+   */
   Interface.plugins = {};
 
   /**
    * Initializes the listed plugins (with options).
    * Acceptable formats:
    *
-   * List (without options):
-   *   ['a', 'b', 'c']
-   *
-   * List (with options):
-   *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
-   *
-   * Hash (with options):
-   *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+   * - List (without options): - `['a', 'b', 'c']`
+   * - List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`
+   * - Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
    *
    * @param {mixed} plugins
+   * @memberof MicroPlugin
    */
   Interface.prototype.initializePlugins = function (plugins) {
     var i, n, key;
@@ -47,7 +57,7 @@ MicroPlugin.mixin = function (Interface) {
       loaded: {}
     };
 
-    if (utils.isArray(plugins)) {
+    if (isArray(plugins)) {
       for (i = 0, n = plugins.length; i < n; i++) {
         if (typeof plugins[i] === 'string') {
           queue.push(plugins[i]);
@@ -70,6 +80,12 @@ MicroPlugin.mixin = function (Interface) {
     }
   };
 
+
+  /** Loads a plugin.
+   * @param {string} name - The name of the plugin to load.
+   *
+   * @memberof MicroPlugin
+   */
   Interface.prototype.loadPlugin = function (name) {
     var self = this;
     var plugins = self.plugins;
@@ -88,6 +104,7 @@ MicroPlugin.mixin = function (Interface) {
    * Initializes a plugin.
    *
    * @param {string} name
+   * @memberof MicroPlugin
    */
   Interface.prototype.require = function (name) {
     var self = this;
@@ -108,6 +125,8 @@ MicroPlugin.mixin = function (Interface) {
    *
    * @param {string} name
    * @param {function} fn
+   *
+   * @memberof MicroPlugin
    */
   Interface.define = function (name, fn) {
     Interface.plugins[name] = {
@@ -115,10 +134,4 @@ MicroPlugin.mixin = function (Interface) {
       'fn': fn
     };
   };
-};
-
-var utils = {
-  isArray: Array.isArray || function (vArg) {
-    return Object.prototype.toString.call(vArg) === '[object Array]';
-  }
 };

@@ -152,24 +152,34 @@ MicroEvent.mixin = function (destObject) {
  * @author Ris Adams <selectize@risadams.com>
  */
 
+/**
+ * Keep code modularized & extensible.
+ * MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library.
+ *  Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
+ *
+ * @class MicroPlugin
+ * @constructor
+ * @param {array|object} items
+ * @param {object} items
+ */
 var MicroPlugin = {};
 MicroPlugin.mixin = function (Interface) {
+
+  /**
+   * @memberof MicroPlugin
+   */
   Interface.plugins = {};
 
   /**
    * Initializes the listed plugins (with options).
    * Acceptable formats:
    *
-   * List (without options):
-   *   ['a', 'b', 'c']
-   *
-   * List (with options):
-   *   [{'name': 'a', options: {}}, {'name': 'b', options: {}}]
-   *
-   * Hash (with options):
-   *   {'a': { ... }, 'b': { ... }, 'c': { ... }}
+   * - List (without options): - `['a', 'b', 'c']`
+   * - List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`
+   * - Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
    *
    * @param {mixed} plugins
+   * @memberof MicroPlugin
    */
   Interface.prototype.initializePlugins = function (plugins) {
     var i, n, key;
@@ -183,7 +193,7 @@ MicroPlugin.mixin = function (Interface) {
       loaded: {}
     };
 
-    if (utils.isArray(plugins)) {
+    if (isArray(plugins)) {
       for (i = 0, n = plugins.length; i < n; i++) {
         if (typeof plugins[i] === 'string') {
           queue.push(plugins[i]);
@@ -206,6 +216,12 @@ MicroPlugin.mixin = function (Interface) {
     }
   };
 
+
+  /** Loads a plugin.
+   * @param {string} name - The name of the plugin to load.
+   *
+   * @memberof MicroPlugin
+   */
   Interface.prototype.loadPlugin = function (name) {
     var self = this;
     var plugins = self.plugins;
@@ -224,6 +240,7 @@ MicroPlugin.mixin = function (Interface) {
    * Initializes a plugin.
    *
    * @param {string} name
+   * @memberof MicroPlugin
    */
   Interface.prototype.require = function (name) {
     var self = this;
@@ -244,6 +261,8 @@ MicroPlugin.mixin = function (Interface) {
    *
    * @param {string} name
    * @param {function} fn
+   *
+   * @memberof MicroPlugin
    */
   Interface.define = function (name, fn) {
     Interface.plugins[name] = {
@@ -251,12 +270,6 @@ MicroPlugin.mixin = function (Interface) {
       'fn': fn
     };
   };
-};
-
-var utils = {
-  isArray: Array.isArray || function (vArg) {
-    return Object.prototype.toString.call(vArg) === '[object Array]';
-  }
 };
 
 
@@ -279,9 +292,13 @@ var utils = {
  */
 
 /**
- * Textually searches arrays and hashes of objects
- * by property (or multiple properties). Designed
- * specifically for autocomplete.
+ * Sifter is a client and server-side library (via UMD) for textually searching arrays and hashes of objects by property – or multiple properties. It's designed specifically for autocomplete. The process is three-step: score, filter, sort.
+ *  - *Supports díåcritîçs.* - For example, if searching for "montana" and an item in the set has a value of "montaña", it will still be matched. Sorting will also play nicely with diacritics
+ *  - *Smart scoring.* - Items are scored / sorted intelligently depending on where a match is found in the string (how close to the beginning) and what percentage of the string matches.
+ *  - *Multi-field sorting.* - When scores aren't enough to go by – like when getting results for an empty query – it can sort by one or more fields. For example, sort by a person's first name and last name without actually merging the properties to a single string.
+ *  - *Nested properties.* - Allows to search and sort on nested properties so you can perform search on complex objects without flattening them simply by using dot-notation to reference fields (ie. nested.property).
+ *
+ * @class Sifter
  *
  * @constructor
  * @param {array|object} items
@@ -744,18 +761,10 @@ var asciifold = (function () {
   };
 })();
 
-function uaDetect(platform, re) {
-  if (navigator.userAgentData) {
-    return platform === navigator.userAgentData.platform;
-  }
-
-  return re.test(navigator.userAgent);
-}
-
 /**
  * @var {boolean} IS_MAC Check if device is a Mac
  */
-var IS_MAC        = uaDetect("macOS", /Mac/);
+var IS_MAC = uaDetect("macOS", /Mac/);
 /**
  * @var {number} KEY_A
  */
@@ -763,39 +772,39 @@ var KEY_A = 65;
 /**
  * @var {number} KEY_COMMA
  */
-var KEY_COMMA     = 188;
+var KEY_COMMA = 188;
 /**
  * @var {number} KEY_RETURN
  */
-var KEY_RETURN    = 13;
+var KEY_RETURN = 13;
 /**
  * @var {number} KEY_ESC
  */
-var KEY_ESC       = 27;
+var KEY_ESC = 27;
 /**
  * @var {number} KEY_LEFT
  */
-var KEY_LEFT      = 37;
+var KEY_LEFT = 37;
 /**
  * @var {number} KEY_UP
  */
-var KEY_UP        = 38;
+var KEY_UP = 38;
 /**
  * @var {number} KEY_P
  */
-var KEY_P         = 80;
+var KEY_P = 80;
 /**
  * @var {number} KEY_RIGHT
  */
-var KEY_RIGHT     = 39;
+var KEY_RIGHT = 39;
 /**
  * @var {number} KEY_DOWN
  */
-var KEY_DOWN      = 40;
+var KEY_DOWN = 40;
 /**
  * @var {number} KEY_N
  */
-var KEY_N         = 78;
+var KEY_N = 78;
 /**
  * @var {number} KEY_BACKSPACE
  */
@@ -803,31 +812,31 @@ var KEY_BACKSPACE = 8;
 /**
  * @var {number} KEY_DELETE
  */
-var KEY_DELETE    = 46;
+var KEY_DELETE = 46;
 /**
  * @var {number} KEY_SHIFT
  */
-var KEY_SHIFT     = 16;
+var KEY_SHIFT = 16;
 /**
  * @var {number} KEY_CMD
  */
-var KEY_CMD       = IS_MAC ? 91 : 17;
+var KEY_CMD = IS_MAC ? 91 : 17;
 /**
  * @var {number} KEY_CTRL
  */
-var KEY_CTRL      = IS_MAC ? 18 : 17;
+var KEY_CTRL = IS_MAC ? 18 : 17;
 /**
  * @var {number} KEY_TAB
  */
-var KEY_TAB       = 9;
+var KEY_TAB = 9;
 /**
  * @var {number} TAG_SELECT
  */
-var TAG_SELECT    = 1;
+var TAG_SELECT = 1;
 /**
  * @var {number} TAG_INPUT
  */
-var TAG_INPUT     = 2;
+var TAG_INPUT = 2;
 
 /**
  * @var {number} SUPPORTS_VALIDITY_API Check if device support validity api, for now, android support in general is too spotty to support validity
@@ -843,6 +852,18 @@ var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.creat
 var isset = function (object) {
   return typeof object !== 'undefined';
 };
+
+/**
+ * This is a polyfill for the Array.isArray function.
+ * Determines whether the passed obect is an Array.
+ *
+ * @param {object} vArg
+ * @returns {Boolean} returns true if the passed object is an Array.
+ *
+ */
+var isArray = Array.isArray || function (vArg) {
+  return Object.prototype.toString.call(vArg) === '[object Array]';
+}
 
 /**
  * Converts a scalar to its best string representation
@@ -1197,18 +1218,35 @@ var logError = function (message, options) {
 };
 
 /**
+ * Determines whether or not the `data` argument is a valid JSON string.
  *
- * @param {any} data Data to testing
+ * @param {String} data Data to test
  * @returns {Boolean} true if is an JSON object
  */
 var isJSON = function (data) {
   try {
-    JSON.parse(str);
+    JSON.parse(data);
   } catch (e) {
     return false;
   }
   return true;
 };
+
+/**
+ * If the browser supports the User-Agent Client Hint, then return the platform name, otherwise return
+ * the result of a regular expression test on the user agent string
+ *
+ * @param platform - The platform you want to detect.
+ * @param re - A regular expression that matches the user agent string.
+ * @returns {Boolean} A boolean value.
+ */
+function uaDetect(platform, re) {
+  if (navigator.userAgentData) {
+    return platform === navigator.userAgentData.platform;
+  }
+
+  return re.test(navigator.userAgent);
+}
 
 var Selectize = function($input, settings) {
 	var key, i, n, dir, input, self = this;
