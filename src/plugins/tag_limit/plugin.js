@@ -1,3 +1,7 @@
+/**
+ * @typedef {Object} options Object of available options for tag_limit plugin
+ * @param {number} tagLimit Number of limit tag to display
+ */
 Selectize.define('tag_limit', function (options) {
     const self = this
     options.tagLimit = options.tagLimit

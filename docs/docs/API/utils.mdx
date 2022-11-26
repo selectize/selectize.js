@@ -1,0 +1,205 @@
+---
+title: utils
+description: API Reference for utils
+---
+# API Documentation for utils
+<a name="isArray"></a>
+
+## isArray ⇒ <code>Boolean</code>
+This is a polyfill for the Array.isArray function.
+Determines whether the passed obect is an Array.
+
+**Kind**: global variable  
+**Returns**: <code>Boolean</code> - returns true if the passed object is an Array.  
+
+| Param | Type |
+| --- | --- |
+| vArg | <code>object</code> | 
+
+<a name="isset"></a>
+
+## isset(object) ⇒ <code>boolean</code>
+Determines if the provided value has been defined.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| object | <code>mixed</code> | 
+
+<a name="hash_key"></a>
+
+## hash\_key(value) ⇒ <code>string</code> \| <code>null</code>
+Converts a scalar to its best string representation
+for hash keys and HTML attribute values.
+
+Transformations:
+  'str'     -> 'str'
+  null      -> ''
+  undefined -> ''
+  true      -> '1'
+  false     -> '0'
+  0         -> '0'
+  1         -> '1'
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="escape_html"></a>
+
+## escape\_html(str) ⇒ <code>string</code>
+Escapes a string for use within HTML.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
+<a name="escape_replace"></a>
+
+## escape\_replace(str) ⇒ <code>string</code>
+Escapes "$" characters in replacement strings.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+
+<a name="once"></a>
+
+## once(fn) ⇒ <code>function</code>
+Wraps `fn` so that it can only be invoked once.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> | 
+
+<a name="debounce"></a>
+
+## debounce(fn, delay) ⇒ <code>function</code>
+Wraps `fn` so that it can only be called once
+every `delay` milliseconds (invoked on the falling edge).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> | 
+| delay | <code>number</code> | 
+
+<a name="debounce_events"></a>
+
+## debounce\_events(self, types, fn)
+Debounce all fired events types listed in `types`
+while executing the provided `fn`.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| self | <code>object</code> | 
+| types | <code>array</code> | 
+| fn | <code>function</code> | 
+
+<a name="watchChildEvent"></a>
+
+## watchChildEvent($parent, event, selector, fn)
+A workaround for http://bugs.jquery.com/ticket/6696
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| $parent | <code>object</code> | Parent element to listen on. |
+| event | <code>string</code> | Event name. |
+| selector | <code>string</code> | Descendant selector to filter by. |
+| fn | <code>function</code> | Event handler. |
+
+<a name="getInputSelection"></a>
+
+## getInputSelection(input) ⇒ <code>object</code>
+Determines the current selection within a text input control.
+Returns an object containing:
+  - start
+  - length
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| input | <code>object</code> | 
+
+<a name="transferStyles"></a>
+
+## transferStyles($from, $to, properties)
+Copies CSS properties from one element to another.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| $from | <code>object</code> | 
+| $to | <code>object</code> | 
+| properties | <code>array</code> | 
+
+<a name="measureString"></a>
+
+## measureString(str, $parent) ⇒ <code>number</code>
+Measures the width of a string within a
+parent element (in pixels).
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| str | <code>string</code> | 
+| $parent | <code>object</code> | 
+
+<a name="autoGrow"></a>
+
+## autoGrow($input)
+Sets up an input to grow horizontally as the user
+types. If the value is changed manually, you can
+trigger the "update" handler to resize:
+
+$input.trigger('update');
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| $input | <code>object</code> | 
+
+<a name="isJSON"></a>
+
+## isJSON(data) ⇒ <code>Boolean</code>
+Determines whether or not the `data` argument is a valid JSON string.
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - true if is an JSON object  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>String</code> | Data to test |
+
+<a name="uaDetect"></a>
+
+## uaDetect(platform, re) ⇒ <code>Boolean</code>
+If the browser supports the User-Agent Client Hint, then return the platform name, otherwise return
+the result of a regular expression test on the user agent string
+
+**Kind**: global function  
+**Returns**: <code>Boolean</code> - A boolean value.  
+
+| Param | Description |
+| --- | --- |
+| platform | The platform you want to detect. |
+| re | A regular expression that matches the user agent string. |
+

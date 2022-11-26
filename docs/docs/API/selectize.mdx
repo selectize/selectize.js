@@ -1,0 +1,819 @@
+---
+title: selectize
+description: API Reference for selectize
+---
+# API Documentation for selectize
+<a name="setup"></a>
+
+## setup()
+Creates all elements and sets up event bindings.
+
+**Kind**: global function  
+<a name="setupTemplates"></a>
+
+## setupTemplates()
+Sets up default rendering functions.
+
+**Kind**: global function  
+<a name="setupCallbacks"></a>
+
+## setupCallbacks()
+Maps fired events to callbacks provided
+in the settings used when creating the control.
+
+**Kind**: global function  
+<a name="onClick"></a>
+
+## onClick(e) ⇒ <code>boolean</code>
+Triggered when the main control element
+has a click event.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>PointerEvent</code> | 
+
+<a name="onMouseDown"></a>
+
+## onMouseDown(e) ⇒ <code>boolean</code>
+Triggered when the main control element
+has a mouse down event.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onChange"></a>
+
+## onChange()
+Triggered when the value of the control has been changed.
+This should propagate the event to the original DOM
+input / select element.
+
+**Kind**: global function  
+<a name="onPaste"></a>
+
+## onPaste(e) ⇒ <code>boolean</code>
+Triggered on `<input>` paste.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onKeyPress"></a>
+
+## onKeyPress(e) ⇒ <code>boolean</code>
+Triggered on `<input>` keypress.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onKeyDown"></a>
+
+## onKeyDown(e) ⇒ <code>boolean</code>
+Triggered on `<input>` keydown.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onInput"></a>
+
+## onInput(e) ⇒ <code>boolean</code>
+Triggered on `<input>` input.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onSearchChange"></a>
+
+## onSearchChange(value)
+Invokes the user-provide option provider / loader.
+
+Note: this function is debounced in the Selectize
+constructor (by `settings.loadThrottle` milliseconds)
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="onFocus"></a>
+
+## onFocus(e) ⇒ <code>boolean</code>
+Triggered on `<input>` focus.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| e | <code>FocusEvent</code> | (optional) |
+
+<a name="onBlur"></a>
+
+## onBlur(e, dest)
+Triggered on `<input>` blur.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+| dest | <code>Element</code> | 
+
+<a name="onOptionHover"></a>
+
+## onOptionHover(e) ⇒ <code>boolean</code>
+Triggered when the user rolls over
+an option in the autocomplete dropdown menu.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onOptionSelect"></a>
+
+## onOptionSelect(e) ⇒ <code>boolean</code>
+Triggered when the user clicks on an option
+in the autocomplete dropdown menu.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="onItemSelect"></a>
+
+## onItemSelect(e) ⇒ <code>boolean</code>
+Triggered when the user clicks on an item
+that has been selected.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| e | <code>object</code> | 
+
+<a name="load"></a>
+
+## load(fn)
+Invokes the provided method that provides
+results to a callback---which are then added
+as options to the control.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| fn | <code>function</code> | 
+
+<a name="getTextboxValue"></a>
+
+## getTextboxValue() ⇒ <code>string</code>
+Gets the value of input field of the control.
+
+**Kind**: global function  
+**Returns**: <code>string</code> - value  
+<a name="setTextboxValue"></a>
+
+## setTextboxValue(value)
+Sets the input field of the control to the specified value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="getValue"></a>
+
+## getValue() ⇒ <code>mixed</code>
+Returns the value of the control. If multiple items
+can be selected `(e.g. <select multiple>)`, this returns
+an array. If only one item can be selected, this
+returns a string.
+
+**Kind**: global function  
+<a name="setValue"></a>
+
+## setValue(value)
+Resets the selected items to the given value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>Array.&lt;(String\|Number)&gt;</code> | 
+
+<a name="setMaxItems"></a>
+
+## setMaxItems(value)
+Resets the number of max items to the given value
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>number</code> | 
+
+<a name="setActiveItem"></a>
+
+## setActiveItem($item, e)
+Sets the selected item.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| $item | <code>object</code> |  |
+| e | <code>object</code> | (optional) |
+
+<a name="setActiveOption"></a>
+
+## setActiveOption($object, scroll, animate)
+Sets the selected item in the dropdown menu
+of available options.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| $object | <code>object</code> | 
+| scroll | <code>boolean</code> | 
+| animate | <code>boolean</code> | 
+
+<a name="selectAll"></a>
+
+## selectAll()
+Selects all items (CTRL + A).
+
+**Kind**: global function  
+<a name="hideInput"></a>
+
+## hideInput()
+Hides the input element out of view, while
+retaining its focus.
+
+**Kind**: global function  
+<a name="showInput"></a>
+
+## showInput()
+Restores input visibility.
+
+**Kind**: global function  
+<a name="focus"></a>
+
+## focus()
+Gives the control focus.
+
+**Kind**: global function  
+<a name="blur"></a>
+
+## blur(dest)
+Forces the control out of focus.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| dest | <code>Element</code> | 
+
+<a name="getScoreFunction"></a>
+
+## getScoreFunction(query, options) ⇒ <code>function</code>
+Returns a function that scores an object
+to show how good of a match it is to the
+provided query.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| query | <code>string</code> | 
+| options | <code>object</code> | 
+
+<a name="getSearchOptions"></a>
+
+## getSearchOptions() ⇒ <code>object</code>
+Returns search options for sifter (the system
+for scoring and sorting results).
+
+**Kind**: global function  
+**See**: https://github.com/brianreavis/sifter.js  
+<a name="search"></a>
+
+## search(query) ⇒ <code>object</code>
+Searches through available options and returns
+a sorted array of matches.
+
+Returns an object containing:
+
+  - query {string}
+  - tokens {array}
+  - total {int}
+  - items {array}
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| query | <code>string</code> | 
+
+<a name="refreshOptions"></a>
+
+## refreshOptions(triggerDropdown)
+Refreshes the list of available options shown
+in the autocomplete dropdown menu.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| triggerDropdown | <code>boolean</code> | 
+
+<a name="addOption"></a>
+
+## addOption(data)
+Adds an available option. If it already exists,
+nothing will happen. Note: this does not refresh
+the options list dropdown (use `refreshOptions`
+for that).
+
+Usage:
+
+  this.addOption(data)
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| data | <code>object</code> \| <code>array</code> | 
+
+<a name="registerOption"></a>
+
+## registerOption(data) ⇒ <code>boolean</code> \| <code>string</code>
+Registers an option to the pool of options.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| data | <code>object</code> | 
+
+<a name="registerOptionGroup"></a>
+
+## registerOptionGroup(data) ⇒ <code>boolean</code> \| <code>string</code>
+Registers an option group to the pool of option groups.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| data | <code>object</code> | 
+
+<a name="addOptionGroup"></a>
+
+## addOptionGroup(id, data)
+Registers a new optgroup for options
+to be bucketed into.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| id | <code>string</code> | 
+| data | <code>object</code> | 
+
+<a name="removeOptionGroup"></a>
+
+## removeOptionGroup(id)
+Removes an existing option group.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| id | <code>string</code> | 
+
+<a name="clearOptionGroups"></a>
+
+## clearOptionGroups()
+Clears all existing option groups.
+
+**Kind**: global function  
+<a name="updateOption"></a>
+
+## updateOption(value, data)
+Updates an option available for selection. If
+it is visible in the selected items or options
+dropdown, it will be re-rendered automatically.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+| data | <code>object</code> | 
+
+<a name="removeOption"></a>
+
+## removeOption(value, silent)
+Removes a single option.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+| silent | <code>boolean</code> | 
+
+<a name="clearOptions"></a>
+
+## clearOptions(silent)
+Clears all options, including all selected items
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| silent | <code>boolean</code> | 
+
+<a name="getOption"></a>
+
+## getOption(value) ⇒ <code>object</code>
+Returns the jQuery element of the option
+matching the given value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="getFirstOption"></a>
+
+## getFirstOption() ⇒ <code>object</code>
+Returns the jQuery element of the first
+selectable option.
+
+**Kind**: global function  
+<a name="getAdjacentOption"></a>
+
+## getAdjacentOption($option, direction) ⇒ <code>object</code>
+Returns the jQuery element of the next or
+previous selectable option.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| $option | <code>object</code> |  |
+| direction | <code>int</code> | can be 1 for next or -1 for previous |
+
+<a name="getElementWithValue"></a>
+
+## getElementWithValue(value, $els) ⇒ <code>object</code>
+Finds the first element with a "data-value" attribute
+that matches the given value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>mixed</code> | 
+| $els | <code>object</code> | 
+
+<a name="getElementWithTextContent"></a>
+
+## getElementWithTextContent(textContent, ignoreCase, $els) ⇒ <code>object</code>
+Finds the first element with a "textContent" property
+that matches the given textContent value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| textContent | <code>mixed</code> | 
+| ignoreCase | <code>boolean</code> | 
+| $els | <code>object</code> | 
+
+<a name="getItem"></a>
+
+## getItem(value) ⇒ <code>object</code>
+Returns the jQuery element of the item
+matching the given value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="getFirstItemMatchedByTextContent"></a>
+
+## getFirstItemMatchedByTextContent(value, ignoreCase) ⇒ <code>object</code>
+Returns the jQuery element of the item
+matching the given textContent.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+| ignoreCase | <code>boolean</code> | 
+
+<a name="addItems"></a>
+
+## addItems(values, silent)
+"Selects" multiple items at once. Adds them to the list
+at the current caret position.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| values | <code>string</code> | 
+| silent | <code>boolean</code> | 
+
+<a name="addItem"></a>
+
+## addItem(value, silent)
+"Selects" an item. Adds it to the list
+at the current caret position.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+| silent | <code>boolean</code> | 
+
+<a name="removeItem"></a>
+
+## removeItem(value)
+Removes the selected item matching
+the provided value.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+
+<a name="createItem"></a>
+
+## createItem(value, [triggerDropdown], [callback]) ⇒ <code>boolean</code>
+Invokes the `create` method provided in the
+selectize options that should provide the data
+for the new item, given the user input.
+
+Once this completes, it will be added
+to the item list.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| value | <code>string</code> | 
+| [triggerDropdown] | <code>boolean</code> | 
+| [callback] | <code>function</code> | 
+
+<a name="refreshItems"></a>
+
+## refreshItems()
+Re-renders the selected item lists.
+
+**Kind**: global function  
+<a name="refreshState"></a>
+
+## refreshState()
+Updates all state-dependent attributes
+and CSS classes.
+
+**Kind**: global function  
+<a name="refreshValidityState"></a>
+
+## refreshValidityState()
+Update the `required` attribute of both input and control input.
+
+The `required` property needs to be activated on the control input
+for the error to be displayed at the right place. `required` also
+needs to be temporarily deactivated on the input since the input is
+hidden and can't show errors.
+
+**Kind**: global function  
+<a name="refreshClasses"></a>
+
+## refreshClasses()
+Updates all state-dependent CSS classes.
+
+**Kind**: global function  
+<a name="isFull"></a>
+
+## isFull() ⇒ <code>boolean</code>
+Determines whether or not more items can be added
+to the control without exceeding the user-defined maximum.
+
+**Kind**: global function  
+<a name="updateOriginalInput"></a>
+
+## updateOriginalInput()
+Refreshes the original `<select>` or `<input>`
+element to reflect the current state.
+
+**Kind**: global function  
+<a name="updatePlaceholder"></a>
+
+## updatePlaceholder()
+Shows/hide the input placeholder depending
+on if there items in the list already.
+
+**Kind**: global function  
+<a name="open"></a>
+
+## open()
+Shows the autocomplete dropdown containing
+the available options.
+
+**Kind**: global function  
+<a name="close"></a>
+
+## close()
+Closes the autocomplete dropdown menu.
+
+**Kind**: global function  
+<a name="positionDropdown"></a>
+
+## positionDropdown()
+Calculates and applies the appropriate
+position of the dropdown.
+
+**Kind**: global function  
+<a name="clear"></a>
+
+## clear(silent)
+Resets / clears all selected items
+from the control.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| silent | <code>boolean</code> | 
+
+<a name="insertAtCaret"></a>
+
+## insertAtCaret($el)
+A helper method for inserting an element
+at the current caret position.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| $el | <code>object</code> | 
+
+<a name="insertAtCaret..target"></a>
+
+### insertAtCaret~target : <code>HTMLElement</code>
+**Kind**: inner property of [<code>insertAtCaret</code>](#insertAtCaret)  
+<a name="deleteSelection"></a>
+
+## deleteSelection(e) ⇒ <code>boolean</code>
+Removes the current selected item(s).
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| e | <code>object</code> | (optional) |
+
+<a name="advanceSelection"></a>
+
+## advanceSelection(direction, e)
+Selects the previous / next item (depending
+on the `direction` argument).
+
+> 0 - right
+< 0 - left
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| direction | <code>int</code> |  |
+| e | <code>object</code> | (optional) |
+
+<a name="advanceCaret"></a>
+
+## advanceCaret(direction, e)
+Moves the caret left / right.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| direction | <code>int</code> |  |
+| e | <code>object</code> | (optional) |
+
+<a name="setCaret"></a>
+
+## setCaret(i)
+Moves the caret to the specified index.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| i | <code>int</code> | 
+
+<a name="lock"></a>
+
+## lock()
+Disables user input on the control. Used while
+items are being asynchronously created.
+
+**Kind**: global function  
+<a name="unlock"></a>
+
+## unlock()
+Re-enables user input on the control.
+
+**Kind**: global function  
+<a name="disable"></a>
+
+## disable()
+Disables user input on the control completely.
+While disabled, it cannot receive focus.
+
+**Kind**: global function  
+<a name="enable"></a>
+
+## enable()
+Enables the control so that it can respond
+to focus and user input.
+
+**Kind**: global function  
+<a name="destroy"></a>
+
+## destroy()
+Completely destroys the control and
+unbinds all event listeners so that it can
+be garbage collected.
+
+**Kind**: global function  
+<a name="render"></a>
+
+## render(templateName, data) ⇒ <code>string</code>
+A helper method for rendering "item" and
+"option" templates, given the data.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| templateName | <code>string</code> | 
+| data | <code>object</code> | 
+
+<a name="clearCache"></a>
+
+## clearCache(templateName)
+Clears the render cache for a template. If
+no template is given, clears all render
+caches.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| templateName | <code>string</code> | 
+
+<a name="canCreate"></a>
+
+## canCreate(input) ⇒ <code>boolean</code>
+Determines whether or not to display the
+create item prompt, given a user input.
+
+**Kind**: global function  
+
+| Param | Type |
+| --- | --- |
+| input | <code>string</code> | 
+

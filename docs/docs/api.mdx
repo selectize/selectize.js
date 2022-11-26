@@ -1,0 +1,19 @@
+---
+title: API Methods
+description: api reference
+displayed_sidebar: apiSidebar
+---
+
+# API Methods
+
+Selectize controls can be controlled programmatically via the methods described in this section. When initializing the control, the selectize property is added on the original `<select>` / `<input>` element—this property points to the underlying Selectize instance.
+
+```javascript
+// initialize the Selectize control
+var $select = $("select").selectize(options);
+```
+
+```javascript
+// fetch the instance
+var selectize = $select[0].selectize;
+```

@@ -9,6 +9,18 @@ var isset = function (object) {
 };
 
 /**
+ * This is a polyfill for the Array.isArray function.
+ * Determines whether the passed obect is an Array.
+ *
+ * @param {object} vArg
+ * @returns {Boolean} returns true if the passed object is an Array.
+ *
+ */
+var isArray = Array.isArray || function (vArg) {
+  return Object.prototype.toString.call(vArg) === '[object Array]';
+}
+
+/**
  * Converts a scalar to its best string representation
  * for hash keys and HTML attribute values.
  *
@@ -109,7 +121,7 @@ var once = function (fn) {
  * every `delay` milliseconds (invoked on the falling edge).
  *
  * @param {function} fn
- * @param {int} delay
+ * @param {number} delay
  * @returns {function}
  */
 var debounce = function (fn, delay) {
@@ -232,7 +244,7 @@ var transferStyles = function ($from, $to, properties) {
  *
  * @param {string} str
  * @param {object} $parent
- * @returns {int}
+ * @returns {number}
  */
 var measureString = function (str, $parent) {
   if (!str) {
@@ -361,15 +373,32 @@ var logError = function (message, options) {
 };
 
 /**
+ * Determines whether or not the `data` argument is a valid JSON string.
  *
- * @param {any} data Data to testing
+ * @param {String} data Data to test
  * @returns {Boolean} true if is an JSON object
  */
 var isJSON = function (data) {
   try {
-    JSON.parse(str);
+    JSON.parse(data);
   } catch (e) {
     return false;
   }
   return true;
 };
+
+/**
+ * If the browser supports the User-Agent Client Hint, then return the platform name, otherwise return
+ * the result of a regular expression test on the user agent string
+ *
+ * @param platform - The platform you want to detect.
+ * @param re - A regular expression that matches the user agent string.
+ * @returns {Boolean} A boolean value.
+ */
+function uaDetect(platform, re) {
+  if (navigator.userAgentData) {
+    return platform === navigator.userAgentData.platform;
+  }
+
+  return re.test(navigator.userAgent);
+}

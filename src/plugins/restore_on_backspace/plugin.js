@@ -15,6 +15,11 @@
  * @author Brian Reavis <brian@thirdroute.com>
  */
 
+/**
+ * @author [Brian Reavis](htts://github.com/brianreavis)
+ * @typedef {Object} options Object of options available on restore_on_backspace plugin
+ * @param {string} text Text to set on restore
+ */
 Selectize.define('restore_on_backspace', function(options) {
 	var self = this;
 

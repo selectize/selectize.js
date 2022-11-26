@@ -71,7 +71,6 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 - [**css/**](dist/css)
   - [selectize.css](dist/css/selectize.css) — Core styles
   - [selectize.default.css](dist/css/selectize.default.css) — Default theme (with core styles)
-  - [selectize.default.css](dist/css/selectize.legacy.css) — Default Legacy theme (with core styles)
   - [selectize.bootstrap2.css](dist/css/selectize.bootstrap2.css) - Bootstrap 2 theme
   - [selectize.bootstrap3.css](dist/css/selectize.bootstrap3.css) - Bootstrap 3 theme
   - [selectize.bootstrap4.css](dist/css/selectize.bootstrap4.css) - Bootstrap 4 theme
@@ -135,7 +134,7 @@ To run Selectize locally:
 npm start
 ```
 
-You can then run the examples at `http://localhost:4000/`.
+You can then run the examples at `https://loopback.website:4000/`.
 
 ## License
 

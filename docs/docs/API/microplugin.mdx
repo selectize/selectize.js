@@ -1,0 +1,87 @@
+---
+title: microplugin
+description: API Reference for microplugin
+---
+# API Documentation for microplugin
+<a name="MicroPlugin"></a>
+
+## MicroPlugin
+MicroPlugin
+
+**Kind**: global class  
+
+* [MicroPlugin](#MicroPlugin)
+    * [new MicroPlugin(items, items)](#new_MicroPlugin_new)
+    * [.Interface.plugins](#MicroPlugin.Interface.plugins)
+    * [.Interface#initializePlugins(plugins)](#MicroPlugin.Interface+initializePlugins)
+    * [.Interface#loadPlugin(name)](#MicroPlugin.Interface+loadPlugin)
+    * [.Interface#require(name)](#MicroPlugin.Interface+require)
+    * [.Interface.define(name, fn)](#MicroPlugin.Interface.define)
+
+<a name="new_MicroPlugin_new"></a>
+
+### new MicroPlugin(items, items)
+Keep code modularized & extensible.
+MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library.
+ Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
+
+
+| Param | Type |
+| --- | --- |
+| items | <code>array</code> \| <code>object</code> | 
+| items | <code>object</code> | 
+
+<a name="MicroPlugin.Interface.plugins"></a>
+
+### MicroPlugin.Interface.plugins
+**Kind**: static property of [<code>MicroPlugin</code>](#MicroPlugin)  
+<a name="MicroPlugin.Interface+initializePlugins"></a>
+
+### MicroPlugin.Interface#initializePlugins(plugins)
+Initializes the listed plugins (with options).
+Acceptable formats:
+
+- List (without options): - `['a', 'b', 'c']`
+- List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`
+- Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
+
+**Kind**: static method of [<code>MicroPlugin</code>](#MicroPlugin)  
+
+| Param | Type |
+| --- | --- |
+| plugins | <code>mixed</code> | 
+
+<a name="MicroPlugin.Interface+loadPlugin"></a>
+
+### MicroPlugin.Interface#loadPlugin(name)
+Loads a plugin.
+
+**Kind**: static method of [<code>MicroPlugin</code>](#MicroPlugin)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| name | <code>string</code> | The name of the plugin to load. |
+
+<a name="MicroPlugin.Interface+require"></a>
+
+### MicroPlugin.Interface#require(name)
+Initializes a plugin.
+
+**Kind**: static method of [<code>MicroPlugin</code>](#MicroPlugin)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+
+<a name="MicroPlugin.Interface.define"></a>
+
+### MicroPlugin.Interface.define(name, fn)
+Registers a plugin.
+
+**Kind**: static method of [<code>MicroPlugin</code>](#MicroPlugin)  
+
+| Param | Type |
+| --- | --- |
+| name | <code>string</code> | 
+| fn | <code>function</code> | 
+
