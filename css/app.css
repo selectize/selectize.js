@@ -1,7 +1,0 @@
----
-layout: null
----
-{% capture inlineCSS %}
-  {% include app.scss %}
-{% endcapture %}
-{{ inlineCSS | scssify }}
