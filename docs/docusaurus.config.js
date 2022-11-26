@@ -178,18 +178,18 @@ const config = {
                 label: 'License',
                 to: '/docs/license',
               },
-              {
-                label: 'Privacy Policy',
-                href: 'https://github.com/selectize/selectize.js',
-              },
-              {
-                label: 'Data Policy',
-                href: 'https://github.com/selectize/selectize.js',
-              },
-              {
-                label: 'Cookie Policy',
-                href: 'https://github.com/selectize/selectize.js',
-              },
+              // {
+              //   label: 'Privacy Policy',
+              //   href: 'https://github.com/selectize/selectize.js',
+              // },
+              // {
+              //   label: 'Data Policy',
+              //   href: 'https://github.com/selectize/selectize.js',
+              // },
+              // {
+              //   label: 'Cookie Policy',
+              //   href: 'https://github.com/selectize/selectize.js',
+              // },
             ],
           },
         ],
