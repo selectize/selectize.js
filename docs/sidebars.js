@@ -37,13 +37,18 @@ const sidebars = {
       },
       items: [
         "demos/single-item-select",
+        "demos/api",
+        "demos/confirm",
         "demos/diacritics",
         "demos/dynamic-opt-groups",
         "demos/email-contact",
         "demos/max-items",
         "demos/normalize",
         "demos/opt-groups",
-        "demos/tagging"
+        "demos/required",
+        "demos/tagging",
+        "demos/rtl",
+        "demos/performance",
       ]
     },
     {
