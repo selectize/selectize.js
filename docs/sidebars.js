@@ -36,19 +36,22 @@ const sidebars = {
         image: "/img/docusaurus.png"
       },
       items: [
-        "demos/single-item-select",
         "demos/api",
         "demos/confirm",
         "demos/diacritics",
-        "demos/dynamic-opt-groups",
+        "demos/dynamic-option-groups",
+        "demos/dynamic-options",
         "demos/email-contact",
+        "demos/events",
+        "demos/lock",
         "demos/max-items",
         "demos/normalize",
         "demos/opt-groups",
-        "demos/required",
-        "demos/tagging",
-        "demos/rtl",
         "demos/performance",
+        "demos/required",
+        "demos/rtl",
+        "demos/single-item-select",
+        "demos/tagging",
       ]
     },
     {

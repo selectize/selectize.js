@@ -49,11 +49,16 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
+        gtag: {
+          trackingID: 'G-QL249YEJYD',
+          anonymizeIP: true,
+        },
       }),
     ],
   ],
 
   plugins: [
+    'docusaurus-plugin-google-adsense',
     async function loadTailwindCss() {
       return {
         name: "docusaurus-tailwindcss",
@@ -80,6 +85,9 @@ const config = {
       colorMode: {
         disableSwitch: false,
         respectPrefersColorScheme: true
+      },
+      googleAdsense: {
+        dataAdClient: 'ca-pub-9290211346209107',
       },
       navbar: {
         title: 'Selectize',

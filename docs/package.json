@@ -23,6 +23,7 @@
     "@mdx-js/react": "^1.6.22",
     "autoprefixer": "^10.4.13",
     "clsx": "^1.2.1",
+    "docusaurus-plugin-google-adsense": "^0.3.1",
     "postcss": "^8.4.19",
     "postcss-focus-visible": "^7.1.0",
     "postcss-import": "^15.0.0",
