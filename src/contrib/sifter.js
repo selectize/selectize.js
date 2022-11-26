@@ -18,9 +18,13 @@
  */
 
 /**
- * Textually searches arrays and hashes of objects
- * by property (or multiple properties). Designed
- * specifically for autocomplete.
+ * Sifter is a client and server-side library (via UMD) for textually searching arrays and hashes of objects by property – or multiple properties. It's designed specifically for autocomplete. The process is three-step: score, filter, sort.
+ *  - **Supports díåcritîçs.** - For example, if searching for "montana" and an item in the set has a value of "montaña", it will still be matched. Sorting will also play nicely with diacritics
+ *  - **Smart scoring.** - Items are scored / sorted intelligently depending on where a match is found in the string (how close to the beginning) and what percentage of the string matches.
+ *  - **Multi-field sorting**. - When scores aren't enough to go by – like when getting results for an empty query – it can sort by one or more fields. For example, sort by a person's first name and last name without actually merging the properties to a single string.
+ *  - **Nested properties.** - Allows to search and sort on nested properties so you can perform search on complex objects without flattening them simply by using dot-notation to reference fields (ie. nested.property).
+ *
+ * @class Sifter
  *
  * @constructor
  * @param {array|object} items

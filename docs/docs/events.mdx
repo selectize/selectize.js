@@ -1,0 +1,28 @@
+---
+title: Events
+description: event reference
+---
+
+In the usage documentation, a few callbacks are listed that allow you to listen for certain events. Callbacks aren't always ideal though; specifically when you wish to have multiple handlers.
+
+| Event             | Params       | Description                                                                                                  |
+| ----------------- | ------------ | ------------------------------------------------------------------------------------------------------------ |
+| "initialize"      |              | Invoked once the control is completely initialized.                                                          |
+| "change"          | value        | Invoked when the value of the control changes.                                                               |
+| "focus"           |              | Invoked when the control gains focus.                                                                        |
+| "blur"            |              | Invoked when the control loses focus.                                                                        |
+| "item_add"        | value, item  | Invoked when an item is added (i.e., when an option is selected)                                             |
+| "item_remove"     | value, $item | Invoked when an item is deselected.                                                                          |
+| "item_select"     | item         | Invoked when an item is selected.                                                                            |
+| "clear"           |              | Invoked when the control is manually cleared via the clear() method.                                         |
+| "option_add"      | value, data  | Invoked when a new option is added to the available options list.                                            |
+| "option_remove"   | value        | Invoked when an option is removed from the available options.                                                |
+| "option_clear"    |              | Invoked when all options are removed from the control.                                                       |
+| "optgroup_add"    | id, data     | Invoked when a new option is added to the available options list.                                            |
+| "optgroup_remove" | id           | Invoked when an option group is removed.                                                                     |
+| "optgroup_clear"  |              | Invoked when all option groups are removed.                                                                  |
+| "dropdown_open"   | dropdown     | Invoked when the dropdown opens.                                                                             |
+| "dropdown_close"  | dropdown     | Invoked when the dropdown closes.                                                                            |
+| "type"            | str          | Invoked when the user types while filtering options.                                                         |
+| "load"            | data         | Invoked when new options have been loaded and added to the control (via the load option or load API method). |
+| "destroy"         |              | Invoked right before the control is destroyed.                                                               |
