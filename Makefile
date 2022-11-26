@@ -8,6 +8,7 @@ test: ## runs all tests (equivalent to `npm test`)
 	npm test
 compile: ## compile the project, update package versions if specified, installs dependencies, and builds the project
 	npm i
+	cd docs && npm i
 	rm -rf dist
 	$(GULP) loadDependencies
 	npm run build

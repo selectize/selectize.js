@@ -1,6 +1,6 @@
 # selectize.js
 
-![Selectize.js](docs/selectize-wordmark.png)
+![Selectize.js](docs/static/img/selectize-wordmark.png)
 
 → Selectize is looking for [new members on the maintenance team](https://github.com/selectize/selectize.js/discussions/1678)!
 
