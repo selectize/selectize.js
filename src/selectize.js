@@ -1247,11 +1247,13 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
-    }
+    	}
 
-    if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
-      self.setupDropdownHeight();
-    }
+		if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
+			self.setupDropdownHeight();
+		}
+
+		self.positionDropdown();
 
 		// add create option
 		has_create_option = self.canCreate(query);
@@ -1264,23 +1266,24 @@ $.extend(Selectize.prototype, {
 
 		// activate
 		self.hasOptions = results.items.length > 0 || ( has_create_option && self.settings.showAddOptionOnCreate ) || self.settings.setFirstOptionActive;
+
 		if (self.hasOptions) {
-      if (results.items.length > 0) {
-        $active_before = active_before && self.getOption(active_before);
-        if (results.query !== "" && self.settings.setFirstOptionActive) {
-          $active = $dropdown_content.find('[data-selectable]:first')
-        } else if (results.query !== "" && $active_before && $active_before.length) {
-          $active = $active_before;
-        } else if (self.settings.mode === 'single' && self.items.length) {
-          $active = self.getOption(self.items[0]);
-        }
-        if (!$active || !$active.length) {
-          if ($create && !self.settings.addPrecedence) {
-            $active = self.getAdjacentOption($create, 1);
-          } else {
-            $active = $dropdown_content.find('[data-selectable]:first');
-          }
-        }
+      		if (results.items.length > 0) {
+			$active_before = active_before && self.getOption(active_before);
+			if (results.query !== "" && self.settings.setFirstOptionActive) {
+			$active = $dropdown_content.find('[data-selectable]:first')
+			} else if (results.query !== "" && $active_before && $active_before.length) {
+			$active = $active_before;
+			} else if (self.settings.mode === 'single' && self.items.length) {
+			$active = self.getOption(self.items[0]);
+			}
+			if (!$active || !$active.length) {
+			if ($create && !self.settings.addPrecedence) {
+				$active = self.getAdjacentOption($create, 1);
+			} else {
+				$active = $dropdown_content.find('[data-selectable]:first');
+			}
+			}
 			} else {
 				$active = $create;
 			}
@@ -1972,9 +1975,8 @@ $.extend(Selectize.prototype, {
 		self.focus();
 		self.isOpen = true;
 		self.refreshState();
-    self.$dropdown.css({ visibility: 'hidden', display: 'block' });
-    self.setupDropdownHeight();
-		self.positionDropdown();
+		self.$dropdown.css({ visibility: 'hidden', display: 'block' });
+		self.setupDropdownHeight();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
 	},
