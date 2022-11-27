@@ -1,7 +1,4 @@
 Selectize.count = 0;
-/**
- * @type {import('../index').Selectize.IOptions}
- */
 Selectize.defaults = {
   options: [],
   optgroups: [],

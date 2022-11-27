@@ -1,7 +1,9 @@
 /**
+ * 
  * Selectize instance
  * @param {JQuery} $input Jquery object of target element to Selectized
- * @param {import('../index').Selectize.IOptions} settings Options to apply for selectized element
+ * @param {Object} settings Options to apply for selectized element
+ * 
  */
 var Selectize = function($input, settings) {
 	var key, i, n, dir, input, self = this;
@@ -13,9 +15,6 @@ var Selectize = function($input, settings) {
 	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
   dir = dir || $input.parents('[dir]:first').attr('dir') || '';
   
-  /**
-   * @type {import('../index').Selectize.IOptions}
-   */
   self.settings = {};
 
 	// setup default state
@@ -219,7 +218,7 @@ $.extend(Selectize.prototype, {
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			input     : function() { return self.onInput.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
-			// blur      : function() { return self.onBlur.apply(self, arguments); },
+			blur      : function() { return self.onBlur.apply(self, arguments); },
 			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
