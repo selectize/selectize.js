@@ -13,9 +13,9 @@
 
 Selectize is an extensible [jQuery](http://jquery.com/)-based custom `<select>`; UI control. It's useful for tagging, contact lists, country selectors, and so on. The goal is to provide a solid & usable experience with a clean and powerful API.
 
-- [Demos](https://selectize.dev/demos.html)
+- [Demos](https://selectize.dev/docs/demos)
 - [Changelog](https://github.com/selectize/selectize.js/releases)
-- [Documentation](https://selectize.dev/docs.html)
+- [Documentation](https://selectize.dev/docs/api)
 
 ## Features
 
@@ -82,7 +82,7 @@ Selectize is available at [cdnjs](https://cdnjs.com/libraries/selectize.js).
 $("select").selectize(options);
 ```
 
-The available options are [documented here](https://selectize.dev/docs.html).
+The available options are [documented here](https://selectize.dev/docs/api).
 
 ### Contributing
 
