@@ -22,7 +22,7 @@ export default function AutoPosition() {
       >
         <ThemeChanger />
         <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          A plugin by for auto manage position of dropdown
+          A plugin for auto manage position of dropdown
         </h4>
 
         <p>This select expected to open on bottom</p>

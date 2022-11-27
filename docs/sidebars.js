@@ -72,6 +72,7 @@ const sidebars = {
         "plugins/remove-button",
         "plugins/restore-backspace",
         "plugins/auto-position",
+        "plugins/auto-select-on-type",
       ]
     }
   ],
