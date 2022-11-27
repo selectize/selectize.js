@@ -66,13 +66,14 @@ const sidebars = {
         image: "/img/logo.svg"
       },
       items: [
+        "plugins/auto-position",
+        "plugins/auto-select-on-type",
         "plugins/clear-button",
         "plugins/drag-drop",
+        "plugins/dropdown-header",
         "plugins/opt-group-col",
         "plugins/remove-button",
         "plugins/restore-backspace",
-        "plugins/auto-position",
-        "plugins/auto-select-on-type",
       ]
     }
   ],
