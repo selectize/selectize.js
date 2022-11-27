@@ -218,7 +218,7 @@ $.extend(Selectize.prototype, {
 			keypress  : function() { return self.onKeyPress.apply(self, arguments); },
 			input     : function() { return self.onInput.apply(self, arguments); },
 			resize    : function() { self.positionDropdown.apply(self, []); },
-			blur      : function() { return self.onBlur.apply(self, arguments); },
+			// blur      : function() { return self.onBlur.apply(self, arguments); },
 			focus     : function() { self.ignoreBlur = false; return self.onFocus.apply(self, arguments); },
 			paste     : function() { return self.onPaste.apply(self, arguments); }
 		});
@@ -1247,7 +1247,7 @@ $.extend(Selectize.prototype, {
 			for (i = 0, n = self.items.length; i < n; i++) {
 				self.getOption(self.items[i]).addClass('selected');
 			}
-    	}
+		}
 
 		if (self.settings.dropdownSize.sizeType !== 'auto' && self.isOpen) {
 			self.setupDropdownHeight();
