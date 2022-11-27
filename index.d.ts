@@ -5,7 +5,7 @@
 
 /// <reference types="jquery"/>
 
-declare namespace Selectize {
+export declare namespace Selectize {
     // see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
     // option identifiers are parameterized by T; data is parameterized by U
     interface IOptions<T, U> {
@@ -358,6 +358,38 @@ declare namespace Selectize {
         inputClass?: string;
         dropdownClass?: string;
         dropdownContentClass?: string;
+
+        /**
+         * Setup the dropdown size to auto / number of visible items or a fixed height
+         */
+        dropdownSize?: {
+            /**
+             * Type of dropdown
+             * 
+             * @default 'auto'
+             */
+            sizeType: 'auto' | 'numberItems' | 'fixedHeight',
+            /**
+             * Size value of dropdown
+             * 
+             * @default 'auto'
+             */
+            sizeValue: 'auto' | '??px' | '??rem' | '??em' | '??vh'
+        },
+
+        /**
+         * Ignored selector when dropdown height calculated
+         * 
+         * @default 'img, i'
+         */
+        ignoreOnDropwdownHeight: string,
+
+        /**
+         * For setting search mode on input on a single select
+         * 
+         * @default true
+         */
+        search: boolean,
     }
 
     /**

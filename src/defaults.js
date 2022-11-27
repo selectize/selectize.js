@@ -1,4 +1,7 @@
 Selectize.count = 0;
+/**
+ * @type {import('../index').Selectize.IOptions}
+ */
 Selectize.defaults = {
   options: [],
   optgroups: [],
@@ -57,8 +60,8 @@ Selectize.defaults = {
 
   copyClassesToDropdown: true,
   dropdownSize: {
-    sizeType: 'auto', // 'numberItems' or 'fixedHeight'
-    sizeValue: 'auto', // number of items or height value (px is default) or CSS height (px, rem, em, vh)
+    sizeType: 'auto',
+    sizeValue: 'auto',
   },
 
   ignoreOnDropwdownHeight: 'img, i',
