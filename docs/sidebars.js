@@ -74,6 +74,7 @@ const sidebars = {
         "plugins/opt-group-col",
         "plugins/remove-button",
         "plugins/restore-backspace",
+        "plugins/select-on-focus",
       ]
     }
   ],
