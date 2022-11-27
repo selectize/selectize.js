@@ -30,14 +30,14 @@ export default function RemoveButton() {
           behavior that mimics Select2 and Chosen.
         </h4>
 
-        <select id="remove-button" multiple>
-          <option value="1" selected>
+        <select id="remove-button" multiple defaultValue={['1', '2', '3']}>
+          <option value="1">
             Awesome
           </option>
-          <option value="2" selected>
+          <option value="2">
             Beast
           </option>
-          <option value="3" selected>
+          <option value="3">
             Compatible
           </option>
           <option value="4">Thomas Edison</option>

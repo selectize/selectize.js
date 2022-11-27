@@ -23,10 +23,10 @@ export default function Required() {
       >
         <ThemeChanger />
         <h4>Required element</h4>
-        <div class="control-group">
+        <div className="control-group">
           <form>
-            <label for="select-beast">Beast:</label>
-            <select id="select-beast" required class="demo-default"
+            <label htmlFor="select-beast">Beast:</label>
+            <select id="select-beast" required className="demo-default"
               placeholder="Select a person..." name="beast">
               <option value="">Select a person...</option>
               <option value="4">Thomas Edison</option>

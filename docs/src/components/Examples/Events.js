@@ -4,6 +4,8 @@ import CodeBlock from "@theme/CodeBlock";
 import ThemeChanger from "../Theming/ThemeChanger";
 
 export default function Events() {
+  const defaultVal = ['WY'];
+
   useEffect(() => {
     var eventHandler = function (name) {
       return function () {
@@ -36,9 +38,9 @@ export default function Events() {
         <ThemeChanger />
         <h4>Using Events</h4>
         <p>Check out the console for more details about each event.</p>
-        <div class="control-group">
-          <label for="select-state">States:</label>
-          <select id="select-state" multiple name="state">
+        <div className="control-group">
+          <label htmlFor="select-state">States:</label>
+          <select id="select-state" multiple name="state" defaultValue={defaultVal}>
             <option value="">Select a state...</option>
             <option value="AL">Alabama</option>
             <option value="AK">Alaska</option>
@@ -90,10 +92,10 @@ export default function Events() {
             <option value="WA">Washington</option>
             <option value="WV">West Virginia</option>
             <option value="WI">Wisconsin</option>
-            <option value="WY" selected>Wyoming</option>
+            <option value="WY">Wyoming</option>
           </select>
         </div>
-        <h4 class='mt-4'>Event Log</h4>
+        <h4 className='mt-4'>Event Log</h4>
         <pre id="log"></pre>
       </div>
 

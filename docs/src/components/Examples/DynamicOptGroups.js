@@ -52,9 +52,9 @@ export default function OptGroups() {
         <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
           Selectize provides the ability to group options together within the dropdown menu.
         </h4>
-        <div class="control-group">
-          <label for="select-console">Console:</label>
-          <select id="select-console" class="demo-consoles" placeholder="Select console..."></select>
+        <div className="control-group">
+          <label htmlFor="select-console">Console:</label>
+          <select id="select-console" className="demo-consoles" placeholder="Select console..."></select>
         </div>
       </div>
 

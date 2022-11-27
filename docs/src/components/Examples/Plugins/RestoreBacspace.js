@@ -29,14 +29,14 @@ export default function RestoreBackspace() {
           Press the [backspace] key and go back to editing the item without it being fully removed.
         </h4>
 
-        <select id="restore-backspace" multiple>
-          <option value="1" selected>
+        <select id="restore-backspace" multiple defaultValue={['1', '2', '3']}>
+          <option value="1">
             Awesome
           </option>
-          <option value="2" selected>
+          <option value="2">
             Beast
           </option>
-          <option value="3" selected>
+          <option value="3">
             Compatible
           </option>
           <option value="4">Thomas Edison</option>

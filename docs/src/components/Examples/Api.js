@@ -64,11 +64,11 @@ export default function Api() {
       >
         <ThemeChanger />
         <h4>Examples of how to interact with the control programmatically.</h4>
-        <div class="control-group">
+        <div className="control-group">
           <select id="select-tools" multiple placeholder="Pick a tool..."></select>
         </div>
 
-        <div class="pt-4">
+        <div className="pt-4">
           <button type="button" value="clear()" id="button-clear">clear()</button>
           <button type="button" value="clearOptions()" id="button-clearoptions">clearOptions()</button>
           <button type="button" value="addOption()" id="button-addoption">addOption()</button>
