@@ -2,7 +2,7 @@
 
 First off, thanks for taking the time to contribute! ❤️
 
-All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
+All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
 
 > And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
 >
@@ -82,11 +82,11 @@ Once it's filed:
 
 - The project team will label the issue accordingly.
 - A team member will try to reproduce the issue with your provided steps. If there are no reproduction steps or no obvious way to reproduce the issue, the team will ask you for those steps and mark the issue as `needs-repro`. Bugs with the `needs-repro` tag will not be addressed until they are reproduced.
-- If the team is able to reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
+- If the team can reproduce the issue, it will be marked `needs-fix`, as well as possibly other tags (such as `critical`), and the issue will be left to be [implemented by someone](#your-first-code-contribution).
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion for Selectize, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
+This section guides you through submitting an enhancement suggestion for Selectize, **including entirely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your request and find related suggestions.
 
 #### Before Submitting an Enhancement
 
@@ -102,7 +102,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/select
 - Use a **clear and descriptive title** for the issue to identify the suggestion.
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point, you can also tell which alternatives do not work for you.
-- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part to which the suggestion is related. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
+- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part to which the suggestion is related. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
 - **Explain why this enhancement would be useful** to most Selectize users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 ### Your First Code Contribution
@@ -117,9 +117,9 @@ Running `make` will build the project, run all tests, and update the distributio
 
 Running `npm start` on your repo will start a web server allowing you to view a local copy of this documentation, where you can test your changes against our example pages.
 
-If you are adding a new plugin, you should also add a corresponding example page to the `/docs/docs/plugins` directory.
+If you are adding a new plugin, you should add a corresponding example page to the `/docs/docs/plugins` directory.
 
-You can then run the examples at `http://localhost:4000/`.
+You can then run the examples at `https://loopback.website:4000/`.
 
 ### Improving The Documentation
 
@@ -134,7 +134,5 @@ If you're motivated to fix a bug or to develop a new feature, we'd love to see y
 - Make sure tests pass: Run `npm test` to make sure your changes don't break existing functionality
 - Do not make changes to files in `/dist`. Limiting your edits to files in `/src` directories keeps the size of your pull request down and makes it easier for us to evaluate. We'll update the `/dist` folder after your pull request is approved.
 - Add tests: In the best-case scenario, you are also adding tests to back up your changes, but don't sweat it if you don't. We can discuss them at a later date.
-- Squash your commits together in one or a few complete, logical commits,
-  with a concise and descriptive message. One commit means one
-  feature/bugfix/thing that has changed, or a diff bringing the code one
-  step forward to a better, working state.
+- Squash your commits together in one or a few complete, logical commits with a concise and descriptive message. One commit means one
+  feature/bugfix/thing that has changed or a diff bringing the code one step forward to a better, working state.

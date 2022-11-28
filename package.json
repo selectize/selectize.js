@@ -34,6 +34,7 @@
     "bootstrap3": "npm:bootstrap@3.4.1",
     "bootstrap4": "npm:bootstrap@4.6.0",
     "bootstrap5": "npm:bootstrap@5.2.3",
+    "concurrently": "7.6.0",
     "chai": "4.3.7",
     "del": "^6.1.1",
     "gulp": "^4.0.2",
@@ -80,7 +81,8 @@
     "docs": "gulp docs",
     "start": "cd docs && HTTPS=true SSL_CRT_FILE=.ssl/loopback_website.crt SSL_KEY_FILE=.ssl/loopback_website.key npm run start -- --host=loopback.website --port=4000",
     "start:windows": "cd docs && SET HTTPS=true && SET SSL_CRT_FILE=.ssl/loopback_website.crt && SET SSL_KEY_FILE=.ssl/loopback_website.key && npm run start -- --host=loopback.website --port=4000",
-    "watch": "gulp watch"
+    "watch": "concurrently \"gulp watch\" \"npm run start\"",
+    "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\""
   },
   "engines": {
     "node": "*"

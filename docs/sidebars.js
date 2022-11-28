@@ -17,7 +17,6 @@ const sidebars = {
   docsSidebar: ["intro",
     "usage",
     "events",
-    "glossary",
     "contribute",
     "plugins",
     "code-of-conduct",

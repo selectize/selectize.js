@@ -1,12 +1,12 @@
-// Type definitions for Selectize 0.12.13
-// Project: https://github.com/brianreavis/selectize.js
+// Type definitions for Selectize 0.15.3
+// Project: https://github.com/selectize/selectize.js
 // Definitions by: Adi Dahiya <https://github.com/adidahiya>, Natalie Bausch <https://github.com/naBausch>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference types="jquery"/>
 
 export declare namespace Selectize {
-    // see https://github.com/brianreavis/selectize.js/blob/master/docs/usage.md
+    // see https://github.com/selectize/selectize.js/blob/master/docs/usage.md
     // option identifiers are parameterized by T; data is parameterized by U
     interface IOptions<T, U> {
 
@@ -365,13 +365,13 @@ export declare namespace Selectize {
         dropdownSize?: {
             /**
              * Type of dropdown
-             * 
+             *
              * @default 'auto'
              */
             sizeType: 'auto' | 'numberItems' | 'fixedHeight',
             /**
              * Size value of dropdown
-             * 
+             *
              * @default 'auto'
              */
             sizeValue: 'auto' | '??px' | '??rem' | '??em' | '??vh'
@@ -379,14 +379,14 @@ export declare namespace Selectize {
 
         /**
          * Ignored selector when dropdown height calculated
-         * 
+         *
          * @default 'img, i'
          */
         ignoreOnDropwdownHeight: string,
 
         /**
          * For setting search mode on input on a single select
-         * 
+         *
          * @default true
          */
         search: boolean,
@@ -416,7 +416,7 @@ export declare namespace Selectize {
         optgroup?(data: U, escape: (input: string) => string): string;
     }
 
-    // see https://github.com/brianreavis/selectize.js/blob/master/docs/api.md
+    // see https://github.com/selectize/selectize.js/blob/master/docs/api.md
     interface IApi<T, U> {
 
         // Dropdown Options

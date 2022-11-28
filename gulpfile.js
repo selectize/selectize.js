@@ -51,8 +51,10 @@ const copySrc = async () => {
 };
 const watchFiles = async () => watch(['src/**/*.{js,css,less,scss}']).on('change', series(loadDependencies, copyDependencies, copySrc, generateJsDoc, forwardToDocs));
 const forwardToDocs = async () => {
-  src(['dist/css/**/*']).pipe(dest('docs/static/css'));
-  src(['dist/js/**/*']).pipe(dest('docs/static/js'));
+  setTimeout(async () => {
+    src(['dist/css/**/*']).pipe(dest('docs/static/css'));
+    src(['dist/js/**/*']).pipe(dest('docs/static/js'));
+  }, 1500);
 }
 const generateJsDoc = async () => {
   (async () => {

@@ -1,8 +1,8 @@
 ---
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Getting Started with Selectize
 
@@ -12,7 +12,7 @@ Selectize is a JavaScript library that provides a rich user experience for selec
 
 ### What you'll need
 
-Selectize requires jQuery. We also include styles for bootstrap, but also provide raw Less and Sass files for you to customize with any framework you like.
+Selectize requires jQuery. We also include styles for bootstrap and provide raw Less and Sass files for you to customize with any framework you like.
 
 If you want to use the Drag & Drop plugin, you'll need jQuery UI.
 
@@ -37,23 +37,20 @@ yarn add @selectize/selectize
 
 ### Install with cdn
 
-The fastest way to add Selectize into your project is to just include the js and css from jsDelivr.
+The fastest way to add Selectize to your project is to include the js and css from [cdnjs](https://cdnjs.com/libraries/selectize.js).
 
 ```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/css/selectize.css" integrity="sha512-ikoGg2i+6jXI1u0qXylbyIb+9f9/z/fVQR4kor0Dmt3oTIb/ZnOZ33POmdUitzXTDrd5XCpQUhsiXnl/oTuiHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.14.0/js/standalone/selectize.min.js" integrity="sha512-EZjqrrnoamnlzX1VpHSu7mCYXpbVJdqeJBbpPIHdfH/AtF8Lp/jKrCzYqzKSuVjxriFkEWR0I3qoT2evvrvRmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-```
-
-## Usage
-
-In its simplest form, Selectize can be initialized on an existing `<select>` element:
-
-```html
-<script type="text/javascript" src="selectize.js"></script>
-<link rel="stylesheet" type="text/css" href="selectize.css" />
-<script>
-  $(function () {
-    $("select").selectize(options);
-  });
-</script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css"
+  integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js"
+  integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
 ```
