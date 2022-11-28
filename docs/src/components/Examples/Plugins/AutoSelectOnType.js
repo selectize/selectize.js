@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import CodeBlock from "@theme/CodeBlock";
 import ThemeChanger from "../../Theming/ThemeChanger";
 
-export default function ClearButton() {
+export default function AutoSelectOnType() {
   useEffect(() => {
-    $("#clearButton").selectize({
-      plugins: ["clear_button"],
+    $("#autoSelectOnType").selectize({
+      plugins: ["auto_select_on_type"],
     });
   });
 
@@ -18,11 +18,12 @@ export default function ClearButton() {
       >
         <ThemeChanger />
         <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          A plugin by <a target="_blank" href="https://github.com/fabienwnklr">Fabien Winkler</a> that adds a clear button to single or multiple
-          select.
+          A plugin by <a href="https://github.com/risadams">Ris Adams</a> for
+          auto select value on <code>blur</code> if exact value available. Try
+          with tipping 'beast' and click outside of input.
         </h4>
 
-        <select id="clearButton">
+        <select id="autoSelectOnType">
           <option value=""></option>
           <option value="1">Awesome</option>
           <option value="2">Beast</option>
@@ -35,7 +36,7 @@ export default function ClearButton() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`<select id="clearButton">
+        {`<select id="autoSelectOnType">
   <option value=''></option>
   <option value='1'>Awesome</option>
   <option value='2'>Beast</option>
@@ -48,8 +49,8 @@ export default function ClearButton() {
               `}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`$("#clearButton").selectize({
-  plugins: ["clear_button"],
+        {`$("#autoSelectOnType").selectize({
+  plugins: ["auto_select_on_type"],
 });`}
       </CodeBlock>
     </div>

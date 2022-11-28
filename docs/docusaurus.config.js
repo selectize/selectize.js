@@ -76,7 +76,7 @@ const config = {
     "https://code.jquery.com/jquery-3.6.1.min.js",
     "https://code.jquery.com/ui/1.13.2/jquery-ui.min.js",
     "https://kit.fontawesome.com/109d56cc28.js",
-    "/js/selectize.min.js",
+    "/js/selectize.js",
   ],
 
   themeConfig:

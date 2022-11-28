@@ -2,18 +2,10 @@ import React, { useEffect } from "react";
 import CodeBlock from "@theme/CodeBlock";
 import ThemeChanger from "../../Theming/ThemeChanger";
 
-export default function RemoveButton() {
+export default function SelectOnFocus() {
   useEffect(() => {
-    $("#remove-button").selectize({
-      plugins: ["remove_button"],
-      delimiter: ",",
-      persist: false,
-      create: function (input) {
-        return {
-          value: input,
-          text: input,
-        };
-      },
+    $("#select-on-focus").selectize({
+      plugins: ["select_on_focus"],
     });
   });
 
@@ -26,11 +18,10 @@ export default function RemoveButton() {
       >
         <ThemeChanger />
         <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          This plugin adds classic a classic remove button to each item for
-          behavior that mimics Select2 and Chosen.
+          Select input value when input is focused
         </h4>
 
-        <select id="remove-button" multiple defaultValue={['1', '2', '3']}>
+        <select id="select-on-focus">
           <option value="1">
             Awesome
           </option>
@@ -48,10 +39,11 @@ export default function RemoveButton() {
       </div>
 
       <CodeBlock className="language-html" title="Html">
-        {`<select id="remove-button">
-  <option value="1" selected>Awesome</option>
-  <option value="2" selected>Beast</option>
-  <option value="3" selected>Compatible</option>
+        {`
+<select id="select-on-focus">
+  <option value="1">Awesome</option>
+  <option value="2">Beast</option>
+  <option value="3">Compatible</option>
   <option value="4">Thomas Edison</option>
   <option value="5">Nikola</option>
   <option value="6">Selectize</option>
@@ -59,16 +51,8 @@ export default function RemoveButton() {
 </select>`}
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
-        {`$("#remove-button").selectize({
-  plugins: ["remove_button"],
-  delimiter: ",",
-  persist: false,
-  create: function (input) {
-    return {
-        value: input,
-        text: input,
-    };
-  },
+        {`$("#select-on-focus").selectize({
+  plugins: ["restore_on_backspace"]
 });`}
       </CodeBlock>
     </div>

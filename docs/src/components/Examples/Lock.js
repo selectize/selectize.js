@@ -21,32 +21,32 @@ export default function Lock() {
         <ThemeChanger />
         <h4>Control Locking.</h4>
         <p>Selectize controls can be locked to prevent user interaction.</p>
-        <div class="control-group">
-          <label for="select-locked-empty">Locked (empty):</label>
+        <div className="control-group">
+          <label htmlFor="select-locked-empty">Locked (empty):</label>
           <select id="select-locked-empty" multiple placeholder="No input allowed...">
             <option value="A">Option A</option>
             <option value="B">Option B</option>
             <option value="C">Option C</option>
           </select>
         </div>
-        <div class="control-group">
-          <label for="select-locked-single">Locked (single):</label>
-          <select id="select-locked-single" placeholder="No input allowed...">
+        <div className="control-group">
+          <label htmlFor="select-locked-single">Locked (single):</label>
+          <select id="select-locked-single" placeholder="No input allowed..." defaultValue={'B'}>
             <option value="A">Option A</option>
-            <option value="B" selected>Option B</option>
+            <option value="B">Option B</option>
             <option value="C">Option C</option>
           </select>
         </div>
-        <div class="control-group">
-          <label for="select-locked">Locked:</label>
-          <select id="select-locked" multiple placeholder="No input allowed...">
+        <div className="control-group">
+          <label htmlFor="select-locked">Locked:</label>
+          <select id="select-locked" multiple placeholder="No input allowed..." defaultValue={['B', 'C']}>
             <option value="A">Option A</option>
-            <option value="B" selected>Option B</option>
-            <option value="C" selected>Option C</option>
+            <option value="B">Option B</option>
+            <option value="C">Option C</option>
           </select>
         </div>
-        <div class="control-group">
-          <label for="select-unlocked">Unlocked:</label>
+        <div className="control-group">
+          <label htmlFor="select-unlocked">Unlocked:</label>
           <select id="select-unlocked" multiple placeholder="Input allowed...">
             <option value="A">Option A</option>
             <option value="B">Option B</option>

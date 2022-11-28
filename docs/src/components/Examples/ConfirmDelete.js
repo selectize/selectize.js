@@ -23,9 +23,9 @@ export default function ConfirmDelete() {
       >
         <ThemeChanger />
         <h4>Using the Confirm Delete dialog</h4>
-        <div class="control-group">
-          <label for="input-tags">Tags:</label>
-          <input type="text" id="input-tags" class="demo-default" value="awesome,neat,yeah" />
+        <div className="control-group">
+          <label htmlFor="input-tags">Tags:</label>
+          <input type="text" id="input-tags" className="demo-default" defaultValue="awesome,neat,yeah" />
         </div>
       </div>
 
