@@ -49,7 +49,7 @@
     "gulp-uglifycss": "1.1.0",
     "gulp-watch": "5.0.1",
     "jquery": "^3.6.1",
-    "jsdoc-to-markdown": "^7.1.1",
+    "jsdoc-to-markdown": "^8.0.0",
     "jshint": "^2.13.6",
     "karma": "6.4.1",
     "karma-chai": "^0.1.0",
