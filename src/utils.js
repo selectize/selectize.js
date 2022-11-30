@@ -264,6 +264,8 @@ var measureString = function (str, $parent) {
       width: 0,
       height: 0,
       overflow: 'hidden'
+    }).attr({
+      'aria-hidden': true
     }).append(Selectize.$testInput).appendTo('body');
   }
 
