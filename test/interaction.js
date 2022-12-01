@@ -1,7 +1,15 @@
 (function() {
 
 	var click = function(el, cb) {
-		syn.click(el).delay(350, cb);
+		syn.click(el).delay(1, cb);
+	};
+
+	var tabTo = function(elem) {
+		// emulating keyboard tabbing using focus
+		// TODO: it would be better to use something like puppeteer instead, then we could simulate real keyboard interactions
+		// syn.key() is not reliable enough for tabbing
+		elem.focus();
+		return new Promise((resolve) => window.setTimeout(resolve));
 	};
 
 	// These tests are functional simulations of
@@ -41,7 +49,7 @@
 				});
 			});
 		});
-    
+
     it('should reopen dropdown if clicked after being closed by closeAfterSelect: true', function(done) {
       var test = setup_test('<select multiple>' +
 				'<option value="a">A</option>' +
@@ -409,6 +417,103 @@
 								});
 						});
 					});
+				});
+			});
+		});
+
+		describe('simulate tabbing using native focus()', function() {
+
+			describe('defaults', function() {
+				var test, input1, input2;
+
+				before(function(done) {
+					test = setup_test('<select>' +
+						'<option value="">No selection</option>' +
+						'<option value="a">A</option>' +
+						'<option value="b">B</option>' +
+						'</select>', {});
+					input1 = $('<input type="text" class="first">');
+					input2 = $('<input type="text" class="last">');
+					test.$select.parent().prepend(input1);
+					test.$select.parent().append(input2);
+					done();
+				});
+
+				after(function() {
+					input1.remove();
+					input2.remove();
+				});
+
+				it('should give the control focus', async function() {
+					await tabTo(input1[0]);
+					expect(test.selectize.isFocused).to.be.equal(false);
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isFocused).to.be.equal(true);
+				});
+
+				it('should remove the control focus', async function() {
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isFocused).to.be.equal(true);
+					await tabTo(input2[0]);
+					expect(test.selectize.isFocused).to.be.equal(false);
+				});
+
+				it('should open the control', async function() {
+					await tabTo(input1[0]);
+					expect(test.selectize.isOpen).to.be.equal(false);
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isOpen).to.be.equal(true);
+				});
+
+				it('should close the control', async function() {
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isOpen).to.be.equal(true);
+					await tabTo(input2[0]);
+					expect(test.selectize.isOpen).to.be.equal(false);
+				});
+
+				// TODO: this would work if tabTo was using actual keyboard interactions,
+				// and not just focus()
+				xit('should select the first value on blur', async function() {
+					await tabTo(test.selectize.$control_input[0]);
+					await tabTo(input2[0]);
+					expect(test.selectize.getValue()).to.be.equal('a');
+				});
+			});
+
+			describe('openOnFocus is false', function() {
+				var test, input1, input2;
+
+				before(function(done) {
+					test = setup_test('<select>' +
+						'<option value="">No selection</option>' +
+						'<option value="a">A</option>' +
+						'<option value="b">B</option>' +
+						'</select>', { openOnFocus: false });
+					input1 = $('<input type="text" class="first">');
+					input2 = $('<input type="text" class="last">');
+					test.$select.parent().prepend(input1);
+					test.$select.parent().append(input2);
+					done();
+				});
+
+				after(function() {
+					input1.remove();
+					input2.remove();
+				});
+
+				it('should give the control focus', async function() {
+					await tabTo(input1[0]);
+					expect(test.selectize.isFocused).to.be.equal(false);
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isFocused).to.be.equal(true);
+				});
+
+				it('should not open the control', async function() {
+					await tabTo(input1[0]);
+					expect(test.selectize.isOpen).to.be.equal(false);
+					await tabTo(test.selectize.$control_input[0]);
+					expect(test.selectize.isOpen).to.be.equal(false);
 				});
 			});
 		});
