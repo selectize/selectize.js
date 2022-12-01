@@ -633,7 +633,7 @@
 					test.selectize.search('hello');
 				}).to.not.throw(Error);
       });
-      it('should normalize a string', function () {
+      expect('should normalize a string', function () {
         var test;
 
         beforeEach(function() {
@@ -642,11 +642,12 @@
           '</select>', { normalize: true });
         });
 
-        it('should return query satinized', function() {
+        it('should return query satinized', function(done) {
           var query = test.selectize.search('héllo').query;
 
           window.setTimeout(function () {
             expect(query).to.be.equal('hello');
+            done();
           }, 0);
         });
 			});
