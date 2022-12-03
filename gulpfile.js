@@ -10,6 +10,7 @@ const path = require('path');
 const rename = require('gulp-rename');
 const replace = require('gulp-replace');
 const sass = gulpSass(dartSass);
+const strip = require('gulp-strip-comments');
 const uglify = require('gulp-uglify');
 const uglifycss = require('gulp-uglifycss');
 const wrapper = require('@risadams/gulp-wrapper');
@@ -194,6 +195,7 @@ const __wrapScripts = lazypipe()
     header: amd_header,
     footer: amd_footer
   })
+  .pipe(strip, { trim: true })
   .pipe(wrapper, { header: license_header })
   .pipe(replace, /@@YEAR/g, getYear())
   .pipe(replace, /@@version/g, getVersion())
