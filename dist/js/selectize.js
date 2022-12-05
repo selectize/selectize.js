@@ -3275,6 +3275,29 @@ Selectize.define('optgroup_columns', function(options) {
 
 });
 
+Selectize.define('read-only', function(options){
+	var self = this;
+	this.setup = (function() {
+		var original = self.setup;
+		return function() {
+			original.apply(this, arguments);
+			if(this.$dropdown.hasClass("read-only"))this.$control_input.attr('readonly', 'readonly');
+		};
+	})();
+	this.readonly = (function() {
+		return function(state) {
+			if(state){
+				this.$control_input.attr('readonly', 'readonly');
+				this.$dropdown.addClass("read-only")
+			}
+			else{
+				this.$control_input.removeAttr('readonly');
+				this.$dropdown.removeClass("read-only")
+			}
+		};
+	})();
+});
+
 Selectize.define('remove_button', function (options) {
   if (this.settings.mode === 'single') return;
 
