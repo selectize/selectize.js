@@ -1,9 +1,9 @@
 /**
- * 
+ *
  * Selectize instance
  * @param {JQuery} $input Jquery object of target element to Selectized
  * @param {Object} settings Options to apply for selectized element
- * 
+ *
  */
 var Selectize = function($input, settings) {
 	var key, i, n, dir, input, self = this;
@@ -14,7 +14,7 @@ var Selectize = function($input, settings) {
 	var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
 	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
   dir = dir || $input.parents('[dir]:first').attr('dir') || '';
-  
+
   self.settings = {};
 
 	// setup default state
@@ -135,7 +135,7 @@ $.extend(Selectize.prototype, {
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass + ' selectize-input items').appendTo($wrapper);
-		$control_input    = $('<input type="select-one" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass + ' selectize-dropdown-content').attr('tabindex', '-1').appendTo($dropdown);

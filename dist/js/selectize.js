@@ -825,7 +825,7 @@ var Selectize = function($input, settings) {
 	dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
   dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 
-    self.settings = {};
+  self.settings = {};
 
 	$.extend(self, {
 		order            : 0,
@@ -931,7 +931,7 @@ $.extend(Selectize.prototype, {
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass + ' selectize-input items').appendTo($wrapper);
-		$control_input    = $('<input type="select-one" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass + ' selectize-dropdown-content').attr('tabindex', '-1').appendTo($dropdown);
