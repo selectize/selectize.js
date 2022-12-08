@@ -19,8 +19,6 @@ const sidebars = {
     "events",
     "contribute",
     "plugins",
-    "code-of-conduct",
-    "license",
   ],
   demoSidebar: [
     {

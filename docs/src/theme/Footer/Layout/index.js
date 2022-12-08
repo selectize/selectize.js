@@ -14,9 +14,9 @@ export default function FooterLayout({ style, links, logo, copyright }) {
       },
         'overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.5rem] dark:pb-32 dark:pt-[4.5rem] dark:lg:mt-[-4.75rem] dark:lg:pt-[4.75rem]'
       )}>
-      <div className='relative md:text-center lg:text-left'>
+      <div className='relative'>
         <img
-          className="absolute -mb-56 opacity-50 bottom-full right-full -mr-72"
+          className="absolute opacity-50 -mb-72 bottom-full right-full -mr-72"
           src={blurCyanImage}
           alt=""
           width={530}
@@ -33,7 +33,7 @@ export default function FooterLayout({ style, links, logo, copyright }) {
           height={567}
         />
       </div>
-      <div className='relative md:text-center lg:text-left'>
+      <div className='relative px-8 md:px-4 lg:px-2 md:text-center lg:text-left'>
         {links}
         {(logo || copyright) && (
           <div className="footer__bottom text--center">

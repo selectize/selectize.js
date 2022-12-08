@@ -42,12 +42,18 @@ const config = {
               label: 'Current Version (0.15.x)',
             },
           },
+          remarkPlugins: [
+            [require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }],
+          ],
         },
         blog: {
           showReadingTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
+        },
+        pages: {
+          remarkPlugins: [require('@docusaurus/remark-plugin-npm2yarn')],
         },
         gtag: {
           trackingID: 'G-QL249YEJYD',
@@ -89,6 +95,15 @@ const config = {
       googleAdsense: {
         dataAdClient: 'ca-pub-9290211346209107',
       },
+      // algolia: {
+      //   appId: 'YOUR_APP_ID',
+      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   indexName: 'Selectize',
+      //   contextualSearch: true,
+      //   externalUrlRegex: 'selectize\\.dev|loopback\\.website',
+      //   searchParameters: {},
+      //   searchPagePath: 'search',
+      // },
       navbar: {
         title: 'Selectize',
         logo: {
@@ -182,7 +197,11 @@ const config = {
             items: [
               {
                 label: 'License',
-                to: '/docs/license',
+                to: '/license',
+              },
+              {
+                label: 'Code of Conduct',
+                to: '/code-of-conduct',
               },
               // {
               //   label: 'Privacy Policy',
