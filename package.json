@@ -78,7 +78,7 @@
   "scripts": {
     "test": "karma start",
     "build": "gulp",
-    "clean": "rm -rf dist coverage node_modules && cd docs && npm run clear",
+    "clean": "rm -rf dist coverage node_modules docs/node_modules && cd docs && npm run clear",
     "docs": "gulp docs",
     "start": "cd docs && HTTPS=true SSL_CRT_FILE=.ssl/loopback_website.crt SSL_KEY_FILE=.ssl/loopback_website.key npm run start -- --host=loopback.website --port=4000",
     "start:windows": "cd docs && SET HTTPS=true && SET SSL_CRT_FILE=.ssl/loopback_website.crt && SET SSL_KEY_FILE=.ssl/loopback_website.key && npm run start -- --host=loopback.website --port=4000",

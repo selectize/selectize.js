@@ -6,8 +6,9 @@ module.exports = {
   theme: {
     extend: {},
     fontFamily: {
-      sans: ['Inter', ...defaultTheme.fontFamily.sans],
-      display: ['Lexend', ...defaultTheme.fontFamily.sans],
+      sans: ['Lexand', ...defaultTheme.fontFamily.sans],
+      display: ['Visby CF', ...defaultTheme.fontFamily.sans],
+      mono: ['CaskaydiaCove Nerd Font Mono', ...defaultTheme.fontFamily.mono],
     },
   },
   corePlugins: { preflight: false },

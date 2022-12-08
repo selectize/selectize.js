@@ -123,6 +123,12 @@ const config = {
       },
       footer: {
         style: 'dark',
+        logo: {
+          alt: 'Selectize Logo',
+          src: 'img/logo.svg',
+          width: 160,
+          height: 51,
+        },
         links: [
           {
             title: "Docs",

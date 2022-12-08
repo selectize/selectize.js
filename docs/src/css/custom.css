@@ -14,7 +14,8 @@
   --ifm-code-font-size: 95%;
   --docusaurus-highlighted-code-line-bg: theme("colors.slate.200");
   --ifm-heading-font-family: "Lexend", sans-serif;
-  --ifm-font-family-base: "Inter", sans-serif;
+  --ifm-font-family-base: "Visby CF", sans-serif;
+  --ifm-font-family-monospace: "CaskaydiaCove Nerd Font Mono", sans-serif;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -37,21 +38,326 @@
   font-display: swap;
   src: url(../fonts/lexend.woff2) format("woff2");
 }
+
 @font-face {
-  font-family: "Inter";
-  font-weight: 100 900;
-  font-display: block;
-  font-style: normal;
-  font-named-instance: "Regular";
-  src: url("../fonts/Inter-roman.var.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Inter";
-  font-weight: 100 900;
-  font-display: block;
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-BoldOblique.woff2') format('woff2');
+  font-weight: bold;
   font-style: italic;
-  font-named-instance: "Italic";
-  src: url("../fonts/Inter-italic.var.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-HeavyOblique.woff2') format('woff2');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-MediumOblique.woff2') format('woff2');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-RegularOblique.woff2') format('woff2');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF Demi';
+  src: url('../fonts/VisbyCF-DemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF Extra';
+  src: url('../fonts/VisbyCF-ExtraBoldOblique.woff2') format('woff2');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-LightOblique.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF Demi';
+  src: url('../fonts/VisbyCF-DemiBoldOblique.woff2') format('woff2');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF Extra';
+  src: url('../fonts/VisbyCF-ExtraBold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-Heavy.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Visby CF';
+  src: url('../fonts/VisbyCF-ThinOblique.woff2') format('woff2');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-Italic.otf') format('otf');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoItalic.otf') format('otf');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoRegular.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-LightItalic.otf') format('otf');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-Regular.otf') format('otf');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono SemiLight';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoSemiLightItalic.otf') format('otf');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono SemiLight';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoSemiLight.otf') format('otf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font SemiLight';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-SemiLight.otf') format('otf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font SemiLight';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-SemiLightItalic.otf') format('otf');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-BoldItalic.otf') format('otf');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-Bold.otf') format('otf');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-Light.otf') format('otf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoBoldItalic.otf') format('otf');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoExtraLightItalic.otf') format('otf');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoBold.otf') format('otf');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoExtraLight.otf') format('otf');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoLightItalic.otf') format('otf');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-ExtraLightItalic.otf') format('otf');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoLight.otf') format('otf');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-ExtraLight.otf') format('otf');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-SemiBoldItalic.otf') format('otf');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoSemiBold.otf') format('otf');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font Mono';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-MonoSemiBoldItalic.otf') format('otf');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CaskaydiaCove Nerd Font';
+  src: url('../fonts/CaskaydiaCoveNerdFontComplete-SemiBold.otf') format('otf');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Utility Overrides */
@@ -59,3 +365,5 @@ pre[class*="hero-code"] {
   background-color: theme("colors.slate.800");
   color: theme("colors.slate.200");
 }
+
+
