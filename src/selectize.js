@@ -1928,7 +1928,7 @@ $.extend(Selectize.prototype, {
 			old = existing.filter(function(value) {
 				return values.indexOf(value) < 0;
 			}).map(function(value) {
-				return 'option[value="' + value + '"]';
+				return 'option[value="' + escape_html(value) + '"]';
 			});
 
 			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {

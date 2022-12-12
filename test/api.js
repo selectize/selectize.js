@@ -530,7 +530,7 @@
 						{value: 0},
 						{value: 1},
 						{value: 2},
-						{value: 3},
+						{value: JSON.stringify({"type":"place"})},
 					],
 					items: ['1','2','3']
 				});
@@ -549,7 +549,7 @@
 				// 		{value: 0},
 				// 		{value: 1},
 				// 		{value: 2},
-				// 		{value: 3},
+				// 		{value: JSON.stringify({"type":"place"})},
 				// 	],
 				// 	items: ['1','2','3']
 				// });
@@ -561,7 +561,7 @@
 					window.setTimeout(function() {
 						expect(test.selectize.$dropdown_content.find('[data-value=1]').length).to.be.equal(1);
 						expect(test.selectize.$dropdown_content.find('[data-value=2]').length).to.be.equal(1);
-						expect(test.selectize.$dropdown_content.find('[data-value=3]').length).to.be.equal(1);
+						expect(test.selectize.$dropdown_content.find('[data-value*="type"]').length).to.be.equal(1);
 						done();
 					}, 0);
 				}, 0);
@@ -574,7 +574,7 @@
 				test.selectize.clear();
 				expect(test.selectize.$control.find('[data-value=1]').length).to.be.equal(0);
 				expect(test.selectize.$control.find('[data-value=2]').length).to.be.equal(0);
-				expect(test.selectize.$control.find('[data-value=3]').length).to.be.equal(0);
+				expect(test.selectize.$control.find('[data-value*="type"]').length).to.be.equal(0);
 			});
 			it('should not fire "change" if silent is truthy', function(done) {
 				var watcher = function(e) { throw new Error('Change fired'); };
