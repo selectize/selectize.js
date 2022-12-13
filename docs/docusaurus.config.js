@@ -26,7 +26,15 @@ const config = {
   // to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: [
+      'en',
+      // 'fr'
+    ],
+    localeConfigs: {
+      en: {
+        htmlLang: 'en-US',
+      },
+    }
   },
 
   presets: [
@@ -65,6 +73,7 @@ const config = {
 
   plugins: [
     'docusaurus-plugin-google-adsense',
+    '@docusaurus/theme-live-codeblock',
     async function loadTailwindCss() {
       return {
         name: "docusaurus-tailwindcss",
@@ -96,14 +105,17 @@ const config = {
         dataAdClient: 'ca-pub-9290211346209107',
       },
       // algolia: {
-      //   appId: 'YOUR_APP_ID',
-      //   apiKey: 'YOUR_SEARCH_API_KEY',
+      //   appId: 'I8ILTNUYXK',
+      //   apiKey: '6680cf1dd566e9052054d892083f4db2',
       //   indexName: 'Selectize',
       //   contextualSearch: true,
       //   externalUrlRegex: 'selectize\\.dev|loopback\\.website',
       //   searchParameters: {},
       //   searchPagePath: 'search',
       // },
+      liveCodeBlock: {
+        playgroundPosition: 'bottom',
+      },
       navbar: {
         title: 'Selectize',
         logo: {
@@ -132,6 +144,10 @@ const config = {
             type: 'docsVersionDropdown',
             position: 'right',
           },
+          // {
+          //   type: 'localeDropdown',
+          //   position: 'right',
+          // },
           { href: 'https://github.com/selectize/selectize.js/discussions', label: 'Community', position: 'right' },
           { href: 'https://github.com/selectize/selectize.js', label: 'GitHub', position: 'right', },
         ],

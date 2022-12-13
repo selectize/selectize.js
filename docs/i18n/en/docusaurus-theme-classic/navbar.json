@@ -1,0 +1,26 @@
+{
+  "title": {
+    "message": "Selectize",
+    "description": "The title in the navbar"
+  },
+  "item.label.Get Started": {
+    "message": "Get Started",
+    "description": "Navbar item with label Get Started"
+  },
+  "item.label.Examples": {
+    "message": "Examples",
+    "description": "Navbar item with label Examples"
+  },
+  "item.label.API Documentation": {
+    "message": "API Documentation",
+    "description": "Navbar item with label API Documentation"
+  },
+  "item.label.Community": {
+    "message": "Community",
+    "description": "Navbar item with label Community"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

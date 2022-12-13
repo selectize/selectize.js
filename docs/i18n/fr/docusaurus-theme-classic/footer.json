@@ -1,0 +1,62 @@
+{
+  "link.title.Docs": {
+    "message": "Docs",
+    "description": "The title of the footer links column with title=Docs in the footer"
+  },
+  "link.title.Demos": {
+    "message": "Demos",
+    "description": "The title of the footer links column with title=Demos in the footer"
+  },
+  "link.title.Community": {
+    "message": "Community",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Legal": {
+    "message": "Legal",
+    "description": "The title of the footer links column with title=Legal in the footer"
+  },
+  "link.item.label.Get Started": {
+    "message": "Get Started",
+    "description": "The label of footer link with label=Get Started linking to /docs/intro"
+  },
+  "link.item.label.Events": {
+    "message": "Events",
+    "description": "The label of footer link with label=Events linking to /docs/events"
+  },
+  "link.item.label.API": {
+    "message": "API",
+    "description": "The label of footer link with label=API linking to /docs/api"
+  },
+  "link.item.label.Examples": {
+    "message": "Examples",
+    "description": "The label of footer link with label=Examples linking to /docs/demos"
+  },
+  "link.item.label.Plugins": {
+    "message": "Plugins",
+    "description": "The label of footer link with label=Plugins linking to /docs/plugins"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/selectize/selectize.js"
+  },
+  "link.item.label.Keybase": {
+    "message": "Keybase",
+    "description": "The label of footer link with label=Keybase linking to https://keybase.io/team/selectize"
+  },
+  "link.item.label.Stackoverflow": {
+    "message": "Stackoverflow",
+    "description": "The label of footer link with label=Stackoverflow linking to https://stackoverflow.com/questions/tagged/selectize.js"
+  },
+  "link.item.label.License": {
+    "message": "License",
+    "description": "The label of footer link with label=License linking to /license"
+  },
+  "link.item.label.Code of Conduct": {
+    "message": "Code of Conduct",
+    "description": "The label of footer link with label=Code of Conduct linking to /code-of-conduct"
+  },
+  "copyright": {
+    "message": "Copyright © 2022 Selectize team.",
+    "description": "The footer copyright"
+  }
+}
