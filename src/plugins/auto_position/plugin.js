@@ -6,8 +6,8 @@ Selectize.define("auto_position", function () {
     bottom: 'bottom',
   };
 
-  self.positionDropdown = (function() {
-    return function() {
+  self.positionDropdown = (function () {
+    return function () {
       const $control = this.$control;
       const offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
       offset.top += $control.outerHeight(true);
@@ -15,7 +15,12 @@ Selectize.define("auto_position", function () {
       const dropdownHeight = this.$dropdown.prop('scrollHeight') + 5; // 5 - padding value;
       const controlPosTop = this.$control.get(0).getBoundingClientRect().top;
       const wrapperHeight = this.$wrapper.height();
-      const position = controlPosTop + dropdownHeight + wrapperHeight  > window.innerHeight ? POSITION.top : POSITION.bottom;
+      const controlPosBottom = self.$control.get(0).getBoundingClientRect().bottom
+      const position =
+        controlPosTop + dropdownHeight + wrapperHeight > window.innerHeight &&
+          controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
+          POSITION.top :
+          POSITION.bottom;
       const styles = {
         width: $control.outerWidth(),
         left: offset.left

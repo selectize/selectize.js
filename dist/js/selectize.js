@@ -1392,6 +1392,9 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (self.ignoreBlur) {
+			if (self.isFocused) {
+				self.focus();
+			}
 			return;
 		}
 
@@ -2303,7 +2306,7 @@ $.extend(Selectize.prototype, {
 			old = existing.filter(function(value) {
 				return values.indexOf(value) < 0;
 			}).map(function(value) {
-				return 'option[value="' + value + '"]';
+				return 'option[value="' + escape_html(value) + '"]';
 			});
 
 			if (existing.length - old.length + fresh.length === 0 && !self.$input.attr('multiple')) {
@@ -2973,8 +2976,8 @@ Selectize.define("auto_position", function () {
     bottom: 'bottom',
   };
 
-  self.positionDropdown = (function() {
-    return function() {
+  self.positionDropdown = (function () {
+    return function () {
       const $control = this.$control;
       const offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
       offset.top += $control.outerHeight(true);
@@ -2982,7 +2985,12 @@ Selectize.define("auto_position", function () {
       const dropdownHeight = this.$dropdown.prop('scrollHeight') + 5; 
       const controlPosTop = this.$control.get(0).getBoundingClientRect().top;
       const wrapperHeight = this.$wrapper.height();
-      const position = controlPosTop + dropdownHeight + wrapperHeight  > window.innerHeight ? POSITION.top : POSITION.bottom;
+      const controlPosBottom = self.$control.get(0).getBoundingClientRect().bottom
+      const position =
+        controlPosTop + dropdownHeight + wrapperHeight > window.innerHeight &&
+          controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
+          POSITION.top :
+          POSITION.bottom;
       const styles = {
         width: $control.outerWidth(),
         left: offset.left
