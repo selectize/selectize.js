@@ -11,8 +11,8 @@
   --ifm-color-primary-light: theme("colors.sky.400");
   --ifm-color-primary-lighter: theme("colors.sky.300");
   --ifm-color-primary-lightest: theme("colors.sky.200");
-  --ifm-code-font-size: 100%;
-  --ifm-font-size-base: 110%;
+  --ifm-code-font-size: 90%;
+  --ifm-font-size-base: 105%;
   --docusaurus-highlighted-code-line-bg: theme("colors.slate.200");
   --ifm-heading-font-family: "Lexend", sans-serif;
   --ifm-font-family-base: "Visby CF", sans-serif;
