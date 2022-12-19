@@ -1,6 +1,6 @@
 {
-  "name": "docs",
-  "version": "0.0.0",
+  "name": "selectize.dev",
+  "version": "2022.12.0",
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
@@ -26,6 +26,7 @@
     "autoprefixer": "^10.4.13",
     "clsx": "^1.2.1",
     "docusaurus-plugin-google-adsense": "^0.3.1",
+    "framer-motion": "6.5.1",
     "postcss": "^8.4.19",
     "postcss-focus-visible": "^7.1.0",
     "postcss-import": "^15.1.0",

@@ -95,15 +95,16 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    /* @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       colorMode: {
-        disableSwitch: false,
-        respectPrefersColorScheme: true
+        disableSwitch: true,
+        respectPrefersColorScheme: false
       },
       googleAdsense: {
         dataAdClient: 'ca-pub-9290211346209107',
       },
+      // TODO -- Enable when Algolia index is ready and verified.
       // algolia: {
       //   appId: 'I8ILTNUYXK',
       //   apiKey: '6680cf1dd566e9052054d892083f4db2',
@@ -144,6 +145,7 @@ const config = {
             type: 'docsVersionDropdown',
             position: 'right',
           },
+          // TODO -- Enable when translations are available.
           // {
           //   type: 'localeDropdown',
           //   position: 'right',
