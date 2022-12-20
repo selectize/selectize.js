@@ -692,9 +692,6 @@ $.extend(Selectize.prototype, {
 		var self = this;
 
 		if (self.ignoreBlur) {
-			if (self.isFocused) {
-				self.focus();
-			}
 			return;
 		}
 
