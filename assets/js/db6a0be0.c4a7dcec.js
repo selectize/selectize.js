@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[2347],{5701:e=>{e.exports=JSON.parse('{"title":"Examples","description":"Example how we can use Selectize.js","image":"/img/docusaurus.png","keywords":["demos"],"slug":"/demos","permalink":"/docs/demos","navigation":{"next":{"title":"Using the API","permalink":"/docs/demos/api"}}}')}}]);
