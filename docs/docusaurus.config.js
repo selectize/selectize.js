@@ -104,16 +104,15 @@ const config = {
       googleAdsense: {
         dataAdClient: 'ca-pub-9290211346209107',
       },
-      // TODO -- Enable when Algolia index is ready and verified.
-      // algolia: {
-      //   appId: 'I8ILTNUYXK',
-      //   apiKey: '6680cf1dd566e9052054d892083f4db2',
-      //   indexName: 'Selectize',
-      //   contextualSearch: true,
-      //   externalUrlRegex: 'selectize\\.dev|loopback\\.website',
-      //   searchParameters: {},
-      //   searchPagePath: 'search',
-      // },
+      algolia: {
+        appId: 'I8ILTNUYXK',
+        apiKey: '6680cf1dd566e9052054d892083f4db2',
+        indexName: 'selectize',
+        contextualSearch: true,
+        externalUrlRegex: 'selectize\\.dev|loopback\\.website',
+        searchParameters: {},
+        searchPagePath: 'search',
+      },
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },
@@ -221,10 +220,10 @@ const config = {
                 label: 'Code of Conduct',
                 to: '/code-of-conduct',
               },
-              // {
-              //   label: 'Privacy Policy',
-              //   href: 'https://github.com/selectize/selectize.js',
-              // },
+              {
+                label: 'Privacy Policy',
+                href: '/privacy-policy',
+              },
               // {
               //   label: 'Data Policy',
               //   href: 'https://github.com/selectize/selectize.js',

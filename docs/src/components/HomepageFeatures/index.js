@@ -53,8 +53,12 @@ const FeatureList = [
       'For when you have thousands of options and want them provided by the server as the user types.',
     icon: 'fa-cloud-upload',
     pattern: {
-      y: 12,
-      squares: [[0, 1]],
+      y: 120,
+      squares: [
+        [0, 1],
+        [1, 2],
+        [3, 1]
+      ],
     },
   },
   {
@@ -136,7 +140,7 @@ function Feature({ feature }) {
           <FeatureIcon icon={feature.icon} />
         </div>
         <div className="text--center padding-horiz--md">
-          <h3 className='text-xl font-display'>{feature.name}</h3>
+          <h3 className='text-xl text-transparent font-display bg-gradient-to-r from-cyan-500 to-indigo-800 bg-clip-text'>{feature.name}</h3>
           <p className='font-sans'>{feature.description}</p>
         </div>
       </div>
@@ -146,11 +150,11 @@ function Feature({ feature }) {
 
 function FeatureIcon({ icon }) {
   return (
-    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900/5 backdrop-blur-[2px] transition duration-300 group-hover:bg-white/50 dark:group-hover:bg-sky-300/10">
+    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-900/5 backdrop-blur-[2px] transition duration-300">
       <span className={clsx('icon', icon,
         'fa-duotone',
-        'w-7 h-7 transition-colors duration-300 fill-zinc-700/10 stroke-zinc-700 group-hover:stroke-zinc-900 dark:fill-white/10 dark:stroke-zinc-400 dark:group-hover:fill-sky-300/10 dark:group-hover:stroke-sky-400',
-        'text-cyan-500')}></span>
+        'w-7 h-7 transition-colors duration-300 fill-zinc-700/10 stroke-zinc-700 group-hover:stroke-zinc-900',
+        'text-sky-500/75')}></span>
     </div>
   )
 }
@@ -171,7 +175,7 @@ function FeaturePattern({ mouseX, mouseY, ...gridProps }) {
         />
       </div>
       <motion.div
-        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#d7e6ed] to-[#dffbf7] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#283134]"
+        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#d7e6ed] to-[#e0e8f6] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#283134]"
         style={style}
       />
       <motion.div
