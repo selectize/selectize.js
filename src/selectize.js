@@ -237,18 +237,15 @@ $.extend(Selectize.prototype, {
 
 		$document.on('mousedown' + eventNS, function(e) {
 			if (self.isFocused) {
-				// prevent events on the dropdown scrollbar from causing the control to blur
-				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+				// prevent events on the dropdown from causing the control to blur
+				if (
+					e.target === self.$dropdown[0] ||
+					self.$dropdown.has(e.target).length)
+				{
 					return false;
 				}
 				// blur on click outside
-				// do not blur if the dropdown is clicked
-				if (self.$dropdown.has(e.target).length) {
-					self.ignoreBlur = true;
-					window.setTimeout(function() {
-						self.ignoreBlur = false;
-					}, 0);
-				} else if (e.target !== self.$control[0]) {
+				if (e.target !== self.$control[0]) {
 					self.blur(e.target);
 				}
 			}
@@ -690,10 +687,6 @@ $.extend(Selectize.prototype, {
 	 */
 	onBlur: function(e, dest) {
 		var self = this;
-
-		if (self.ignoreBlur) {
-			return;
-		}
 
 		if (!self.isFocused) return;
 		self.isFocused = false;
