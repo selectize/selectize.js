@@ -12,7 +12,7 @@ export default function FooterLayout({ style, links, logo, copyright }) {
       className={clsx('footer', {
         'footer--dark': style === 'dark'
       },
-        'overflow-hidden bg-slate-900 dark:-mb-32 dark:mt-[-4.5rem] dark:pb-32 dark:pt-[4.5rem] dark:lg:mt-[-4.75rem] dark:lg:pt-[4.75rem]'
+        'overflow-hidden bg-slate-900'
       )}>
       <div className='relative'>
         <img
@@ -22,7 +22,7 @@ export default function FooterLayout({ style, links, logo, copyright }) {
           width={530}
           height={530}
         />
-        <div className="absolute inset-x-[-50vw] -top-32 -bottom-48 [mask-image:linear-gradient(transparent,white,white)] dark:[mask-image:linear-gradient(transparent,white,transparent)] lg:left-[calc(50%+14rem)] lg:right-0 lg:-top-32 lg:-bottom-32 lg:[mask-image:none] lg:dark:[mask-image:linear-gradient(white,white,transparent)]">
+        <div className="absolute inset-x-[-50vw] -top-32 -bottom-48 [mask-image:linear-gradient(transparent,white,white)] lg:left-[calc(50%+14rem)] lg:right-0 lg:-top-32 lg:-bottom-32 lg:[mask-image:none] ">
           <HeroBackground className="absolute top-0 right-0 rotate-90 translate-x-1/2 opacity-25 -translate-y-1/3" />
         </div>
         <img

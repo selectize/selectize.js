@@ -2,6 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion'
 import { GridPattern } from '../GridPattern'
+import { PagePattern } from '../PagePattern'
+import { Prose } from '../Prose'
 
 const FeatureList = [
   {
@@ -132,17 +134,21 @@ function Feature({ feature }) {
   return (
     <div
       onMouseMove={onMouseMove}
-      className={clsx('group relative flex rounded-2xl bg-zinc-50 transition-shadow hover:shadow-md hover:shadow-zinc-900/5 dark:bg-white/2.5 dark:hover:shadow-black/5')}>
+      className={clsx('group relative flex',
+        'rounded-2xl',
+        'bg-zinc-50',
+        'transition-shadow shadow-lg hover:shadow-lg hover:shadow-zinc-900/5'
+      )}>
       <FeaturePattern {...feature.pattern} mouseX={mouseX} mouseY={mouseY} />
-      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-zinc-900/7.5 group-hover:ring-zinc-900/10 dark:ring-white/10 dark:group-hover:ring-white/20" />
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset" />
       <div className="relative px-4 pt-16 pb-4 rounded-2xl">
-        <div className="pb-4 text--center">
+        <div className="float-left px-4 pb-4 text--center">
           <FeatureIcon icon={feature.icon} />
         </div>
-        <div className="text--center padding-horiz--md">
+        <Prose>
           <h3 className='text-xl text-transparent font-display bg-gradient-to-r from-cyan-500 to-indigo-800 bg-clip-text'>{feature.name}</h3>
-          <p className='font-sans'>{feature.description}</p>
-        </div>
+          <p className='pt-5 font-sans'>{feature.description}</p>
+        </Prose>
       </div>
     </div>
   );
@@ -170,12 +176,12 @@ function FeaturePattern({ mouseX, mouseY, ...gridProps }) {
           width={72}
           height={56}
           x="50%"
-          className="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5 dark:fill-white/1 dark:stroke-white/2.5"
+          className="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/[0.02] stroke-black/5"
           {...gridProps}
         />
       </div>
       <motion.div
-        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#d7e6ed] to-[#e0e8f6] opacity-0 transition duration-300 group-hover:opacity-100 dark:from-[#202D2E] dark:to-[#283134]"
+        className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#d7e6ed] to-[#e0e8f6] opacity-0 transition duration-300 group-hover:opacity-100"
         style={style}
       />
       <motion.div
@@ -186,7 +192,7 @@ function FeaturePattern({ mouseX, mouseY, ...gridProps }) {
           width={72}
           height={56}
           x="50%"
-          className="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/50 stroke-black/70 dark:fill-white/2.5 dark:stroke-white/10"
+          className="absolute inset-x-0 inset-y-[-30%] h-[160%] w-full skew-y-[-18deg] fill-black/50 stroke-black/70"
           {...gridProps}
         />
       </motion.div>
@@ -196,13 +202,14 @@ function FeaturePattern({ mouseX, mouseY, ...gridProps }) {
 
 export default function HomepageFeatures() {
   return (
-    <section className={clsx('my-8 xl:max-w-none')}>
+    <section className={clsx('my-0 p-8 w-full max-w-none relative')}>
+      <PagePattern />
       <div className="w-full text-center">
         <h2 className='text-4xl text-transparent font-display bg-gradient-to-t from-cyan-500 to-indigo-800 bg-clip-text'>
           Features
         </h2>
       </div>
-      <div className={clsx('container not-prose mt-4 grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 dark:border-white/5 sm:grid-cols-2 xl:grid-cols-4')}>
+      <div className={clsx('not-prose grid grid-cols-1 gap-8 border-t border-zinc-900/5 pt-10 sm:grid-cols-2 xl:grid-cols-4')}>
         {FeatureList.map((props, idx) => (
           <Feature key={idx} feature={props} />
         ))}

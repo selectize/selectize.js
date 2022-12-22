@@ -1,13 +1,11 @@
 import React from 'react';
 import clsx from 'clsx'
-import Highlight, { defaultProps } from 'prism-react-renderer'
 
 import { Button } from './Button'
 import { HeroBackground } from './HeroBackground'
 import blurCyanImage from '/img/blur-cyan.png'
 import blurIndigoImage from '/img/blur-indigo.png'
 
-const codeLanguage = 'javascript'
 const code = `npm install @selectize/selectize
 --
 <script>
