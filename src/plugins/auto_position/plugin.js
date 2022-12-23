@@ -21,8 +21,9 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
+      const w = this.$wrapper[0].style.width !== 'fit-content' ? '100%' : 'max-content';
       const styles = {
-        width: $control.outerWidth(),
+        width: w,
         left: offset.left
       };
 
@@ -43,6 +44,12 @@ Selectize.define("auto_position", function () {
       }
 
       this.$dropdown.css(styles);
+
+      if (w === 'max-content' && $control[0].getBoundingClientRect().width >= this.$dropdown[0].getBoundingClientRect().width) {
+        this.$dropdown.css({
+          width : '100%'
+        });
+      }
     };
   }());
 });
