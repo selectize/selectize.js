@@ -426,15 +426,17 @@ $.extend(Selectize.prototype, {
 		if (!self.isFocused) {
 			// give control focus
 			if (!defaultPrevented) {
-				window.setTimeout(function() {
-					self.focus();
-				}, 0);
+        window.setTimeout(function () {
+          if (!self.isOpen) {
+            self.focus();
+          }
+        }, 0);
 			}
 		}
 		// retain focus by preventing native handling. if the
 		// event target is the input it should not be modified.
 		// otherwise, text selection within the input won't work.
-		if (e.target !== self.$control_input[0] || self.$control_input.val() === '') {
+		if ($target !== self.$control_input[0] || self.$control_input.val() === '') {
 			if (self.settings.mode === 'single') {
 				// toggle dropdown
 				self.isOpen ? self.close() : self.open();
@@ -443,15 +445,15 @@ $.extend(Selectize.prototype, {
 						self.setActiveItem(null);
 				}
 				if (!self.settings.openOnFocus) {
-					if (self.isOpen && e.target === self.lastOpenTarget) {
+					if (self.isOpen && $target === self.lastOpenTarget) {
 						self.close();
 						self.lastOpenTarget = false;
 					} else if (!self.isOpen) {
 						self.refreshOptions();
 						self.open();
-						self.lastOpenTarget = e.target;
+						self.lastOpenTarget = $target;
 					} else {
-						self.lastOpenTarget = e.target;
+						self.lastOpenTarget = $target;
 					}
 				}
 			}
@@ -1286,7 +1288,7 @@ $.extend(Selectize.prototype, {
 				$active = $create;
 			}
 			self.setActiveOption($active);
-			if (triggerDropdown && !self.isOpen) { self.open(); }
+			if (triggerDropdown && !self.isOpen && !self.isFocused) { self.open(); }
 		} else {
 			self.setActiveOption(null);
 			if (triggerDropdown && self.isOpen) { self.close(); }
@@ -2013,22 +2015,22 @@ $.extend(Selectize.prototype, {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 		offset.top += $control.outerHeight(true);
-		var w = this.$wrapper[0].style.width !== 'fit-content' ? '100%' : 'max-content';
+		var w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
 		if (this.settings.minWidth && this.settings.minWidth > w)
 		{
 			w = this.settings.minWidth;
 		}
-		this.$dropdown.css({
+
+    if (this.settings.dropdownParent !== 'body' && w === 'max-content' && $control.outerWidth(true) >= this.$dropdown.outerWidth(true)) {
+      w = '100%';
+    }
+
+    this.$dropdown.css({
 			width : w,
+      minWidth : $control.outerWidth(true),
 			top   : offset.top,
 			left  : offset.left
 		});
-
-    if (w === 'max-content' && $control[0].getBoundingClientRect().width >= this.$dropdown[0].getBoundingClientRect().width) {
-      this.$dropdown.css({
-        width : '100%'
-      });
-    }
 	},
 
   setupDropdownHeight: function () {
