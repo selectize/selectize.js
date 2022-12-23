@@ -333,14 +333,15 @@ var autoGrow = function ($input) {
       }
     }
 
+    var width = $input.attr('readonly') ? 0 : 4;
     placeholder = $input.attr('placeholder');
     if (placeholder) {
-      placeholderWidth = measureString(placeholder, $input) + 4;
+      placeholderWidth = measureString(placeholder, $input) + width;
     } else {
       placeholderWidth = 0;
     }
 
-    width = Math.max(measureString(value, $input), placeholderWidth) + 4;
+    width = Math.max(measureString(value, $input), placeholderWidth) + width;
     if (width !== currentWidth) {
       currentWidth = width;
       $input.width(width);

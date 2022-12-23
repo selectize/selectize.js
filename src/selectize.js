@@ -172,7 +172,7 @@ $.extend(Selectize.prototype, {
     // to have an identical rendering to a simple select (usefull for mobile device and do not open keyboard)
     if (!self.settings.search) {
       $control_input.attr('readonly', true);
-	  $control_input.attr('inputmode', 'none');
+	    $control_input.attr('inputmode', 'none');
       $control.css('cursor', 'pointer');
     }
 
@@ -2013,7 +2013,7 @@ $.extend(Selectize.prototype, {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 		offset.top += $control.outerHeight(true);
-		var w = $control[0].getBoundingClientRect().width;
+		var w = this.$wrapper[0].style.width !== 'fit-content' ? '100%' : 'max-content';
 		if (this.settings.minWidth && this.settings.minWidth > w)
 		{
 			w = this.settings.minWidth;
@@ -2023,6 +2023,12 @@ $.extend(Selectize.prototype, {
 			top   : offset.top,
 			left  : offset.left
 		});
+
+    if (w === 'max-content' && $control[0].getBoundingClientRect().width >= this.$dropdown[0].getBoundingClientRect().width) {
+      this.$dropdown.css({
+        width : '100%'
+      });
+    }
 	},
 
   setupDropdownHeight: function () {
