@@ -1288,7 +1288,7 @@ $.extend(Selectize.prototype, {
 				$active = $create;
 			}
 			self.setActiveOption($active);
-			if (triggerDropdown && !self.isOpen) { self.open(); }
+			if (triggerDropdown && !self.isOpen && !self.isFocused) { self.open(); }
 		} else {
 			self.setActiveOption(null);
 			if (triggerDropdown && self.isOpen) { self.close(); }
