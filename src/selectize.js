@@ -129,12 +129,14 @@ $.extend(Selectize.prototype, {
 		var classes;
 		var classes_plugins;
 		var inputId;
+    var noArrowClass;
 
 		inputMode         = self.settings.mode;
-		classes           = $input.attr('class') || '';
+    classes           = $input.attr('class') || '';
+    noArrowClass      = settings.showArrow ? '' : ' no-arrow';
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
-		$control          = $('<div>').addClass(settings.inputClass + ' selectize-input items').appendTo($wrapper);
+		$control          = $('<div>').addClass(settings.inputClass + noArrowClass + ' selectize-input items').appendTo($wrapper);
 		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);

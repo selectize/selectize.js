@@ -63,6 +63,7 @@ Selectize.defaults = {
 
   ignoreOnDropwdownHeight: 'img, i',
   search: true,
+  showArrow: true,
 
   /*
   load                 : null, // function(query, callback) { ... }
