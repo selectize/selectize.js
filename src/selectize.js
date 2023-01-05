@@ -1977,6 +1977,7 @@ $.extend(Selectize.prototype, {
 		self.refreshState();
 		self.$dropdown.css({ visibility: 'hidden', display: 'block' });
 		self.setupDropdownHeight();
+    self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
 	},
