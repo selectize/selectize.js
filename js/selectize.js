@@ -3,7 +3,7 @@
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
- * Copyright (c) 2020-2022 Selectize Team & contributors
+ * Copyright (c) 2020-2023 Selectize Team & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -177,6 +177,12 @@ MicroPlugin.mixin = function (Interface) {
     };
   };
 };
+
+const nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t))
+  .reduce(((t, e) =>
+    t += (e &= 63) < 36 ? e.toString(36) :
+      e < 62 ? (e - 26).toString(36).toUpperCase()
+        : e > 62 ? "-" : "_"), "");
 
 
 var Sifter = function (items, settings) {
@@ -759,14 +765,15 @@ var autoGrow = function ($input) {
       }
     }
 
+    var width = $input.attr('readonly') ? 0 : 4;
     placeholder = $input.attr('placeholder');
     if (placeholder) {
-      placeholderWidth = measureString(placeholder, $input) + 4;
+      placeholderWidth = measureString(placeholder, $input) + width;
     } else {
       placeholderWidth = 0;
     }
 
-    width = Math.max(measureString(value, $input), placeholderWidth) + 4;
+    width = Math.max(measureString(value, $input), placeholderWidth) + width;
     if (width !== currentWidth) {
       currentWidth = width;
       $input.width(width);
@@ -925,12 +932,14 @@ $.extend(Selectize.prototype, {
 		var classes;
 		var classes_plugins;
 		var inputId;
+    var noArrowClass;
 
 		inputMode         = self.settings.mode;
-		classes           = $input.attr('class') || '';
+    classes           = $input.attr('class') || '';
+    noArrowClass      = settings.showArrow ? '' : ' no-arrow';
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
-		$control          = $('<div>').addClass(settings.inputClass + ' selectize-input items').appendTo($wrapper);
+		$control          = $('<div>').addClass(settings.inputClass + noArrowClass + ' selectize-input items').appendTo($wrapper);
 		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);
@@ -965,7 +974,7 @@ $.extend(Selectize.prototype, {
 
     if (!self.settings.search) {
       $control_input.attr('readonly', true);
-	  $control_input.attr('inputmode', 'none');
+	    $control_input.attr('inputmode', 'none');
       $control.css('cursor', 'pointer');
     }
 
@@ -1031,15 +1040,13 @@ $.extend(Selectize.prototype, {
 
 		$document.on('mousedown' + eventNS, function(e) {
 			if (self.isFocused) {
-				if (e.target === self.$dropdown[0] || e.target.parentNode === self.$dropdown[0]) {
+				if (
+					e.target === self.$dropdown[0] ||
+					self.$dropdown.has(e.target).length)
+				{
 					return false;
 				}
-				if (self.$dropdown.has(e.target).length) {
-					self.ignoreBlur = true;
-					window.setTimeout(function() {
-						self.ignoreBlur = false;
-					}, 0);
-				} else if (e.target !== self.$control[0]) {
+				if (e.target !== self.$control[0]) {
 					self.blur(e.target);
 				}
 			}
@@ -1185,12 +1192,14 @@ $.extend(Selectize.prototype, {
 
 		if (!self.isFocused) {
 			if (!defaultPrevented) {
-				window.setTimeout(function() {
-					self.focus();
-				}, 0);
+        window.setTimeout(function () {
+          if (!self.isOpen) {
+            self.focus();
+          }
+        }, 0);
 			}
 		}
-		if (e.target !== self.$control_input[0] || self.$control_input.val() === '') {
+		if ($target !== self.$control_input[0] || self.$control_input.val() === '') {
 			if (self.settings.mode === 'single') {
 				self.isOpen ? self.close() : self.open();
 			} else {
@@ -1198,15 +1207,15 @@ $.extend(Selectize.prototype, {
 						self.setActiveItem(null);
 				}
 				if (!self.settings.openOnFocus) {
-					if (self.isOpen && e.target === self.lastOpenTarget) {
+					if (self.isOpen && $target === self.lastOpenTarget) {
 						self.close();
 						self.lastOpenTarget = false;
 					} else if (!self.isOpen) {
 						self.refreshOptions();
 						self.open();
-						self.lastOpenTarget = e.target;
+						self.lastOpenTarget = $target;
 					} else {
-						self.lastOpenTarget = e.target;
+						self.lastOpenTarget = $target;
 					}
 				}
 			}
@@ -1390,10 +1399,6 @@ $.extend(Selectize.prototype, {
 
 	onBlur: function(e, dest) {
 		var self = this;
-
-		if (self.ignoreBlur) {
-			return;
-		}
 
 		if (!self.isFocused) return;
 		self.isFocused = false;
@@ -2378,13 +2383,19 @@ $.extend(Selectize.prototype, {
 		var $control = this.$control;
 		var offset = this.settings.dropdownParent === 'body' ? $control.offset() : $control.position();
 		offset.top += $control.outerHeight(true);
-		var w = $control[0].getBoundingClientRect().width;
+		var w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
 		if (this.settings.minWidth && this.settings.minWidth > w)
 		{
 			w = this.settings.minWidth;
 		}
-		this.$dropdown.css({
+
+    if (this.settings.dropdownParent !== 'body' && w === 'max-content' && $control.outerWidth(true) >= this.$dropdown.outerWidth(true)) {
+      w = '100%';
+    }
+
+    this.$dropdown.css({
 			width : w,
+      minWidth : $control.outerWidth(true),
 			top   : offset.top,
 			left  : offset.left
 		});
@@ -2793,6 +2804,7 @@ Selectize.defaults = {
 
   ignoreOnDropwdownHeight: 'img, i',
   search: true,
+  showArrow: true,
 
   render: {
   }
@@ -2988,8 +3000,10 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
+      const w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
       const styles = {
-        width: $control.outerWidth(),
+        width: w,
+        minWidth : $control.outerWidth(true),
         left: offset.left
       };
 
@@ -3007,6 +3021,10 @@ Selectize.define("auto_position", function () {
         Object.assign(styles, { top: offset.top, bottom: 'unset' });
         this.$dropdown.removeClass('selectize-position-top');
         this.$control.removeClass('selectize-position-top');
+      }
+
+      if (this.settings.dropdownParent !== 'body' && w === 'max-content' && $control.outerWidth(true) >= this.$dropdown.outerWidth(true)) {
+        w = '100%';
       }
 
       this.$dropdown.css(styles);
@@ -3038,7 +3056,7 @@ Selectize.define("autofill_disable", function (options) {
     return function () {
       original.apply(self, arguments);
 
-      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
+      self.$control_input.attr({ name: nanoid(21), autocomplete: nanoid(21) });
     };
   })();
 });
