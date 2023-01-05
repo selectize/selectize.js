@@ -78,18 +78,7 @@ description: API Reference for ${basename}
           "module-index-format": "none",
         });
 
-        // If no data, no comments found so useless to build file..
-        if (data === '') {
-          if (fs.existsSync(output)) {
-            fs.unlink(output, err => {
-              if (err) {
-                throw err;
-              }
-            });
-          }
 
-          continue;
-        }
 
 
         const sanatizedData = toAdd + data;

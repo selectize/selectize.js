@@ -1,0 +1,31 @@
+---
+title: autofill_disable Plugin
+description: API Reference for autofill_disable Plugin
+---
+# API Documentation for autofill_disable Plugin
+<a name="options"></a>
+
+## options : <code>object</code>
+By default, Selectize allows the browser to autofill the control input provided by the user.
+This plugin disables that behavior by generating a random name and autocomplete attribute.
+This is a workaround for the fact that browsers do not allow disabling autofill.
+
+There are several ways to disable autofill, but they all have drawbacks
+and are not handled the same way across all browsers:
+
+- Set the attribute `autocomplete="off"`: This is the most common way to disable autofill, but it is not supported by all browsers.
+- Set the attribute `autocomplete="new-password"`: This is the most common way to disable autofill in modern browsers, but it is not supported by all browsers.
+- Add a `readonly` attribute to the input and remove the property after the user has interacted with the control.
+- Set the input type to `search` or `tel`: in conjuntion with `autocomplete="off"`.
+- Wrap the input in a div, and add a hidden input with a tabindex of -1, and styled with 'display: none;'.
+- Add a duplicate hidden input with the same name, but a different id.
+- Use a randomizes name and autocomplete attribute.
+
+**Kind**: global typedef  
+**Author**: [Ris Adams](https://github.com/risadams)  
+**Example**  
+```js
+$('select').selectize({
+ plugins: ['autofill_disable']
+});
+```
