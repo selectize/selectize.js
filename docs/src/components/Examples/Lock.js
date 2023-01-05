@@ -13,46 +13,40 @@ export default function Lock() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Control Locking.</h4>
-        <p>Selectize controls can be locked to prevent user interaction.</p>
-        <div className="control-group">
-          <label htmlFor="select-locked-empty">Locked (empty):</label>
-          <select id="select-locked-empty" multiple placeholder="No input allowed...">
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-            <option value="C">Option C</option>
-          </select>
-        </div>
-        <div className="control-group">
-          <label htmlFor="select-locked-single">Locked (single):</label>
-          <select id="select-locked-single" placeholder="No input allowed..." defaultValue={'B'}>
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-            <option value="C">Option C</option>
-          </select>
-        </div>
-        <div className="control-group">
-          <label htmlFor="select-locked">Locked:</label>
-          <select id="select-locked" multiple placeholder="No input allowed..." defaultValue={['B', 'C']}>
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-            <option value="C">Option C</option>
-          </select>
-        </div>
-        <div className="control-group">
-          <label htmlFor="select-unlocked">Unlocked:</label>
-          <select id="select-unlocked" multiple placeholder="Input allowed...">
-            <option value="A">Option A</option>
-            <option value="B">Option B</option>
-            <option value="C">Option C</option>
-          </select>
-        </div>
+      <ThemeChanger />
+      <h4>Control Locking.</h4>
+      <p>Selectize controls can be locked to prevent user interaction.</p>
+      <div className="control-group">
+        <label htmlFor="select-locked-empty">Locked (empty):</label>
+        <select id="select-locked-empty" multiple placeholder="No input allowed...">
+          <option value="A">Option A</option>
+          <option value="B">Option B</option>
+          <option value="C">Option C</option>
+        </select>
+      </div>
+      <div className="control-group">
+        <label htmlFor="select-locked-single">Locked (single):</label>
+        <select id="select-locked-single" placeholder="No input allowed..." defaultValue={'B'}>
+          <option value="A">Option A</option>
+          <option value="B">Option B</option>
+          <option value="C">Option C</option>
+        </select>
+      </div>
+      <div className="control-group">
+        <label htmlFor="select-locked">Locked:</label>
+        <select id="select-locked" multiple placeholder="No input allowed..." defaultValue={['B', 'C']}>
+          <option value="A">Option A</option>
+          <option value="B">Option B</option>
+          <option value="C">Option C</option>
+        </select>
+      </div>
+      <div className="control-group">
+        <label htmlFor="select-unlocked">Unlocked:</label>
+        <select id="select-unlocked" multiple placeholder="Input allowed...">
+          <option value="A">Option A</option>
+          <option value="B">Option B</option>
+          <option value="C">Option C</option>
+        </select>
       </div>
 
       <CodeBlock className="language-html" title="Html">

@@ -21,16 +21,10 @@ export default function DynamicOpt() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Using Dynamic Options.</h4>
-        <p>The options are created straight from an array.</p>
-        <select id="select-tools" placeholder="Pick a tool..."></select>
-      </div>
+      <ThemeChanger />
+      <h4>Using Dynamic Options.</h4>
+      <p>The options are created straight from an array.</p>
+      <select id="select-tools" placeholder="Pick a tool..."></select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="select-tools" placeholder="Pick a tool..."></select>`}

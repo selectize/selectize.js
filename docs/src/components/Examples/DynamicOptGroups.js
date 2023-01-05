@@ -43,19 +43,13 @@ export default function OptGroups() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          Selectize provides the ability to group options together within the dropdown menu.
-        </h4>
-        <div className="control-group">
-          <label htmlFor="select-console">Console:</label>
-          <select id="select-console" className="demo-consoles" placeholder="Select console..."></select>
-        </div>
+      <ThemeChanger />
+      <h4>
+        Selectize provides the ability to group options together within the dropdown menu.
+      </h4>
+      <div className="control-group">
+        <label htmlFor="select-console">Console:</label>
+        <select id="select-console" className="demo-consoles" placeholder="Select console..."></select>
       </div>
 
       <CodeBlock className="language-html" title="Html">

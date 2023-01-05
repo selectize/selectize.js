@@ -18,24 +18,18 @@ export default function Tagging() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          Add and remove items in any order without touching your mouse. Use
-          your left/right arrow keys to move the caret (ibeam) between items.
-          This example is instantiated from a <code>{'<input type="text">'}</code> rendering (as of v0.5.0). element (note that the value is represented as a string).
-        </h4>
+      <ThemeChanger />
+      <h4>
+        Add and remove items in any order without touching your mouse. Use
+        your left/right arrow keys to move the caret (ibeam) between items.
+        This example is instantiated from a <code>{'<input type="text">'}</code> rendering (as of v0.5.0). element (note that the value is represented as a string).
+      </h4>
 
-        <input
-          type="text"
-          id="input-tags"
-          defaultValue="awesome,neasted,beast"
-        />
-      </div>
+      <input
+        type="text"
+        id="input-tags"
+        defaultValue="awesome,neasted,beast"
+      />
 
       <CodeBlock className="language-html" title="Html">
         {`<input type="text" id="input-tags" value="awesome,neasted,beast" />`}

@@ -49,21 +49,15 @@ export default function OptGroupCol() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          A plugin by <a href="https://github.com/sjhewitt" target="_blank">
-            Simon Hewitt
-          </a> that renders option groups horizontally with convenient left/right
-          keyboard navigation.
-        </h4>
+      <ThemeChanger />
+      <h4>
+        A plugin by <a href="https://github.com/sjhewitt" target="_blank">
+          Simon Hewitt
+        </a> that renders option groups horizontally with convenient left/right
+        keyboard navigation.
+      </h4>
 
-        <select id="selectCar"></select>
-      </div>
+      <select id="selectCar"></select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="selectCar"></select>`}

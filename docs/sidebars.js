@@ -63,6 +63,7 @@ const sidebars = {
         image: "/img/logo.svg"
       },
       items: [
+        "plugins/autofill-disable",
         "plugins/auto-position",
         "plugins/auto-select-on-type",
         "plugins/clear-button",
@@ -97,6 +98,7 @@ const sidebars = {
         "API/microevent",
         "API/microplugin",
         "API/sifter",
+        "API/autofill_disable Plugin",
         "API/optgroup_columns Plugin",
         "API/remove_button Plugin",
         "API/restore_on_backspace Plugin",

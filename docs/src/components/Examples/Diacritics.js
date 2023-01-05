@@ -19,22 +19,16 @@ export default function Diacritics() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          Selectize can handle diacritics. Try typing "côte d'ivoire" or "são
-        </h4>
+      <ThemeChanger />
+      <h4>
+        Selectize can handle diacritics. Try typing "côte d'ivoire" or "são
+      </h4>
 
-        <select id='diacritics'>
-          <option>Åland Islands</option>
-          <option>Helô</option>
-          <option>déjà vu</option>
-        </select>
-      </div>
+      <select id='diacritics'>
+        <option>Åland Islands</option>
+        <option>Helô</option>
+        <option>déjà vu</option>
+      </select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id='diacritics'>

@@ -13,27 +13,21 @@ export default function DragNDrop() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          Adds drag-and-drop support for easily rearranging selected items.
-          Requires jQuery UI (sortable).
-        </h4>
+      <ThemeChanger />
+      <h4>
+        Adds drag-and-drop support for easily rearranging selected items.
+        Requires jQuery UI (sortable).
+      </h4>
 
-        <select id="DragNDrop" multiple defaultValue={defaultValue}>
-          <option value="1">Awesome</option>
-          <option value="2">Beast</option>
-          <option value="3">Compatible</option>
-          <option value="4">Thomas Edison</option>
-          <option value="5">Nikola</option>
-          <option value="6">Selectize</option>
-          <option value="7">Javascript</option>
-        </select>
-      </div>
+      <select id="DragNDrop" multiple defaultValue={defaultValue}>
+        <option value="1">Awesome</option>
+        <option value="2">Beast</option>
+        <option value="3">Compatible</option>
+        <option value="4">Thomas Edison</option>
+        <option value="5">Nikola</option>
+        <option value="6">Selectize</option>
+        <option value="7">Javascript</option>
+      </select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="DragNDrop" multiple>
