@@ -53,8 +53,9 @@ export default function AutoPosition() {
       </CodeBlock>
 
       <p>
-        This select is expected to open on top
-        <pre className="mb-2">You may need to scroll or adjust your browser window</pre>
+        This select is expected to open on top.
+        <br />
+        <strong className="mb-2 text-red-600">You may need to scroll or adjust your browser window</strong>
       </p>
       <select id="autoPositionTop">
         <option value=""></option>

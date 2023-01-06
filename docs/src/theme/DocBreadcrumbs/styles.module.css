@@ -1,0 +1,8 @@
+.breadcrumbHomeIcon {
+  position: relative;
+  top: 1px;
+  vertical-align: top;
+  height: 1.5rem;
+  width: 1.6rem;
+  color: var(--ifm-color-primary);
+}
