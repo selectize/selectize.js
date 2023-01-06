@@ -2355,6 +2355,7 @@ $.extend(Selectize.prototype, {
 		self.refreshState();
 		self.$dropdown.css({ visibility: 'hidden', display: 'block' });
 		self.setupDropdownHeight();
+    self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
 	},
@@ -3000,7 +3001,7 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
-      const w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
+      let w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
       const styles = {
         width: w,
         minWidth : $control.outerWidth(true),
