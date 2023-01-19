@@ -1,4 +1,5 @@
-import React, {isValidElement} from 'react';
+import React, { isValidElement } from 'react';
+import clsx from 'clsx'
 import useIsBrowser from '@docusaurus/useIsBrowser';
 import ElementContent from '@theme/CodeBlock/Content/Element';
 import StringContent from '@theme/CodeBlock/Content/String';
@@ -15,7 +16,7 @@ function maybeStringifyChildren(children) {
   // The children is now guaranteed to be one/more plain strings
   return Array.isArray(children) ? children.join('') : children;
 }
-export default function CodeBlock({children: rawChildren, ...props}) {
+export default function CodeBlock({ children: rawChildren, ...props }) {
   // The Prism theme on SSR is always the default theme but the site theme can
   // be in a different mode. React hydration doesn't update DOM styles that come
   // from SSR. Hence force a re-render after mounting to apply the current
@@ -25,8 +26,17 @@ export default function CodeBlock({children: rawChildren, ...props}) {
   const CodeBlockComp =
     typeof children === 'string' ? StringContent : ElementContent;
   return (
-    <CodeBlockComp key={String(isBrowser)} {...props}>
-      {children}
-    </CodeBlockComp>
+    <div className={clsx(
+      'mt-6',
+      'shadow-xl',
+      'shadow-glow',
+      'border',
+      'rounded-lg',
+      'border-gray-200',
+    )}>
+      <CodeBlockComp key={String(isBrowser)} {...props}>
+        {children}
+      </CodeBlockComp>
+    </div>
   );
 }

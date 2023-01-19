@@ -15,28 +15,23 @@ export default function AutoPosition() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          A plugin for auto manage position of dropdown
-        </h4>
 
-        <p>This select expected to open on bottom</p>
-        <select id="autoPositionBottom">
-          <option value=""></option>
-          <option value="1">Awesome</option>
-          <option value="2">Beast</option>
-          <option value="3">Compatible</option>
-          <option value="4">Thomas Edison</option>
-          <option value="5">Nikola</option>
-          <option value="6">Selectize</option>
-          <option value="7">Javascript</option>
-        </select>
-      </div>
+      <ThemeChanger />
+      <h4>
+        A plugin for auto manage position of dropdown
+      </h4>
+
+      <p>This select is expected to open on bottom</p>
+      <select id="autoPositionBottom">
+        <option value=""></option>
+        <option value="1">Awesome</option>
+        <option value="2">Beast</option>
+        <option value="3">Compatible</option>
+        <option value="4">Thomas Edison</option>
+        <option value="5">Nikola</option>
+        <option value="6">Selectize</option>
+        <option value="7">Javascript</option>
+      </select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="autoPositionBottom">
@@ -57,20 +52,21 @@ export default function AutoPosition() {
 });`}
       </CodeBlock>
 
-      <div style={{ marginTop: "10rem" }}>
-        <p>This select expected to open on top</p>
-          <pre className="margin-bottom--md">Scroll to auto update dropdown positionning</pre>
-        <select id="autoPositionTop">
-          <option value=""></option>
-          <option value="1">Awesome</option>
-          <option value="2">Beast</option>
-          <option value="3">Compatible</option>
-          <option value="4">Thomas Edison</option>
-          <option value="5">Nikola</option>
-          <option value="6">Selectize</option>
-          <option value="7">Javascript</option>
-        </select>
-      </div>
+      <p>
+        This select is expected to open on top.
+        <br />
+        <strong className="mb-2 text-red-600">You may need to scroll or adjust your browser window</strong>
+      </p>
+      <select id="autoPositionTop">
+        <option value=""></option>
+        <option value="1">Awesome</option>
+        <option value="2">Beast</option>
+        <option value="3">Compatible</option>
+        <option value="4">Thomas Edison</option>
+        <option value="5">Nikola</option>
+        <option value="6">Selectize</option>
+        <option value="7">Javascript</option>
+      </select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="autoPositionTop">

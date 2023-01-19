@@ -19,32 +19,26 @@ export default function RestoreBackspace() {
 
   return (
     <div>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
-          Press the [backspace] key and go back to editing the item without it being fully removed.
-        </h4>
+      <ThemeChanger />
+      <h4>
+        Press the [backspace] key and go back to editing the item without it being fully removed.
+      </h4>
 
-        <select id="restore-backspace" multiple defaultValue={['1', '2', '3']}>
-          <option value="1">
-            Awesome
-          </option>
-          <option value="2">
-            Beast
-          </option>
-          <option value="3">
-            Compatible
-          </option>
-          <option value="4">Thomas Edison</option>
-          <option value="5">Nikola</option>
-          <option value="6">Selectize</option>
-          <option value="7">Javascript</option>
-        </select>
-      </div>
+      <select id="restore-backspace" multiple defaultValue={['1', '2', '3']}>
+        <option value="1">
+          Awesome
+        </option>
+        <option value="2">
+          Beast
+        </option>
+        <option value="3">
+          Compatible
+        </option>
+        <option value="4">Thomas Edison</option>
+        <option value="5">Nikola</option>
+        <option value="6">Selectize</option>
+        <option value="7">Javascript</option>
+      </select>
 
       <CodeBlock className="language-html" title="Html">
         {`

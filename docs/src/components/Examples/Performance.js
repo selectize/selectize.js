@@ -57,30 +57,23 @@ export default function Performance() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Performance Demo</h4>
-        <p>This shows how it performs with 25,000 items.</p>
-        <div className="control-group">
-          <label htmlFor="select-junk">Jumbled Mess:</label>
-          <select id="select-junk" placeholder="Start Typing..."></select>
-        </div>
+      <ThemeChanger />
+      <h4>Performance Demo</h4>
+      <p>This shows how it performs with 25,000 items.</p>
+      <div className="control-group">
+        <label htmlFor="select-junk">Jumbled Mess:</label>
+        <select id="select-junk" placeholder="Start Typing..."></select>
+      </div>
 
-        <h4 className="pt-6">Digestion of many children</h4>
-        <p>This example shows how long it takes to initialize a demo with a lot of DOM children. Hint: Click the load button, then click the selectize button to run the demo.</p>
-        <div className='pt-2 pb-2'>
-          <button type="button" className="activate" id="select-children-load">Load</button>
-          <button type="button" className="activate" id="select-children-activate">Selectize</button>
-        </div>
+      <h4 className="pt-6">Digestion of many children</h4>
+      <p>This example shows how long it takes to initialize a demo with a lot of DOM children. Hint: Click the load button, then click the selectize button to run the demo.</p>
+      <div className='pt-2 pb-2'>
+        <button type="button" className="activate" id="select-children-load">Load</button>
+        <button type="button" className="activate" id="select-children-activate">Selectize</button>
+      </div>
 
-        <div className="control-group">
-          <select id="select-children"></select>
-        </div>
-
+      <div className="control-group">
+        <select id="select-children"></select>
       </div>
 
       <CodeBlock className="language-html" title="Html">

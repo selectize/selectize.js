@@ -12,6 +12,7 @@ export default function FooterLayout({ style, links, logo, copyright }) {
       className={clsx('footer', {
         'footer--dark': style === 'dark'
       },
+        'sm:mt-0 md:mt-4 xl:mt-8',
         'overflow-hidden bg-slate-900'
       )}>
       <div className='relative'>

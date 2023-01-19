@@ -87,22 +87,16 @@ export default function EmailContact() {
   return (
     <div>
       <ThemeChanger />
-      <h4 style={{ textAlign: "left", marginBottom: "4rem" }}>
+      <h4>
         This demonstrates two main things: (1) custom item and option rendering,
         and (2) item creation on-the-fly. Try typing a valid and invalid email
         address.
       </h4>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <select
-          id="select-to"
-          className="contacts"
-          placeholder="Pick some people..."
-        ></select>
-      </div>
+      <select
+        id="select-to"
+        className="contacts"
+        placeholder="Pick some people..."
+      ></select>
 
       <CodeBlock className="language-html" title="Html">
         {`<select id="select-to" class="contacts" placeholder="Pick some people..."></select>`}

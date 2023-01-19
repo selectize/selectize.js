@@ -14,28 +14,22 @@ export default function Rtl() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Right-to-left Support (RTL)</h4>
-        <div className="control-group" dir="rtl">
-          <label htmlFor="input-tags">Multiple: </label>
-          <input type="text" id="input-tags" className="demo-default" defaultValue="awesome,neat" />
-        </div>
+      <ThemeChanger />
+      <h4>Right-to-left Support (RTL)</h4>
+      <div className="control-group" dir="rtl">
+        <label htmlFor="input-tags">Multiple: </label>
+        <input type="text" id="input-tags" className="demo-default" defaultValue="awesome,neat" />
+      </div>
 
-        <div className="control-group" dir="rtl">
-          <label htmlFor="select-beast">Single: </label>
-          <select id="select-beast" className="demo-default" placeholder="Select a person...">
-            <option value="">Select a person...</option>
-            <option value="4">Thomas Edison</option>
-            <option value="1">Nikola</option>
-            <option value="3">Nikola Tesla</option>
-            <option value="5">Arnold Schwarzenegger</option>
-          </select>
-        </div>
+      <div className="control-group" dir="rtl">
+        <label htmlFor="select-beast">Single: </label>
+        <select id="select-beast" className="demo-default" placeholder="Select a person...">
+          <option value="">Select a person...</option>
+          <option value="4">Thomas Edison</option>
+          <option value="1">Nikola</option>
+          <option value="3">Nikola Tesla</option>
+          <option value="5">Arnold Schwarzenegger</option>
+        </select>
       </div>
 
       <CodeBlock className="language-html" title="Html">

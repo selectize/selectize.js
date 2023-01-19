@@ -57,26 +57,20 @@ export default function Api() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Examples of how to interact with the control programmatically.</h4>
-        <div className="control-group">
-          <select id="select-tools" multiple placeholder="Pick a tool..."></select>
-        </div>
+      <ThemeChanger />
+      <h4>Examples of how to interact with the control programmatically.</h4>
+      <div className="control-group">
+        <select id="select-tools" multiple placeholder="Pick a tool..."></select>
+      </div>
 
-        <div className="pt-4">
-          <button type="button" value="clear()" id="button-clear">clear()</button>
-          <button type="button" value="clearOptions()" id="button-clearoptions">clearOptions()</button>
-          <button type="button" value="addOption()" id="button-addoption">addOption()</button>
-          <button type="button" value="addItem()" id="button-additem">addItem()</button>
-          <button type="button" value="setValue()" id="button-setvalue">setValue()</button>
-          <button type="button" value="maxItems(2)" id="button-maxitems2">maxItems(2)</button>
-          <button type="button" value="maxItems(100)" id="button-maxitems100">maxItems(100)</button>
-        </div>
+      <div className="pt-4">
+        <button type="button" value="clear()" id="button-clear">clear()</button>
+        <button type="button" value="clearOptions()" id="button-clearoptions">clearOptions()</button>
+        <button type="button" value="addOption()" id="button-addoption">addOption()</button>
+        <button type="button" value="addItem()" id="button-additem">addItem()</button>
+        <button type="button" value="setValue()" id="button-setvalue">setValue()</button>
+        <button type="button" value="maxItems(2)" id="button-maxitems2">maxItems(2)</button>
+        <button type="button" value="maxItems(100)" id="button-maxitems100">maxItems(100)</button>
       </div>
 
       <CodeBlock className="language-html" title="Html">

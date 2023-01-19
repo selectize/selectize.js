@@ -16,17 +16,11 @@ export default function ConfirmDelete() {
 
   return (
     <>
-      <div
-        style={{
-          marginBottom: "1rem",
-        }}
-      >
-        <ThemeChanger />
-        <h4>Using the Confirm Delete dialog</h4>
-        <div className="control-group">
-          <label htmlFor="input-tags">Tags:</label>
-          <input type="text" id="input-tags" className="demo-default" defaultValue="awesome,neat,yeah" />
-        </div>
+      <ThemeChanger />
+      <h4>Using the Confirm Delete dialog</h4>
+      <div className="control-group">
+        <label htmlFor="input-tags">Tags:</label>
+        <input type="text" id="input-tags" className="demo-default" defaultValue="awesome,neat,yeah" />
       </div>
 
       <CodeBlock className="language-html" title="Html">

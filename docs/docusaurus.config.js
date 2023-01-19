@@ -104,15 +104,16 @@ const config = {
       googleAdsense: {
         dataAdClient: 'ca-pub-9290211346209107',
       },
-      algolia: {
-        appId: 'I8ILTNUYXK',
-        apiKey: '6680cf1dd566e9052054d892083f4db2',
-        indexName: 'selectize',
-        contextualSearch: true,
-        externalUrlRegex: 'selectize\\.dev|loopback\\.website',
-        searchParameters: {},
-        searchPagePath: 'search',
-      },
+      // Enable Algolia search when API issues are resolved.
+      // algolia: {
+      //   appId: 'I8ILTNUYXK',
+      //   apiKey: '6680cf1dd566e9052054d892083f4db2',
+      //   indexName: 'selectize',
+      //   contextualSearch: true,
+      //   externalUrlRegex: 'selectize\\.dev|loopback\\.website',
+      //   searchParameters: {},
+      //   searchPagePath: 'search',
+      // },
       liveCodeBlock: {
         playgroundPosition: 'bottom',
       },

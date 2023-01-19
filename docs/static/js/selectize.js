@@ -178,6 +178,12 @@ MicroPlugin.mixin = function (Interface) {
   };
 };
 
+const nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t))
+  .reduce(((t, e) =>
+    t += (e &= 63) < 36 ? e.toString(36) :
+      e < 62 ? (e - 26).toString(36).toUpperCase()
+        : e > 62 ? "-" : "_"), "");
+
 
 var Sifter = function (items, settings) {
   this.items = items;
@@ -2349,6 +2355,7 @@ $.extend(Selectize.prototype, {
 		self.refreshState();
 		self.$dropdown.css({ visibility: 'hidden', display: 'block' });
 		self.setupDropdownHeight();
+    self.positionDropdown();
 		self.$dropdown.css({visibility: 'visible'});
 		self.trigger('dropdown_open', self.$dropdown);
 	},
@@ -2994,7 +3001,7 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
-      const w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
+      let w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
       const styles = {
         width: w,
         minWidth : $control.outerWidth(true),
@@ -3050,7 +3057,7 @@ Selectize.define("autofill_disable", function (options) {
     return function () {
       original.apply(self, arguments);
 
-      self.$control_input.attr({ autocomplete: "new-password", autofill: "no" });
+      self.$control_input.attr({ name: nanoid(21), autocomplete: nanoid(21) });
     };
   })();
 });
