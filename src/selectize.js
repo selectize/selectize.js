@@ -423,6 +423,11 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
+    // prevent right click on option
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		if (!self.isFocused) {
 			// give control focus
 			if (!defaultPrevented) {
@@ -749,6 +754,11 @@ $.extend(Selectize.prototype, {
 		if (e.preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();
+		}
+
+		// prevent right click on option
+		if (e.button && e.button === 2) {
+			return;
 		}
 
 		$target = $(e.currentTarget);
