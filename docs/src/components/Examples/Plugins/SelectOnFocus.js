@@ -46,7 +46,7 @@ export default function SelectOnFocus() {
       </CodeBlock>
       <CodeBlock className="language-javascript" title="Javascript">
         {`$("#select-on-focus").selectize({
-  plugins: ["restore_on_backspace"]
+  plugins: ["select_on_focus"]
 });`}
       </CodeBlock>
     </div>
