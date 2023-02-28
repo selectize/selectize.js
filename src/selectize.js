@@ -137,7 +137,7 @@ $.extend(Selectize.prototype, {
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass + noArrowClass + ' selectize-input items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$control_input    = $('<input type="text" autocomplete="off" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass + ' selectize-dropdown-content').attr('tabindex', '-1').appendTo($dropdown);
@@ -444,7 +444,15 @@ $.extend(Selectize.prototype, {
 		if ($target !== self.$control_input[0] || self.$control_input.val() === '') {
 			if (self.settings.mode === 'single') {
 				// toggle dropdown
-				self.isOpen ? self.close() : self.open();
+        self.isOpen ? self.close() : self.open();
+
+        // when closing the dropdown, we set a isDropdownClosing
+        // varible temporaily to prevent the dropdown from reopening
+        // from the onClick event
+        self.isDropdownClosing = true;
+        setTimeout(function() {
+          self.isDropdownClosing = false;
+        }, self.settings.closeDropdownThreshold);
 			} else {
 				if (!defaultPrevented) {
 						self.setActiveItem(null);
