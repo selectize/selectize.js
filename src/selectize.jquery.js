@@ -95,6 +95,7 @@ $.fn.selectize = function (settings_user) {
 
       var option = readData($option) || {};
       option[field_value] = option[field_value] || value;
+      option[field_value] = escape_html(option[field_value]);
       option[field_label] = option[field_label] || $option.text() || option[field_value];
       option[field_disabled] = option[field_disabled] || $option.prop('disabled');
       option[field_optgroup] = option[field_optgroup] || group;
