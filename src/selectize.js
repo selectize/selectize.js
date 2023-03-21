@@ -17,6 +17,12 @@ var Selectize = function($input, settings) {
 
   self.settings = {};
 
+	Selectize.instanceId = Selectize.instanceId || 0;
+	Selectize.instanceCount = Selectize.instanceCount || 0;
+
+	++Selectize.instanceId; // keep this unique for each individual instance!
+	++Selectize.instanceCount; // use this to keep track of the number of instances!
+
 	// setup default state
 	$.extend(self, {
 		order            : 0,
@@ -26,7 +32,7 @@ var Selectize = function($input, settings) {
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
 
-		eventNS          : '.selectize' + (++Selectize.count),
+		eventNS          : '.selectize' + Selectize.instanceId,
 		highlightedValue : null,
 		isBlurring       : false,
 		isOpen           : false,
@@ -2376,7 +2382,7 @@ $.extend(Selectize.prototype, {
 		self.$control_input.removeData('grow');
 		self.$input.removeData('selectize');
 
-		if (--Selectize.count == 0 && Selectize.$testInput) {
+		if (--Selectize.instanceCount === 0 && Selectize.$testInput) {
 			Selectize.$testInput.remove();
 			Selectize.$testInput = undefined;
 		}
