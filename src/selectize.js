@@ -2076,12 +2076,12 @@ $.extend(Selectize.prototype, {
           // If not selectable, it's an optgroup so we "ignore" for count items
           if (typeof $item.data('selectable') == 'undefined') {
             if ($item.hasClass('optgroup-header')) {
-              var styles = window.getComputedStyle($item.parent()[0], ':before');
+              const styles = window.getComputedStyle($item.parent()[0], ':before');
 
               if (styles) {
-                marginTop = styles.marginTop ? Number(styles.marginTop.replace(/\W*(\w)\w*/g, '$1')) : 0;
-                marginBottom = styles.marginBottom ? Number(styles.marginBottom.replace(/\W*(\w)\w*/g, '$1')) : 0;
-                separatorHeight = styles.borderTopWidth ? Number(styles.borderTopWidth.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                marginTop = styles.marginTop ? parseFloat(styles.marginTop) : 0;
+                marginBottom = styles.marginBottom ? parseFloat(styles.marginBottom) : 0;
+                separatorHeight = styles.borderTopWidth ? parseFloat(styles.borderTopWidth) : 0;
               }
             }
             height++;
@@ -2090,8 +2090,8 @@ $.extend(Selectize.prototype, {
         }
 
         // Get padding top for add to global height
-        var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
-        var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        const paddingTop = this.$dropdown_content.css('padding-top') ? parseFloat(this.$dropdown_content.css('padding-top')) : 0;
+        const paddingBottom = this.$dropdown_content.css('padding-bottom') ? parseFloat(this.$dropdown_content.css('padding-bottom')) : 0;
 
         height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom + separatorHeight) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
