@@ -6,7 +6,7 @@ that maintainers have limited time to fix issues, triage, and understand
 them.
 
 If you've never done so, please read the
-[guide to reporting issues](https://github.com/selectize/selectize.js/wiki/Reporting-issues-guide)
+[guide to reporting issues](https://github.com/fabienwnklr/selectize.js/wiki/Reporting-issues-guide)
 in the Wiki to help us better understand your issue.
 
 Place an `x` in the checklist steps (`[ ]` becomes `[x]`) to demonstrate

@@ -16,4 +16,4 @@ The following versions are currently being supported with security updates.
 
 File an issue with details and create a pull request with proposed changes
 
-- [Open an issue!](https://github.com/selectize/selectize.js/issues/new)
+- [Open an issue!](https://github.com/fabienwnklr/selectize.js/issues/new)

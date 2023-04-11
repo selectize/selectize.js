@@ -30,7 +30,7 @@ _@fabienwnklr_
 - _Breaking change:_ Removed the dependencies on MicroPlugin and Sifter - These are now included in the selectize package directly.
 
 - Fixed missing style for dropdown*header plugin [*@fabienwnklr\_](https://github.com/fabienwnklr)
-- Fixed ([#1818](https://github.com/selectize/selectize.js/issues/1818)) Scroll left when I click on a selectized item and page is scrolled right [_@fabienwnklr_](https://github.com/fabienwnklr)
+- Fixed ([#1818](https://github.com/fabienwnklr/selectize.js/issues/1818)) Scroll left when I click on a selectized item and page is scrolled right [_@fabienwnklr_](https://github.com/fabienwnklr)
 - Added option to enable setting the first option in the list as active.
 
   _@joshuan92_
