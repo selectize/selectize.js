@@ -1,5 +1,5 @@
 /**
- * Selectize (v0.15.3  )
+ * Selectize (v0.15.4 )
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
@@ -823,6 +823,17 @@ function uaDetect(platform, re) {
   }
 
   return re.test(navigator.userAgent);
+}
+
+function isInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+
+  );
 }
 
 var Selectize = function($input, settings) {
@@ -2437,7 +2448,7 @@ $.extend(Selectize.prototype, {
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
 
-          if ($item.length === 0) {
+          if ($item.length === 0 || !isInViewport($item[0])) {
             break;
           }
 
