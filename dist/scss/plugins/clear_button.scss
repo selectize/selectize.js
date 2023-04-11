@@ -13,7 +13,7 @@
         border: none;
         cursor: pointer;
         z-index: 1;
-        font-size: 21px;
+        font-size: 30px;
         justify-content: center;
         align-items: center;
     }
@@ -24,6 +24,7 @@
 
     &.single .clear {
         right: calc(#{$select-padding-x} - #{$select-padding-item-x} + 1.5rem);
+        font-family: initial;
     }
 
 }

@@ -96,7 +96,7 @@ $select-spinner-border-color: $select-color-border;
 
 .#{$selectize}-input,
 .#{$selectize}-control.single .#{$selectize}-input.input-active {
-  background: $select-color-input;
+  // background: $select-color-input;
   cursor: text;
   display: inline-block;
 }
@@ -125,9 +125,6 @@ $select-spinner-border-color: $select-color-border;
     padding: $padding-top $padding-x $padding-bottom;
   }
 
-  &.full {
-    background-color: $select-color-input-full;
-  }
   &.disabled,
   &.disabled * {
     cursor: default !important;
@@ -291,6 +288,30 @@ $select-spinner-border-color: $select-color-border;
   }
 }
 
+.multi {
+
+  .active {
+    background-color: $select-color-dropdown-item-active!important;
+    color: $select-color-dropdown-item-active-text!important;
+  }
+
+  .selected {
+    background-color: unset;
+    color: unset;
+
+    &::after {
+      content: '';
+      display: block;
+      float: right;
+      transform: rotate(45deg);
+      height: 12px;
+      width: 6px;
+      border-bottom: 3px solid black;
+      border-right: 3px solid black;
+    }
+  }
+}
+
 .#{$selectize}-dropdown-content {
   overflow-y: auto;
   overflow-x: hidden;
@@ -331,6 +352,9 @@ $select-spinner-border-color: $select-color-border;
 }
 
 .#{$selectize}-control.single .#{$selectize}-input {
+  display: flex;
+  align-items: center;
+
   &,
   input {
     cursor: pointer;
@@ -342,13 +366,14 @@ $select-spinner-border-color: $select-color-border;
 
   &:not(.no-arrow):after {
     content: " ";
-    display: block;
     position: absolute;
     top: 50%;
     right: $select-arrow-offset;
     margin-top: round(math.div(-1 * $select-arrow-size, 2));
     width: 0;
-    height: 0;
+    display : flex;
+    align-items: center;
+    height : 0;
     border-style: solid;
     border-width: $select-arrow-size $select-arrow-size 0 $select-arrow-size;
     border-color: $select-arrow-color transparent transparent transparent;
