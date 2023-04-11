@@ -89,6 +89,7 @@ Selectize.define("dropdown_header", function (options) {
             self.$dropdown.prepend(self.$dropdown_header);
             self.$dropdown_header.find("." + options.closeClass).on("click", function () {
                 self.close();
+                self.blur();
             });
         };
     })();
