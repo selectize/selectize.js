@@ -2,12 +2,19 @@
 
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
-## v0.15.3 · 11 04 2023
+
+## v0.15.5 · 11 04 2023
+
+- style: remove useless border top with plugin `auto_position`
+_@fabienwnklr_
+
+## v0.15.4 · 11 04 2023
 
 - style: issue with pos absolute arrow up/down fixed
 - style: text-decoration for close button on dropdown plugin
 - fixed: manage dropdown height if item out of viewport
 _@fabienwnklr_
+
 ## v0.15.3 · 11 04 2023
 
 - fixed: toggle selected option on enter for select multiple

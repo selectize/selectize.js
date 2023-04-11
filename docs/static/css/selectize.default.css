@@ -1,5 +1,5 @@
 /**
- * Selectize (v0.15.4)
+ * Selectize (v0.15.5)
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
