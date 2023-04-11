@@ -4,6 +4,12 @@
      your privacy needs -->
 ## v0.15.3 · 11 04 2023
 
+- style: issue with pos absolute arrow up/down fixed
+- style: text-decoration for close button on dropdown plugin
+- fixed: manage dropdown height if item out of viewport
+_@fabienwnklr_
+## v0.15.3 · 11 04 2023
+
 - fixed: toggle selected option on enter for select multiple
 - fixed: enhance `tag_limit` plugin for manage better and more configurable
 - fixed: style enhancement for more modern appareance

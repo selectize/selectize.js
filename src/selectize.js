@@ -2073,7 +2073,7 @@ $.extend(Selectize.prototype, {
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
 
-          if ($item.length === 0) {
+          if ($item.length === 0 || !isInViewport($item[0])) {
             break;
           }
 

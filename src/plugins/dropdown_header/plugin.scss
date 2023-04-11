@@ -18,9 +18,10 @@
     text-shadow: 0 1px 0 #fff;
     font-family: initial;
     opacity: .5;
+    text-decoration: none;
   }
+  
   .#{$selectize}-dropdown-header-close:hover {
     color: darken($select-color-text, 25%);
-    text-decoration: none;
   }
 }
