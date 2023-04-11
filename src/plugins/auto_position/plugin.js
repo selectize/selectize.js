@@ -1,9 +1,11 @@
 Selectize.define("auto_position", function () {
-  var self = this;
+  const self = this;
 
   const POSITION = {
     top: 'top',
     bottom: 'bottom',
+    left: 'left',
+    right: 'right',
   };
 
   self.positionDropdown = (function () {
@@ -21,13 +23,17 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
-      let w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
+      let w = 'max-content';
+      if (this.$wrapper[0].style.width !== 'fit-content') {
+          w = this.settings.dropdownParent === 'body' ? w : '100%';
+      }
       const styles = {
         width: w,
         minWidth : $control.outerWidth(true),
         left: offset.left
       };
 
+      // TODO : Manage left/right position
       if (position === POSITION.top) {
         const styleToAdd = { bottom: offset.top, top: 'unset' };
 
