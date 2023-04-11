@@ -3,6 +3,11 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+## v0.15.6 · ?? ?? 2023
+
+- fix: blur input on close via close button on plugin `dropdown_header`
+_@fabienwnklr_
+
 ## v0.15.5 · 11 04 2023
 
 - style: remove useless border top with plugin `auto_position`

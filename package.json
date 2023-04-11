@@ -86,7 +86,8 @@
     "start:windows": "cd docs && SET HTTPS=true && SET SSL_CRT_FILE=.ssl/loopback_website.crt && SET SSL_KEY_FILE=.ssl/loopback_website.key && npm run start -- --host=loopback.website --port=4000",
     "watch": "concurrently \"gulp watch\" \"npm run start\"",
     "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\"",
-    "format": "npx prettier --config .prettierrc --write src/**/*.js"
+    "format": "npx prettier --config .prettierrc --write src/**/*.js",
+    "lint": "npx eslint src/**/*.js"
   },
   "engines": {
     "node": "*"
