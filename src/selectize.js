@@ -592,7 +592,8 @@ $.extend(Selectize.prototype, {
 				return;
 			case KEY_RETURN:
 				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
+					e.currentTarget = self.$activeOption;
+					self.onOptionSelect(e);
 					e.preventDefault();
 				}
 				return;
@@ -781,10 +782,18 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				self.addItem(value);
+
+				if (self.items.indexOf(value) !== -1 && self.settings.mode === 'multi') {
+					self.removeItem(value);
+					if (!self.settings.closeAfterSelect) {
+						self.refreshOptions(false);
+					}
+				} else {
+					self.addItem(value);
+				}
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+				} else if (!self.settings.hideSelected && e.type && /mouse|keydown/.test(e.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
 			}
@@ -1694,11 +1703,7 @@ $.extend(Selectize.prototype, {
 				// update menu / remove the option (if this is not one item being added as part of series)
 				if (!self.isPending) {
 					$option = self.getOption(value);
-					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
-					if (value_next) {
-						self.setActiveOption(self.getOption(value_next));
-					}
 				}
 
 				// hide the menu if the maximum number of items have been selected or no options are left
