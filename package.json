@@ -1,5 +1,5 @@
 {
-  "name": "@selectize/selectize",
+  "name": "@fabienwnklr/selectize",
   "keywords": [
     "select",
     "ui",
@@ -13,7 +13,7 @@
   ],
   "browser": "dist/js/selectize.js",
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-  "version": "0.15.3  ",
+  "version": "0.15.3",
   "author": "Brian Reavis <brian@thirdroute.com>",
   "contributors": [
     "Ris Adams <selectize@risadams.com>"
