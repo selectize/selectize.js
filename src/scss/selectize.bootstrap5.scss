@@ -8,6 +8,7 @@ $select-font-size: inherit !default;
 $select-line-height: $input-btn-line-height !default; //formerly line-height-computed
 
 $select-color-text: $gray-800 !default; //$gray-800
+$select-bg-color: $gray-100 !default;
 $select-color-highlight: rgba(255, 237, 40, 0.4) !default;
 $select-color-input: $input-bg !default;
 $select-color-input-full: $input-bg !default;
@@ -100,11 +101,14 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{$selectize}-dropdown-emptyoptionlabel {
-	text-align: center;
+  text-align: center;
 }
 
 .#{$selectize}-input {
   min-height: $input-height;
+  background-color: $select-bg-color;
+  border: 0;
+  transition: background-color 0.15s;
   @include box-shadow($input-box-shadow);
   @include transition($input-transition);
 
@@ -114,14 +118,20 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   &.dropdown-active::before {
     display: none;
   }
+
+  &:hover {
+    background: darken($select-bg-color, 5%);
+  }
   &.focus {
     border-color: $input-focus-border-color;
     outline: 0;
-    @if $enable-shadows {
-      box-shadow: $input-box-shadow, $input-focus-box-shadow;
-    } @else {
-      box-shadow: $input-focus-box-shadow;
-    }
+    background: darken($select-bg-color, 15%);
+    box-shadow: unset;
+    // @if $enable-shadows {
+    //   box-shadow: $input-box-shadow, $input-focus-box-shadow;
+    // } @else {
+    //   box-shadow: $input-focus-box-shadow;
+    // }
   }
 }
 
@@ -168,19 +178,19 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
   border-radius: 0;
 }
 
-.input-group>.input-group-append>.btn, .input-group>.form-control:not(:first-child) {
+.input-group > .input-group-append > .btn,
+.input-group > .form-control:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.input-group>.input-group-prepend>.btn {
+.input-group > .input-group-prepend > .btn {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-
 .input-group .#{$selectize}-control:not(:last-child) {
-  .#{$selectize}-input{
+  .#{$selectize}-input {
     overflow: unset;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -188,7 +198,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .input-group .#{$selectize}-control:not(:first-child) {
-  .#{$selectize}-input{
+  .#{$selectize}-input {
     overflow: unset;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -196,11 +206,12 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
 }
 
 .#{selectize}-dropdown.plugin-auto_position.#{$selectize}-position-top {
-  border-top: $select-border!important;
-  border-bottom: $select-border!important;
-  border-radius: $select-border-radius!important;
+  border-top: $select-border !important;
+  border-bottom: $select-border !important;
+  border-radius: $select-border-radius !important;
 }
-.#{selectize}-control.plugin-auto_position .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
-  border-radius: $select-border-radius!important;
-  border-top: $select-border!important;
+.#{selectize}-control.plugin-auto_position
+  .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
+  border-radius: $select-border-radius !important;
+  border-top: $select-border !important;
 }

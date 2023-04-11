@@ -61,7 +61,7 @@ Selectize.define('dropdown_header', function(options) {
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
 						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
+						'<a href="javascript:void(0)" class="' + data.closeClass + '">×</a>' +
 					'</div>' +
 				'</div>'
 			);
