@@ -21,7 +21,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/selectize/selectize.js.git"
+    "url": "git://github.com/fabienwnklr/selectize.js.git"
   },
   "files": [
     "dist/*"
