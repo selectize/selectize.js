@@ -78,4 +78,4 @@ var TAG_INPUT = 2;
 /**
  * @var {number} SUPPORTS_VALIDITY_API Check if device support validity api, for now, android support in general is too spotty to support validity
  */
-var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.createElement('input').validity;
+var SUPPORTS_VALIDITY_API = !uaDetect("Android", /android/i) && !!document.createElement("input").validity;

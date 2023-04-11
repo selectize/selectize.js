@@ -37,6 +37,7 @@
     "chai": "4.3.7",
     "concurrently": "8.0.1",
     "del": "^6.1.1",
+    "eslint": "^8.38.0",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
@@ -64,6 +65,7 @@
     "less": "4.1.3",
     "mocha": "10.2.0",
     "popper.js": "1.16.1",
+    "prettier": "^2.8.7",
     "sass": "1.61.0"
   },
   "peerDependencies": {
@@ -83,7 +85,8 @@
     "start": "cd docs && HTTPS=true SSL_CRT_FILE=.ssl/loopback_website.crt SSL_KEY_FILE=.ssl/loopback_website.key npm run start -- --host=loopback.website --port=4000",
     "start:windows": "cd docs && SET HTTPS=true && SET SSL_CRT_FILE=.ssl/loopback_website.crt && SET SSL_KEY_FILE=.ssl/loopback_website.key && npm run start -- --host=loopback.website --port=4000",
     "watch": "concurrently \"gulp watch\" \"npm run start\"",
-    "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\""
+    "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\"",
+    "format": "npx prettier --config .prettierrc --write src/**/*.js"
   },
   "engines": {
     "node": "*"

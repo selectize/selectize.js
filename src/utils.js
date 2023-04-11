@@ -5,7 +5,7 @@
  * @returns {boolean}
  */
 var isset = function (object) {
-  return typeof object !== 'undefined';
+    return typeof object !== "undefined";
 };
 
 /**
@@ -16,9 +16,11 @@ var isset = function (object) {
  * @returns {Boolean} returns true if the passed object is an Array.
  *
  */
-var isArray = Array.isArray || function (vArg) {
-  return Object.prototype.toString.call(vArg) === '[object Array]';
-}
+var isArray =
+    Array.isArray ||
+    function (vArg) {
+        return Object.prototype.toString.call(vArg) === "[object Array]";
+    };
 
 /**
  * Converts a scalar to its best string representation
@@ -37,9 +39,9 @@ var isArray = Array.isArray || function (vArg) {
  * @returns {string|null}
  */
 var hash_key = function (value) {
-  if (typeof value === 'undefined' || value === null) return null;
-  if (typeof value === 'boolean') return value ? '1' : '0';
-  return value + '';
+    if (typeof value === "undefined" || value === null) return null;
+    if (typeof value === "boolean") return value ? "1" : "0";
+    return value + "";
 };
 
 /**
@@ -49,11 +51,7 @@ var hash_key = function (value) {
  * @returns {string}
  */
 var escape_html = function (str) {
-  return (str + '')
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    return (str + "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 };
 
 /**
@@ -63,7 +61,7 @@ var escape_html = function (str) {
  * @returns {string}
  */
 var escape_replace = function (str) {
-  return (str + '').replace(/\$/g, '$$$$');
+    return (str + "").replace(/\$/g, "$$$$");
 };
 
 var hook = {};
@@ -77,11 +75,11 @@ var hook = {};
  * @param {function} fn
  */
 hook.before = function (self, method, fn) {
-  var original = self[method];
-  self[method] = function () {
-    fn.apply(self, arguments);
-    return original.apply(self, arguments);
-  };
+    var original = self[method];
+    self[method] = function () {
+        fn.apply(self, arguments);
+        return original.apply(self, arguments);
+    };
 };
 
 /**
@@ -93,12 +91,12 @@ hook.before = function (self, method, fn) {
  * @param {function} fn
  */
 hook.after = function (self, method, fn) {
-  var original = self[method];
-  self[method] = function () {
-    var result = original.apply(self, arguments);
-    fn.apply(self, arguments);
-    return result;
-  };
+    var original = self[method];
+    self[method] = function () {
+        var result = original.apply(self, arguments);
+        fn.apply(self, arguments);
+        return result;
+    };
 };
 
 /**
@@ -108,12 +106,12 @@ hook.after = function (self, method, fn) {
  * @returns {function}
  */
 var once = function (fn) {
-  var called = false;
-  return function () {
-    if (called) return;
-    called = true;
-    fn.apply(this, arguments);
-  };
+    var called = false;
+    return function () {
+        if (called) return;
+        called = true;
+        fn.apply(this, arguments);
+    };
 };
 
 /**
@@ -125,15 +123,15 @@ var once = function (fn) {
  * @returns {function}
  */
 var debounce = function (fn, delay) {
-  var timeout;
-  return function () {
-    var self = this;
-    var args = arguments;
-    window.clearTimeout(timeout);
-    timeout = window.setTimeout(function () {
-      fn.apply(self, args);
-    }, delay);
-  };
+    var timeout;
+    return function () {
+        var self = this;
+        var args = arguments;
+        window.clearTimeout(timeout);
+        timeout = window.setTimeout(function () {
+            fn.apply(self, args);
+        }, delay);
+    };
 };
 
 /**
@@ -145,30 +143,30 @@ var debounce = function (fn, delay) {
  * @param {function} fn
  */
 var debounce_events = function (self, types, fn) {
-  var type;
-  var trigger = self.trigger;
-  var event_args = {};
+    var type;
+    var trigger = self.trigger;
+    var event_args = {};
 
-  // override trigger method
-  self.trigger = function () {
-    var type = arguments[0];
-    if (types.indexOf(type) !== -1) {
-      event_args[type] = arguments;
-    } else {
-      return trigger.apply(self, arguments);
+    // override trigger method
+    self.trigger = function () {
+        var type = arguments[0];
+        if (types.indexOf(type) !== -1) {
+            event_args[type] = arguments;
+        } else {
+            return trigger.apply(self, arguments);
+        }
+    };
+
+    // invoke provided function
+    fn.apply(self, []);
+    self.trigger = trigger;
+
+    // trigger queued events
+    for (type in event_args) {
+        if (event_args.hasOwnProperty(type)) {
+            trigger.apply(self, event_args[type]);
+        }
     }
-  };
-
-  // invoke provided function
-  fn.apply(self, []);
-  self.trigger = trigger;
-
-  // trigger queued events
-  for (type in event_args) {
-    if (event_args.hasOwnProperty(type)) {
-      trigger.apply(self, event_args[type]);
-    }
-  }
 };
 
 /**
@@ -180,14 +178,14 @@ var debounce_events = function (self, types, fn) {
  * @param {function} fn - Event handler.
  */
 var watchChildEvent = function ($parent, event, selector, fn) {
-  $parent.on(event, selector, function (e) {
-    var child = e.target;
-    while (child && child.parentNode !== $parent[0]) {
-      child = child.parentNode;
-    }
-    e.currentTarget = child;
-    return fn.apply(this, [e]);
-  });
+    $parent.on(event, selector, function (e) {
+        var child = e.target;
+        while (child && child.parentNode !== $parent[0]) {
+            child = child.parentNode;
+        }
+        e.currentTarget = child;
+        return fn.apply(this, [e]);
+    });
 };
 
 /**
@@ -200,23 +198,23 @@ var watchChildEvent = function ($parent, event, selector, fn) {
  * @returns {object}
  */
 var getInputSelection = function (input) {
-  var result = {};
-  if (input === undefined) {
-    console.warn('WARN getInputSelection cannot locate input control');
+    var result = {};
+    if (input === undefined) {
+        console.warn("WARN getInputSelection cannot locate input control");
+        return result;
+    }
+    if ("selectionStart" in input) {
+        result.start = input.selectionStart;
+        result.length = input.selectionEnd - result.start;
+    } else if (document.selection) {
+        input.focus();
+        var sel = document.selection.createRange();
+        var selLen = document.selection.createRange().text.length;
+        sel.moveStart("character", -input.value.length);
+        result.start = sel.text.length - selLen;
+        result.length = selLen;
+    }
     return result;
-  }
-  if ('selectionStart' in input) {
-    result.start = input.selectionStart;
-    result.length = input.selectionEnd - result.start;
-  } else if (document.selection) {
-    input.focus();
-    var sel = document.selection.createRange();
-    var selLen = document.selection.createRange().text.length;
-    sel.moveStart('character', -input.value.length);
-    result.start = sel.text.length - selLen;
-    result.length = selLen;
-  }
-  return result;
 };
 
 /**
@@ -227,15 +225,17 @@ var getInputSelection = function (input) {
  * @param {array} properties
  */
 var transferStyles = function ($from, $to, properties) {
-  var i, n, styles = {};
-  if (properties) {
-    for (i = 0, n = properties.length; i < n; i++) {
-      styles[properties[i]] = $from.css(properties[i]);
+    var i,
+        n,
+        styles = {};
+    if (properties) {
+        for (i = 0, n = properties.length; i < n; i++) {
+            styles[properties[i]] = $from.css(properties[i]);
+        }
+    } else {
+        styles = $from.css();
     }
-  } else {
-    styles = $from.css();
-  }
-  $to.css(styles);
+    $to.css(styles);
 };
 
 /**
@@ -247,39 +247,37 @@ var transferStyles = function ($from, $to, properties) {
  * @returns {number}
  */
 var measureString = function (str, $parent) {
-  if (!str) {
-    return 0;
-  }
+    if (!str) {
+        return 0;
+    }
 
-  if (!Selectize.$testInput) {
-    Selectize.$testInput = $('<span />').css({
-      position: 'absolute',
-      width: 'auto',
-      padding: 0,
-      whiteSpace: 'pre'
-    });
+    if (!Selectize.$testInput) {
+        Selectize.$testInput = $("<span />").css({
+            position: "absolute",
+            width: "auto",
+            padding: 0,
+            whiteSpace: "pre",
+        });
 
-    $('<div />').css({
-      position: 'absolute',
-      width: 0,
-      height: 0,
-      overflow: 'hidden'
-    }).attr({
-      'aria-hidden': true
-    }).append(Selectize.$testInput).appendTo('body');
-  }
+        $("<div />")
+            .css({
+                position: "absolute",
+                width: 0,
+                height: 0,
+                overflow: "hidden",
+            })
+            .attr({
+                "aria-hidden": true,
+            })
+            .append(Selectize.$testInput)
+            .appendTo("body");
+    }
 
-  Selectize.$testInput.text(str);
+    Selectize.$testInput.text(str);
 
-  transferStyles($parent, Selectize.$testInput, [
-    'letterSpacing',
-    'fontSize',
-    'fontFamily',
-    'fontWeight',
-    'textTransform'
-  ]);
+    transferStyles($parent, Selectize.$testInput, ["letterSpacing", "fontSize", "fontFamily", "fontWeight", "textTransform"]);
 
-  return Selectize.$testInput.width();
+    return Selectize.$testInput.width();
 };
 
 /**
@@ -292,87 +290,86 @@ var measureString = function (str, $parent) {
  * @param {object} $input
  */
 var autoGrow = function ($input) {
-  var currentWidth = null;
+    var currentWidth = null;
 
-  var update = function (e, options) {
-    var value, keyCode, printable, width;
-    var placeholder, placeholderWidth;
-    var shift, character, selection;
-    e = e || window.event || {};
-    options = options || {};
+    var update = function (e, options) {
+        var value, keyCode, printable, width;
+        var placeholder, placeholderWidth;
+        var shift, character, selection;
+        e = e || window.event || {};
+        options = options || {};
 
-    if (e.metaKey || e.altKey) return;
-    if (!options.force && $input.data('grow') === false) return;
+        if (e.metaKey || e.altKey) return;
+        if (!options.force && $input.data("grow") === false) return;
 
-    value = $input.val();
-    if (e.type && e.type.toLowerCase() === 'keydown') {
-      keyCode = e.keyCode;
-      printable = (
-        (keyCode >= 48 && keyCode <= 57) || // 0-9
-        (keyCode >= 65 && keyCode <= 90) || // a-z
-        (keyCode >= 96 && keyCode <= 111) || // numpad 0-9, numeric operators
-        (keyCode >= 186 && keyCode <= 222) || // semicolon, equal, comma, dash, etc.
-        keyCode === 32 // space
-      );
+        value = $input.val();
+        if (e.type && e.type.toLowerCase() === "keydown") {
+            keyCode = e.keyCode;
+            printable =
+                (keyCode >= 48 && keyCode <= 57) || // 0-9
+                (keyCode >= 65 && keyCode <= 90) || // a-z
+                (keyCode >= 96 && keyCode <= 111) || // numpad 0-9, numeric operators
+                (keyCode >= 186 && keyCode <= 222) || // semicolon, equal, comma, dash, etc.
+                keyCode === 32; // space
 
-      if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
-        selection = getInputSelection($input[0]);
-        if (selection.length) {
-          value = value.substring(0, selection.start) + value.substring(selection.start + selection.length);
-        } else if (keyCode === KEY_BACKSPACE && selection.start) {
-          value = value.substring(0, selection.start - 1) + value.substring(selection.start + 1);
-        } else if (keyCode === KEY_DELETE && typeof selection.start !== 'undefined') {
-          value = value.substring(0, selection.start) + value.substring(selection.start + 1);
+            if (keyCode === KEY_DELETE || keyCode === KEY_BACKSPACE) {
+                selection = getInputSelection($input[0]);
+                if (selection.length) {
+                    value = value.substring(0, selection.start) + value.substring(selection.start + selection.length);
+                } else if (keyCode === KEY_BACKSPACE && selection.start) {
+                    value = value.substring(0, selection.start - 1) + value.substring(selection.start + 1);
+                } else if (keyCode === KEY_DELETE && typeof selection.start !== "undefined") {
+                    value = value.substring(0, selection.start) + value.substring(selection.start + 1);
+                }
+            } else if (printable) {
+                shift = e.shiftKey;
+                character = String.fromCharCode(e.keyCode);
+                if (shift) character = character.toUpperCase();
+                else character = character.toLowerCase();
+                value += character;
+            }
         }
-      } else if (printable) {
-        shift = e.shiftKey;
-        character = String.fromCharCode(e.keyCode);
-        if (shift) character = character.toUpperCase();
-        else character = character.toLowerCase();
-        value += character;
-      }
-    }
 
-    var width = $input.attr('readonly') ? 0 : 4;
-    placeholder = $input.attr('placeholder');
-    if (placeholder) {
-      placeholderWidth = measureString(placeholder, $input) + width;
-    } else {
-      placeholderWidth = 0;
-    }
+        var width = $input.attr("readonly") ? 0 : 4;
+        placeholder = $input.attr("placeholder");
+        if (placeholder) {
+            placeholderWidth = measureString(placeholder, $input) + width;
+        } else {
+            placeholderWidth = 0;
+        }
 
-    width = Math.max(measureString(value, $input), placeholderWidth) + width;
-    if (width !== currentWidth) {
-      currentWidth = width;
-      $input.width(width);
-      $input.triggerHandler('resize');
-    }
-  };
+        width = Math.max(measureString(value, $input), placeholderWidth) + width;
+        if (width !== currentWidth) {
+            currentWidth = width;
+            $input.width(width);
+            $input.triggerHandler("resize");
+        }
+    };
 
-  $input.on('keydown keyup update blur', update);
-  update();
+    $input.on("keydown keyup update blur", update);
+    update();
 };
 
 var domToString = function (d) {
-  var tmp = document.createElement('div');
+    var tmp = document.createElement("div");
 
-  tmp.appendChild(d.cloneNode(true));
+    tmp.appendChild(d.cloneNode(true));
 
-  return tmp.innerHTML;
+    return tmp.innerHTML;
 };
 
 var logError = function (message, options) {
-  if (!options) options = {};
-  var component = "Selectize";
+    if (!options) options = {};
+    var component = "Selectize";
 
-  console.error(component + ": " + message)
+    console.error(component + ": " + message);
 
-  if (options.explanation) {
-    // console.group is undefined in <IE11
-    if (console.group) console.group();
-    console.error(options.explanation);
-    if (console.group) console.groupEnd();
-  }
+    if (options.explanation) {
+        // console.group is undefined in <IE11
+        if (console.group) console.group();
+        console.error(options.explanation);
+        if (console.group) console.groupEnd();
+    }
 };
 
 /**
@@ -382,12 +379,12 @@ var logError = function (message, options) {
  * @returns {Boolean} true if is an JSON object
  */
 var isJSON = function (data) {
-  try {
-    JSON.parse(data);
-  } catch (e) {
-    return false;
-  }
-  return true;
+    try {
+        JSON.parse(data);
+    } catch (e) {
+        return false;
+    }
+    return true;
 };
 
 /**
@@ -399,25 +396,24 @@ var isJSON = function (data) {
  * @returns {Boolean} A boolean value.
  */
 function uaDetect(platform, re) {
-  if (navigator.userAgentData) {
-    return platform === navigator.userAgentData.platform;
-  }
+    if (navigator.userAgentData) {
+        return platform === navigator.userAgentData.platform;
+    }
 
-  return re.test(navigator.userAgent);
+    return re.test(navigator.userAgent);
 }
 
 /**
- * 
+ *
  * @param {HTMLEle} el Element to check
  * @returns {Boolean}
  */
 function isInViewport(el) {
-  const rect = el.getBoundingClientRect();
-  return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-
-  );
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
 }
