@@ -19,20 +19,4 @@ Object of options available for "clear_button" plugin
 | [html] | <code>function</code> |  | Method used for rendering |
 
 **Example**  
-```js
-$('select').selectize({
- plugins: [
-   {
-     clear_button: {
-       title: 'Custom title',
-       className: 'custom-class',
-       label: 'custom label',
-       html: (data) => {
-         return (
-           `<a class="${data.className}" title="${data.title}">${data.label}</a>`;
-       }
-    }
-  }
- ]
-});
-```
+```js$('select').selectize({ plugins: [   {     clear_button: {       title: 'Custom title',       className: 'custom-class',       label: 'custom label',       html: (data) => {         return (           `<a class="${data.className}" title="${data.title}">${data.label}</a>`;       }    }  } ]});```

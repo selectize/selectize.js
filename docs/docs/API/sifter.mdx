@@ -25,11 +25,7 @@ Sifter
 <a name="new_Sifter_new"></a>
 
 ### new Sifter(items, items)
-Sifter is a client and server-side library (via UMD) for textually searching arrays and hashes of objects by property – or multiple properties. It's designed specifically for autocomplete. The process is three-step: score, filter, sort.
- - **Supports díåcritîçs.** - For example, if searching for "montana" and an item in the set has a value of "montaña", it will still be matched. Sorting will also play nicely with diacritics
- - **Smart scoring.** - Items are scored / sorted intelligently depending on where a match is found in the string (how close to the beginning) and what percentage of the string matches.
- - **Multi-field sorting**. - When scores aren't enough to go by – like when getting results for an empty query – it can sort by one or more fields. For example, sort by a person's first name and last name without actually merging the properties to a single string.
- - **Nested properties.** - Allows to search and sort on nested properties so you can perform search on complex objects without flattening them simply by using dot-notation to reference fields (ie. nested.property).
+Sifter is a client and server-side library (via UMD) for textually searching arrays and hashes of objects by property – or multiple properties. It's designed specifically for autocomplete. The process is three-step: score, filter, sort. - **Supports díåcritîçs.** - For example, if searching for "montana" and an item in the set has a value of "montaña", it will still be matched. Sorting will also play nicely with diacritics - **Smart scoring.** - Items are scored / sorted intelligently depending on where a match is found in the string (how close to the beginning) and what percentage of the string matches. - **Multi-field sorting**. - When scores aren't enough to go by – like when getting results for an empty query – it can sort by one or more fields. For example, sort by a person's first name and last name without actually merging the properties to a single string. - **Nested properties.** - Allows to search and sort on nested properties so you can perform search on complex objects without flattening them simply by using dot-notation to reference fields (ie. nested.property).
 
 
 | Param | Type |
@@ -40,8 +36,7 @@ Sifter is a client and server-side library (via UMD) for textually searching arr
 <a name="Sifter+tokenize"></a>
 
 ### sifter.tokenize(query) ⇒ <code>array</code>
-Splits a search string into an array of individual
-regexps to be used to match results.
+Splits a search string into an array of individualregexps to be used to match results.
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 
@@ -52,13 +47,7 @@ regexps to be used to match results.
 <a name="Sifter+iterator"></a>
 
 ### sifter.iterator(object)
-Iterates over arrays and hashes.
-
-```
-this.iterator(this.items, function(item, id) {
-   // invoked for each item
-});
-```
+Iterates over arrays and hashes.```this.iterator(this.items, function(item, id) {   // invoked for each item});```
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 
@@ -69,10 +58,7 @@ this.iterator(this.items, function(item, id) {
 <a name="Sifter+getScoreFunction"></a>
 
 ### sifter.getScoreFunction(search, options) ⇒ <code>function</code>
-Returns a function to be used to score individual results.
-
-Good matches will have a higher score than poor matches.
-If an item is not a match, 0 will be returned by the function.
+Returns a function to be used to score individual results.Good matches will have a higher score than poor matches.If an item is not a match, 0 will be returned by the function.
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 
@@ -89,8 +75,7 @@ If an item is not a match, 0 will be returned by the function.
 <a name="Sifter+getScoreFunction..scoreObject"></a>
 
 #### getScoreFunction~scoreObject ⇒ <code>number</code>
-Calculates the score of an object
-against the search query.
+Calculates the score of an objectagainst the search query.
 
 **Kind**: inner property of [<code>getScoreFunction</code>](#Sifter+getScoreFunction)  
 
@@ -102,8 +87,7 @@ against the search query.
 <a name="Sifter+getScoreFunction..scoreValue"></a>
 
 #### getScoreFunction~scoreValue(value, token) ⇒ <code>number</code>
-Calculates how close of a match the
-given value is against a search token.
+Calculates how close of a match thegiven value is against a search token.
 
 **Kind**: inner method of [<code>getScoreFunction</code>](#Sifter+getScoreFunction)  
 
@@ -115,9 +99,7 @@ given value is against a search token.
 <a name="Sifter+getSortFunction"></a>
 
 ### sifter.getSortFunction(search, options) ⇒
-Returns a function that can be used to compare two
-results, for sorting purposes. If no sorting should
-be performed, `null` will be returned.
+Returns a function that can be used to compare tworesults, for sorting purposes. If no sorting shouldbe performed, `null` will be returned.
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 **Returns**: function(a,b)  
@@ -130,8 +112,7 @@ be performed, `null` will be returned.
 <a name="Sifter+getSortFunction..get_field"></a>
 
 #### getSortFunction~get\_field(name, result) ⇒ <code>mixed</code>
-Fetches the specified sort field value
-from a search result item.
+Fetches the specified sort field valuefrom a search result item.
 
 **Kind**: inner method of [<code>getSortFunction</code>](#Sifter+getSortFunction)  
 
@@ -143,9 +124,7 @@ from a search result item.
 <a name="Sifter+prepareSearch"></a>
 
 ### sifter.prepareSearch(query, options) ⇒ <code>object</code>
-Parses a search query and returns an object
-with tokens and fields ready to be populated
-with results.
+Parses a search query and returns an objectwith tokens and fields ready to be populatedwith results.
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 
@@ -157,23 +136,7 @@ with results.
 <a name="Sifter+search"></a>
 
 ### sifter.search(query, options) ⇒ <code>object</code>
-Searches through all items and returns a sorted array of matches.
-
-The `options` parameter can contain:
-
-  - fields {string|array}
-  - sort {array}
-  - score {function}
-  - filter {bool}
-  - limit {integer}
-
-Returns an object containing:
-
-  - options {object}
-  - query {string}
-  - tokens {array}
-  - total {int}
-  - items {array}
+Searches through all items and returns a sorted array of matches.The `options` parameter can contain:  - fields {string|array}  - sort {array}  - score {function}  - filter {bool}  - limit {integer}Returns an object containing:  - options {object}  - query {string}  - tokens {array}  - total {int}  - items {array}
 
 **Kind**: instance method of [<code>Sifter</code>](#Sifter)  
 

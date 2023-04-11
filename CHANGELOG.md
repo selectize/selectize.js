@@ -2,6 +2,14 @@
 
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
+## v0.15.3 · 11 04 2023
+
+- fixed: toggle selected option on enter for select multiple
+- fixed: enhance `tag_limit` plugin for manage better and more configurable
+- fixed: style enhancement for more modern appareance
+_@fabienwnklr_
+
+## v0.15.2 ? 
 
 ## v0.15.1 · 17 11 2022
 

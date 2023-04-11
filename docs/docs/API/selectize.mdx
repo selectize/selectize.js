@@ -30,15 +30,13 @@ Sets up default rendering functions.
 <a name="setupCallbacks"></a>
 
 ## setupCallbacks()
-Maps fired events to callbacks provided
-in the settings used when creating the control.
+Maps fired events to callbacks providedin the settings used when creating the control.
 
 **Kind**: global function  
 <a name="onClick"></a>
 
 ## onClick(e) ⇒ <code>boolean</code>
-Triggered when the main control element
-has a click event.
+Triggered when the main control elementhas a click event.
 
 **Kind**: global function  
 
@@ -49,8 +47,7 @@ has a click event.
 <a name="onMouseDown"></a>
 
 ## onMouseDown(e) ⇒ <code>boolean</code>
-Triggered when the main control element
-has a mouse down event.
+Triggered when the main control elementhas a mouse down event.
 
 **Kind**: global function  
 
@@ -61,9 +58,7 @@ has a mouse down event.
 <a name="onChange"></a>
 
 ## onChange()
-Triggered when the value of the control has been changed.
-This should propagate the event to the original DOM
-input / select element.
+Triggered when the value of the control has been changed.This should propagate the event to the original DOMinput / select element.
 
 **Kind**: global function  
 <a name="onPaste"></a>
@@ -113,10 +108,7 @@ Triggered on `<input>` input.
 <a name="onSearchChange"></a>
 
 ## onSearchChange(value)
-Invokes the user-provide option provider / loader.
-
-Note: this function is debounced in the Selectize
-constructor (by `settings.loadThrottle` milliseconds)
+Invokes the user-provide option provider / loader.Note: this function is debounced in the Selectizeconstructor (by `settings.loadThrottle` milliseconds)
 
 **Kind**: global function  
 
@@ -150,8 +142,7 @@ Triggered on `<input>` blur.
 <a name="onOptionHover"></a>
 
 ## onOptionHover(e) ⇒ <code>boolean</code>
-Triggered when the user rolls over
-an option in the autocomplete dropdown menu.
+Triggered when the user rolls overan option in the autocomplete dropdown menu.
 
 **Kind**: global function  
 
@@ -162,8 +153,7 @@ an option in the autocomplete dropdown menu.
 <a name="onOptionSelect"></a>
 
 ## onOptionSelect(e) ⇒ <code>boolean</code>
-Triggered when the user clicks on an option
-in the autocomplete dropdown menu.
+Triggered when the user clicks on an optionin the autocomplete dropdown menu.
 
 **Kind**: global function  
 
@@ -174,8 +164,7 @@ in the autocomplete dropdown menu.
 <a name="onItemSelect"></a>
 
 ## onItemSelect(e) ⇒ <code>boolean</code>
-Triggered when the user clicks on an item
-that has been selected.
+Triggered when the user clicks on an itemthat has been selected.
 
 **Kind**: global function  
 
@@ -186,9 +175,7 @@ that has been selected.
 <a name="load"></a>
 
 ## load(fn)
-Invokes the provided method that provides
-results to a callback---which are then added
-as options to the control.
+Invokes the provided method that providesresults to a callback---which are then addedas options to the control.
 
 **Kind**: global function  
 
@@ -217,10 +204,7 @@ Sets the input field of the control to the specified value.
 <a name="getValue"></a>
 
 ## getValue() ⇒ <code>mixed</code>
-Returns the value of the control. If multiple items
-can be selected `(e.g. <select multiple>)`, this returns
-an array. If only one item can be selected, this
-returns a string.
+Returns the value of the control. If multiple itemscan be selected `(e.g. <select multiple>)`, this returnsan array. If only one item can be selected, thisreturns a string.
 
 **Kind**: global function  
 <a name="setValue"></a>
@@ -260,8 +244,7 @@ Sets the selected item.
 <a name="setActiveOption"></a>
 
 ## setActiveOption($object, scroll, animate)
-Sets the selected item in the dropdown menu
-of available options.
+Sets the selected item in the dropdown menuof available options.
 
 **Kind**: global function  
 
@@ -280,8 +263,7 @@ Selects all items (CTRL + A).
 <a name="hideInput"></a>
 
 ## hideInput()
-Hides the input element out of view, while
-retaining its focus.
+Hides the input element out of view, whileretaining its focus.
 
 **Kind**: global function  
 <a name="showInput"></a>
@@ -310,9 +292,7 @@ Forces the control out of focus.
 <a name="getScoreFunction"></a>
 
 ## getScoreFunction(query, options) ⇒ <code>function</code>
-Returns a function that scores an object
-to show how good of a match it is to the
-provided query.
+Returns a function that scores an objectto show how good of a match it is to theprovided query.
 
 **Kind**: global function  
 
@@ -324,23 +304,14 @@ provided query.
 <a name="getSearchOptions"></a>
 
 ## getSearchOptions() ⇒ <code>object</code>
-Returns search options for sifter (the system
-for scoring and sorting results).
+Returns search options for sifter (the systemfor scoring and sorting results).
 
 **Kind**: global function  
 **See**: https://github.com/brianreavis/sifter.js  
 <a name="search"></a>
 
 ## search(query) ⇒ <code>object</code>
-Searches through available options and returns
-a sorted array of matches.
-
-Returns an object containing:
-
-  - query {string}
-  - tokens {array}
-  - total {int}
-  - items {array}
+Searches through available options and returnsa sorted array of matches.Returns an object containing:  - query {string}  - tokens {array}  - total {int}  - items {array}
 
 **Kind**: global function  
 
@@ -351,8 +322,7 @@ Returns an object containing:
 <a name="refreshOptions"></a>
 
 ## refreshOptions(triggerDropdown)
-Refreshes the list of available options shown
-in the autocomplete dropdown menu.
+Refreshes the list of available options shownin the autocomplete dropdown menu.
 
 **Kind**: global function  
 
@@ -363,14 +333,7 @@ in the autocomplete dropdown menu.
 <a name="addOption"></a>
 
 ## addOption(data)
-Adds an available option. If it already exists,
-nothing will happen. Note: this does not refresh
-the options list dropdown (use `refreshOptions`
-for that).
-
-Usage:
-
-  this.addOption(data)
+Adds an available option. If it already exists,nothing will happen. Note: this does not refreshthe options list dropdown (use `refreshOptions`for that).Usage:  this.addOption(data)
 
 **Kind**: global function  
 
@@ -403,8 +366,7 @@ Registers an option group to the pool of option groups.
 <a name="addOptionGroup"></a>
 
 ## addOptionGroup(id, data)
-Registers a new optgroup for options
-to be bucketed into.
+Registers a new optgroup for optionsto be bucketed into.
 
 **Kind**: global function  
 
@@ -433,9 +395,7 @@ Clears all existing option groups.
 <a name="updateOption"></a>
 
 ## updateOption(value, data)
-Updates an option available for selection. If
-it is visible in the selected items or options
-dropdown, it will be re-rendered automatically.
+Updates an option available for selection. Ifit is visible in the selected items or optionsdropdown, it will be re-rendered automatically.
 
 **Kind**: global function  
 
@@ -470,8 +430,7 @@ Clears all options, including all selected items
 <a name="getOption"></a>
 
 ## getOption(value) ⇒ <code>object</code>
-Returns the jQuery element of the option
-matching the given value.
+Returns the jQuery element of the optionmatching the given value.
 
 **Kind**: global function  
 
@@ -482,15 +441,13 @@ matching the given value.
 <a name="getFirstOption"></a>
 
 ## getFirstOption() ⇒ <code>object</code>
-Returns the jQuery element of the first
-selectable option.
+Returns the jQuery element of the firstselectable option.
 
 **Kind**: global function  
 <a name="getAdjacentOption"></a>
 
 ## getAdjacentOption($option, direction) ⇒ <code>object</code>
-Returns the jQuery element of the next or
-previous selectable option.
+Returns the jQuery element of the next orprevious selectable option.
 
 **Kind**: global function  
 
@@ -502,8 +459,7 @@ previous selectable option.
 <a name="getElementWithValue"></a>
 
 ## getElementWithValue(value, $els) ⇒ <code>object</code>
-Finds the first element with a "data-value" attribute
-that matches the given value.
+Finds the first element with a "data-value" attributethat matches the given value.
 
 **Kind**: global function  
 
@@ -515,8 +471,7 @@ that matches the given value.
 <a name="getElementWithTextContent"></a>
 
 ## getElementWithTextContent(textContent, ignoreCase, $els) ⇒ <code>object</code>
-Finds the first element with a "textContent" property
-that matches the given textContent value.
+Finds the first element with a "textContent" propertythat matches the given textContent value.
 
 **Kind**: global function  
 
@@ -529,8 +484,7 @@ that matches the given textContent value.
 <a name="getItem"></a>
 
 ## getItem(value) ⇒ <code>object</code>
-Returns the jQuery element of the item
-matching the given value.
+Returns the jQuery element of the itemmatching the given value.
 
 **Kind**: global function  
 
@@ -541,8 +495,7 @@ matching the given value.
 <a name="getFirstItemMatchedByTextContent"></a>
 
 ## getFirstItemMatchedByTextContent(value, ignoreCase) ⇒ <code>object</code>
-Returns the jQuery element of the item
-matching the given textContent.
+Returns the jQuery element of the itemmatching the given textContent.
 
 **Kind**: global function  
 
@@ -554,8 +507,7 @@ matching the given textContent.
 <a name="addItems"></a>
 
 ## addItems(values, silent)
-"Selects" multiple items at once. Adds them to the list
-at the current caret position.
+"Selects" multiple items at once. Adds them to the listat the current caret position.
 
 **Kind**: global function  
 
@@ -567,8 +519,7 @@ at the current caret position.
 <a name="addItem"></a>
 
 ## addItem(value, silent)
-"Selects" an item. Adds it to the list
-at the current caret position.
+"Selects" an item. Adds it to the listat the current caret position.
 
 **Kind**: global function  
 
@@ -580,8 +531,7 @@ at the current caret position.
 <a name="removeItem"></a>
 
 ## removeItem(value)
-Removes the selected item matching
-the provided value.
+Removes the selected item matchingthe provided value.
 
 **Kind**: global function  
 
@@ -592,12 +542,7 @@ the provided value.
 <a name="createItem"></a>
 
 ## createItem(value, [triggerDropdown], [callback]) ⇒ <code>boolean</code>
-Invokes the `create` method provided in the
-selectize options that should provide the data
-for the new item, given the user input.
-
-Once this completes, it will be added
-to the item list.
+Invokes the `create` method provided in theselectize options that should provide the datafor the new item, given the user input.Once this completes, it will be addedto the item list.
 
 **Kind**: global function  
 
@@ -616,19 +561,13 @@ Re-renders the selected item lists.
 <a name="refreshState"></a>
 
 ## refreshState()
-Updates all state-dependent attributes
-and CSS classes.
+Updates all state-dependent attributesand CSS classes.
 
 **Kind**: global function  
 <a name="refreshValidityState"></a>
 
 ## refreshValidityState()
-Update the `required` attribute of both input and control input.
-
-The `required` property needs to be activated on the control input
-for the error to be displayed at the right place. `required` also
-needs to be temporarily deactivated on the input since the input is
-hidden and can't show errors.
+Update the `required` attribute of both input and control input.The `required` property needs to be activated on the control inputfor the error to be displayed at the right place. `required` alsoneeds to be temporarily deactivated on the input since the input ishidden and can't show errors.
 
 **Kind**: global function  
 <a name="refreshClasses"></a>
@@ -640,29 +579,25 @@ Updates all state-dependent CSS classes.
 <a name="isFull"></a>
 
 ## isFull() ⇒ <code>boolean</code>
-Determines whether or not more items can be added
-to the control without exceeding the user-defined maximum.
+Determines whether or not more items can be addedto the control without exceeding the user-defined maximum.
 
 **Kind**: global function  
 <a name="updateOriginalInput"></a>
 
 ## updateOriginalInput()
-Refreshes the original `<select>` or `<input>`
-element to reflect the current state.
+Refreshes the original `<select>` or `<input>`element to reflect the current state.
 
 **Kind**: global function  
 <a name="updatePlaceholder"></a>
 
 ## updatePlaceholder()
-Shows/hide the input placeholder depending
-on if there items in the list already.
+Shows/hide the input placeholder dependingon if there items in the list already.
 
 **Kind**: global function  
 <a name="open"></a>
 
 ## open()
-Shows the autocomplete dropdown containing
-the available options.
+Shows the autocomplete dropdown containingthe available options.
 
 **Kind**: global function  
 <a name="close"></a>
@@ -674,15 +609,13 @@ Closes the autocomplete dropdown menu.
 <a name="positionDropdown"></a>
 
 ## positionDropdown()
-Calculates and applies the appropriate
-position of the dropdown.
+Calculates and applies the appropriateposition of the dropdown.
 
 **Kind**: global function  
 <a name="clear"></a>
 
 ## clear(silent)
-Resets / clears all selected items
-from the control.
+Resets / clears all selected itemsfrom the control.
 
 **Kind**: global function  
 
@@ -693,8 +626,7 @@ from the control.
 <a name="insertAtCaret"></a>
 
 ## insertAtCaret($el)
-A helper method for inserting an element
-at the current caret position.
+A helper method for inserting an elementat the current caret position.
 
 **Kind**: global function  
 
@@ -720,11 +652,7 @@ Removes the current selected item(s).
 <a name="advanceSelection"></a>
 
 ## advanceSelection(direction, e)
-Selects the previous / next item (depending
-on the `direction` argument).
-
-> 0 - right
-< 0 - left
+Selects the previous / next item (dependingon the `direction` argument).> 0 - right< 0 - left
 
 **Kind**: global function  
 
@@ -759,8 +687,7 @@ Moves the caret to the specified index.
 <a name="lock"></a>
 
 ## lock()
-Disables user input on the control. Used while
-items are being asynchronously created.
+Disables user input on the control. Used whileitems are being asynchronously created.
 
 **Kind**: global function  
 <a name="unlock"></a>
@@ -772,30 +699,25 @@ Re-enables user input on the control.
 <a name="disable"></a>
 
 ## disable()
-Disables user input on the control completely.
-While disabled, it cannot receive focus.
+Disables user input on the control completely.While disabled, it cannot receive focus.
 
 **Kind**: global function  
 <a name="enable"></a>
 
 ## enable()
-Enables the control so that it can respond
-to focus and user input.
+Enables the control so that it can respondto focus and user input.
 
 **Kind**: global function  
 <a name="destroy"></a>
 
 ## destroy()
-Completely destroys the control and
-unbinds all event listeners so that it can
-be garbage collected.
+Completely destroys the control andunbinds all event listeners so that it canbe garbage collected.
 
 **Kind**: global function  
 <a name="render"></a>
 
 ## render(templateName, data) ⇒ <code>string</code>
-A helper method for rendering "item" and
-"option" templates, given the data.
+A helper method for rendering "item" and"option" templates, given the data.
 
 **Kind**: global function  
 
@@ -807,9 +729,7 @@ A helper method for rendering "item" and
 <a name="clearCache"></a>
 
 ## clearCache(templateName)
-Clears the render cache for a template. If
-no template is given, clears all render
-caches.
+Clears the render cache for a template. Ifno template is given, clears all rendercaches.
 
 **Kind**: global function  
 
@@ -820,8 +740,7 @@ caches.
 <a name="canCreate"></a>
 
 ## canCreate(input) ⇒ <code>boolean</code>
-Determines whether or not to display the
-create item prompt, given a user input.
+Determines whether or not to display thecreate item prompt, given a user input.
 
 **Kind**: global function  
 

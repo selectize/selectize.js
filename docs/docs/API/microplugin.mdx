@@ -21,9 +21,7 @@ MicroPlugin
 <a name="new_MicroPlugin_new"></a>
 
 ### new MicroPlugin(items, items)
-Keep code modularized & extensible.
-MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library.
- Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
+Keep code modularized & extensible.MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript library. Plugins can declare dependencies to other plugins and can be initialized with options (in a variety of formats).
 
 
 | Param | Type |
@@ -38,12 +36,7 @@ MicroPlugin is a lightweight drop-in plugin architecture for your JavaScript lib
 <a name="MicroPlugin.Interface+initializePlugins"></a>
 
 ### MicroPlugin.Interface#initializePlugins(plugins)
-Initializes the listed plugins (with options).
-Acceptable formats:
-
-- List (without options): - `['a', 'b', 'c']`
-- List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`
-- Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
+Initializes the listed plugins (with options).Acceptable formats:- List (without options): - `['a', 'b', 'c']`- List (with options): - `[{'name': 'a', options: {}}, {'name': 'b', options: {}}]`- Hash (with options): - `{'a': { ... }, 'b': { ... }, 'c': { ... }}`
 
 **Kind**: static method of [<code>MicroPlugin</code>](#MicroPlugin)  
 
