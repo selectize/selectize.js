@@ -266,9 +266,10 @@ var measureString = function (str, $parent) {
       overflow: 'hidden'
     }).attr({
       'aria-hidden': true
-    }).append(Selectize.$testInput).appendTo('body');
+    }).append(Selectize.$testInput);
   }
 
+  Selectize.$testInput.parent().appendTo('body');
   Selectize.$testInput.text(str);
 
   transferStyles($parent, Selectize.$testInput, [
