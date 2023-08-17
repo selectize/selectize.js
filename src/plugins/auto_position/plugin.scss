@@ -2,7 +2,7 @@
   border-top: 1px solid $select-color-border;
   border-bottom: 0 none;
   border-radius: 3px 3px 0 0;
-  box-shadow: 0 -6px 12px rgb(0 0 0 / 18%);
+  box-shadow: 0 -6px 12px rgba(0, 0, 0, .18);
 }
 
 .#{selectize}-control.plugin-auto_position .#{selectize}-input.#{$selectize}-position-top.dropdown-active {
