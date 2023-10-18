@@ -749,7 +749,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionSelect: function(e) {
-		var value, ordered_values, $target, $option, self = this;
+		var value, $target, $option, self = this;
 
 		if (e.preventDefault) {
 			e.preventDefault();
@@ -773,13 +773,7 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				if (self.caretPos === self.items.length) {
-					self.addItem(value);
-				} else {
-					ordered_values = self.items.slice()
-					ordered_values.splice(self.caretPos, 0, value);
-					self.setValue(ordered_values);
-				}
+				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
