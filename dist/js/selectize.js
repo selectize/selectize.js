@@ -1190,6 +1190,10 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		if (!self.isFocused) {
 			if (!defaultPrevented) {
         window.setTimeout(function () {
@@ -1444,6 +1448,10 @@ $.extend(Selectize.prototype, {
 			e.stopPropagation();
 		}
 
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		$target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
 			self.createItem(null, function() {
@@ -1456,7 +1464,13 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				self.addItem(value);
+				if (self.caretPos === self.items.length) {
+					self.addItem(value);
+				} else {
+					ordered_values = self.items.slice()
+					ordered_values.splice(self.caretPos, 0, value);
+					self.setValue(ordered_values);
+				}
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
@@ -2891,8 +2905,8 @@ $.fn.selectize = function (settings_user) {
       }
 
       var option = readData($option) || {};
-      option[field_label] = option[field_label] || $option.text();
       option[field_value] = option[field_value] || value;
+      option[field_label] = option[field_label] || $option.text() || option[field_value];
       option[field_disabled] = option[field_disabled] || $option.prop('disabled');
       option[field_optgroup] = option[field_optgroup] || group;
       option.styles = $option.attr('style') || '';
