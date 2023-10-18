@@ -1940,7 +1940,11 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			self.$input.append(fresh.join(''));
+			if (self.caretPos === self.items.length) {
+				self.$input.append(fresh.join(''));
+			} else {
+				$(fresh.join('')).insertBefore(self.$input.children('option')[self.caretPos - 1]);
+			}
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
