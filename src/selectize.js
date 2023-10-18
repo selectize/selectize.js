@@ -749,7 +749,7 @@ $.extend(Selectize.prototype, {
 	 * @returns {boolean}
 	 */
 	onOptionSelect: function(e) {
-		var value, $target, $option, self = this;
+		var value, ordered_values, $target, $option, self = this;
 
 		if (e.preventDefault) {
 			e.preventDefault();
