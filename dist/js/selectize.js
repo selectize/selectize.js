@@ -1464,13 +1464,7 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				if (self.caretPos === self.items.length) {
-					self.addItem(value);
-				} else {
-					ordered_values = self.items.slice()
-					ordered_values.splice(self.caretPos, 0, value);
-					self.setValue(ordered_values);
-				}
+				self.addItem(value);
 				if (self.settings.closeAfterSelect) {
 					self.close();
 				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
@@ -2330,7 +2324,11 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			self.$input.append(fresh.join(''));
+			if (self.caretPos === self.items.length) {
+				self.$input.append(fresh.join(''));
+			} else {
+				$(fresh.join('')).insertBefore(self.$input.children('option')[self.caretPos - 1]);
+			}
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
