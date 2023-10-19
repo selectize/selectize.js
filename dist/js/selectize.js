@@ -1190,6 +1190,10 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		if (!self.isFocused) {
 			if (!defaultPrevented) {
         window.setTimeout(function () {
@@ -1442,6 +1446,10 @@ $.extend(Selectize.prototype, {
 		if (e.preventDefault) {
 			e.preventDefault();
 			e.stopPropagation();
+		}
+
+		if (e.button && e.button === 2) {
+			return;
 		}
 
 		$target = $(e.currentTarget);
@@ -2316,7 +2324,9 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			self.$input.append(fresh.join(''));
+			$(fresh.join('')).each(function() {
+				self.$input[0].insertBefore(this, self.$input[0].childNodes[self.caretPos - 1]);
+			})
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
@@ -2891,8 +2901,8 @@ $.fn.selectize = function (settings_user) {
       }
 
       var option = readData($option) || {};
-      option[field_label] = option[field_label] || $option.text();
       option[field_value] = option[field_value] || value;
+      option[field_label] = option[field_label] || $option.text() || option[field_value];
       option[field_disabled] = option[field_disabled] || $option.prop('disabled');
       option[field_optgroup] = option[field_optgroup] || group;
       option.styles = $option.attr('style') || '';

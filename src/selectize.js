@@ -1940,7 +1940,9 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			self.$input.append(fresh.join(''));
+			$(fresh.join('')).each(function() {
+				self.$input[0].insertBefore(this, self.$input[0].childNodes[self.caretPos - 1]);
+			})
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
