@@ -1940,10 +1940,8 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			if (self.caretPos === self.items.length) {
-				self.$input.append(fresh.join(''));
-			} else {
-				$(fresh.join('')).insertBefore(self.$input.children('option')[self.caretPos - 1]);
+			if (fresh.length > 0) {
+				self.$input[0].insertBefore($(fresh.join(''))[0], self.$input[0].childNodes[self.caretPos - 1]);
 			}
 		} else {
 			self.$input.val(self.getValue());
