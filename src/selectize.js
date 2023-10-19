@@ -1940,9 +1940,9 @@ $.extend(Selectize.prototype, {
 			}
 
 			self.$input.find(old.join(', ')).remove();
-			if (fresh.length > 0) {
-				self.$input[0].insertBefore($(fresh.join(''))[0], self.$input[0].childNodes[self.caretPos - 1]);
-			}
+			$(fresh.join('')).each(function() {
+				self.$input[0].insertBefore(this, self.$input[0].childNodes[self.caretPos - 1]);
+			})
 		} else {
 			self.$input.val(self.getValue());
 			self.$input.attr('value',self.$input.val());
