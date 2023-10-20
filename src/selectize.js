@@ -19,6 +19,7 @@ var Selectize = function($input, settings) {
 
   // increase the count of 'active' (i.e., non-destroyed) selectize instances
   ++Selectize.count;
+
 	// setup default state
 	$.extend(self, {
 		order            : 0,
