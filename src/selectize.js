@@ -17,8 +17,8 @@ var Selectize = function($input, settings) {
 
   self.settings = {};
 
-  // increase the count of 'active' (i.e., non-destroyed) selectize instances
-  ++Selectize.count;
+	// increase the count of 'active' (i.e., non-destroyed) selectize instances
+	++Selectize.count;
 
 	// setup default state
 	$.extend(self, {
@@ -28,8 +28,8 @@ var Selectize = function($input, settings) {
 		tabIndex         : $input.attr('tabindex') || '',
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
-    // generate a unique ID for the event namespace
-		eventNS          : '.selectize-' + '-' + (new Date().getTime()) + '-' + (Math.random().toString(36).substr(2, 5)),
+		// generate a unique ID for the event namespace
+		eventNS          : '.selectize-' + (new Date().getTime()) + '-' + (Math.random().toString(36).substr(2, 5)),
 
 		highlightedValue : null,
 		isBlurring       : false,
