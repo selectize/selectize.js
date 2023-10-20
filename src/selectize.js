@@ -29,7 +29,7 @@ var Selectize = function($input, settings) {
 		tagType          : input.tagName.toLowerCase() === 'select' ? TAG_SELECT : TAG_INPUT,
 		rtl              : /rtl/i.test(dir),
     // generate a unique ID for the event namespace
-		eventNS          : '.selectize-' + "-" + (new Date().getTime()) + "-" + (Math.random().toString(36).substr(2, 5)),
+		eventNS          : '.selectize-' + '-' + (new Date().getTime()) + '-' + (Math.random().toString(36).substr(2, 5)),
 
 		highlightedValue : null,
 		isBlurring       : false,
