@@ -3200,9 +3200,11 @@ Selectize.define('dropdown_buttons', function () {
 	}
 
   dropdown_buttons =
-		'<div class="control-buttons btn-group">' +
-			'<button type="button" class="btn btn-outline-primary" id="select-all">All</button>' +
-			'<button type="button" class="btn btn-outline-primary" id="select-none">None</button>' +
+		'<div class="d-flex justify-content-center border-bottom">' +
+			'<div class="control-buttons btn-group w-100 my-2 mx-3">' +
+				'<button type="button" class="btn btn-outline-primary" id="select-all">All</button>' +
+				'<button type="button" class="btn btn-outline-primary" id="select-none">None</button>' +
+			'</div>' +
 		'</div>'
 
 	self.setup = (function() {
