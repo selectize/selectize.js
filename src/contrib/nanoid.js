@@ -6,8 +6,7 @@
  *
  * - Modified by Ris Adams <ris@risadams.com> 2023-01-05 (Modified to support Selectize needs)
  */
-const nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t))
-  .reduce(((t, e) =>
-    t += (e &= 63) < 36 ? e.toString(36) :
-      e < 62 ? (e - 26).toString(36).toUpperCase()
-        : e > 62 ? "-" : "_"), "");
+const nanoid = (t = 21) =>
+    crypto
+        .getRandomValues(new Uint8Array(t))
+        .reduce((t, e) => (t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");

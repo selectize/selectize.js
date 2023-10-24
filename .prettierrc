@@ -1,0 +1,9 @@
+{
+	"parser": "babel",
+	"arrowParens": "avoid",
+	"tabWidth": 4,
+	"useTabs": false,
+	"singleQuote": false,
+	"printWidth": 170,
+	"trailingComma": "es5"
+}

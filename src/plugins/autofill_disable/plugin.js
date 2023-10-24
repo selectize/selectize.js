@@ -42,15 +42,15 @@
  * ```
  */
 Selectize.define("autofill_disable", function (options) {
-  var self = this;
+    var self = this;
 
-  self.setup = (function () {
-    var original = self.setup;
-    return function () {
-      original.apply(self, arguments);
+    self.setup = (function () {
+        var original = self.setup;
+        return function () {
+            original.apply(self, arguments);
 
-      // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
-      self.$control_input.attr({ name: nanoid(21), autocomplete: nanoid(21) });
-    };
-  })();
+            // https://stackoverflow.com/questions/30053167/autocomplete-off-vs-false
+            self.$control_input.attr({ name: nanoid(21), autocomplete: nanoid(21) });
+        };
+    })();
 });

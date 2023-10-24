@@ -21,22 +21,4 @@ Available options for dropdown_header plugin
 | [html] | <code>function</code> |  | Method for custom rendering of dropdown_header |
 
 **Example**  
-```js
-$('select').selectize({
- plugins: [
-   {
-     dropdown_header: {
-       title: 'Custom title',
-       headerClass: 'custom-header-class',
-       labelClass: 'custom-label-class',
-       closeClass: 'custom-close-class',
-       html: (data) => {
-         // data contain all options values
-         return (
-           `<a class="${data.labelClass}" title="${data.title}">${data.title}</a>`;
-       }
-    }
-  }
- ]
-});
-```
+```js$('select').selectize({ plugins: [   {     dropdown_header: {       title: 'Custom title',       headerClass: 'custom-header-class',       labelClass: 'custom-label-class',       closeClass: 'custom-close-class',       html: (data) => {         // data contain all options values         return (           `<a class="${data.labelClass}" title="${data.title}">${data.title}</a>`;       }    }  } ]});```

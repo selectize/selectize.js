@@ -20,30 +20,32 @@
  * @typedef {Object} options Object of options available on restore_on_backspace plugin
  * @param {string} text Text to set on restore
  */
-Selectize.define('restore_on_backspace', function(options) {
-	var self = this;
+Selectize.define("restore_on_backspace", function (options) {
+    var self = this;
 
-	options.text = options.text || function(option) {
-		return option[this.settings.labelField];
-	};
+    options.text =
+        options.text ||
+        function (option) {
+            return option[this.settings.labelField];
+        };
 
-	this.onKeyDown = (function() {
-		var original = self.onKeyDown;
-		return function(e) {
-			var index, option;
-			if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === '' && !this.$activeItems.length) {
-				index = this.caretPos - 1;
-				if (index >= 0 && index < this.items.length) {
-					option = this.options[this.items[index]];
-					if (this.deleteSelection(e)) {
-						this.setTextboxValue(options.text.apply(this, [option]));
-						this.refreshOptions(true);
-					}
-					e.preventDefault();
-					return;
-				}
-			}
-			return original.apply(this, arguments);
-		};
-	})();
+    this.onKeyDown = (function () {
+        var original = self.onKeyDown;
+        return function (e) {
+            var index, option;
+            if (e.keyCode === KEY_BACKSPACE && this.$control_input.val() === "" && !this.$activeItems.length) {
+                index = this.caretPos - 1;
+                if (index >= 0 && index < this.items.length) {
+                    option = this.options[this.items[index]];
+                    if (this.deleteSelection(e)) {
+                        this.setTextboxValue(options.text.apply(this, [option]));
+                        this.refreshOptions(true);
+                    }
+                    e.preventDefault();
+                    return;
+                }
+            }
+            return original.apply(this, arguments);
+        };
+    })();
 });

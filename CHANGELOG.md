@@ -3,6 +3,32 @@
 <!-- Feel free to put either your handle and/or full name, according to
      your privacy needs -->
 
+## v0.15.6 · ?? ?? 2023
+
+- fix: blur input on close via close button on plugin `dropdown_header`
+_@fabienwnklr_
+
+## v0.15.5 · 11 04 2023
+
+- style: remove useless border top with plugin `auto_position`
+_@fabienwnklr_
+
+## v0.15.4 · 11 04 2023
+
+- style: issue with pos absolute arrow up/down fixed
+- style: text-decoration for close button on dropdown plugin
+- fixed: manage dropdown height if item out of viewport
+_@fabienwnklr_
+
+## v0.15.3 · 11 04 2023
+
+- fixed: toggle selected option on enter for select multiple
+- fixed: enhance `tag_limit` plugin for manage better and more configurable
+- fixed: style enhancement for more modern appareance
+_@fabienwnklr_
+
+## v0.15.2 ? 
+
 ## v0.15.1 · 17 11 2022
 
 - New feature: dynamically add option groups
@@ -22,7 +48,7 @@
 - _Breaking change:_ Removed the dependencies on MicroPlugin and Sifter - These are now included in the selectize package directly.
 
 - Fixed missing style for dropdown*header plugin [*@fabienwnklr\_](https://github.com/fabienwnklr)
-- Fixed ([#1818](https://github.com/selectize/selectize.js/issues/1818)) Scroll left when I click on a selectized item and page is scrolled right [_@fabienwnklr_](https://github.com/fabienwnklr)
+- Fixed ([#1818](https://github.com/fabienwnklr/selectize.js/issues/1818)) Scroll left when I click on a selectized item and page is scrolled right [_@fabienwnklr_](https://github.com/fabienwnklr)
 - Added option to enable setting the first option in the list as active.
 
   _@joshuan92_

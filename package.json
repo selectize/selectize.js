@@ -1,5 +1,5 @@
 {
-  "name": "@selectize/selectize",
+  "name": "@fabienwnklr/selectize",
   "keywords": [
     "select",
     "ui",
@@ -13,7 +13,7 @@
   ],
   "browser": "dist/js/selectize.js",
   "description": "Selectize is a jQuery-based custom <select> UI control. Useful for tagging, contact lists, country selectors, etc.",
-  "version": "0.15.2",
+  "version": "0.15.5",
   "author": "Brian Reavis <brian@thirdroute.com>",
   "contributors": [
     "Ris Adams <selectize@risadams.com>"
@@ -21,7 +21,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/selectize/selectize.js.git"
+    "url": "git://github.com/fabienwnklr/selectize.js.git"
   },
   "files": [
     "dist/*"
@@ -35,8 +35,9 @@
     "bootstrap4": "npm:bootstrap@4.6.0",
     "bootstrap5": "npm:bootstrap@5.2.3",
     "chai": "4.3.7",
-    "concurrently": "7.6.0",
+    "concurrently": "8.0.1",
     "del": "^6.1.1",
+    "eslint": "^8.38.0",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
@@ -64,7 +65,8 @@
     "less": "4.1.3",
     "mocha": "10.2.0",
     "popper.js": "1.16.1",
-    "sass": "1.58.1"
+    "prettier": "^2.8.7",
+    "sass": "1.61.0"
   },
   "peerDependencies": {
     "jquery": "^1.7.0 || ^2 || ^3",
@@ -83,7 +85,9 @@
     "start": "cd docs && HTTPS=true SSL_CRT_FILE=.ssl/loopback_website.crt SSL_KEY_FILE=.ssl/loopback_website.key npm run start -- --host=loopback.website --port=4000",
     "start:windows": "cd docs && SET HTTPS=true && SET SSL_CRT_FILE=.ssl/loopback_website.crt && SET SSL_KEY_FILE=.ssl/loopback_website.key && npm run start -- --host=loopback.website --port=4000",
     "watch": "concurrently \"gulp watch\" \"npm run start\"",
-    "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\""
+    "watch:windows": "concurrently \"gulp watch\" \"npm run start:windows\"",
+    "format": "npx prettier --config .prettierrc --write src/**/*.js",
+    "lint": "npx eslint src/**/*.js"
   },
   "engines": {
     "node": "*"

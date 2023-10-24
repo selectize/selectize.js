@@ -1,5 +1,5 @@
 /**
- * Selectize (v0.15.2)
+ * Selectize (v0.15.5)
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
@@ -27,6 +27,8 @@
   }
 }(this, function ($) {
   'use strict';
+
+
 var highlight = function ($element, pattern) {
   if (typeof pattern === 'string' && !pattern.length) return;
   var regex = (typeof pattern === 'string') ? new RegExp(pattern, 'i') : pattern;
@@ -823,6 +825,17 @@ function uaDetect(platform, re) {
   return re.test(navigator.userAgent);
 }
 
+function isInViewport(el) {
+  const rect = el.getBoundingClientRect();
+  return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+
+  );
+}
+
 var Selectize = function($input, settings) {
 	var key, i, n, dir, input, self = this;
 	input = $input[0];
@@ -940,7 +953,7 @@ $.extend(Selectize.prototype, {
 
     $wrapper          = $('<div>').addClass(settings.wrapperClass).addClass(classes + ' selectize-control').addClass(inputMode);
 		$control          = $('<div>').addClass(settings.inputClass + noArrowClass + ' selectize-input items').appendTo($wrapper);
-		$control_input    = $('<input type="text" autocomplete="new-password" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
+		$control_input    = $('<input type="text" autocomplete="off" autofill="no" />').appendTo($control).attr('tabindex', $input.is(':disabled') ? '-1' : self.tabIndex);
 		$dropdown_parent  = $(settings.dropdownParent || $wrapper);
 		$dropdown         = $('<div>').addClass(settings.dropdownClass).addClass(inputMode + ' selectize-dropdown').hide().appendTo($dropdown_parent);
 		$dropdown_content = $('<div>').addClass(settings.dropdownContentClass + ' selectize-dropdown-content').attr('tabindex', '-1').appendTo($dropdown);
@@ -1190,6 +1203,10 @@ $.extend(Selectize.prototype, {
 		var defaultPrevented = e.isDefaultPrevented();
 		var $target = $(e.target);
 
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		if (!self.isFocused) {
 			if (!defaultPrevented) {
         window.setTimeout(function () {
@@ -1201,7 +1218,12 @@ $.extend(Selectize.prototype, {
 		}
 		if ($target !== self.$control_input[0] || self.$control_input.val() === '') {
 			if (self.settings.mode === 'single') {
-				self.isOpen ? self.close() : self.open();
+        self.isOpen ? self.close() : self.open();
+
+        self.isDropdownClosing = true;
+        setTimeout(function() {
+          self.isDropdownClosing = false;
+        }, self.settings.closeDropdownThreshold);
 			} else {
 				if (!defaultPrevented) {
 						self.setActiveItem(null);
@@ -1315,7 +1337,8 @@ $.extend(Selectize.prototype, {
 				return;
 			case KEY_RETURN:
 				if (self.isOpen && self.$activeOption) {
-					self.onOptionSelect({currentTarget: self.$activeOption});
+					e.currentTarget = self.$activeOption;
+					self.onOptionSelect(e);
 					e.preventDefault();
 				}
 				return;
@@ -1444,6 +1467,10 @@ $.extend(Selectize.prototype, {
 			e.stopPropagation();
 		}
 
+		if (e.button && e.button === 2) {
+			return;
+		}
+
 		$target = $(e.currentTarget);
 		if ($target.hasClass('create')) {
 			self.createItem(null, function() {
@@ -1456,10 +1483,18 @@ $.extend(Selectize.prototype, {
 			if (typeof value !== 'undefined') {
 				self.lastQuery = null;
 				self.setTextboxValue('');
-				self.addItem(value);
+
+				if (self.items.indexOf(value) !== -1 && self.settings.mode === 'multi') {
+					self.removeItem(value);
+					if (!self.settings.closeAfterSelect) {
+						self.refreshOptions(false);
+					}
+				} else {
+					self.addItem(value);
+				}
 				if (self.settings.closeAfterSelect) {
 					self.close();
-				} else if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+				} else if (!self.settings.hideSelected && e.type && /mouse|keydown/.test(e.type)) {
 					self.setActiveOption(self.getOption(value));
 				}
 			}
@@ -2110,11 +2145,7 @@ $.extend(Selectize.prototype, {
 
 				if (!self.isPending) {
 					$option = self.getOption(value);
-					value_next = self.getAdjacentOption($option, 1).attr('data-value');
 					self.refreshOptions(self.isFocused && inputMode !== 'single');
-					if (value_next) {
-						self.setActiveOption(self.getOption(value_next));
-					}
 				}
 
 				if (!$options.length || self.isFull()) {
@@ -2417,19 +2448,19 @@ $.extend(Selectize.prototype, {
         for (var i = 0; i < height; i++) {
           var $item = $($items[i]);
 
-          if ($item.length === 0) {
+          if ($item.length === 0 || !isInViewport($item[0])) {
             break;
           }
 
           totalHeight += $item.outerHeight(true);
           if (typeof $item.data('selectable') == 'undefined') {
             if ($item.hasClass('optgroup-header')) {
-              var styles = window.getComputedStyle($item.parent()[0], ':before');
+              const styles = window.getComputedStyle($item.parent()[0], ':before');
 
               if (styles) {
-                marginTop = styles.marginTop ? Number(styles.marginTop.replace(/\W*(\w)\w*/g, '$1')) : 0;
-                marginBottom = styles.marginBottom ? Number(styles.marginBottom.replace(/\W*(\w)\w*/g, '$1')) : 0;
-                separatorHeight = styles.borderTopWidth ? Number(styles.borderTopWidth.replace(/\W*(\w)\w*/g, '$1')) : 0;
+                marginTop = styles.marginTop ? parseFloat(styles.marginTop) : 0;
+                marginBottom = styles.marginBottom ? parseFloat(styles.marginBottom) : 0;
+                separatorHeight = styles.borderTopWidth ? parseFloat(styles.borderTopWidth) : 0;
               }
             }
             height++;
@@ -2437,8 +2468,8 @@ $.extend(Selectize.prototype, {
 
         }
 
-        var paddingTop = this.$dropdown_content.css('padding-top') ? Number(this.$dropdown_content.css('padding-top').replace(/\W*(\w)\w*/g, '$1')) : 0;
-        var paddingBottom = this.$dropdown_content.css('padding-bottom') ? Number(this.$dropdown_content.css('padding-bottom').replace(/\W*(\w)\w*/g, '$1')) : 0;
+        const paddingTop = this.$dropdown_content.css('padding-top') ? parseFloat(this.$dropdown_content.css('padding-top')) : 0;
+        const paddingBottom = this.$dropdown_content.css('padding-bottom') ? parseFloat(this.$dropdown_content.css('padding-bottom')) : 0;
 
         height = (totalHeight + paddingTop + paddingBottom + marginTop + marginBottom + separatorHeight) + 'px';
       } else if (this.settings.dropdownSize.sizeType !== 'fixedHeight') {
@@ -2891,8 +2922,9 @@ $.fn.selectize = function (settings_user) {
       }
 
       var option = readData($option) || {};
-      option[field_label] = option[field_label] || $option.text();
       option[field_value] = option[field_value] || value;
+      option[field_value] = option[field_value] === '"' ? escape_html(option[field_value]) : option[field_value];
+      option[field_label] = option[field_label] || $option.text() || option[field_value];
       option[field_disabled] = option[field_disabled] || $option.prop('disabled');
       option[field_optgroup] = option[field_optgroup] || group;
       option.styles = $option.attr('style') || '';
@@ -2979,11 +3011,13 @@ $.fn.selectize.support = {
 };
 
 Selectize.define("auto_position", function () {
-  var self = this;
+  const self = this;
 
   const POSITION = {
     top: 'top',
     bottom: 'bottom',
+    left: 'left',
+    right: 'right',
   };
 
   self.positionDropdown = (function () {
@@ -3001,7 +3035,10 @@ Selectize.define("auto_position", function () {
           controlPosBottom - dropdownHeight - wrapperHeight >= 0 ?
           POSITION.top :
           POSITION.bottom;
-      let w = this.$wrapper[0].style.width !== 'fit-content' ? this.settings.dropdownParent === 'body' ? 'max-content' : '100%' : 'max-content';
+      let w = 'max-content';
+      if (this.$wrapper[0].style.width !== 'fit-content') {
+          w = this.settings.dropdownParent === 'body' ? w : '100%';
+      }
       const styles = {
         width: w,
         minWidth : $control.outerWidth(true),
@@ -3185,7 +3222,7 @@ Selectize.define('dropdown_header', function(options) {
 				'<div class="' + data.headerClass + '">' +
 					'<div class="' + data.titleRowClass + '">' +
 						'<span class="' + data.labelClass + '">' + data.title + '</span>' +
-						'<a href="javascript:void(0)" class="' + data.closeClass + '">&#xd7;</a>' +
+						'<a href="javascript:void(0)" class="' + data.closeClass + '">×</a>' +
 					'</div>' +
 				'</div>'
 			);
@@ -3445,42 +3482,92 @@ Selectize.define('select_on_focus', function(options) {
 
 Selectize.define('tag_limit', function (options) {
     const self = this
-    options.tagLimit = options.tagLimit
-    this.onBlur = (function (e) {
+
+    if (this.settings.mode === 'single') {
+        return;
+    }
+
+    options = $.extend(
+      {
+        tagLimit: 5,
+        limitLabel: '{count} items selected',
+        hideAllItems: true,
+      },
+      options
+    );
+
+    self.setup = (function () {
+        const original = self.setup;
+
+        return function () {
+          original.apply(self, arguments);
+
+          addLimit.apply(self);
+        };
+      })();
+
+    function addLimit() {
+        clearLimit();
+        const $control = this.$control
+        const $items = $control.find('.item')
+        const limit = options.tagLimit
+        if (limit === undefined || $items.length <= limit)
+            return
+
+        $items.toArray().forEach(function(item, index) {
+            if (!options.hideAllItems && index < limit)
+                return
+            $(item).hide()
+        });
+
+        const label = options.limitLabel.replace('{count}', $items.length);
+
+        $control.prepend('<span class="tag-limit-label"><b>' + label+ '</b></span>')
+    };
+
+    function clearLimit() {
+        const $control = self.$control
+        const $items = $control.find('.item')
+        $items.show()
+        $control.find('span').remove()
+    }
+
+    self.onBlur = (function (e) {
         const original = self.onBlur
 
-        return function (e) {
-            original.apply(this, e);
-            if (!e)
-                return
-            const $control = this.$control
-            const $items = $control.find('.item')
-            const limit = options.tagLimit
-            if (limit === undefined || $items.length <= limit)
-                return
+                return function(e) {
+            original.apply(self, e);
 
-            $items.toArray().forEach(function(item, index) {
-                if (index < limit)
-                    return
-                $(item).hide()
-            });
+            if (!e) return;
 
-            $control.append('<span><b>' + ($items.length - limit) + '</b></span>')
-        };
+            addLimit.apply(self, original, e)
+        }
     })()
 
-    this.onFocus = (function (e) {
+    self.onFocus = (function (e) {
         const original = self.onFocus
 
         return function (e) {
-            original.apply(this, e);
+            original.apply(self, e);
             if (!e)
                 return
-            const $control = this.$control
-            const $items = $control.find('.item')
-            $items.show()
-            $control.find('span').remove()
 
+                        if (options.clearOnFocus) {
+                clearLimit();
+            }
+
+        };
+    })()
+
+    self.onOptionSelect = (function (e) {
+        const original = self.onOptionSelect
+
+        return function (e) {
+            original.call(self, e);
+            if (!e)
+                return
+
+                        addLimit.apply(self)
         };
     })()
 });

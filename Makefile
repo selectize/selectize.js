@@ -1,8 +1,8 @@
 .PHONY: compile release test
-GULP=node_modules/.bin/gulp
+GULP="node_modules/.bin/gulp"
 CURRENT_VERSION := $(shell sed -n '/"version":/{s/.*"version": "\([^"]*\)".*/\1/p;q}' package.json)
-version ?= $(CURRENT_VERSION) ## Version to release
-
+version ?= $(CURRENT_VERSION)## Version to release
+# $(info $$var is [${version}])
 all: compile test ## (default) Run Compile and test targets
 test: ## runs all tests (equivalent to `npm test`)
 	npm test

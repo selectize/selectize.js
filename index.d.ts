@@ -1,12 +1,12 @@
 // Type definitions for Selectize 0.15.3
-// Project: https://github.com/selectize/selectize.js
+// Project: https://github.com/fabienwnklr/selectize.js
 // Definitions by: Adi Dahiya <https://github.com/adidahiya>, Natalie Bausch <https://github.com/naBausch>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference types="jquery"/>
 
 export declare namespace Selectize {
-    // see https://github.com/selectize/selectize.js/blob/master/docs/usage.md
+    // see https://github.com/fabienwnklr/selectize.js/blob/master/docs/usage.md
     // option identifiers are parameterized by T; data is parameterized by U
     interface IOptions<T, U> {
 
@@ -416,7 +416,7 @@ export declare namespace Selectize {
         optgroup?(data: U, escape: (input: string) => string): string;
     }
 
-    // see https://github.com/selectize/selectize.js/blob/master/docs/api.md
+    // see https://github.com/fabienwnklr/selectize.js/blob/master/docs/api.md
     interface IApi<T, U> {
 
         // Dropdown Options

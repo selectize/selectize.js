@@ -73,6 +73,7 @@ const sidebars = {
         "plugins/remove-button",
         "plugins/restore-backspace",
         "plugins/select-on-focus",
+        "plugins/tag-limit",
       ]
     }
   ],

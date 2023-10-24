@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: risadams/contributors-update@v3.1.1
         with:
-          repo: selectize/selectize.js
+          repo: fabienwnklr/selectize.js
           output: CONTRIBUTORS.md
           exclude_bots: true
       - name: Commit changes
