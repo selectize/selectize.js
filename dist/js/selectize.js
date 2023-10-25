@@ -3200,12 +3200,31 @@ Selectize.define('dropdown_buttons', function () {
 	}
 
   dropdown_buttons =
-		'<div class="d-flex justify-content-center border-bottom">' +
+		'<div class="d-flex justify-content-center">' +
 			'<div class="control-buttons btn-group w-100 my-2 mx-3">' +
 				'<button type="button" class="btn btn-outline-primary" id="select-all">All</button>' +
 				'<button type="button" class="btn btn-outline-primary" id="select-none">None</button>' +
 			'</div>' +
 		'</div>'
+
+	self.refreshOptions = (function () {
+		var original = self.refreshOptions;
+		return function () {
+			original.apply(this, arguments);
+
+			self.isOpen = true;
+			self.refreshState();
+			self.$dropdown.css({display: 'block'});
+
+			if (!self.$activeOption) {
+				self.$dropdown_content.css({display: 'none'});
+				self.$dropdown_buttons.removeClass('border-bottom');
+			} else {
+				self.$dropdown_content.css({display: 'block'});
+				self.$dropdown_buttons.addClass('border-bottom');
+			}
+		};
+	})();
 
 	self.setup = (function() {
 		var original = self.setup;
