@@ -1,4 +1,4 @@
-Selectize.define('dropdown_buttons', function () {
+Selectize.define('dropdown_buttons', function (options) {
 	var none_option, dropdown_buttons, self = this;
 
 	function selectNoneOptions() {
@@ -19,9 +19,9 @@ Selectize.define('dropdown_buttons', function () {
 
   dropdown_buttons =
 		'<div class="d-flex justify-content-center">' +
-			'<div class="control-buttons btn-group w-100 my-2 mx-3">' +
-				'<button type="button" class="btn btn-outline-primary" id="select-all">All</button>' +
-				'<button type="button" class="btn btn-outline-primary" id="select-none">None</button>' +
+			`<div class="control-buttons btn-group ${options.buttonGroupSize} w-100 my-2 mx-3">` +
+				`<button type="button" class="${options.buttonsClass}" id="select-all">All</button>` +
+				`<button type="button" class="${options.buttonsClass}" id="select-none">None</button>` +
 			'</div>' +
 		'</div>'
 
