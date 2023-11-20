@@ -3239,6 +3239,8 @@ Selectize.define('dropdown_buttons', function (options) {
 		return function () {
 			original.apply(this, arguments);
 
+			if (self.isLocked) return;
+
 			self.isOpen = true;
 			self.refreshState();
 			self.$dropdown.css({display: 'block'});
