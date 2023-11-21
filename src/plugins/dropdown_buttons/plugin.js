@@ -1,5 +1,5 @@
 Selectize.define('dropdown_buttons', function (options) {
-	var none_option, dropdown_buttons, self = this;
+	var noneOption, dropdownButtons, allButton, noneButton, self = this;
 
 	function selectNoneOptions() {
 		$.each(self.items.slice(), function (i, item) {
@@ -7,8 +7,8 @@ Selectize.define('dropdown_buttons', function (options) {
 		});
 		self.refreshOptions(true);
 
-		none_option = '<option value="" selected="selected"></option>'
-		self.$input[0].replaceChildren(...$(none_option));
+		noneOption = '<option value="" selected="selected"></option>'
+		self.$input[0].replaceChildren(...$(noneOption));
 	}
 
 	function selectAllOptions() {
@@ -17,11 +17,28 @@ Selectize.define('dropdown_buttons', function (options) {
 		});
 	}
 
-  dropdown_buttons =
+	options = $.extend({
+		allButton  : true,
+		noneButton : true
+	}, options);
+
+	if (options.allButton) {
+		allButton =
+			`<button type="button" class="${options.buttonsClass}" id="select-all">All</button>`
+	}
+
+	if (options.noneButton) {
+		noneButton =
+			`<button type="button" class="${options.buttonsClass}" id="select-none">None</button>`
+	}
+
+	if (!allButton && !noneButton) return;
+
+  dropdownButtons =
 		'<div class="d-flex justify-content-center">' +
 			`<div class="control-buttons btn-group ${options.buttonGroupSize} w-100 my-2 mx-3">` +
-				`<button type="button" class="${options.buttonsClass}" id="select-all">All</button>` +
-				`<button type="button" class="${options.buttonsClass}" id="select-none">None</button>` +
+				 (allButton || '') +
+				 (noneButton || '') +
 			'</div>' +
 		'</div>'
 
@@ -50,7 +67,7 @@ Selectize.define('dropdown_buttons', function (options) {
 		var original = self.setup;
 		return function() {
 			original.apply(self, arguments);
-			self.$dropdown_buttons = $(dropdown_buttons);
+			self.$dropdown_buttons = $(dropdownButtons);
 			self.$dropdown.prepend(self.$dropdown_buttons);
 
 			self.$dropdown_buttons.find('#select-all').on('click', selectAllOptions);
