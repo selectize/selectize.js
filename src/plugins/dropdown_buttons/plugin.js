@@ -15,6 +15,9 @@ Selectize.define('dropdown_buttons', function (options) {
 		$.each(self.options, function (i, option) {
 			if (self.items.indexOf(option.value) === -1) self.addItem(option.value);
 		});
+
+		self.lastQuery = null;
+		self.setTextboxValue('');
 	}
 
 	options = $.extend({
