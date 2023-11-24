@@ -1,5 +1,5 @@
 Selectize.define('dropdown_buttons', function (options) {
-	var noneOption, dropdownButtons, allButton, noneButton, self = this;
+	var noneOption, dropdownButtons, allButton, noneButton, value, self = this;
 
 	function selectNoneOptions() {
 		$.each(self.items.slice(), function (i, item) {
@@ -13,7 +13,8 @@ Selectize.define('dropdown_buttons', function (options) {
 
 	function selectAllOptions() {
 		$.each(self.options, function (i, option) {
-			if (self.items.indexOf(option.value) === -1) self.addItem(option.value);
+			value = option.value.toString();
+			if (!self.items.includes(value)) self.addItem(value);
 		});
 
 		self.lastQuery = null;
