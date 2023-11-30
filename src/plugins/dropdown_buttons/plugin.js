@@ -13,6 +13,8 @@ Selectize.define('dropdown_buttons', function (options) {
 
 	function selectAllOptions() {
 		$.each(self.options, function (i, option) {
+			if (option.disabled) return;
+
 			value = option.value.toString();
 			if (!self.items.includes(value)) self.addItem(value);
 		});
