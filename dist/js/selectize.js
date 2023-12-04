@@ -3142,6 +3142,7 @@ Selectize.define('deselect_options_via_dropdown', function () {
 		var original = self.onOptionSelect;
 		return function () {
 			option = arguments[0].currentTarget[0] || arguments[0].currentTarget;
+
 			if (option.classList.contains('selected')) {
 				option.classList.remove('selected');
 				self.removeItem(option.dataset.value)

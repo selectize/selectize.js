@@ -1,3 +1,19 @@
+// This plugin allows you to select all or none options via the dropdown menu.
+// This plugin is used the Bootstrap styles.
+
+// You may pass several options to the plugin:
+// - `allButton` - boolean, default `true`. If `true` then the "All" button will be added to the dropdown menu.
+// - `noneButton` - boolean, default `true`. If `true` then the "None" button will be added to the dropdown menu.
+// - `buttonsClass` - string. The class of the buttons.
+// - `buttonGroupSize` - string. The size of the button group.
+
+// An example of usage:
+// 	$('selector').selectize({
+// 		plugins: { dropdown_buttons: { buttonsClass: 'btn btn-outline-secondary',
+//																	 buttonGroupSize: 'btn-group-sm' }
+//		}
+// 	});
+
 Selectize.define('dropdown_buttons', function (options) {
 	var noneOption, dropdownButtons, allButton, noneButton, value, self = this;
 
@@ -55,10 +71,12 @@ Selectize.define('dropdown_buttons', function (options) {
 
 			if (self.isLocked) return;
 
+			// Make the dropdown menu visible.
 			self.isOpen = true;
 			self.refreshState();
 			self.$dropdown.css({display: 'block'});
 
+			// Check if there are no options in the dropdown menu.
 			if (!self.$activeOption) {
 				self.$dropdown_content.css({display: 'none'});
 				self.$dropdown_buttons.removeClass('border-bottom');
