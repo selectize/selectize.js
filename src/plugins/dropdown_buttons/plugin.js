@@ -18,13 +18,8 @@ Selectize.define('dropdown_buttons', function (options) {
 	var noneOption, dropdownButtons, allButton, noneButton, value, self = this;
 
 	function selectNoneOptions() {
-		$.each(self.items.slice(), function (i, item) {
-			self.removeItem(item);
-		});
+		self.clear();
 		self.refreshOptions(true);
-
-		noneOption = '<option value="" selected="selected"></option>'
-		self.$input[0].replaceChildren(...$(noneOption));
 	}
 
 	function selectAllOptions() {

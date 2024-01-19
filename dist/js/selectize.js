@@ -3,7 +3,7 @@
  * https://selectize.dev
  *
  * Copyright (c) 2013-2015 Brian Reavis & contributors
- * Copyright (c) 2020-2023 Selectize Team & contributors
+ * Copyright (c) 2020-2024 Selectize Team & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at:
@@ -3212,13 +3212,8 @@ Selectize.define('dropdown_buttons', function (options) {
 	var noneOption, dropdownButtons, allButton, noneButton, value, self = this;
 
 	function selectNoneOptions() {
-		$.each(self.items.slice(), function (i, item) {
-			self.removeItem(item);
-		});
+		self.clear();
 		self.refreshOptions(true);
-
-		noneOption = '<option value="" selected="selected"></option>'
-		self.$input[0].replaceChildren(...$(noneOption));
 	}
 
 	function selectAllOptions() {
