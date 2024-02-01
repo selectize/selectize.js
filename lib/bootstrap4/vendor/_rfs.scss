@@ -79,15 +79,15 @@ $rfs-breakpoint-unit-cache: unit($rfs-breakpoint);
 
     // Remove px-unit from $fs for calculations
     @if $fs-unit == "px" {
-      $fs: $fs / ($fs * 0 + 1);
+      $fs: calc($fs / ($fs * 0 + 1));
     }
     @else if $fs-unit == "rem" {
-      $fs: $fs / ($fs * 0 + calc(1 / $rfs-rem-value));
+      $fs: calc($fs / (1 / $rfs-rem-value));
     }
 
     // Set default font-size
     @if $rfs-font-size-unit == rem {
-      $rfs-static: #{$fs / $rfs-rem-value}rem#{$rfs-suffix};
+      $rfs-static: #{calc($fs / $rfs-rem-value)}rem#{$rfs-suffix};
     }
     @else if $rfs-font-size-unit == px {
       $rfs-static: #{$fs}px#{$rfs-suffix};
