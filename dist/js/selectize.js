@@ -1062,9 +1062,7 @@ $.extend(Selectize.prototype, {
 		});
 
     var inputPlaceholder = $('<div></div>');
-		var inputChildren = $input.children().clone();
-
-		$input.children().detach();
+		var inputChildren = $input.children().detach();
 
     $input.replaceWith(inputPlaceholder);
     inputPlaceholder.replaceWith($input);
