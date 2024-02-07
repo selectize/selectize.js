@@ -264,9 +264,11 @@ $.extend(Selectize.prototype, {
 
 		// store original children and tab index so that they can be
 		// restored when the destroy() method is called.
-		// Detach children outside of DOM to prevent slowdown on large selects
     var inputPlaceholder = $('<div></div>');
-		var inputChildren = $input.children().detach();
+		var inputChildren = $input.children().clone();
+
+		// Detach children outside of DOM to prevent slowdown on large selects
+		$input.children().detach();
 
     $input.replaceWith(inputPlaceholder);
     inputPlaceholder.replaceWith($input);
