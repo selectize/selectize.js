@@ -3325,6 +3325,26 @@ Selectize.define('dropdown_header', function(options) {
 
 });
 
+Selectize.define('keep_disabled_items', function (options) {
+  var self = this;
+
+  self.onKeyDown = (function() {
+		var original = self.onKeyDown;
+		return function(e) {
+			var index, option;
+			if (e.keyCode === KEY_BACKSPACE) {
+				index = self.caretPos - 1;
+				option = this.options[this.items[index]];
+				if (index >= 0 && option.disabled) {
+					e.preventDefault();
+					return;
+				}
+			}
+			return original.apply(this, arguments);
+		};
+	})();
+})
+
 Selectize.define('optgroup_columns', function(options) {
 	var self = this;
 
