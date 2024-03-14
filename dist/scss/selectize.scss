@@ -143,6 +143,7 @@ $select-spinner-border-color: $select-color-border;
     vertical-align: baseline;
     display: inline-block;
     zoom: 1;
+    padding-right: 1em;
   }
   .#{$selectize}-control.multi & > div {
     cursor: pointer;
