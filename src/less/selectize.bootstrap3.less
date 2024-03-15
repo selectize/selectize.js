@@ -31,6 +31,7 @@
 @selectize-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px lighten(@selectize-color-input-error, 20%);
 @selectize-border: 1px solid @input-border;
 @selectize-border-radius: @input-border-radius;
+@selectize-border-radius-item: @selectize-border-radius - 1px;
 
 @selectize-width-item-border: 0;
 @selectize-padding-x: @padding-base-horizontal;
@@ -119,7 +120,7 @@
 			padding-right: @selectize-padding-x - @selectize-padding-item-x;
 		}
 		.selectize-input > div {
-			.selectize-border-radius(@selectize-border-radius - 1px);
+			.selectize-border-radius(@selectize-border-radius-item);
 		}
 	}
 }

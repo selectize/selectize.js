@@ -42,6 +42,7 @@ $select-shadow-input-error-focus: inset 0 1px 1px rgba(0, 0, 0, 0.075),
   0 0 6px lighten($select-color-input-error, 20%) !default;
 $select-border: 1px solid $input-border-color !default;
 $select-border-radius: $input-border-radius !default;
+$select-border-radius-item: calc(#{$select-border-radius} - 1px);
 
 $select-width-item-border: 0px !default;
 $select-padding-x: $input-btn-padding-x !default;
@@ -153,7 +154,7 @@ $select-arrow-offset: calc(#{$select-padding-x} + 5px) !default;
       padding-right: calc(#{$select-padding-x} - #{$select-padding-item-x});
     }
     .#{$selectize}-input > div {
-      border-radius: calc(#{$select-border-radius} - 1px);
+      border-radius: $select-border-radius-item;
     }
   }
 }

@@ -32,6 +32,7 @@
 @selectize-shadow-input: none;
 @selectize-shadow-input-focus: inset 0 1px 2px rgba(0,0,0,0.15);
 @selectize-border-radius: @inputBorderRadius;
+@selectize-border-radius-item: @selectize-border-radius - 1px;
 
 @selectize-padding-x: 10px;
 @selectize-padding-y: 7px;
@@ -134,7 +135,7 @@
 			.gradientBar(@btnBackground, @btnBackgroundHighlight, @selectize-color-item-text, none);
 			*background-color: @selectize-color-item;
 			border: @selectize-width-item-border solid @selectize-color-item-border;
-			.border-radius(@baseBorderRadius);
+			.border-radius(@selectize-border-radius-item);
 			.box-shadow(~"inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
 			&.active {
 				.box-shadow(~"0 1px 2px rgba(0,0,0,.05)");

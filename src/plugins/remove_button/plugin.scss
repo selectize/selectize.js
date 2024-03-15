@@ -12,7 +12,7 @@
     display: inline-block;
     padding: $select-padding-item-y $select-padding-item-x;
     border-left: 1px solid $select-color-item-border;
-    border-radius: 0 2px 2px 0;
+    border-radius: 0 $select-border-radius-item $select-border-radius-item 0;
     box-sizing: border-box;
     margin-left: $select-padding-item-x;
   }

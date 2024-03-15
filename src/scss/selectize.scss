@@ -43,6 +43,7 @@ $select-shadow-input-focus: inset 0 1px 2px rgba(0, 0, 0, 0.15) !default;
 $select-border: 1px solid $select-color-border !default;
 $select-dropdown-border: 1px solid $select-color-dropdown-border !default;
 $select-border-radius: 3px !default;
+$select-border-radius-item: calc(#{$select-border-radius} - 1px);
 
 $select-width-item-border: 0px !default;
 $select-max-height-dropdown: 200px !default;
